@@ -1,49 +1,44 @@
-
-
-.slider-container {
-    width: 1000px; /* 변경된 부분 */
+.slider {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
     overflow: hidden;
-    margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-  }
-  
-  .slider {
+}
+
+.slide-container {
     display: flex;
     transition: transform 0.5s ease-in-out;
-  }
-  
-  .slide-group {
-    display: flex;
-    flex-wrap: nowrap;
-    width: 200%; /* 변경된 부분 */
-    overflow: hidden;
-  }
-  
-  .slide {
-    flex: 0 0 25%; /* 변경된 부분 */
-    overflow: hidden;
-    transition: transform 0.5s ease-in-out;
-    max-width: 300px; /* 변경된 부분 */
-    margin: auto; /* 변경된 부분 */
-  }
-  
-  .slide.active {
-    transform: scale(1); /* 변경된 부분 */
-    z-index: 1; /* 변경된 부분 */
-  }
-  
-  .slide img {
-    width: 300px; /* 변경된 부분 */
-    height: auto;
-    object-fit: cover;
-    aspect-ratio: 1/1;
-  }
-  
-  .navigation {
+}
+
+/* 이미지 컨테이너 */
+.slide {
+    box-sizing: border-box;
     text-align: center;
-    margin-top: 10px;
-  }
-  
-  .navigation button {
+    margin: auto;
+}
+
+/* 이미지 스타일 */
+.slide img {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 1/1;
+    height: auto;
+    object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
+}
+
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     padding: 5px 10px;
-    margin: 0 5px;
-  }
+    cursor: pointer;
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}

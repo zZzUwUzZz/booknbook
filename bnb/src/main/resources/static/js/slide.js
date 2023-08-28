@@ -1,38 +1,27 @@
-$(document).ready(function() {
-    var currentSlide = 0;
-    var totalSlides = $('.slide').length;
-    var slidesPerGroup = 4;
-    var totalGroups = Math.ceil(totalSlides / slidesPerGroup);
-  
-    function showSlide(index) {
-      $('.slider').css('transform', 'translateX(' + (-index * 100 / slidesPerGroup) + '%)');
+$(document).ready(function () {
+    const slideContainer = $('.slide-container');
+    const prevButton = $('.prev-btn');
+    const nextButton = $('.next-btn');
+    const slideWidth = $('.slide').outerWidth();
+    const slideCount = $('.slide').length;
+    const slidesPerPage = 4;
+    let currentIndex = 0;
+
+    function updateSlidePosition() {
+        const offset = -currentIndex * slideWidth * slidesPerPage;
+        slideContainer.css('transform', `translateX(${offset}px)`);
     }
-  
-    function updateSlidesVisibility() {
-      $('.slide').removeClass('active');
-      var startIndex = currentSlide * slidesPerGroup;
-      var endIndex = Math.min(startIndex + slidesPerGroup, totalSlides);
-      for (var i = startIndex; i < endIndex; i++) {
-        $('.slide').eq(i).addClass('active');
-      }
-    }
-  
-    updateSlidesVisibility();
-  
-    $('.next-btn').click(function() {
-      if (currentSlide < totalGroups - 1) {
-        currentSlide++;
-        showSlide(currentSlide);
-        updateSlidesVisibility();
-      }
+
+    nextButton.click(function () {
+        currentIndex = (currentIndex + 1) % Math.ceil(slideCount / slidesPerPage);
+        updateSlidePosition();
     });
-  
-    $('.prev-btn').click(function() {
-      if (currentSlide > 0) {
-        currentSlide--;
-        showSlide(currentSlide);
-        updateSlidesVisibility();
-      }
+
+    prevButton.click(function () {
+        currentIndex = (currentIndex - 1 + Math.ceil(slideCount / slidesPerPage)) % Math.ceil(slideCount / slidesPerPage);
+        updateSlidePosition();
     });
-  });
-  
+
+    // Initialize the slide position
+    updateSlidePosition();
+});

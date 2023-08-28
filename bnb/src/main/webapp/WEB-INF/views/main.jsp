@@ -49,25 +49,30 @@
             <div class="list_tt">독립서점 둘러보기</div>
 
 
-            <div class="slider-container">
-                <div class="slider">
-                    <div class="slide-group">
-                        <div class="slide"><img src="/images/1.jpg" alt="Item 1"></div>
-                        <div class="slide"><img src="/images/2.jpg" alt="Item 2"></div>
-                        <div class="slide"><img src="/images/3.jpg" alt="Item 3"></div>
-                        <div class="slide"><img src="/images/4.jpg" alt="Item 4"></div>
+            <div class="slider">
+                <div class="slide-container">
+                  
+                    <div class="slide">
+                        <img src="/images/1.jpg" alt="Product 1">
+                        <p>서점 이름</p>
                     </div>
-                    <div class="slide-group">
-                        <div class="slide"><img src="/images/5.jpg" alt="Item 5"></div>
-                        <div class="slide"><img src="/images/6.jpg" alt="Item 6"></div>
-                        <div class="slide"><img src="/images/7.jpg" alt="Item 7"></div>
-                        <div class="slide"><img src="/images/8.jpg" alt="Item 8"></div>
+                    <div class="slide">
+                        <img src="/images/2.jpg" alt="Product 2">
+                        <p>서점 이름</p>
                     </div>
+                    <div class="slide">
+                        <img src="/images/3.jpg" alt="Product 3">
+                        <p>서점 이름</p>
+                    </div>
+                    <div class="slide">
+                        <img src="/images/4.jpg" alt="Product 4">
+                        <p>서점 이름</p>
+                    </div>
+
+                    <!-- Add more slides as needed -->
                 </div>
-                <div class="navigation">
-                    <button class="prev-btn">Previous</button>
-                    <button class="next-btn">Next</button>
-                </div>
+                <button class="prev-btn">Previous</button>
+                <button class="next-btn">Next</button>
             </div>
 
 

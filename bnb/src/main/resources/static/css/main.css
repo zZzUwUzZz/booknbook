@@ -1,0 +1,185 @@
+/* body */
+ 
+
+@font-face {
+    font-family: 'BookkGothic-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkGothic-Bd.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3;
+
+}
+
+
+
+body, header, footer {
+ }
+
+header, footer {
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+body {
+    background-color: #4d6b50;
+    margin: 0px;
+    min-height: 100%;
+	position: relative;
+ }
+
+
+ 
+/* header */
+
+
+.hd {
+    padding: 43px;
+    padding-top: 25px;
+    color: #fffbed;
+}
+.hd_01 {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+}
+.hd_02 {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    margin-top: 21px;
+    font-size: 20px;
+
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.login_bell {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+}
+
+.login_bell a {
+    margin-right: 20px;    
+}
+
+.menu_01 {    
+}
+
+.menu_01 a{
+    margin-right: 20px;    
+}
+
+
+.menu_02 {
+    display: flex;
+    align-items: center;
+}
+
+.menu_02 a{
+    margin-left: 15px;    
+}
+
+
+/* footer */
+
+
+footer {
+    bottom: 0px;
+    width: 100%;
+    height: 100px;
+}
+
+.ft {
+    padding: 43px;
+    padding-bottom: 4px;
+    padding-top: 18px;
+    height: 80px;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sns_link {
+    line-height: 26px;
+}
+
+
+ 
+
+
+/* main */
+
+.main {
+    height: 100%;
+    position: relative;
+    font-family: 'BookkGothic-Bd';
+
+}
+
+/* main - search */
+
+.scbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+     margin: auto;
+     background-image: url( "/images/main_001.jpg" );
+     background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(1);
+}
+
+ 
+
+.scbox_01 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     background: #000;
+}
+
+
+.scbox_02 {
+    width: 500px;
+}
+
+.scstore {
+    width: 100%;
+    font-family: 'Varela Round', sans-serif;
+    font-family: 'BookkGothic-Bd';
+     font-size: 25px;
+    text-align: center;
+    padding: 13px;
+    border: 0px;
+    background: none;
+    color: #FFF;
+    margin-top: -10px;
+}
+
+input:focus {outline: none;}
+input::placeholder {color:#FFF;}
+
+
+#scboxicon {
+    font-size: 45px;
+    color: #FFF;
+    padding: 14px;
+
+}
+
+/* book store list */
+
+.bnb_list {
+    height: 500px;
+    width: 1200px;
+    background: #fff6;
+    margin: auto;
+    padding: 25px;
+}

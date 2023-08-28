@@ -9,7 +9,7 @@ public class BnbController {
 
     @GetMapping("/")
     public String main() {
-        return "index";
+        return "main";
     }
  
 }

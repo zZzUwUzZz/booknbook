@@ -1,0 +1,44 @@
+.slider {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slide-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* 이미지 컨테이너 */
+.slide {
+    box-sizing: border-box;
+    text-align: center;
+    margin: auto;
+}
+
+/* 이미지 스타일 */
+.slide img {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 1/1;
+    height: auto;
+    object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
+}
+
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}

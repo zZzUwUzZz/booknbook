@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class BnbController {
 
-    @GetMapping({"/", "/booknbook"})
-    public String main(Model model) {
 
-        return "index";
-        
+    @GetMapping("/")
+    public String main() {
+        return "main";
     }
  
 }

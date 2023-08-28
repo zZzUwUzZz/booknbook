@@ -127,7 +127,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 600px;
+    height: 800px;
      margin: auto;
      background-image: url( "/images/main_001.jpg" );
      background-repeat: no-repeat;
@@ -177,9 +177,16 @@ input::placeholder {color:#FFF;}
 /* book store list */
 
 .bnb_list {
-    height: 500px;
+    height: 400px;
     width: 1200px;
-    background: #fff6;
-    margin: auto;
+     margin: auto;
     padding: 25px;
+    color: #FFF;
+    margin-top: 50px;
+
+}
+
+.list_tt {
+    margin: 12px 0;
+
 }

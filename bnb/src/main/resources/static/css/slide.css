@@ -1,12 +1,15 @@
 .slider {
     position: relative;
-    max-width: 100%;
+    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
 }
 
 .slide-container {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     transition: transform 0.5s ease-in-out;
 }
 
@@ -14,31 +17,46 @@
 .slide {
     box-sizing: border-box;
     text-align: center;
-    margin: auto;
+ }
+
+ .slide:nth-child(even) {
+    margin: 0 20px; /* 더 큰 간격을 주기 위해 수정 가능 */
 }
+
+.slide p {
+    text-align: left;
+    margin: 5px;
+}
+
 
 /* 이미지 스타일 */
 .slide img {
-    width: 100%;
-    max-width: 260px;
+ 
+    max-width: 290px;
     aspect-ratio: 1/1;
     height: auto;
     object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
+    border-radius: 5px;
+
 }
 
-.prev-btn,
-.next-btn {
+#prev-btn,
+#next-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    padding: 5px 10px;
+    padding: 8px 8px;
     cursor: pointer;
+    font-size: 34px;
+    background: #FFF;
+    border-radius: 50%;
+    color: #000;
 }
 
-.prev-btn {
+#prev-btn {
     left: 10px;
 }
 
-.next-btn {
+#next-btn {
     right: 10px;
 }

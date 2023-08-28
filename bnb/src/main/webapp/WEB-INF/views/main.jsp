@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
@@ -53,26 +54,50 @@
                 <div class="slide-container">
                   
                     <div class="slide">
-                        <img src="/images/1.jpg" alt="Product 1">
+                        <img src="/images/1.jpg">
                         <p>서점 이름</p>
                     </div>
                     <div class="slide">
-                        <img src="/images/2.jpg" alt="Product 2">
+                        <img src="/images/2.jpg">
                         <p>서점 이름</p>
                     </div>
                     <div class="slide">
-                        <img src="/images/3.jpg" alt="Product 3">
+                        <img src="/images/3.jpg">
                         <p>서점 이름</p>
                     </div>
                     <div class="slide">
-                        <img src="/images/4.jpg" alt="Product 4">
+                        <img src="/images/4.jpg">
+                        <p>서점 이름</p>
+                    </div>
+                    <div class="slide">
+                        <img src="/images/5.jpg">
+                        <p>서점 이름</p>
+                    </div>
+                    <div class="slide">
+                        <img src="/images/6.jpg">
+                        <p>서점 이름</p>
+                    </div>
+                    <div class="slide">
+                        <img src="/images/7.jpg">
+                        <p>서점 이름</p>
+                    </div>
+                    <div class="slide">
+                        <img src="/images/8.jpg">
                         <p>서점 이름</p>
                     </div>
 
-                    <!-- Add more slides as needed -->
+
+                    
                 </div>
-                <button class="prev-btn">Previous</button>
-                <button class="next-btn">Next</button>
+
+                <span id="prev-btn" class="material-symbols-sharp">
+                    chevron_left
+                    </span>
+
+                    <span id="next-btn" class="material-symbols-sharp">
+                        navigate_next
+                        </span>
+ 
             </div>
 
 

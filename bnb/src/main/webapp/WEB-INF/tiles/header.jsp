@@ -20,6 +20,7 @@
 
         <div class="hd_02">
             <div class="menu_01">
+            <a>BOOKSTORE</a>
             <a>BOOKS</a>
             <a>NEW</a>
             <a>RENT</a>

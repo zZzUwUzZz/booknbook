@@ -6,31 +6,33 @@
 
         <div class="hd_01">
             <div class="logo">
-            <a>BOOK N BOOK</a>
-        </div>
+                <a>BOOK N BOOK</a>
+            </div>
             <div class="login_bell">
                 <a>LOGIN</a>
-                
-                <span class="material-symbols-rounded">
-                    notifications
+
+                <div class="noti_btn">
+                    <span class="material-symbols-rounded">
+                        notifications
                     </span>
-                  
+                </div>
+
             </div>
         </div>
 
         <div class="hd_02">
             <div class="menu_01">
-            <a>BOOKSTORE</a>
-            <a>BOOKS</a>
-            <a>NEW</a>
-            <a>RENT</a>
-        </div>
+                <a>BOOKSTORE</a>
+                <a>BOOKS</a>
+                <a>NEW</a>
+                <a>RENT</a>
+            </div>
 
-        <div class="menu_02">
-            <a>SEARCH</a>
-            <a>CART</a>
-            <a>WISH</a>
-        </div>
+            <div class="menu_02">
+                <div class="bk_sc">SEARCH</div>
+                <a>CART</a>
+                <a>WISH</a>
+            </div>
 
         </div>
 

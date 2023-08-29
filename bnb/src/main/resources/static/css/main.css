@@ -278,9 +278,13 @@ input.scbook::placeholder {color:#000000;}
     cursor: pointer;
 }
 
-/* noti */
 
-.notilistbox {
+
+/* notifications */
+
+.noti_md{
+    display: none;
+    font-family: 'BookkGothic-Bd';
     width: 400px;
     height: 600px;
     background: rgb(255, 255, 255);
@@ -289,4 +293,5 @@ input.scbook::placeholder {color:#000000;}
     right: 41px;
     top: 68px;
     padding: 10px;
+    overflow: scroll;
 }

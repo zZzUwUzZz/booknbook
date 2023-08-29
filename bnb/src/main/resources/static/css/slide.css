@@ -1,12 +1,29 @@
 .slider {
     position: relative;
-    max-width: 1200px;
+    max-width: 1220px;
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
 }
 
-.slide-container {
+.slider {
+    position: relative;
+    max-width: 1220px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.itemlist {
+    position: relative;
+    max-width: 1220px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.slide-container, .slide-container_02, 
+.itemlist-container{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,36 +31,39 @@
 }
 
 /* 이미지 컨테이너 */
-.slide {
+.slide, .b_slide, .b_item {
     box-sizing: border-box;
     text-align: center;
  }
 
- .slide:nth-child(even) {
+ .slide:nth-child(even), .b_slide:nth-child(even),
+ .b_item:nth-child(even) {
     margin: 0 20px; /* 더 큰 간격을 주기 위해 수정 가능 */
 }
 
-.slide p {
+.slide p, .b_slide p, .b_item p {
     text-align: left;
     margin: 5px;
 }
 
 
+
 /* 이미지 스타일 */
-.slide img {
- 
+
+.slide img, .b_slide img, .b_item img {
     max-width: 290px;
     aspect-ratio: 1/1;
     height: auto;
     object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
     border-radius: 5px;
-
 }
+ 
+/* prev, next button */
 
-#prev-btn,
-#next-btn {
+#prev-btn, #next-btn,
+#prev-btn_02, #next-btn_02 {
     position: absolute;
-    top: 50%;
+    top: 45%;
     transform: translateY(-50%);
     padding: 8px 8px;
     cursor: pointer;
@@ -53,10 +73,12 @@
     color: #000;
 }
 
-#prev-btn {
+
+#prev-btn,
+#prev-btn_02 {
     left: 10px;
 }
-
-#next-btn {
+#next-btn,
+#next-btn_02 {
     right: 10px;
 }

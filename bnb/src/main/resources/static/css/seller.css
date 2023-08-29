@@ -1,0 +1,97 @@
+.bsname h1 a{
+    text-decoration: none;
+    color: #333;
+}
+.side-menu {
+    position: fixed;
+    width: 200px;
+    margin: 15px;
+    font-size: large;
+    margin-left: 30px;
+    text-align: center;
+    border: 1px solid #4c4240;
+    background-color: #fffbed;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-item a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.bigmenu:hover {
+    background-color: #ff9946;
+}
+
+.submenu {
+    display: none;
+}
+
+.submenu li:hover {
+    background-color: #ff9946;
+}
+
+.menu-item:hover .submenu {
+    display: block;
+}
+
+.submenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.submenu li {
+    padding: 5px;
+}
+
+.submenu li a {
+    color: #666;
+    text-decoration: none;
+}
+
+.submenu li:hover a {
+    color: #333;
+}
+
+.contain-1 {
+    position: relative;
+    left: 300px;
+    top: 15px;
+}
+
+.box-1 {
+    border: 1px solid #4c4240;
+    width: 80%;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    background-color: #fffbed;
+}
+
+.gap {
+    height: 30px;
+}
+
+.box-list {
+    text-align: center;
+    padding: 20px;
+}
+
+.box-list td {
+    width: 200px;
+    padding: 10px 0px;
+}
+.box-list tr {
+    font-size: 20px;
+}

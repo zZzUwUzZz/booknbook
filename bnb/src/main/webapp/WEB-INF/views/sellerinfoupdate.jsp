@@ -102,71 +102,57 @@
             </div>
             <div class="contain-1">
                 <div class="box-1">
-                    <h1>오늘 주문 내역</h1>
-                    <table class="box-list">
+                    <h1>서점 정보 수정</h1>
+                    <table class="info-list">
                         <tr>
-                            <td>총 주문</td>
-                            <td>0건</td>
-                            <td>배송 준비중</td>
-                            <td>0건</td>
+                            <td>서점 이름</td>
+                            <td><input type="text"></td>
                         </tr>
                         <tr>
-                            <td>└ 대여</td>
-                            <td>0건</td>
-                            <td>배송중</td>
-                            <td>0건</td>
+                            <td>아이디</td>
+                            <td><input type="text"></td>
                         </tr>
                         <tr>
-                            <td>└ 판매</td>
-                            <td>0건</td>
-                            <td>배송 완료</td>
-                            <td>0건</td>
+                            <td>비밀번호</td>
+                            <td><input type="text"></td>
                         </tr>
                         <tr>
-                            <td>└ 예약</td>
-                            <td>0건</td>
+                            <td>비밀번호 확인</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>연락처</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>소개</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>서점 사진</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>계좌 정보</td>
+                            <td><input type="text"></td>
+                        </tr>
+                    </table>
+                    <div class="gap"></div>
+                    <table class="info-list">
+                        <tr>
+                            <td><input type="button" value="수정"></td>
+                            <td><input type="button" value="취소"></td>
                         </tr>
                     </table>
                 </div>
-                <div class="gap"></div>
-                <div class="box-1">
-                    <h1>즐겨찾기한 회원 수</h1>
-                    <table class="box-list">
-                        <tr>
-                            <td>오늘</td>
-                            <td>0명</td>
-                            <td>이번 주</td>
-                            <td>0명</td>
-                            <td>이번 달</td>
-                            <td>0명</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="gap"></div>
-                <div class="box-1">
-                    <table class="box-list">
-                        <h1>최근 한 달간 취소 내역</h1>
-                        <tr>
-                            <td>취소요청</td>
-                            <td>0건</td>
-                            <td>반품/교환 요청</td>
-                            <td>0건</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="gap"></div>
-                <div class="box-1">
-                    <table class="box-list">
-                        <h1>정산 내역</h1>
-                        <tr>
-                            <td>오늘 정산</td>
-                            <td>0원</td>
-                            <td>이 달 정산</td>
-                            <td>0원</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>

@@ -6,7 +6,7 @@
 
         <div class="hd_01">
             <div class="logo">
-                <a>BOOK N BOOK</a>
+                <a href="/">BOOK N BOOK</a>
             </div>
             <div class="login_bell">
                 <a>LOGIN</a>

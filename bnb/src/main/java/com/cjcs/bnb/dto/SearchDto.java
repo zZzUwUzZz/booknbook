@@ -3,6 +3,8 @@ package com.cjcs.bnb.dto;
 import lombok.Data;
 
 
+// 검색을 위한 DTO
+
 @Data
 public class SearchDto {
     

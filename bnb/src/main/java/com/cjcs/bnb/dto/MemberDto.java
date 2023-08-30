@@ -3,7 +3,6 @@ package com.cjcs.bnb.dto;
 import java.sql.Timestamp;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 
 @Data

@@ -24,32 +24,78 @@ public class SellerPageController {
     private MemberService mSer;
 
     @GetMapping("/main")
-    public String main() {
-        return "sellermain";
+    public String sellermain() {
+        return "seller/sellerMain";
     }
 
     @PostMapping("/alert")
     public String selleralert() {
-        return "selleralert";
+        return "seller/selleralert";
     }
 
     @GetMapping("/infoupdate")
     public String sellerinfoupdate() {
-        return "sellerinfoupdate";
-    }
-
-    @PostMapping("/infoupdate")
-    public String sellerinfoupdate(MemberDto mDto) {
-        boolean result = mSer.updateinfo(mDto);
-        if (result) {
-            alert("정보가 수정되었습니다.");
-        } else {
-            alert("정보 수정에 실패했습니다.");
-        }
-        return "sellerinfoupdate";
+        return "seller/sellerinfoupdate";
     }
     
-    private void alert(String string) {
+    // @PostMapping("/infoupdate")
+    // public String sellerinfoupdate(MemberDto mDto) {
+    //     boolean result = mSer.updateinfo(mDto);
+    //     if (result) {
+    //         alert("정보가 수정되었습니다.");
+    //     } else {
+    //         alert("정보 수정에 실패했습니다.");
+    //     }
+    //     return "sellerinfoupdate";
+    // }
+    
+    @GetMapping("/csmember")
+    public String sellercsmember(){
+        return "seller/sellerCSMember";
     }
 
+    @GetMapping("/book/list")
+    public String sellerbooklist(){
+        return "seller/sellerBookList";
+    }
+
+    @GetMapping("/book/add")
+    public String sellerbookadd(){
+        return "seller/sellerBookAdd";
+    }
+
+    @GetMapping("/rent/reserve")
+    public String sellerrentreserve(){
+        return "seller/sellerRentReserve";
+    }
+
+    @GetMapping("/rent/curr")
+    public String sellerrentcurr(){
+        return "seller/sellerRentCurr";
+    }
+
+    @GetMapping("/rent/return")
+    public String sellerrentreturn(){
+        return "seller/sellerRentReturn";
+    }
+    
+    @GetMapping("/sell/history")
+    public String sellersellhistory(){
+        return "seller/sellerSellHistory";
+    }
+
+    @GetMapping("/sell/cancel")
+    public String sellersellcancel(){
+        return "seller/sellerSellCancel";
+    }
+
+    @GetMapping("/return/manage")
+    public String sellerreturnmanage(){
+        return "seller/sellerReturnManage";
+    }
+
+    @GetMapping("/account")
+    public String selleraccount(){
+        return "seller/sellerAccount";
+    }
 }

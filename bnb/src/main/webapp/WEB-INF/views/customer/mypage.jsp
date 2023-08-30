@@ -39,7 +39,7 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            width: 1135px;
+            width: 1132px;
             margin: auto;
         }
         .container-2 {
@@ -47,13 +47,13 @@
             display: flex;
             flex-direction: column;
             /* border: 1px solid orange; */
-            width: 560px;
+            width: 557px;
         }
         .container-3 {
             box-sizing: border-box;
             /* border: 1px solid yellow; */
             background-color: #fffbed;
-            width: 560px;
+            width: 557px;
             padding: 0 20px;
         }
         table {
@@ -85,6 +85,7 @@
             width: 1400px;
             height: 650px;
             margin: auto;
+            margin-bottom: -30px;
             padding: 15px;
         }
         .board-area {

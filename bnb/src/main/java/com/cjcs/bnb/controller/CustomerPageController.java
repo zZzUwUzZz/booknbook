@@ -35,9 +35,8 @@ public class CustomerPageController {
     //여기부터 페이지-메서드 매핑
 
     @GetMapping                              // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
-    public String mypage(HashMap<String, String> member, HttpSession session) {
+    public String mypage() {
 
-        OrderDto oDto = oSer.get
 
         return "customer/mypage";
     }

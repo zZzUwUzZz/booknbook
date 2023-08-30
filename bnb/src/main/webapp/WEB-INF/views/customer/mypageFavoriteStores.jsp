@@ -34,11 +34,7 @@
 <body>
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
-
-
-
-
-
+    
 
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
 

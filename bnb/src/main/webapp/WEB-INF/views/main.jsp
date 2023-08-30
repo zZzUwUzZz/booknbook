@@ -21,52 +21,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-   
-        <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
-
+    <script src="/js/search.js"></script>
 </head>
 
 <body>
 
 
-    <!-- modal -->
-    
-    <div class="noti_md">
-    <div class="noti_tt">
-        <p>알림</p>
-    </div>
-    <div class="notilistbox">
-    </div>
-</div>
+ 
 
-    <div class="sc_md">
-        <div class="sc_cls">
-            <span class="material-symbols-outlined">
-                close
-                </span>
-           </div>
-<div class="scmd_input_box">
-   
-    <div class="scip_box">
-    <span class="material-symbols-outlined">
-        search
-        </span>
-    <input class="scbook" type="search" placeholder="Search...">
-</div>
-
-</div>
-
-    </div>
-
-    <div>
-
-    </div>
-
+  
 
     <!-- main -->
     <%@include file="/WEB-INF/tiles/header.jsp" %>

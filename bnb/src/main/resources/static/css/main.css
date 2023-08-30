@@ -137,6 +137,13 @@ footer {
 
 /* main - search */
 
+form#searchForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
 .scbox {
     display: flex;
     align-items: center;
@@ -278,20 +285,4 @@ input.scbook::placeholder {color:#000000;}
     cursor: pointer;
 }
 
-
-
-/* notifications */
-
-.noti_md{
-    display: none;
-    font-family: 'BookkGothic-Bd';
-    width: 400px;
-    height: 600px;
-    background: rgb(255, 255, 255);
-    position: absolute;
-    z-index: 99;
-    right: 41px;
-    top: 68px;
-    padding: 10px;
-    overflow: scroll;
-}
+ 

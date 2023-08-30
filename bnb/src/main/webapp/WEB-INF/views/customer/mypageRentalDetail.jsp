@@ -31,17 +31,32 @@
     <style>
         
         .container-mypage {
-            /* border: 1px solid red; */
+            border: 1px solid red;
             display: flex;
             flex-direction: row;
-            width: 1200px;
+            width: 1400px;
             height: 650px;
             margin: auto;
+            padding: 15px;
         }
         .board-area {
             background-color: #fffbed;
-            width: 1000px;
-            margin-left: 15px;
+            width: 1135px;
+            margin: 0 15px;
+        }
+        .button-area {
+            display: flex;
+            flex-direction: column-reverse;
+            border: 1px solid orange;
+            width: 50px;
+        }
+        .buttons {
+            border: 1px solid yellow;
+            border-radius: 10px;
+            background-color: #fffbed;
+            width: 50px;
+            height: 50px;
+            margin-top: 10px;
         }
         .menu_simple ul {
             margin: 0; 
@@ -100,6 +115,21 @@
         </div>
 
         <div class="board-area">
+
+            <div class="book-row">
+
+                <div></div>
+                <div></div>
+                <div></div>
+
+            </div>
+
+        </div>
+
+        <div class="button-area">
+
+            <div class="buttons"></div>
+            <div class="buttons"></div>
 
         </div>
 

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cjcs.bnb.service.MemberService;
-import com.cjcs.bnb.service.OrderService;
+import com.cjcs.bnb.service.NotificationService;
+import com.cjcs.bnb.service.PurchaseService;
+import com.cjcs.bnb.service.RentalService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,10 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public class SellerPageController {
     
     @Autowired
-    private OrderService oSer;
+    private MemberService mSer;
 
     @Autowired
-    private MemberService mSer;
+    private PurchaseService pSer;
+
+    @Autowired
+    private RentalService rSer;
 
 
 

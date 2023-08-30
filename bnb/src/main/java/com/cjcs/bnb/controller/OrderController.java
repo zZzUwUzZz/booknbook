@@ -5,21 +5,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.cjcs.bnb.service.MemberService;
-import com.cjcs.bnb.service.OrderService;
+import com.cjcs.bnb.service.PurchaseService;
+import com.cjcs.bnb.service.RentalService;
 
 import lombok.extern.slf4j.Slf4j;
+
+
+// 이 컨트롤러에서 카트페이지, 결제페이지 url-메서드 매핑하셈
 
 @Slf4j
 @Controller
 public class OrderController {
-    
-    //의존성주입.. 수정,추가 알아서하셈
-
-    @Autowired
-    private OrderService oSer;
 
     @Autowired
     private MemberService mSer;
+
+    @Autowired
+    private PurchaseService pSer;
+
+    @Autowired
+    private RentalService rSer;
 
 
     //여기부터 페이지-메서드 매핑
@@ -37,15 +42,15 @@ public class OrderController {
     // }
 
     // @GetMapping 
-    // public String order() {
+    // public String payment() {
 
-    //     return "order";
+    //     return "payment";
     // }
 
     // @PostMapping 
-    // public String order() {
+    // public String payment() {
 
-    //     return "order";
+    //     return "payment";
     // }
 
 }

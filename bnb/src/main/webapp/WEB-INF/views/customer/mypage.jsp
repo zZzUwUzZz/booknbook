@@ -50,31 +50,32 @@
             width: 560px;
         }
         .container-3 {
+            box-sizing: border-box;
             /* border: 1px solid yellow; */
             background-color: #fffbed;
             width: 560px;
-            padding: 15px;
+            padding: 0 20px;
         }
         table {
             width: 100%;
             text-align: center;
         }
         .card-main {
-            height: 330px;
+            height: 350px;
             margin-bottom: 15px;
         }
         .card-top {
-            height: 190px;
+            height: 200px;
             margin-bottom: 15px;
         }
         .card-bottom {
-            height: 240px;
+            height: 220px;
         }
         .card-button {
             height: 50px;
         }
 
-        /* 마이페이지홈 */
+        /* 위는 마이페이지홈만 해당 */
 
 
         .container-mypage {

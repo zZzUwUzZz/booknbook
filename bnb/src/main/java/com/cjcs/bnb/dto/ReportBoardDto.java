@@ -2,6 +2,9 @@ package com.cjcs.bnb.dto;
 
 import lombok.Data;
 
+
+// 제보게시판을 위한 DTO
+
 @Data
 public class ReportBoardDto {
 

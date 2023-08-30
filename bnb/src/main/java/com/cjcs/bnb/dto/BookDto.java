@@ -11,6 +11,8 @@ public class BookDto {
 
     // request객체파라미터명==필드명(==컬럼명) 이면 스프링이 알아서 객체생성해서 필드에다 파라미터값 넣어줌..
     // 우리는 지금 DTO와 Entity를 합쳐서 DTO만 쓰려고하므로 (==컬럼명) 까지 지켜주자..
+
+    //테이블에 있는 필드
 	private String b_s_id;         // 판매자아이디
 	private String b_isbn;         // 책isbn 13자리(문자열)
 	private String b_title;        // 책제목

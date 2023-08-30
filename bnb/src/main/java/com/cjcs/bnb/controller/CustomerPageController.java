@@ -28,34 +28,55 @@ public class CustomerPageController {
 
     //여기부터 페이지-메서드 매핑
 
-    @PostMapping("/")
+    @GetMapping                              // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
     public String mypage() {
 
-        return "mypage";
+        return "customer/mypage";
     }
     
-    @PostMapping("/info")
+    @GetMapping("/info")                     // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
     public String mypageInfo() {
 
-        return "mypageInfo";
+        return "customer/mypageInfo";
     }
 
     @GetMapping("/updateinfo")
     public String mypageUpdateInfo() {
 
-        return "mypageUpdateInfo";
+        return "customer/mypageUpdateInfo";
     }
 
-    @PostMapping("/updateinfo")
-    public String mypageUpdateInfo(MemberDto mDto) {
+    // @PostMapping("/updateinfo")
+    // public String mypageUpdateInfo(MemberDto mDto) {
         
-        boolean result = mSer.updateinfo(mDto);
-        if (result) {
-            return "mypageInfo";
-        } else {
-            return "redirect:/mypage/updateinfo";
-        }
+    //     boolean result = mSer.updateinfo(mDto);
+    //     if (result) {
+    //         return "mypage/info";
+    //     } else {
+    //         return "redirect:/mypage/updateinfo";
+    //     }
         
+    // }
+
+    @GetMapping("/purchaselist")
+    public String mypagePurchaseList() {
+
+        return "customer/mypagePurchaseList";
     }
+
+
+    @GetMapping("/rentallist")
+    public String mypageRentalList() {
+
+        return "customer/mypageRentalList";
+    }
+
+
+    @GetMapping("/refundexchangelist")
+    public String mypageRefundExchangeList() {
+
+        return "customer/mypageRefundExchangeList";
+    }
+
 
 }

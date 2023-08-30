@@ -65,6 +65,13 @@ public class CustomerPageController {
     }
 
 
+    @GetMapping("/refundexchangelist")
+    public String mypageRefundExchangeList() {
+
+        return "customer/mypageRefundExchangeList";
+    }
+
+
     @GetMapping("/rentallist")
     public String mypageRentalList() {
 
@@ -72,11 +79,25 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/refundexchangelist")
-    public String mypageRefundExchangeList() {
+    @GetMapping("/rentalreservationlist")
+    public String mypageRentalReservationList() {
 
-        return "customer/mypageRefundExchangeList";
+        return "customer/mypageRentalReservationList";
     }
 
+
+
+    @GetMapping("/favoritestores")                     // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
+    public String mypageFavoriteStores() {
+
+        return "customer/mypageFavoriteStores";
+    }
+
+
+    @GetMapping("/favoritebooks")                     // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
+    public String mypageFavoriteBooks() {
+
+        return "customer/mypageFavoriteBooks";
+    }
 
 }

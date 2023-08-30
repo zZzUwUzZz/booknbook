@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -28,17 +29,62 @@
     <script src="/js/slide.js"></script>
 
     <style>
-
-        .container-0 {
+        
+        .container-mypage {
             border: 1px solid red;
-            width: 800px;
-            height: 700px;
+            display: flex;
+            flex-direction: row;
+            width: 1400px;
+            height: 650px;
             margin: auto;
+            padding: 15px;
         }
-        .container-1 {
+        .board-area {
+            background-color: #fffbed;
+            width: 1135px;
+            margin: 0 15px;
+        }
+        .button-area {
+            display: flex;
+            flex-direction: column-reverse;
             border: 1px solid orange;
-            width: 700px;
-            margin: auto;
+            width: 50px;
+        }
+        .buttons {
+            border: 1px solid yellow;
+            border-radius: 10px;
+            background-color: #fffbed;
+            width: 50px;
+            height: 50px;
+            margin-top: 10px;
+        }
+        .menu_simple ul {
+            margin: 0; 
+            padding: 0;
+            width:185px;
+            list-style-type: none;
+        }
+        
+        .menu_simple ul li a {
+            text-decoration: none;
+            color: #fffbed; 
+            padding: 10.5px 11px;
+            background-color: #4c4240;
+            display:block;
+        }
+        
+        /* .menu_simple ul li a:visited {
+            color: #fffbed;
+        } */    
+        
+        #currpage {
+            background-color: #fffbed;
+            color: #4c4240;
+            font-weight: 700;
+        }
+        .menu_simple ul li a:hover, .menu_simple ul li .current {
+            color: #fffbed;
+            background-color: #ff9946;
         }
 
     </style>
@@ -51,42 +97,66 @@
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
 
-    <div class="container-0">
 
-        <div class="container-1">
+    <div class="container-mypage">
 
-            <h2>나의 회원정보</h2>
+        <div class="menu_simple">
+            <ul>
+                <li><a href="/mypage">마이페이지 홈</a></li>
+                <hr>
+                <li><a href="/mypage/purchaselist">구매내역</a></li>
+                <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
+                <li><a href="/mypage/rentallist">대여내역</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <hr>
+                <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
+                <li><a href="/mypage/favoritebooks">찜한도서</a></li>
+            </ul>
+        </div>
 
-            <table>
-                <tr>
-                    <td>ID</td> <td>abc123</td>
-                </tr>
-                <tr>
-                    <td>이름</td> <td>김댕댕</td>
-                </tr>
-                <tr>
-                    <td>주소</td> <td>인천광역시 계양구 계산새로 100</td>
-                </tr>
-                <tr>
-                    <td>휴대전화번호</td> <td>010-1111-2222</td>
-                </tr>
-                <tr>
-                    <td>이메일</td> <td>abc123@naver.com</td>
-                </tr>
-                <tr>
-                    <td>가입일자</td> <td>2022-12-31</td>
-                </tr>
-            </table>
+        <div class="board-area">
+
+            <div class="container-0">
+
+                <div class="container-1">
+        
+                    <h2>나의 회원정보</h2>
+        
+                    <table>
+                        <tr>
+                            <td>아이디</td> <td>abc123</td>
+                        </tr>
+                        <tr>
+                            <td>이름</td> <td>김댕댕</td>
+                        </tr>
+                        <tr>
+                            <td>주소</td> <td>인천광역시 계양구 계산새로 100</td>
+                        </tr>
+                        <tr>
+                            <td>휴대전화번호</td> <td>010-1111-2222</td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td> <td>abc123@naver.com</td>
+                        </tr>
+                        <tr>
+                            <td>가입일자</td> <td>2022-12-31</td>
+                        </tr>
+                    </table>
+        
+                </div>
+        
+                <div class="container-1">
+                    <button onclick="location.href='/mypage'">돌아가기</button>
+                    <button onclick="location.href='/mypage/updateinfo'">회원정보수정</button>
+                    <button onclick="location.href='/member/leave'">회원탈퇴</button>
+                </div>
+            
+            </div>
 
         </div>
 
-        <div class="container-1">
-            <button onclick="location.href='/mypage'">돌아가기</button>
-            <button onclick="location.href='/mypage/updateinfo'">회원정보수정</button>
-            <button onclick="location.href='/member/leave'">회원탈퇴</button>
-        </div>
-    
     </div>
+
 
 
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>

@@ -64,6 +64,12 @@ public class SellerPageController {
         return "seller/sellerBookAdd";
     }
 
+    @GetMapping("/book/detail")
+    public String sellerbookdetail(){
+        return "seller/sellerBookDetail";
+    }
+    
+
     @GetMapping("/rent/reserve")
     public String sellerrentreserve(){
         return "seller/sellerRentReserve";

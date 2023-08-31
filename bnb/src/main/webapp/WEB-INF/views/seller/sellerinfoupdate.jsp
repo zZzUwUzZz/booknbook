@@ -76,7 +76,11 @@
                         <h1>서점 정보 관리</h1>
                         <table class="info-list">
                             <tr>
-                                <td>서점 이름</td>
+                                <td>서점명</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>사업자 등록 번호</td>
                                 <td><input type="text"></td>
                             </tr>
                             <tr>
@@ -104,15 +108,19 @@
                                 <td><input type="text"></td>
                             </tr>
                             <tr>
-                                <td>소개</td>
+                                <td>서점 소개</td>
                                 <td><input type="text"></td>
                             </tr>
                             <tr>
-                                <td>서점 사진</td>
+                                <td>서점 사진 업로드</td>
                                 <td><input type="text"></td>
                             </tr>
                             <tr>
-                                <td>계좌 정보</td>
+                                <td>배송비 설정</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>연체료 설정</td>
                                 <td><input type="text"></td>
                             </tr>
                         </table>

@@ -73,36 +73,63 @@
                 </div>
                 <div class="contain-3">
                     <div class="box-3">
-                        <h1>등록된 도서 리스트</h1>
+                        <h1>도서 상세 정보</h1>
                         <button>수정</button>
                         <div class="gap"></div>
-
+                        
+                        <div class="gap"></div>
+                        <h1>대여중인 회원 리스트</h1>
+                        <table class="book-list">
+                            <thead>
+                                <tr>
+                                    <th>장르</th>
+                                    <th>제목</th>
+                                    <th>출판사</th>
+                                    <th>저자</th>
+                                    <th>재고</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#">장르</a></td>
+                                    <td><a href="#">제목</a></td>
+                                    <td><a href="#">출판사</a></td>
+                                    <td><a href="#">저자</a></td>
+                                    <td><a href="#">재고</a></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">장르</a></td>
+                                    <td><a href="#">제목</a></td>
+                                    <td><a href="#">출판사</a></td>
+                                    <td><a href="#">저자</a></td>
+                                    <td><a href="#">재고</a></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">장르</a></td>
+                                    <td><a href="#">제목</a></td>
+                                    <td><a href="#">출판사</a></td>
+                                    <td><a href="#">저자</a></td>
+                                    <td><a href="#">재고</a></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">장르</a></td>
+                                    <td><a href="#">제목</a></td>
+                                    <td><a href="#">출판사</a></td>
+                                    <td><a href="#">저자</a></td>
+                                    <td><a href="#">재고</a></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">장르</a></td>
+                                    <td><a href="#">제목</a></td>
+                                    <td><a href="#">출판사</a></td>
+                                    <td><a href="#">저자</a></td>
+                                    <td><a href="#">재고</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <h1>대여중인 회원 리스트</h1>
-                    <div class="gap"></div>
-                    <table class="member-list">
-                        <thead>
-                            <tr>
-                                <th>이름</th>
-                                <th>아이디</th>
-                                <th>구매 횟수</th>
-                                <th>대여 횟수</th>
-                                <th>연체 횟수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>이름</td>
-                                <td>아이디</td>
-                                <td>구매 횟수</td>
-                                <td>대여 횟수</td>
-                                <td>연체 횟수</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
-        </div>
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>

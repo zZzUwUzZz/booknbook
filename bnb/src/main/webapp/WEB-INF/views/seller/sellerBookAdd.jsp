@@ -71,9 +71,92 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-1">
-                    <div class="box-1">
-
+                <div class="contain-2">
+                    <div class="box-2">
+                        <h1>도서 추가 등록</h1>
+                        <table class="info-list">
+                            <tr>
+                                <td>책 제목</td>
+                                <td colspan="6"><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>ISBN</td>
+                                <td colspan="6"><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>저자</td>
+                                <td colspan="6"><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>책 소개</td>
+                                <td colspan="6"><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>판매 여부</td>
+                                <td>
+                                    <label class="switch-button">
+                                        <input type="checkbox">
+                                        <span class="onoff-switch"></span>
+                                    </label>
+                                </td>
+                                <td>판매가</td>
+                                <td>1원</td>
+                                <td>판매 재고</td>
+                                <td>10권</td>
+                            </tr>
+                            <tr>
+                                <td>대여 여부</td>
+                                <td>
+                                    <label class="switch-button">
+                                        <input type="checkbox">
+                                        <span class="onoff-switch"></span>
+                                    </label>
+                                </td>
+                                <td>대여료</td>
+                                <td>1원</td>
+                                <td>대여 재고</td>
+                                <td>10권</td>
+                            </tr>
+                            <tr>
+                                <td>중분류</td>
+                                <td colspan="6">
+                                    <div class="selectBox">
+                                        <select class="select">
+                                            <option disabled selected>중분류</option>
+                                            <option value="1">중</option>
+                                            <option value="2">분</option>
+                                            <option value="3">류</option>
+                                        </select>
+                                        <span class="icoArrow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                          </svg></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>소분류</td>
+                                <td colspan="6">
+                                    <div class="selectBox">
+                                        <select class="select">
+                                            <option disabled selected>소분류</option>
+                                            <option value="1">소</option>
+                                            <option value="2">분</option>
+                                            <option value="3">류</option>
+                                        </select>
+                                        <span class="icoArrow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                          </svg></span>                                    
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="gap"></div>
+                        <table class="info-list">
+                            <tr>
+                                <td><input type="button" value="등록"></td>
+                                <td><input type="button" value="취소"></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

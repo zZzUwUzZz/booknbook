@@ -46,18 +46,10 @@
 
             <div class="maplist">
 <div class="map_rs">
-<<<<<<< HEAD
 <span>(keyword)</span> <span>검색결과</span> <span>총 (n)건</span>
 </div>
 
 <div class="map_pr">
-=======
-<span>(keyword)</span> <span>검색결과</span><br>
-<span>총 (n)건</span>
-</div>
-
-<div class="">
->>>>>>> ff7f922eef71cd9897f9b28a4973cc0599a2ea1a
 
 </div>
 

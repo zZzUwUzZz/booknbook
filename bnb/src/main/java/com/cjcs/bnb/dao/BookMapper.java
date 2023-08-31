@@ -10,3 +10,4 @@ import com.cjcs.bnb.dto.BookDto;
 public interface BookMapper {
     List<BookDto> findAll();
 }
+

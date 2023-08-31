@@ -3,35 +3,47 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/slide.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/search.js"></script>
 </head>
+
 <body>
-    <h1>Book List</h1>
-<h1>아니 외않되냐고 ㅅㅂ</h1>
-        
-   
-
-
-    <h2>${book.b_price}</h2>   
-    <h2>${book.b_title}</h2> 
-    <h2>${book.b_price}</h2>  
-
-   
-    <table>
-   
+    <%@include file="/WEB-INF/tiles/header.jsp" %>
+     <div>
         <c:forEach var="book" items="${books}">
             <tr>
-                <td>${book.b_s_id}</td>   
-                <td>${book.b_title}</td> 
-                <td>${book.b_price}</td> 
+                <img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}"><br>
+                <td><b>${book.b_title}</b></td> <br>
+                <td><b>${book.b_price}원</b></td> 
             </tr>
-        </c:forEach>
-    </table> 
-
-    
+        </c:forEach> 
+    </div> 
+        <%@include file="/WEB-INF/tiles/footer.jsp" %>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.cjcs.bnb.service;
 
- 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +15,14 @@ public class BookService {
 
     public List<BookDto> findAll() {
         return bookMapper.findAll();
+    }
+
+    public List<BookDto> bookAllList(int start, int limit) {
+        return bookMapper.bookAllList(start, limit);
+    }
+
+    public int countTotalBooks() {
+        return bookMapper.countTotalBooks();
+
     }
 }

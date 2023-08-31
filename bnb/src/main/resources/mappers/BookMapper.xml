@@ -2,11 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
- 
+
 <mapper namespace="com.cjcs.bnb.dao.BookMapper">
+
+
     <select id="findAll" resultType="com.cjcs.bnb.dto.BookDto">
         SELECT * FROM BOOK
     </select>
+
+    <select id="bookAllList" resultType="com.cjcs.bnb.dto.BookDto">
+SELECT * FROM (SELECT t.*, ROWNUM r FROM (SELECT * FROM BOOK) t)
+WHERE r BETWEEN #{start} AND #{end}
+    </select>
+
+<select id="countTotalBooks" resultType="int">
+  SELECT COUNT(*) FROM BOOK
+</select>
+
 </mapper>
 
  

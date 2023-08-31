@@ -2,6 +2,16 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.MemberDao">
-  <!-- Mapper queries go here -->
+
+<mapper namespace="com.cjcs.bnb.MemberDao">
+
+    <!-- 메서드 리턴타입이 List인 경우.. resultType에는 <>안의 객체타입을 적어줘야함... 그러면 알아서 메서드에서는 리스트로 반환됨 -->
+  	<select id="getFavStoreList" parameterType="String" resultType="String">
+      SELECT FAVS_S_ID FROM FAVSTORE WHERE FAVS_C_ID=#{c_id}
+    </select>
+
+    <select id="getFavBookList" parameterType="String" resultType="Map">
+      SELECT FAVB_S_ID, FAVB_S_ISBN FROM FAVBOOK WHERE FAVB_C_ID=#{c_id}
+    </select>
+
 </mapper>

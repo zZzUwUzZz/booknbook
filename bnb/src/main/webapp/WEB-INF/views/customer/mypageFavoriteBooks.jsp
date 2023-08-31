@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -138,21 +139,23 @@
 
         <div class="board-area">
 
-            <div class="container-fav">
+            <c:if test="${empty favBooks}">
+                <div>찜한 책이 아직 없</div>
+            </c:if>
 
-                <div class="favbook"></div>
-                <div class="favbook"></div>
-                <div class="favbook"></div>
+            <c:if test="${!empty favBooks}">
+                <c:forEach var="favBook" items="${favBooks}">
+                    <div class="container-fav">
 
-            </div>
+                        <div class="favbook">
+                            <a href="/bookdetail?b_s_id=${favBook.favb_s_id}&b_isbn=${favBook.favb_b_isbn}">
+                                <img src="https://contents.kyobobook.co.kr/sih/fit-in/1500x0/pdt/${favBook.favb_b_isbn}.jpg" alt="책표지사진">
+                            </a>
+                        </div>
 
-            <div class="container-fav">
-
-                <div class="favbook"></div>
-                <div class="favbook"></div>
-                <div class="favbook"></div>
-
-            </div>
+                    </div>
+                </c:forEach>
+            </c:if>
 
         </div>
 

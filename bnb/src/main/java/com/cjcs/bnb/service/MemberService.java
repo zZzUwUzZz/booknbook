@@ -1,9 +1,9 @@
 package com.cjcs.bnb.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cjcs.bnb.dao.MemberDao;
@@ -25,6 +25,20 @@ public class MemberService {
     
     @Autowired
     private MemberDao mDao; // DAO는 인터페이스로 만드는게 대세!!!
+
+
+    public List<String> getFavStores(String c_id) {
+
+        List<String> favStoreList = mDao.getFavStoreList(c_id);
+        return favStoreList;
+    }
+
+
+    public List<HashMap<String, String>> getFavBooks(String c_id) {
+
+        List<HashMap<String, String>> favBookList = mDao.getFavBookList(c_id);
+        return favBookList;
+    }
 
         
     public boolean updateinfo(MemberDto mDto) {

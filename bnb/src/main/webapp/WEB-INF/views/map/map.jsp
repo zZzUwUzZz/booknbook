@@ -49,7 +49,8 @@
 <span>(keyword)</span> <span>검색결과</span> <span>총 (n)건</span>
 </div>
 
-<div class="map_pr">
+
+<div class="">
 
 </div>
 

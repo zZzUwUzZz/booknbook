@@ -87,6 +87,12 @@ public class MemberService {
     }
 
 
+    public void updateSellerInfo(MemberDto mDto) {
+
+        mDao.updateMemberInfo(mDto);
+        mDao.updateSellerInfo(mDto);
+
+    }
     public void updateCustomerInfo(MemberDto mDto) {
 
         mDao.updateMemberInfo(mDto);
@@ -95,13 +101,11 @@ public class MemberService {
     }
 
 
-
     public List<MemberDto> getFavStores(String c_id) {
 
         List<MemberDto> favStoreList = mDao.getFavStoreList(c_id);
         return favStoreList;
     }
-
 
     public List<BookDto> getFavBooks(String c_id) {
 

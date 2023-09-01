@@ -25,63 +25,9 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/main.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
-
-    <style>
-        
-        #trans {
-            background: none;
-        }
-        .container-1 {
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .container-2 {
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            /* border: 1px solid orange; */
-            width: 557px;
-        }
-        .container-3 {
-            box-sizing: border-box;
-            border: 1px solid #4d6b50;
-            background-color: #fffbed;
-            width: 557px;
-            padding: 0 20px;
-        }
-        table {
-            width: 100%;
-            text-align: center;
-        }
-        .cards {
-            border: 1px solid #4d6b50;
-            border-radius: 10px;
-        }
-        .card-main {
-            height: 350px;
-            margin-bottom: 15px;
-        }
-        .card-top {
-            height: 200px;
-            margin-bottom: 15px;
-        }
-        .card-bottom {
-            height: 220px;
-        }
-        .card-button {
-            height: 50px;
-        }
-
-        /* 위는 마이페이지홈만 해당 */
-
-
-    </style>
 
     <title>Document</title>
 

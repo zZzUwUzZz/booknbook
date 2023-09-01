@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.PurchaseDto;
+import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
@@ -34,7 +36,6 @@ public class CustomerPageController {
     private RentalService rSer;
 
 
-
     @GetMapping // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
     public String mypage() {
 
@@ -55,7 +56,7 @@ public class CustomerPageController {
     }
 
     @GetMapping("/updateinfo")
-    public String mypageUpdateInfo(Model model, HttpSession session) {
+    public String mypageUpdateInfoFrm(Model model, HttpSession session) {
 
         //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
         String c_id = "customer001";
@@ -70,19 +71,28 @@ public class CustomerPageController {
     @PostMapping("/updateinfo")
     public String mypageUpdateInfo(MemberDto mDto) {
 
-        try {
-            mSer.updateCustomerInfo(mDto);
-            return "redirect:/mypage/info";
-        } catch(Exception e) {
-            return "redirect:/mypage/updateinfo";
-        }
+        mSer.updateCustomerInfo(mDto);
+
+        return "customer/mypageInfo";
 
     }
 
     @GetMapping("/purchaselist")
-    public String mypagePurchaseList() {
+    public String mypagePurchaseList(PurchaseDto pDto) {
 
         return "customer/mypagePurchaseList";
+    }
+
+    @GetMapping("/purchasedetail")
+    public String mypagePurchaseDetail(PurchaseDto pDto, BookDto bDto) {
+
+        return "customer/mypagePurchaseDetail";
+    }
+
+    @GetMapping("/refundExchange")
+    public String mypageRefundExchange() {
+
+        return "customer/mypageRefundExchange";
     }
 
     @GetMapping("/refundexchangelist")
@@ -92,9 +102,15 @@ public class CustomerPageController {
     }
 
     @GetMapping("/rentallist")
-    public String mypageRentalList() {
+    public String mypageRentalList(RentalDto rDto) {
 
         return "customer/mypageRentalList";
+    }
+
+    @GetMapping("/rentaldetail")
+    public String mypageRentalDetail(RentalDto rDto, BookDto bDto) {
+
+        return "customer/mypageRentalDetail";
     }
 
     @GetMapping("/rentalreservationlist")

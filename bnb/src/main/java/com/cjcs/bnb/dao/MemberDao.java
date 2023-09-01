@@ -28,7 +28,7 @@ public interface MemberDao {
 
     //수희
     public MemberDto getCustomerInfo(String c_id);
-    //public boolean updateMemberInfo(MemberDto mDto);
+    //public boolean updateMemberInfo(MemberDto mDto); //예림파트랑중복
     public boolean updateCustomerInfo(MemberDto mDto);
 
     public List<MemberDto> getFavStoreList(String c_id);

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -24,70 +26,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/list.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
-
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -115,13 +57,38 @@
         </div>
 
         <div class="board-area">
+            
+            <div>
+                <table>
+                    <tr>
+                        <th>주문일자</th>
+                        <th>주문번호</th>
+                        <th>구매품목</th>
+                        <th>금액/수량</th>
+                        <th>배송비</th>
+                        <th>주문상태</th>
+                        <th>배송현황</th>
+                    </tr>
 
-            <div class="book-row">
-
-                <div></div>
-                <div></div>
-                <div></div>
-
+                    <c:if test="${empty pList}">
+                        </table>
+                        <div>구매내역이 없습니다.</div>
+                    </c:if>
+        
+                    <c:if test="${!empty pList}">
+                        <c:forEach var="pItem" items="${pList}">
+                            <tr>
+                                <td>${pItem.o_id}</td>
+                                <td>${pItem.o_date}</td>
+                                <td>${pItem.items}</td>
+                                <td>${pItem.total_price}/${pItem.total_amount}</td>
+                                <td>${pItem.total_deliveryfee}</td>
+                                <td>${pItem.order_status}</td>
+                                <td>${pItem.delivery_status}</td>
+                            </tr>
+                         </c:forEach>
+                        </table>
+                    </c:if>
             </div>
 
         </div>

@@ -31,7 +31,7 @@
 
     <update id="updateMemberInfo" parameterType="MemberDto">
         UPDATE M 
-        SET M_PW=#{m_pw}, M_ADDR=#{m_addr}, M_PHONE=#{m_phone}, M_EMAIL=#{m_email} 
+        SET M_ADDR=#{m_addr}, M_PHONE=#{m_phone}, M_EMAIL=#{m_email} 
         WHERE M_ID=#{m_id}
     </update>
     <update id="updateSellerInfo" parameterType="MemberDto">

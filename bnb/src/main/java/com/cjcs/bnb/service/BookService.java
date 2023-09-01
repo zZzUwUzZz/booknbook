@@ -23,6 +23,13 @@ public class BookService {
 
     public int countTotalBooks() {
         return bookMapper.countTotalBooks();
+    }
 
+    public BookDto findByIsbn(String B_ISBN) {
+        return bookMapper.findByIsbn(B_ISBN);
+    }
+
+    public BookDto findBookByIsbnAndSellerId(String isbn, String sellerId) {
+        return bookMapper.findBookByIsbnAndSellerId(isbn, sellerId);
     }
 }

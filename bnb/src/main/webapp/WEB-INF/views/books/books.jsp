@@ -49,8 +49,10 @@
                   <c:forEach var="book" items="${books}">
                     <li class="bk_item">
                       <div class="bk_area">
-                        <a><img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg"
-                                alt="${book.b_title}"></a><br>
+                        <a href="<c:url value='/books/detail/${book.b_isbn}/${book.b_s_id}'/>">
+                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg"
+                                alt="${book.b_title}">
+                            </a><br>
                         <div><b>${book.b_title}</b></div>
                         <div><b>${book.b_price}원</b></div>
                       </div>

@@ -15,4 +15,12 @@ public interface BookMapper {
 
     int countTotalBooks();
 
+    BookDto findByIsbn(String bIsbn);
+
+    BookDto findBookByIsbnAndSellerId(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
+
+    
+    List<BookDto> findByKwPg(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
+
+    int countKeyword(String keyword);
 }

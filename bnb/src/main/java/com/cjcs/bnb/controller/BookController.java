@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dto.BookDto;
@@ -33,8 +34,15 @@ public class BookController {
         model.addAttribute("currentPage", page); // 현재 페이지 정보 추가
         model.addAttribute("totalPages", totalPages); // 총 페이지 수 추가
         model.addAttribute("totalItems", totalItems); // 총 아이템 수 추가 (선택적)
-
         return "/books/books";
+    }
+
+    @GetMapping("/books/detail/{isbn}/{sellerId}")
+    public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId, Model model) {
+        // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
+        BookDto book = bookService.findBookByIsbnAndSellerId(isbn, sellerId);
+        model.addAttribute("book", book);
+        return "/books/detail";
     }
 
 }

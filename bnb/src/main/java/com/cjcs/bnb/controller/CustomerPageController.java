@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.PurchaseDto;
+import com.cjcs.bnb.dto.RefExchDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.PurchaseService;
@@ -73,8 +74,7 @@ public class CustomerPageController {
 
         mSer.updateCustomerInfo(mDto);
 
-        return "customer/mypageInfo";
-
+        return "redirect:/mypage/info";
     }
 
     @GetMapping("/purchaselist")
@@ -96,7 +96,7 @@ public class CustomerPageController {
     }
 
     @GetMapping("/refundexchangelist")
-    public String mypageRefundExchangeList() {
+    public String mypageRefundExchangeList(RefExchDto reDto) {
 
         return "customer/mypageRefundExchangeList";
     }
@@ -119,7 +119,7 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @GetMapping("/favoritestores") // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
+    @GetMapping("/favoritestores")
     public String mypageFavoriteStores(Model model, HttpSession session) {
 
         //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
@@ -132,7 +132,7 @@ public class CustomerPageController {
         return "customer/mypageFavoriteStores";
     }
 
-    @GetMapping("/favoritebooks") // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
+    @GetMapping("/favoritebooks")
     public String mypageFavoriteBooks(Model model, HttpSession session) {
 
         //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.

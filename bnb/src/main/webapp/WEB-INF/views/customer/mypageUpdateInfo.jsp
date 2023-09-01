@@ -64,17 +64,17 @@
         
                         <h2>회원정보수정</h2>
                             
-                        아이디<input type="text" value="${mDto.m_id}"><br>
-                        기존비밀번호<input type="password" id="pw_ori"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
+                        아이디<input type="text" placeholder="${mDto.m_id}" name="m_id"><br>
+                        기존비밀번호<input type="password" id="pw_ori" name="m_pw"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
                         <span id="pw_check" style="display: none">기존 비밀번호 제대로 입력하세요</span>
                         새비밀번호<input type="password" id="pw_new1"><br>   <!-- 새비번이형식에맞는지확인해야함 -->
                         <span id="pw_format_check" style="display: none">비번형식에 안 맞아요ㄱ-</span>
                         새비밀번호 확인<input type="password" id="pw_new2"><br>    <!-- 두번같게입력했는지확인해야함 -->
                         <span id="pw_not_same" style="display: none">일치하지 않습니다. 입력한 내용을 확인해주세요.</span>
-                        이름<input type="text" value="${mDto.c_name}" name="c_name"><br>
-                        주소<input type="text" value="${mDto.m_addr}" name="m_addr"><br>
-                        휴대전화번호<input type="text" value="${mDto.m_phone}" name="m_phone"><br>
-                        이메일<input type="text" value="${mDto.m_email}" name="m_email">
+                        이름<input type="text" placeholder="${mDto.c_name}" name="c_name"><br>
+                        주소<input type="text" placeholder="${mDto.m_addr}" name="m_addr"><br>
+                        휴대전화번호<input type="text" placeholder="${mDto.m_phone}" name="m_phone"><br>
+                        이메일<input type="text" placeholder="${mDto.m_email}" name="m_email">
 
                     </div>
 

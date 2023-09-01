@@ -26,17 +26,31 @@
     <select id="getSellerInfo" parameterType="String" resultType="MemberDto">
         <!--seller_info라는 뷰 미리 만들어놨음-->
         SELECT * FROM SELLER_INFO 
-        WHERE M_ID=#{s_id}
+        WHERE M_ID=#{m_id}
     </select>
 
     <update id="updateMemberInfo" parameterType="MemberDto">
         UPDATE M 
-        SET M_ADDR=#{m_addr}, M_PHONE=#{m_phone}, M_EMAIL=#{m_email} 
+        <set>
+            <if test="m_id != null">m_id = #{m_id},</if>
+            <if test="m_pw != null">m_pw = #{m_pw},</if>
+            <if test="m_addr != null">m_addr = #{m_addr},</if>
+            <if test="m_phone != null">m_phone = #{m_phone},</if>
+            <if test="m_email != null">m_email = #{m_email},</if>
+            <if test="m_joindate != null">m_joindate = #{m_joindate}</if>
+        </set>
         WHERE M_ID=#{m_id}
     </update>
     <update id="updateSellerInfo" parameterType="MemberDto">
         UPDATE S 
-        SET S_STORENAME=#{s_storename}, S_STOREDESC=#{s_storedesc}, S_CRN=#{s_crn}, S_DELIVERYFEE=#{s_deliveryfee}, S_LATEFEE=#{s_latefee} 
+        <set>
+            <if test="s_id != null">s_id = #{m_id},</if>
+            <if test="s_storename != null">s_storename = #{s_storename},</if>
+            <if test="s_storedesc != null">s_storedesc = #{s_storedesc},</if>
+            <if test="s_crn != null">s_crn = #{s_crn},</if>
+            <if test="s_deliveryfee != null">s_deliveryfee = #{s_deliveryfee},</if>
+            <if test="s_latefee != null">s_latefee = #{s_latefee}</if>
+        </set>
         WHERE S_ID=#{m_id}
     </update>
 
@@ -48,7 +62,7 @@
     <select id="getCustomerInfo" parameterType="String" resultType="MemberDto">
         <!--customer_info라는 뷰 미리 만들어놨음-->
         SELECT * FROM CUSTOMER_INFO 
-        WHERE M_ID=#{c_id}
+        WHERE M_ID=#{m_id}
     </select>
 
     <!--<update id="updateMemberInfo" parameterType="MemberDto">
@@ -58,7 +72,10 @@
     </update>-->
     <update id="updateCustomerInfo" parameterType="MemberDto">
         UPDATE C 
-        SET C_NAME=#{c_name}
+        <set>
+            <if test="c_id != null">c_id = #{m_id},</if>
+            <if test="c_name != null">c_name = #{c_name}</if>
+        </set>
         WHERE C_ID=#{m_id}
     </update>
 

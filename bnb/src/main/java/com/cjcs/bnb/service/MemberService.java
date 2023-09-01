@@ -58,13 +58,13 @@ public class MemberService {
 
     // }
 
-    // public boolean join(MemberDto member) {
+    // public boolean join(MemberDto mDto) {
 
     // // 스프링Security(pom.xml디펜던시추가확인)로 비밀번호 암호화 하기!!
     // // encoding(암호화) <---> decoding(복호화) (스프링은 복호화는 안 해줌)
     // BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
     // // 1111 ---> dsjfkskhalsjflawekjfhaksdj
-    // member.setM_pw(pwEncoder.encode(member.getM_pw()));
+    // mDto.setM_pw(pwEncoder.encode(mDto.getM_pw()));
 
     // return mDao.join(member);
 

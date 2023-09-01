@@ -20,16 +20,16 @@ public interface MemberDao {
 
 
     //예림
-    public MemberDto getSellerInfo(String c_id);
-    public boolean updateMemberInfo(MemberDto mDto);
-    public boolean updateSellerInfo(MemberDto mDto);
+    public MemberDto getSellerInfo(String m_id);
+    public void updateMemberInfo(MemberDto mDto);
+    public void updateSellerInfo(MemberDto mDto);
 
 
 
     //수희
-    public MemberDto getCustomerInfo(String c_id);
-    //public boolean updateMemberInfo(MemberDto mDto); //예림파트랑중복
-    public boolean updateCustomerInfo(MemberDto mDto);
+    public MemberDto getCustomerInfo(String m_id);
+    //public void updateMemberInfo(MemberDto mDto); //예림파트랑중복
+    public void updateCustomerInfo(MemberDto mDto);
 
     public List<MemberDto> getFavStoreList(String c_id);
     public List<BookDto> getFavBookList(String c_id);

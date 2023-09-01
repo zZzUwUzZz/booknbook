@@ -24,70 +24,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/slide.js"></script>
-
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -118,31 +58,31 @@
 
             <div class="container-0">
 
-                <div class="container-1">
+                <form action="/mypage/updateinfo" method="POST">    
+
+                    <div class="container-1">
         
-                    <h2>회원정보수정</h2>
-        
-                    <form action="/mypage/updateinfo" method="POST">
-        
-                        아이디<input type="text" placeholder="abc123" name="m_id"><br>
+                        <h2>회원정보수정</h2>
+                            
+                        아이디<input type="text" placeholder="${mDto.m_id}" name="m_id"><br>
                         기존비밀번호<input type="password"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
                         새비밀번호<input type="password" name="m_pw"><br>
                         새비밀번호 확인<input type="password"><br>    <!-- 두번같게입력했는지확인해야함 -->
-                        이름<input type="text" placeholder="김댕댕" name="c_name"><br>
-                        주소<input type="text" placeholder="인천광역시 계양구 계산새로 100" name="m_addr"><br>
-                        휴대전화번호<input type="text" placeholder="010-1111-2222" name="m_phone"><br>
-                        이메일<input type="text" placeholder="abc123@naver.com" name="m_email">
+                        이름<input type="text" placeholder="${mDto.c_name}" name="c_name"><br>
+                        주소<input type="text" placeholder="${mDto.m_addr}" name="m_addr"><br>
+                        휴대전화번호<input type="text" placeholder="${mDto.m_phone}" name="m_phone"><br>
+                        이메일<input type="text" placeholder="${mDto.m_email}" name="m_email">
+
+                    </div>
+
+                    <div class="container-1">
+                        <button onclick="location.href='/mypage/info'">돌아가기</button>
+                        <button type="reset">입력취소</button>
+                        <button type="submit">저장하기</button>
+                    </div>
         
-                    </form>
-        
-                </div>
-        
-                <div class="container-1">
-                    <button onclick="location.href='/mypage/info'">돌아가기</button>
-                    <button onclick="location.href='/mypage/updateinfo'">입력취소</button>
-                    <button onclick="">저장하기</button>
-                </div>
-            
+                </form>
+
             </div>
 
         </div>

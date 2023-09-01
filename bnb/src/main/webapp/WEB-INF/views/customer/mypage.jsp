@@ -24,23 +24,22 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/slide.js"></script>
 
     <style>
         
-        #transparent {
-            background-color: transparent;
+        #trans {
+            background: none;
         }
         .container-1 {
             box-sizing: border-box;
-            /* border: 1px solid red; */
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            width: 1132px;
-            margin: auto;
+            width: 100%;
         }
         .container-2 {
             box-sizing: border-box;
@@ -51,7 +50,7 @@
         }
         .container-3 {
             box-sizing: border-box;
-            /* border: 1px solid yellow; */
+            border: 1px solid #4d6b50;
             background-color: #fffbed;
             width: 557px;
             padding: 0 20px;
@@ -59,6 +58,10 @@
         table {
             width: 100%;
             text-align: center;
+        }
+        .cards {
+            border: 1px solid #4d6b50;
+            border-radius: 10px;
         }
         .card-main {
             height: 350px;
@@ -77,67 +80,6 @@
 
         /* 위는 마이페이지홈만 해당 */
 
-
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            margin-bottom: -30px;
-            padding: 15px;
-        }
-        .board-area {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */      
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
 
     </style>
 
@@ -166,21 +108,19 @@
             </ul>
         </div>
 
-        <div class="board-area" id="transparent">
+        <div class="board-area" id="trans">
 
             <div class="container-1">
 
                 <div class="container-2">
     
-                    <div class="container-3 card-main">
+                    <div class="container-3 card-main cards">
                         <p>책과 작은서점을 사랑하는 <span>수히</span>님..</p>
                         <p>오늘도 행복한 하루되시고... ㅁㄴㅇㄻ</p>
-                        <h3><a href="/mypage/favoritestores">즐겨찾는 서점</a></h3>
-                        <a href="/mypage/favoritebooks"><h3>찜한 책</h3></a>
-                        <a href="/mypage/rentalreservationlist"><h3>대여예약 조회</h3></a>
+                        <p>여기 이미지 들어가야함</p>
                     </div>
 
-                    <div class="container-3 card-button">
+                    <div class="container-3 card-button cards">
                         <button onclick="location.href='/mypage/info'">회원정보</button>
                     </div>
 
@@ -188,7 +128,7 @@
     
                 <div class="container-2">
     
-                    <div class="container-3 card-top">
+                    <div class="container-3 card-top cards">
 
                         <h2>진행 중인 교환/반품 : <a href="/mypage/refundexchangelist">2</a>건</h2>
                         <table>
@@ -217,7 +157,7 @@
 
                     </div>
                     
-                    <div class="container-3 card-top">
+                    <div class="container-3 card-top cards">
 
                         <h2>현재 대여 중 : <a href="/mypage/rentallist">3</a>건</h2>
                         <table>
@@ -260,7 +200,7 @@
     
             <div class="container-1">
     
-                <div class="container-3 card-bottom">
+                <div class="container-3 card-bottom cards">
                     <h2>최근 구매내역</h2><button onclick="location.href='/mypage/purchaselist'">▶더보기</button>
                     <table>
                         <tr>
@@ -290,7 +230,7 @@
                     </table>
                 </div>
     
-                <div class="container-3 card-bottom">
+                <div class="container-3 card-bottom cards">
                     <h2>최근 대여내역</h2><button onclick="location.href='/mypage/rentallist'">▶더보기</button>
                     <table>
                         <tr>

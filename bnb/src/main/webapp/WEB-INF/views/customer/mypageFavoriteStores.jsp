@@ -25,94 +25,13 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/fav.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/slide.js"></script>
 
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-
-        /* 아래는 fav페이지공통 */
-
-        .container-fav {
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-evenly;
-            background-color: #fffbed;
-            width: 100%;
-            padding-top: 60px;
-        }
-        .favstore {
-            border: 2px solid #4d6b50;
-            width: 350px;
-            height: 250px;
-        }
-        .favbook {
-            border: 2px solid #4d6b50;
-            width: 200px;
-            height: 250px;
-        }
-
-    </style>
-
-    <title>Document</title>
+    <title>즐겨찾는 서점</title>
 
 </head>
 
@@ -144,15 +63,22 @@
             </c:if>
 
             <c:if test="${!empty favStores}">
-                <c:forEach var="favStore" items="${favStores}">
-                    <div class="container-fav">
+                <div class="container-fav">
+                    <c:forEach var="favStore" items="${favStores}">
 
                         <div class="favstore">
-                            <a href="/storedetail?s_id=${favStore}">${favStore}</a>
+                            <a href="/storedetail?s_id=${favStore.m_id}">
+                                여기에 서점사진 들어가야됨!<br>
+                                (서버파일명 = 서점회원ID.jpg)<br>
+                                -<br>
+                                ${favStore.m_id}<br>
+                                ${favStore.s_storename}
+                            </a>
                         </div>
 
-                    </div>
-                </c:forEach>
+
+                    </c:forEach>
+                </div>
             </c:if>
 
         </div>

@@ -3,15 +3,74 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjcs.bnb.MemberDao">
+<mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
-    <!-- 메서드 리턴타입이 List인 경우.. resultType에는 <>안의 객체타입을 적어줘야함... 그러면 알아서 메서드에서는 리스트로 반환됨 -->
-  	<select id="getFavStoreList" parameterType="String" resultType="String">
-      SELECT FAVS_S_ID FROM FAVSTORE WHERE FAVS_C_ID=#{c_id}
+
+<!--재락-->
+
+    <insert id="joinMember" parameterType="MemberDto">
+        INSERT INTO M VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
+    </insert>
+    <insert id="joinSeller" parameterType="MemberDto">
+        INSERT INTO S VALUES(#{s_id}, #{s_storename}, #{s_storedesc}, #{s_crn}, #{s_deliveryfee}, #{s_latefee})
+    </insert>
+    <insert id="joinCustomer" parameterType="MemberDto">
+        INSERT INTO C VALUES(#{c_id}, #{c_name})
+    </insert>
+
+
+
+
+<!--예림-->
+
+    <select id="getSellerInfo" parameterType="String" resultType="MemberDto">
+        <!--seller_info라는 뷰 미리 만들어놨음-->
+        SELECT * FROM SELLER_INFO 
+        WHERE M_ID=#{s_id}
     </select>
 
-    <select id="getFavBookList" parameterType="String" resultType="Map">
-      SELECT FAVB_S_ID, FAVB_S_ISBN FROM FAVBOOK WHERE FAVB_C_ID=#{c_id}
+    <update id="updateMemberInfo" parameterType="MemberDto">
+        UPDATE M 
+        SET M_PW=#{m_pw}, M_ADDR=#{m_addr}, M_PHONE=#{m_phone}, M_EMAIL=#{m_email} 
+        WHERE M_ID=#{m_id}
+    </update>
+    <update id="updateSellerInfo" parameterType="MemberDto">
+        UPDATE S 
+        SET S_STORENAME=#{s_storename}, S_STOREDESC=#{s_storedesc}, S_CRN=#{s_crn}, S_DELIVERYFEE=#{s_deliveryfee}, S_LATEFEE=#{s_latefee} 
+        WHERE S_ID=#{m_id}
+    </update>
+
+
+
+
+<!--수희-->
+
+    <select id="getCustomerInfo" parameterType="String" resultType="MemberDto">
+        <!--customer_info라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CUSTOMER_INFO 
+        WHERE M_ID=#{c_id}
+    </select>
+
+    <!--<update id="updateMemberInfo" parameterType="MemberDto">
+        UPDATE M 
+        SET M_PW=#{m_pw}, M_ADDR=#{m_addr}, M_PHONE=#{m_phone}, M_EMAIL=#{m_email}
+        WHERE M_ID=#{m_id}
+    </update>-->
+    <update id="updateCustomerInfo" parameterType="MemberDto">
+        UPDATE C 
+        SET C_NAME=#{c_name}
+        WHERE C_ID=#{m_id}
+    </update>
+
+    <!-- 메서드 리턴타입이 List인 경우.. resultType에는 <>안의 객체타입을 적어줘야함... 그러면 알아서 메서드에서는 리스트로 반환됨 -->
+  	<select id="getFavStoreList" parameterType="String" resultType="MemberDto">
+        SELECT M_ID, S_STORENAME FROM FAVSTORE, M, S
+        WHERE FAVS_C_ID=#{c_id} AND FAVS_S_ID=S_ID AND S_ID=M_ID
+    </select>
+
+    <select id="getFavBookList" parameterType="String" resultType="BookDto">
+        SELECT B_S_ID, B_ISBN, B_TITLE, B_AUTHOR FROM FAVBOOK, B
+        WHERE FAVB_C_ID=#{c_id} AND FAVB_S_ID=B_S_ID AND FAVB_B_ISBN=B_ISBN
     </select>
 
 </mapper>

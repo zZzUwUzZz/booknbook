@@ -24,70 +24,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/slide.js"></script>
-
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -124,22 +64,22 @@
         
                     <table>
                         <tr>
-                            <td>아이디</td> <td>abc123</td>
+                            <td>아이디</td> <td>${mDto.m_id}</td>
                         </tr>
                         <tr>
-                            <td>이름</td> <td>김댕댕</td>
+                            <td>이름</td> <td>${mDto.c_name}</td>
                         </tr>
                         <tr>
-                            <td>주소</td> <td>인천광역시 계양구 계산새로 100</td>
+                            <td>주소</td> <td>${mDto.m_addr}</td>
                         </tr>
                         <tr>
-                            <td>휴대전화번호</td> <td>010-1111-2222</td>
+                            <td>휴대전화번호</td> <td>${mDto.m_phone}</td>
                         </tr>
                         <tr>
-                            <td>이메일</td> <td>abc123@naver.com</td>
+                            <td>이메일</td> <td>${mDto.m_email}</td>
                         </tr>
                         <tr>
-                            <td>가입일자</td> <td>2022-12-31</td>
+                            <td>가입일자</td> <td>${mDto.m_joindate}</td>
                         </tr>
                     </table>
         

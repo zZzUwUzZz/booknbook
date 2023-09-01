@@ -1,12 +1,12 @@
 package com.cjcs.bnb.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cjcs.bnb.dao.MemberDao;
+import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,24 +26,6 @@ public class MemberService {
     @Autowired
     private MemberDao mDao; // DAO는 인터페이스로 만드는게 대세!!!
 
-
-    public List<String> getFavStores(String c_id) {
-
-        List<String> favStoreList = mDao.getFavStoreList(c_id);
-        return favStoreList;
-    }
-
-
-    public List<HashMap<String, String>> getFavBooks(String c_id) {
-
-        List<HashMap<String, String>> favBookList = mDao.getFavBookList(c_id);
-        return favBookList;
-    }
-
-        
-    public boolean updateinfo(MemberDto mDto) {
-        return false;
-    }
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -95,5 +77,41 @@ public class MemberService {
     // }
     // return "fail";
     // }
+
+
+
+    public MemberDto getCustomerInfo(String c_id) {
+
+        MemberDto mDto = mDao.getCustomerInfo(c_id);
+        return mDto;
+    }
+
+
+    public void updateCustomerInfo(MemberDto mDto) {
+
+        mDao.updateMemberInfo(mDto);
+        mDao.updateCustomerInfo(mDto);
+
+    }
+
+
+
+    public List<MemberDto> getFavStores(String c_id) {
+
+        List<MemberDto> favStoreList = mDao.getFavStoreList(c_id);
+        return favStoreList;
+    }
+
+
+    public List<BookDto> getFavBooks(String c_id) {
+
+        List<BookDto> favBookList = mDao.getFavBookList(c_id);
+        return favBookList;
+    }
+
+        
+
+
+
 
 }

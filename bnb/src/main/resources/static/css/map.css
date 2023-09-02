@@ -37,3 +37,17 @@ input.map_sc {
     margin: 19px 49px;
 }
  
+
+.mapscstore {
+    box-sizing: border-box;
+    width: 100%;
+    font-family: 'Varela Round', sans-serif;
+    font-family: 'BookkGothic-Bd';
+     font-size: 25px;
+    text-align: center;
+    padding: 13px;
+    border: 0px;
+    background: none;
+    color: #000;
+    margin-top: -10px;
+}

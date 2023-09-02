@@ -3,6 +3,8 @@
 <head>
     <script src="/js/noti.js"></script>
     <link rel="stylesheet" href="/css/noti.css">
+    <script src="/js/search.js"></script>
+ 
 </head>
 
 

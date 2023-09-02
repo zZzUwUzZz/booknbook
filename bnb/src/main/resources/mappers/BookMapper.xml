@@ -43,18 +43,27 @@ WHERE rn BETWEEN #{start} AND #{end}
  
 
 <!-- 키워드에 해당하는 책의 총 개수를 조회 -->
-<select id="countByKw" resultType="int">
-    SELECT COUNT(*) FROM BOOK WHERE B_TITLE LIKE '%' || #{keyword} || '%'
+<select id="countKeyword" resultType="int">
+    SELECT COUNT(*) FROM BOOK WHERE UPPER(B_TITLE) LIKE UPPER('%' || #{keyword} || '%')
 </select>
 
 <!-- 키워드에 해당하는 책들을 페이지네이션하여 조회 -->
 <select id="findByKwPg" resultType="com.cjcs.bnb.dto.BookDto">
-  SELECT * FROM (
+SELECT * FROM (
     SELECT B.*, ROW_NUMBER() OVER (ORDER BY B.B_ISBN) AS rn
-    FROM BOOK B
-    WHERE B.B_TITLE LIKE '%' || #{keyword} || '%'
-  )
-  WHERE rn BETWEEN #{start} AND #{end}
+    FROM (
+        SELECT DISTINCT B_ISBN FROM BOOK
+        WHERE UPPER(B_TITLE) LIKE UPPER('%' || #{keyword} || '%')
+        
+    ) A
+    JOIN (
+        SELECT * FROM (
+            SELECT BOOK.*, ROW_NUMBER() OVER (PARTITION BY B_ISBN ORDER BY B_PRICE ASC) AS rnk
+            FROM BOOK
+        ) WHERE rnk = 1
+    ) B ON A.B_ISBN = B.B_ISBN
+) 
+WHERE rn BETWEEN #{start} AND #{end}
 </select>
 
 

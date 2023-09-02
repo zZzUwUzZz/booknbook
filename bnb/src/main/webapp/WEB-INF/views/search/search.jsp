@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/books.css">
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/search.js"></script>
@@ -68,7 +67,7 @@
         </c:forEach>
       </div>
 
- 
+
 <%@include file="/WEB-INF/tiles/footer.jsp" %>
 
 </body>

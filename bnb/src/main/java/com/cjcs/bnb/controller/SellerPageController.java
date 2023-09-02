@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/seller")
 public class SellerPageController {
-    
+
     @Autowired
     private MemberService mSer;
 
@@ -24,8 +24,5 @@ public class SellerPageController {
 
     @Autowired
     private RentalService rSer;
-
-
-
 
 }

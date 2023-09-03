@@ -54,7 +54,6 @@ SELECT * FROM (
     FROM (
         SELECT DISTINCT B_ISBN FROM BOOK
         WHERE UPPER(B_TITLE) LIKE UPPER('%' || #{keyword} || '%')
-        
     ) A
     JOIN (
         SELECT * FROM (

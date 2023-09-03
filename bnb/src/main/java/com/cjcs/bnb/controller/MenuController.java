@@ -10,5 +10,10 @@ public class MenuController {
     public String books() {
         return "/books/books";
     }
- 
+
+    @RequestMapping("/bookstore")
+    public String bookstore() {
+        return "/bookstore/bookstore";
+    }
+
 }

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SellerDto;
 
 import lombok.extern.slf4j.Slf4j;
-
 
 // 이 서비스클래스 안에서는 아래 관련작업 하시면 됨요.
 
@@ -18,15 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 // 일반회원 : 즐겨찾기추가 / 찜한도서추가
 // 서점회원 : 서점사진등록 / 책등록
 
-
 @Slf4j
 @Service
-public class MemberService {       
-    
+public class MemberService {
+
     @Autowired
     private MemberDao mDao; // DAO는 인터페이스로 만드는게 대세!!!
 
-        
     public boolean updateinfo(MemberDto mDto) {
         return false;
     }
@@ -81,5 +79,7 @@ public class MemberService {
     // }
     // return "fail";
     // }
+
+    // 서점 회원 정보
 
 }

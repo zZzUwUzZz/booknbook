@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjcs.bnb.dto.SellerFileDto">
+
+
+<insert id="insertFileInfo">
+        INSERT INTO Seller_File (sf_id, sf_s_id, sf_oriname, sf_sysname)
+        VALUES (file_id_seq.NEXTVAL, #{sellerId}, #{originalFilename}, #{systemFileName})
+    </insert>
+
+ 
+<select id="FileNamesBySellerId" resultType="java.lang.String">
+        SELECT sf_sysname FROM Seller_File WHERE sf_s_id = #{sellerId}
+</select>
+
+</mapper>
+ 

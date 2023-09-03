@@ -30,6 +30,10 @@
 
     <style>
         
+        .container-mypage a {
+            color: #4c4240;
+        }
+
         #transparent {
             background-color: transparent;
         }

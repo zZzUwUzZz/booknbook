@@ -46,9 +46,9 @@
 
             <div class="maplist">
 <div class="map_rs">
-<span>(keyword)</span> <span>검색결과</span><br>
-<span>총 (n)건</span>
+<span>(keyword)</span> <span>검색결과</span> <span>총 (n)건</span>
 </div>
+
 
 <div class="">
 

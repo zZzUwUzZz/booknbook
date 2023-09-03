@@ -22,7 +22,7 @@ public class RefExchDto {
 
     //뷰에만 있는 필드
     private String s_storename;       // 서점명
-    private String b_title;           // 책제목
+    private String b_title;           // 도서명
     private int b_price;              // 판매단가
     private String process_status;    // 처리상태
 

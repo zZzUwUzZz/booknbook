@@ -65,7 +65,7 @@
             <div>
                 <div class="table_lists">
                 <table>
-                    <tr>
+                    <tr class="headrow">
                         <th>주문번호</th>
                         <th>주문일자</th>
                         <th>도서명</th>

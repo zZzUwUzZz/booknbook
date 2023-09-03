@@ -76,7 +76,7 @@
                 <h3 class="tablename">구매</h3>
                 <div class="tablebox">
                 <table>
-                    <tr>
+                    <tr class="headrow">
                         <th>서점명</th>
                         <th>도서명</th>
                         <th>판매단가</th>
@@ -113,7 +113,7 @@
                 <h3 class="tablename">대여</h3>
                 <div class="tablebox">
                 <table>
-                    <tr>
+                    <tr class="headrow">
                         <th>서점명</th>
                         <th>도서명</th>
                         <th>기본대여료</th>
@@ -180,8 +180,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!--<div class="buttons"></div>
+            <div class="buttons"></div>-->
 
         </div>
 

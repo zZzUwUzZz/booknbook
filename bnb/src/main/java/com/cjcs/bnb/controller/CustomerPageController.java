@@ -18,7 +18,9 @@ import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RefExchDto;
+import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
@@ -55,13 +57,33 @@ public class CustomerPageController {
     private RentalDao rDao;
 
 
-    @GetMapping
-    public String mypage() {
+    @GetMapping    // 일반회원 마이페이지홈
+    public String mypage(Model model, HttpSession session) {
+
+        //일단 하드코딩함.
+        String c_id = "customer001";
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+
+        int num_of_currRE = pDao.countCurrentRefExchByCId(c_id);
+        int num_of_currR = rDao.countCurrentRentalByCId(c_id);
+        
+        model.addAttribute("num_of_currRE", num_of_currRE);
+        model.addAttribute("num_of_currR", num_of_currR);
+
+        List<RefExchDto> curr_reList = pDao.getCurrentRefExchListByCId(c_id);
+        List<HashMap<String, String>> curr_rList = rDao.getCurrentRentalListByCId(c_id);
+        List<PurchaseDto> pList = pDao.getLatest5PurchaseListByCId(c_id);
+        List<RentalDto> rList = rDao.getLatest5RentalListByCId(c_id);
+
+        model.addAttribute("curr_reList", curr_reList);
+        model.addAttribute("curr_rList", curr_rList);
+        model.addAttribute("pList", pList);
+        model.addAttribute("rList", rList);
 
         return "customer/mypage";
     }
 
-    @GetMapping("/info")
+    @GetMapping("/info")    // 일반회원 회원정보조회
     public String mypageInfo(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -74,7 +96,7 @@ public class CustomerPageController {
         return "customer/mypageInfo";
     }
 
-    @GetMapping("/updateinfo")
+    @GetMapping("/updateinfo")     // 일반회원 회원정보수정폼
     public String mypageUpdateInfoFrm(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -87,7 +109,7 @@ public class CustomerPageController {
         return "customer/mypageUpdateInfo";
     }
 
-    @PostMapping("/updateinfo")
+    @PostMapping("/updateinfo")    // 일반회원 회원정보수정처리
     public String mypageUpdateInfo(MemberDto updatedMDto, HttpSession session) {
         
         //일단 하드코딩함.
@@ -100,7 +122,7 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/orderlist")
+    @GetMapping("/orderlist")    // 주문내역
     public String mypageOrderList(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -114,12 +136,13 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/orderdetail/{o_id}")
+    @GetMapping("/orderdetail/{o_id}")    // 주문상세
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
         HashMap<String, String> oInfo = oDao.getOrderInfoByOId(o_id);
         List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
         List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
+
         model.addAttribute("oInfo", oInfo);
         model.addAttribute("oPList", oPList);
         model.addAttribute("oRList", oRList);
@@ -127,7 +150,7 @@ public class CustomerPageController {
         return "customer/mypageOrderDetail";
     }
 
-    @GetMapping("/ordercancel")
+    @GetMapping("/ordercancel")    // 주문취소처리
     public String mypageOrderCancel(Integer o_id, HttpSession session, RedirectAttributes rttr) {
 
         oSer.cancelOrderByOId(o_id);
@@ -138,7 +161,7 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/purchaselist")
+    @GetMapping("/purchaselist")    // 구매내역
     public String mypagePurchaseList(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -151,7 +174,7 @@ public class CustomerPageController {
         return "customer/mypagePurchaseList";
     }
 
-    @GetMapping("/rentallist")
+    @GetMapping("/rentallist")    // 대여내역
     public String mypageRentalList(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -166,19 +189,25 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/refundExchange")
-    public String mypageRefundExchange() {
+    @GetMapping("/refundExchange")     // 교환반품신청폼
+    public String mypageRefundExchangeFrm() {
 
         return "customer/mypageRefundExchange";
     }
 
-    @GetMapping("/refundexchangelist")
+    @PostMapping("/refundExchange")     // 교환반품요청
+    public String mypageRefundExchange() {
+        
+        return "redirect:/mypage/refundexchangelist";
+    }
+
+    @GetMapping("/refundexchangelist")    // 교환반품내역
     public String mypageRefundExchangeList(RefExchDto reDto) {
 
         return "customer/mypageRefundExchangeList";
     }
 
-    @GetMapping("/rentalreservationlist")
+    @GetMapping("/rentalreservationlist")    // 대여예약내역
     public String mypageRentalReservationList(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -193,7 +222,7 @@ public class CustomerPageController {
     }
 
     @ResponseBody   // 비동기통신
-    @PostMapping("/reservationcancel")
+    @PostMapping("/reservationcancel")    // 대여예약취소처리
     public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
 
         //일단 하드코딩함.
@@ -207,7 +236,7 @@ public class CustomerPageController {
         return rrList;
     }
 
-    @GetMapping("/favoritestores")
+    @GetMapping("/favoritestores")   // 즐겨찾는서점
     public String mypageFavoriteStores(Model model, HttpSession session) {
 
         //일단 하드코딩함.
@@ -220,7 +249,7 @@ public class CustomerPageController {
         return "customer/mypageFavoriteStores";
     }
 
-    @GetMapping("/favoritebooks")
+    @GetMapping("/favoritebooks")    // 찜한도서
     public String mypageFavoriteBooks(Model model, HttpSession session) {
 
         //일단 하드코딩함.

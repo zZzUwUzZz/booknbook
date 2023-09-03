@@ -45,6 +45,40 @@
         ORDER BY o_date DESC
     </select>
 
+    <select id="getCurrentRentalListByCId" parameterType="String" resultType="Map">
+        SELECT rownum,
+               b_title as "b_title",
+               s_storename as "s_storename",
+               r_duedate as "r_duedate",
+               rental_status as "rental_status"
+        FROM (SELECT b_title, s_storename, r_duedate, rental_status
+            FROM R, S, B, STATUS_R
+            WHERE r_s_id = s_id AND r_s_id = b_s_id AND r_b_isbn = b_isbn AND
+                    r_rental_status_id = rental_status_id AND
+                    (r_rental_status_id IN (2, 3)) AND
+                    r_c_id = #{c_id}
+            ORDER BY r_o_id DESC)
+        <![CDATA[
+        WHERE rownum<4
+        ]]>
+    </select>
+
+    <select id="getLatest5RentalListByCId" parameterType="String" resultType="RentalDto">
+        SELECT rownum, o_id, o_date, b_title, delivery_status
+        FROM (SELECT o_id, o_date, b_title, delivery_status
+              FROM order_list_r
+              WHERE o_c_id = #{c_id} ORDER BY o_date DESC)
+        <![CDATA[
+        WHERE rownum<6
+        ]]>
+    </select>
+
+    <select id="countCurrentRentalByCId" parameterType="String" resultType="Integer">
+        SELECT count(*)
+        FROM R
+        WHERE (r_rental_status_id IN (2, 3)) AND r_c_id = #{c_id}
+    </select>
+
     <update id="cancelRentalByOId" parameterType="Integer">
         UPDATE R
         SET r_order_status_id = 2

@@ -64,7 +64,7 @@
             <div>
                 <div class="table_lists">
                 <table>
-                    <tr>
+                    <tr class="headrow">
                         <th>구분</th>
                         <th>신청일자</th>
                         <th>주문번호</th>

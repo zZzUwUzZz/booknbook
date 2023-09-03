@@ -50,6 +50,36 @@
         ORDER BY o_date DESC
     </select>
 
+    <select id="getCurrentRefExchListByCId" parameterType="String" resultType="RefExchDto">
+        SELECT rownum, re_sort, re_reqdate, b_title, s_storename, process_status
+        FROM (SELECT re_sort, re_reqdate, b_title, s_storename, process_status
+              FROM RE, S, B, STATUS_RE, O
+              WHERE re_s_id = s_id AND re_s_id = b_s_id AND re_b_isbn = b_isbn AND
+                    re_process_status_id = process_status_id AND
+                    <![CDATA[
+                    re_process_status_id<3 AND
+                    ]]>
+                    o_id = re_o_id AND o_c_id = #{c_id}
+              ORDER BY re_id DESC)
+        <![CDATA[
+        WHERE rownum<4
+        ]]>
+    </select>
+
+    <select id="getLatest5PurchaseListByCId" parameterType="String" resultType="PurchaseDto">
+        SELECT rownum, o_id, o_date, b_title, delivery_status
+        FROM (SELECT * FROM order_list_p WHERE o_c_id = #{c_id} ORDER BY o_date DESC)
+        <![CDATA[
+        WHERE rownum<6
+        ]]>
+    </select>
+
+    <select id="countCurrentRefExchByCId" parameterType="String" resultType="Integer">
+        SELECT count(*)
+        FROM RE, O
+        WHERE (re_process_status_id IN (1, 2)) AND re_o_id = o_id AND o_c_id = #{c_id}
+    </select>
+
     <update id="cancelPurchaseByOId" parameterType="Integer">
         UPDATE P
         SET p_order_status_id = 2

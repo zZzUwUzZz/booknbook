@@ -70,10 +70,12 @@
 
 
 .tablebox {
-    border: 2px solid #ff9946;
+    box-sizing: border-box;
+    border: 1px solid #ff9946;
     border-radius: 10px;
     width: 1040px;
     margin: auto;
+    padding: 7px;
 }
 table {
     width: 1020px;
@@ -81,7 +83,11 @@ table {
     margin: auto;
 }
 tr {
-    height: 35px;
+    height: 30px;
+}
+.headrow {
+    background: #4c4240;
+    color:#fffbed;
 }
 
 

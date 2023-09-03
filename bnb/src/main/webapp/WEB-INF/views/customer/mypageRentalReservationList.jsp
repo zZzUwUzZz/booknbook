@@ -66,7 +66,7 @@
             <div>
                 <div class="table_lists">
                 <table id="async_table">
-                    <tr>
+                    <tr class="headrow">
                         <th>예약번호</th>
                         <th>요청일자</th>
                         <th>도서명</th>
@@ -145,7 +145,7 @@
                 
                 let rrListHtml = '';
 
-                rrListHtml += '<tr>'
+                rrListHtml += '<tr class="headrow">'
                             + '<th>예약번호</th>'
                             + '<th>요청일자</th>'
                             + '<th>도서명</th>'

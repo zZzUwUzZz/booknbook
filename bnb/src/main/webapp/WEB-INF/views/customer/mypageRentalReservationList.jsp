@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -44,10 +46,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist" id="currpage">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist" id="currpage">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -56,12 +59,42 @@
 
         <div class="board-area">
 
-            <div class="book-row">
+            <div>
+                <h2 class="pagename">RENTAL RESERVATION LIST</h2>
+            </div>
 
-                <div></div>
-                <div></div>
-                <div></div>
+            <div>
+                <div class="table_lists">
+                <table id="async_table">
+                    <tr>
+                        <th>예약번호</th>
+                        <th>요청일자</th>
+                        <th>도서명</th>
+                        <th>서점명</th>
+                        <th>예약상태</th>
+                        <th> </th>
+                    </tr>
 
+                    <c:if test="${empty rrList}">
+                            <tr>
+                                <td colspan="6">예약내역이 없습니다.</td>
+                            </tr>
+                    </c:if>
+        
+                    <c:if test="${!empty rrList}">
+                        <c:forEach var="rrItem" items="${rrList}">
+                            <tr>
+                                <td>${rrItem.rr_id}</td>
+                                <td>${rrItem.rr_reqdate}</td>
+                                <td>${rrItem.b_title}</td>
+                                <td>${rrItem.s_storename}</td>
+                                <td>${rrItem.res_status}</td>
+                                <td><button onclick="cancel('${rrItem.rr_id}')">예약취소</button></td>
+                            </tr>
+                         </c:forEach>
+                    </c:if>
+                </table>
+                </div>
             </div>
 
         </div>
@@ -76,8 +109,79 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+
+    <script>
+
+    function cancel(rr_id) {   // 비동기통신
+
+        let conf = confirm('대여예약을 취소할까요?');
+                
+        if (conf == true) {
+                
+            let data = {};
+            data.rr_id = rr_id;
+
+            console.log(data); 
+            
+            $.ajax({
+                
+                method: 'post',
+                url: '/mypage/reservationcancel',
+        //	 			url: '/board/attachedFileDelete/'+board.b_num+'/'+bf_sysname,   ///board/attachedFileDelete/51/156165416546513.jpg
+                data: data,
+                dataType: 'json' 
+                
+            }).done(function (rrList) {    // update후의 대여예약 리스트가 res에 넘어옴
+                
+                let rrListHtml = '';
+
+                rrListHtml += '<tr>'
+                            + '<th>예약번호</th>'
+                            + '<th>요청일자</th>'
+                            + '<th>도서명</th>'
+                            + '<th>서점명</th>'
+                            + '<th>예약상태</th>'
+                            + '<th> </th>'
+                           + '</tr>'
+                
+                if (res == null) {
+                    
+                    rrListHtml += '<tr>'
+                                + '<td colspan="6">대여내역이 없습니다.</td>'
+                               + '</tr>'
+                    
+                } else {
+                    
+                    for (let rrItem of rrList) {
+                        
+                        rrListHtml += '<tr>'
+                                   + '<td>${rrItem.rr_id}</td>'
+                                   + '<td>${rrItem.rr_reqdate}</td>'
+                                   + '<td>${rrItem.b_title}</td>'
+                                   + '<td>${rrItem.s_storename}</td>'
+                                   + '<td>${rrItem.rr_res_status}</td>'
+                                   + '<td><button onclick="cancel('+'${rrItem.rr_id}'+')">예약취소</button></td>'
+                                  + '</tr>'    
+                    }
+                }
+
+                $('#async_table').html(rrListHtml);
+                
+                
+            }).fail(function(err) {
+                
+                console.log(err)
+                
+            })
+            
+        }
+
+    }
+
+    </script>
 
 </body>
 

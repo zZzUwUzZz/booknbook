@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.dao.PurchaseDao">
+
+
+
+
+<!--수희-->
+    <select id="getPurchaseListByOId" parameterType="Integer" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT s_storename as "s_storename",
+               b_title as "b_title",
+               b_price as "b_price",
+               p_amount as "p_amount",
+               order_status as "order_status",
+               delivery_status as "delivery_status",
+               p_deliverydate as "p_deliverydate"
+        FROM O, P, B, S, STATUS_O, STATUS_D
+        WHERE o_id = p_o_id AND p_s_id = s_id AND
+            p_s_id = b_s_id AND p_b_isbn = b_isbn AND
+            p_order_status_id = order_status_id AND
+            p_delivery_status_id = delivery_status_id AND
+            o_id = #{o_id}
+        ORDER BY s_storename DESC
+    </select>
+
+    <select id="getPurchaseListByCId" parameterType="String" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               b_title as "b_title",
+               p_amount as "p_amount",
+               s_storename as "s_storename",
+               re_sort as "re_sort",
+               re_amount as "re_amount",
+               re_process_status_id as "re_process_status_id"
+        FROM (SELECT o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn
+              FROM O, P, B, S
+              WHERE o_id = p_o_id AND p_s_id = s_id AND
+                    p_s_id = b_s_id AND p_b_isbn = b_isbn AND
+                    p_c_id = #{c_id})
+              LEFT OUTER JOIN
+              RE
+              ON o_id = re_o_id AND p_s_id = re_s_id AND p_b_isbn = re_b_isbn
+        ORDER BY o_date DESC
+    </select>
+
+</mapper>

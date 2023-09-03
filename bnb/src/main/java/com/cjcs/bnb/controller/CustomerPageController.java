@@ -1,20 +1,28 @@
 package com.cjcs.bnb.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.PurchaseDao;
+import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RefExchDto;
 import com.cjcs.bnb.dto.RentalDto;
+import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.service.MemberService;
+import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
@@ -29,28 +37,36 @@ public class CustomerPageController {
 
     @Autowired
     private MemberService mSer;
+    @Autowired
+    private NotificationService nSer;
 
     @Autowired
     private PurchaseService pSer;
-
     @Autowired
     private RentalService rSer;
 
+    @Autowired
+    private OrderDao oDao;
+    @Autowired
+    private PurchaseDao pDao;
+    @Autowired
+    private RentalDao rDao;
 
-    @GetMapping // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
+
+    @GetMapping
     public String mypage() {
 
         return "customer/mypage";
     }
 
-    @GetMapping("/info") // 일단 GET으로 해놓고 나중에 POST로 바꾸기...
+    @GetMapping("/info")
     public String mypageInfo(Model model, HttpSession session) {
 
         //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
         String c_id = "customer001";
         //나중에 완성하면 윗줄 삭제하기.
 
-        MemberDto mDto = mSer.getCustomerInfo(c_id);
+        MemberDto mDto = mSer.getCustomerInfoById(c_id);
         model.addAttribute("mDto", mDto);
 
         return "customer/mypageInfo";
@@ -63,31 +79,78 @@ public class CustomerPageController {
         String c_id = "customer001";
         //나중에 완성하면 윗줄 삭제하기.
 
-        MemberDto mDto = mSer.getCustomerInfo(c_id);
+        MemberDto mDto = mSer.getCustomerInfoById(c_id);
         model.addAttribute("mDto", mDto);
 
         return "customer/mypageUpdateInfo";
     }
 
     @PostMapping("/updateinfo")
-    public String mypageUpdateInfo(MemberDto mDto) {
+    public String mypageUpdateInfo(MemberDto updatedMDto, HttpSession session) {
+        
+        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        String c_id = "customer001";
+        //나중에 완성하면 윗줄 삭제하기.
 
-        mSer.updateCustomerInfo(mDto);
+        mSer.updateCustomerInfo(c_id, updatedMDto);
 
         return "redirect:/mypage/info";
     }
 
+
+    @GetMapping("/orderlist")
+    public String mypageOrderList(Model model, HttpSession session) {
+
+        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        String c_id = "customer001";
+        //나중에 완성하면 윗줄 삭제하기.
+
+        List<HashMap<String, String>> oList = oDao.getOrderListGroupByOId(c_id);
+        model.addAttribute("oList", oList);
+        
+        return "customer/mypageOrderList";
+    }
+
+
+    @GetMapping("/orderdetail/{o_id}")
+    public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
+
+        List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
+        List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
+        model.addAttribute("oPList", oPList);
+        model.addAttribute("oRList", oRList);
+        
+        return "customer/mypageOrderDetail";
+    }
+
+
     @GetMapping("/purchaselist")
-    public String mypagePurchaseList(PurchaseDto pDto) {
+    public String mypagePurchaseList(Model model, HttpSession session) {
+
+        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        String c_id = "customer001";
+        //나중에 완성하면 윗줄 삭제하기.
+
+        List<HashMap<String, String>> pList = pDao.getPurchaseListByCId(c_id);
+        model.addAttribute("pList", pList);
 
         return "customer/mypagePurchaseList";
     }
 
-    @GetMapping("/purchasedetail")
-    public String mypagePurchaseDetail(PurchaseDto pDto, BookDto bDto) {
+    @GetMapping("/rentallist")
+    public String mypageRentalList(Model model, HttpSession session) {
 
-        return "customer/mypagePurchaseDetail";
+        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        String c_id = "customer001";
+        //나중에 완성하면 윗줄 삭제하기.
+
+        List<HashMap<String, String>> rList = rDao.getRentalListByCId(c_id);
+        log.info("rList:{}", rList);
+        model.addAttribute("rList", rList);
+
+        return "customer/mypageRentalList";
     }
+
 
     @GetMapping("/refundExchange")
     public String mypageRefundExchange() {
@@ -101,22 +164,31 @@ public class CustomerPageController {
         return "customer/mypageRefundExchangeList";
     }
 
-    @GetMapping("/rentallist")
-    public String mypageRentalList(RentalDto rDto) {
-
-        return "customer/mypageRentalList";
-    }
-
-    @GetMapping("/rentaldetail")
-    public String mypageRentalDetail(RentalDto rDto, BookDto bDto) {
-
-        return "customer/mypageRentalDetail";
-    }
-
     @GetMapping("/rentalreservationlist")
-    public String mypageRentalReservationList() {
+    public String mypageRentalReservationList(Model model, HttpSession session) {
+
+        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        String c_id = "customer001";
+        //나중에 완성하면 윗줄 삭제하기.
+
+        List<RentalReservationDto> rrList = rSer.getReservationListByCId(c_id);
+        log.info("rrList:{}", rrList);
+        model.addAttribute("rrList", rrList);
 
         return "customer/mypageRentalReservationList";
+    }
+
+    @PostMapping("/reservationcancel")
+    @ResponseBody   // 비동기통신
+    public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
+
+        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        String c_id = "customer001";
+        //나중에 완성하면 윗줄 삭제하기.
+
+        List<RentalReservationDto> rrList = rSer.getReservationListByCId(c_id);
+
+        return rrList;
     }
 
     @GetMapping("/favoritestores")

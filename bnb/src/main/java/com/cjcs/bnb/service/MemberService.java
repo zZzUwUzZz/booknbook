@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
@@ -80,37 +81,31 @@ public class MemberService {
 
 
 
-    public MemberDto getCustomerInfo(String c_id) {
+    
+    //수희
+    public MemberDto getCustomerInfoById(String c_id) {
 
-        MemberDto mDto = mDao.getCustomerInfo(c_id);
-        return mDto;
+        return mDao.getCustomerInfoById(c_id);
     }
 
+    @Transactional
+    public void updateCustomerInfo(String c_id, MemberDto updatedMDto) {
 
-    public void updateSellerInfo(MemberDto mDto) {
-
-        mDao.updateMemberInfo(mDto);
-        mDao.updateSellerInfo(mDto);
-
+        updatedMDto.setM_id(c_id);
+        log.info("updatedMDto:{}", updatedMDto);
+        
+        mDao.updateMemberInfo(updatedMDto);
+        mDao.updateCustomerInfo(updatedMDto);
     }
-    public void updateCustomerInfo(MemberDto mDto) {
-
-        mDao.updateMemberInfo(mDto);
-        mDao.updateCustomerInfo(mDto);
-
-    }
-
 
     public List<MemberDto> getFavStores(String c_id) {
 
-        List<MemberDto> favStoreList = mDao.getFavStoreList(c_id);
-        return favStoreList;
+        return mDao.getFavStoreList(c_id);
     }
 
     public List<BookDto> getFavBooks(String c_id) {
 
-        List<BookDto> favBookList = mDao.getFavBookList(c_id);
-        return favBookList;
+        return mDao.getFavBookList(c_id);
     }
 
         

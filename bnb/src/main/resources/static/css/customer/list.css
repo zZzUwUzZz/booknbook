@@ -1,4 +1,17 @@
 table {
-    width: 100%;
+    width: 1020px;
     text-align: center;
+    margin: auto;
+}
+
+.table_lists {
+    border: 3px solid #ff9946;
+    border-radius: 10px;
+
+    width: 1040px;
+    margin: auto;
+}
+
+tr {
+    height: 40px;
 }

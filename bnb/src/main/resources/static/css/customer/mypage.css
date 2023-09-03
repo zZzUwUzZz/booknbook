@@ -8,10 +8,17 @@
     padding: 15px;
 }
 .board-area {
+    color: #4c4240;
     background-color: #fffbed;
     border-radius: 10px;
     width: 1135px;
     margin: 0 15px;
+}
+.board-area .pagename {
+    margin-left: 40px;
+}
+.board-area .tablename {
+    margin-left: 40px;
 }
 .container-mypage a {
     color: #4c4240;

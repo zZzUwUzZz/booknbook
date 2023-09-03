@@ -18,5 +18,7 @@ public class RentalReservationDto {
 
     //뷰에만 있는 필드
     private String res_status;        // 예약상태(승인대기/예약불가/예약중/예약취소/대여가능) 
+    private String s_storename;       // 예약한서점명
+    private String b_title;           // 예약한책제목
 
 }

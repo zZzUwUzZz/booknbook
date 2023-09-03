@@ -44,10 +44,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -56,32 +57,36 @@
 
         <div class="board-area">
 
+            <div>
+                <h2 class="pagename">회원정보 수정</h2>
+            </div>
+
             <div class="container-0">
 
-                <form action="/mypage/updateinfo" method="POST">    
+                <form id="updateForm" action="/mypage/updateinfo" method="POST">    
 
                     <div class="container-1">
-        
-                        <h2>회원정보수정</h2>
                             
-                        아이디<input type="text" placeholder="${mDto.m_id}" name="m_id"><br>
-                        기존비밀번호<input type="password" id="pw_ori" name="m_pw"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
+                        아이디<input type="text" value="${mDto.m_id}" name="m_id" required><br>
+                        기존비밀번호<input type="password" id="pw_ori"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
                         <span id="pw_check" style="display: none">기존 비밀번호 제대로 입력하세요</span>
-                        새비밀번호<input type="password" id="pw_new1"><br>   <!-- 새비번이형식에맞는지확인해야함 -->
+                        <!--
+                        새비밀번호<input type="password" id="pw_new1" name="m_pw"><br>
                         <span id="pw_format_check" style="display: none">비번형식에 안 맞아요ㄱ-</span>
-                        새비밀번호 확인<input type="password" id="pw_new2"><br>    <!-- 두번같게입력했는지확인해야함 -->
+                        새비밀번호 확인<input type="password" id="pw_new2"><br>
                         <span id="pw_not_same" style="display: none">일치하지 않습니다. 입력한 내용을 확인해주세요.</span>
-                        이름<input type="text" placeholder="${mDto.c_name}" name="c_name"><br>
-                        주소<input type="text" placeholder="${mDto.m_addr}" name="m_addr"><br>
-                        휴대전화번호<input type="text" placeholder="${mDto.m_phone}" name="m_phone"><br>
-                        이메일<input type="text" placeholder="${mDto.m_email}" name="m_email">
+                        -->
+                        이름<input type="text" value="${mDto.c_name}" name="c_name" required><br>
+                        주소<input type="text" value="${mDto.m_addr}" name="m_addr" required><br>
+                        휴대전화번호<input type="text" value="${mDto.m_phone}" name="m_phone" required><br>
+                        이메일<input type="text" value="${mDto.m_email}" name="m_email" required>
 
                     </div>
 
                     <div class="container-1">
                         <button onclick="location.href='/mypage/info'">돌아가기</button>
                         <button type="reset">입력취소</button>
-                        <button type="submit" id="submit">저장하기</button>
+                        <button id="submit">저장하기</button>
                     </div>
         
                 </form>
@@ -133,27 +138,29 @@
 
         })
 
-        $('#submit').on('click', (event)=>{
+        $(document).ready(function() {
 
-            event.preventDefault();
+            $('#submit').on('click', function() {
 
-            let pw_ori = $('#pw_ori').val();
-            let is_valid_1 = $('#pw_format_check').css('display')
-            console.log(is_valid_1)
-            let is_valid_2 = $('#pw_not_same').css('display')
-            console.log(is_valid_2)
-            //아래 if문을 재락이 로그인파트 비번확인 절차 가져와서 수정해야함
-            if (pw_ori !== '1234') {
-                $('#pw_check').css({'color': 'red', 'display': 'block'})
-                return
-            } else if(is_valid_1==='none' && is_valid_2==='none') {
-                $('#pw_check').css({'display': 'none'})
-                $('form').submit()
-            }
+                let pw_ori = $('#pw_ori').val();
+
+                if (pw_ori !== '1234') {
+                    $('#pw_check').css({'color': 'red', 'display': 'block'})
+                    return false
+                }
+
+                // let is_valid_1 = $('#pw_format_check').css('display')
+                // let is_valid_2 = $('#pw_not_same').css('display')
+                
+                // if (is_valid_1!=='none' || is_valid_2!=='none') {
+                //     return false
+                // }
+
+                $('form').updateForm.submit();
+            })
 
         })
-
-
+ 
 
     </script>
 

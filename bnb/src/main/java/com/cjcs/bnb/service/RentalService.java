@@ -1,6 +1,12 @@
 package com.cjcs.bnb.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.cjcs.bnb.dao.RentalDao;
+import com.cjcs.bnb.dto.RentalReservationDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,4 +23,21 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class RentalService {
     
+    @Autowired
+    private RentalDao rDao;
+
+
+
+
+    //수희
+    public List<RentalReservationDto> getReservationListByCId(String c_id) {
+
+        return rDao.getReservationListByCId(c_id);
+    }
+
+    public void cancelReservationByRRId(int rr_id) {
+
+        rDao.updateReservationByRRId(rr_id);
+    }
+
 }

@@ -44,10 +44,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist" id="currpage">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -57,6 +58,11 @@
         <div class="board-area">
 
             <div>
+                <h2 class="pagename">EXCHANGE/RETURN LIST</h2>
+            </div>
+
+            <div>
+                <div class="table_lists">
                 <table>
                     <tr>
                         <th>구분</th>
@@ -79,8 +85,9 @@
                     </tr>
 
                     <c:if test="${empty reExList}">
-                        </table>
-                        <div>교환/반품내역이 없습니다.</div>
+                        <tr>
+                            <td colspan="7">교환/반품내역이 없습니다.</td>
+                        </tr>
                     </c:if>
         
                     <c:if test="${!empty reExList}">
@@ -95,8 +102,9 @@
                                 <td>${reExItem.process_status}</td>
                             </tr>
                          </c:forEach>
-                        </table>
                     </c:if>
+                </table>
+                </div>
             </div>
 
         </div>

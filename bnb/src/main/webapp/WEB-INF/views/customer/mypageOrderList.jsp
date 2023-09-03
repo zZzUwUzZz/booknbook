@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -25,7 +27,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-    <link rel="stylesheet" href="/css/customer/detail.css">
+    <link rel="stylesheet" href="/css/customer/list.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -44,10 +46,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
-                <li><a href="/mypage/purchaselist" id="currpage">구매내역</a></li>
+                <li><a href="/mypage/orderlist" id="currpage">나의 주문내역</a></li>
+                <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -55,28 +58,43 @@
         </div>
 
         <div class="board-area">
-
+            
             <div>
-                <div>주문번호</div>
-                <div>주문일자</div>
-            </div>
-
-            <div class="book-row">
-
-                <div></div>
-                <div></div>
-                <div></div>
-
+                <h2 class="pagename">MY ORDER LIST</h2>
             </div>
 
             <div>
+                <div class="table_lists">
+                <table>
+                    <tr class="headrow">
+                        <th>주문번호</th>
+                        <th>주문일자</th>
+                        <th>주문품목</th>
+                        <th>주문상태</th>
+                        <th>수령방법</th>
+                        <th> </th>
+                    </tr>
 
-            </div>
-
-            <div>
-                <button onclick="location.href='/mypage/purchaselist'">뒤로가기</button>
-                <button onclick="">주문취소</button>
-                <button onclick="location.href='/refundExchange'">교환/반품</button>
+                    <c:if test="${empty oList}">
+                        <tr>
+                            <td colspan="6">주문내역이 없습니다.</td>
+                        </tr>
+                    </c:if>
+        
+                    <c:if test="${!empty oList}">
+                        <c:forEach var="oItem" items="${oList}">
+                            <tr>
+                                <td>${oItem.o_id}</td>
+                                <td>${oItem.o_date}</td>
+                                <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
+                                <td>${oItem.order_status}</td>
+                                <td>${oItem.o_delivery_sort}</td>
+                                <td><button onclick="location.href='/mypage/orderdetail/${oItem.o_id}'">상세보기</button></td>
+                            </tr>
+                            </c:forEach>
+                    </c:if>
+                </table>
+                </div>
             </div>
 
         </div>

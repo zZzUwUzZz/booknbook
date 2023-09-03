@@ -8,6 +8,7 @@
 
 <!--재락-->
 
+    <!--회원가입정보 DB에 넣기-->
     <insert id="joinMember" parameterType="MemberDto">
         INSERT INTO M VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
@@ -23,28 +24,27 @@
 
 <!--예림-->
 
-    <select id="getSellerInfo" parameterType="String" resultType="MemberDto">
-        <!--seller_info라는 뷰 미리 만들어놨음-->
+    <!--id로 판매자회원정보 가져오기-->
+    <select id="getSellerInfoById" parameterType="String" resultType="MemberDto">
+        <!--DB에 seller_info라는 뷰 미리 만들어놨음-->
         SELECT * FROM SELLER_INFO 
         WHERE M_ID=#{m_id}
     </select>
 
+    <!--판매자회원정보 수정하기-->
     <update id="updateMemberInfo" parameterType="MemberDto">
         UPDATE M 
         <set>
-            <if test="m_id != null">m_id = #{m_id},</if>
             <if test="m_pw != null">m_pw = #{m_pw},</if>
             <if test="m_addr != null">m_addr = #{m_addr},</if>
             <if test="m_phone != null">m_phone = #{m_phone},</if>
             <if test="m_email != null">m_email = #{m_email},</if>
-            <if test="m_joindate != null">m_joindate = #{m_joindate}</if>
         </set>
         WHERE M_ID=#{m_id}
     </update>
     <update id="updateSellerInfo" parameterType="MemberDto">
         UPDATE S 
         <set>
-            <if test="s_id != null">s_id = #{m_id},</if>
             <if test="s_storename != null">s_storename = #{s_storename},</if>
             <if test="s_storedesc != null">s_storedesc = #{s_storedesc},</if>
             <if test="s_crn != null">s_crn = #{s_crn},</if>
@@ -59,32 +59,40 @@
 
 <!--수희-->
 
-    <select id="getCustomerInfo" parameterType="String" resultType="MemberDto">
-        <!--customer_info라는 뷰 미리 만들어놨음-->
+    <!--id로 구매자회원정보 가져오기-->
+    <select id="getCustomerInfoById" parameterType="String" resultType="MemberDto">
+        <!--DB에 customer_info라는 뷰 미리 만들어놨음-->
         SELECT * FROM CUSTOMER_INFO 
         WHERE M_ID=#{m_id}
     </select>
 
-    <!--<update id="updateMemberInfo" parameterType="MemberDto">
+    <!--구매자회원정보 수정하기-->
+    <!-- <update id="updateMemberInfo" parameterType="MemberDto">
         UPDATE M 
-        SET M_PW=#{m_pw}, M_ADDR=#{m_addr}, M_PHONE=#{m_phone}, M_EMAIL=#{m_email}
+        <set>
+            <if test="m_pw != null">m_pw = #{m_pw},</if>
+            <if test="m_addr != null">m_addr = #{m_addr},</if>
+            <if test="m_phone != null">m_phone = #{m_phone},</if>
+            <if test="m_email != null">m_email = #{m_email},</if>
+        </set>
         WHERE M_ID=#{m_id}
-    </update>-->
+    </update> 예림이랑 중복-->
     <update id="updateCustomerInfo" parameterType="MemberDto">
         UPDATE C 
         <set>
-            <if test="c_id != null">c_id = #{m_id},</if>
             <if test="c_name != null">c_name = #{c_name}</if>
         </set>
         WHERE C_ID=#{m_id}
     </update>
 
-    <!-- 메서드 리턴타입이 List인 경우.. resultType에는 <>안의 객체타입을 적어줘야함... 그러면 알아서 메서드에서는 리스트로 반환됨 -->
+    <!--즐겨찾는서점 리스트 가져오기-->
   	<select id="getFavStoreList" parameterType="String" resultType="MemberDto">
+        <!-- 참고: 메서드 리턴타입이 List인 경우.. resultType에는 <>안의 객체타입을 적어줘야함... 그러면 알아서 메서드에서는 리스트로 반환됨 -->
         SELECT M_ID, S_STORENAME FROM FAVSTORE, M, S
         WHERE FAVS_C_ID=#{c_id} AND FAVS_S_ID=S_ID AND S_ID=M_ID
     </select>
 
+    <!--찜한도서 리스트 가져오기-->
     <select id="getFavBookList" parameterType="String" resultType="BookDto">
         SELECT B_S_ID, B_ISBN, B_TITLE, B_AUTHOR FROM FAVBOOK, B
         WHERE FAVB_C_ID=#{c_id} AND FAVB_S_ID=B_S_ID AND FAVB_B_ISBN=B_ISBN

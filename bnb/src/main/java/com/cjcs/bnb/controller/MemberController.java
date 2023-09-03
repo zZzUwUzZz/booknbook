@@ -30,8 +30,16 @@ public class MemberController {
     public String login() {
 
         log.info("로그인 화면(폼)");
-        return "login";
+        return "member/login";
+
 
     }
 
+ 
+
+    @GetMapping("/lo")
+    public String loginPage() {
+        return "lo"; 
+    }
 }
+

@@ -62,9 +62,9 @@ public class CustomerPageController {
     @GetMapping("/info")
     public String mypageInfo(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         MemberDto mDto = mSer.getCustomerInfoById(c_id);
         model.addAttribute("mDto", mDto);
@@ -75,9 +75,9 @@ public class CustomerPageController {
     @GetMapping("/updateinfo")
     public String mypageUpdateInfoFrm(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         MemberDto mDto = mSer.getCustomerInfoById(c_id);
         model.addAttribute("mDto", mDto);
@@ -88,9 +88,9 @@ public class CustomerPageController {
     @PostMapping("/updateinfo")
     public String mypageUpdateInfo(MemberDto updatedMDto, HttpSession session) {
         
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         mSer.updateCustomerInfo(c_id, updatedMDto);
 
@@ -101,9 +101,9 @@ public class CustomerPageController {
     @GetMapping("/orderlist")
     public String mypageOrderList(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         List<HashMap<String, String>> oList = oDao.getOrderListGroupByOId(c_id);
         model.addAttribute("oList", oList);
@@ -127,9 +127,9 @@ public class CustomerPageController {
     @GetMapping("/purchaselist")
     public String mypagePurchaseList(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         List<HashMap<String, String>> pList = pDao.getPurchaseListByCId(c_id);
         model.addAttribute("pList", pList);
@@ -140,9 +140,9 @@ public class CustomerPageController {
     @GetMapping("/rentallist")
     public String mypageRentalList(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         List<HashMap<String, String>> rList = rDao.getRentalListByCId(c_id);
         log.info("rList:{}", rList);
@@ -167,9 +167,9 @@ public class CustomerPageController {
     @GetMapping("/rentalreservationlist")
     public String mypageRentalReservationList(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         List<RentalReservationDto> rrList = rSer.getReservationListByCId(c_id);
         log.info("rrList:{}", rrList);
@@ -182,9 +182,11 @@ public class CustomerPageController {
     @ResponseBody   // 비동기통신
     public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+
+        rSer.cancelReservationByRRId(rrDto.getRr_id());
 
         List<RentalReservationDto> rrList = rSer.getReservationListByCId(c_id);
 
@@ -194,9 +196,9 @@ public class CustomerPageController {
     @GetMapping("/favoritestores")
     public String mypageFavoriteStores(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         List<MemberDto> favStores = mSer.getFavStores(c_id);
         model.addAttribute("favStores", favStores);
@@ -207,9 +209,9 @@ public class CustomerPageController {
     @GetMapping("/favoritebooks")
     public String mypageFavoriteBooks(Model model, HttpSession session) {
 
-        //이재락이 회원가입이랑 로그인 아직 안해서 하드코딩함.
+        //일단 하드코딩함.
         String c_id = "customer001";
-        //나중에 완성하면 윗줄 삭제하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         List<BookDto> favBooks = mSer.getFavBooks(c_id);
         System.out.println(favBooks);

@@ -130,7 +130,6 @@
                 
                 method: 'post',
                 url: '/mypage/reservationcancel',
-        //	 			url: '/board/attachedFileDelete/'+board.b_num+'/'+bf_sysname,   ///board/attachedFileDelete/51/156165416546513.jpg
                 data: data,
                 dataType: 'json' 
                 

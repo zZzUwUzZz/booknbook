@@ -13,8 +13,10 @@ public interface RentalDao {
 
 
     //수희    
-    public List<HashMap<String, String>> getRentalListByOId(int o_id);
+    public List<HashMap<String, String>> getRentalListByOId(Integer o_id);
     public List<HashMap<String, String>> getRentalListByCId(String c_id);
+
+    public boolean cancelRentalByOId(Integer o_id);
 
     public List<RentalReservationDto> getReservationListByCId(String c_id);
     public void updateReservationByRRId(int rr_id);

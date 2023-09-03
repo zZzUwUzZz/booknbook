@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RefExchDto;
-import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
+import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
@@ -40,6 +40,8 @@ public class CustomerPageController {
     @Autowired
     private NotificationService nSer;
 
+    @Autowired
+    private OrderService oSer;
     @Autowired
     private PurchaseService pSer;
     @Autowired
@@ -115,12 +117,24 @@ public class CustomerPageController {
     @GetMapping("/orderdetail/{o_id}")
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
+        HashMap<String, String> oInfo = oDao.getOrderInfoByOId(o_id);
         List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
         List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
+        model.addAttribute("oInfo", oInfo);
         model.addAttribute("oPList", oPList);
         model.addAttribute("oRList", oRList);
         
         return "customer/mypageOrderDetail";
+    }
+
+    @GetMapping("/ordercancel")
+    public String mypageOrderCancel(Integer o_id, HttpSession session, RedirectAttributes rttr) {
+
+        oSer.cancelOrderByOId(o_id);
+
+        rttr.addFlashAttribute("msg", "주문이 취소되었습니다.");
+
+        return "redirect:/mypage/orderdetail/"+o_id;
     }
 
 
@@ -178,8 +192,8 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @PostMapping("/reservationcancel")
     @ResponseBody   // 비동기통신
+    @PostMapping("/reservationcancel")
     public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
 
         //일단 하드코딩함.

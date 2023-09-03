@@ -1,11 +1,8 @@
-#trans {
-    background: none;
-}
 .container-1 {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
 }
 .container-2 {
@@ -13,13 +10,12 @@
     display: flex;
     flex-direction: column;
     /* border: 1px solid orange; */
-    width: 557px;
+    width: 530px;
+    margin-top: 25px;
 }
 .container-3 {
     box-sizing: border-box;
-    border: 1px solid #4d6b50;
-    background-color: #fffbed;
-    width: 557px;
+    width: 530px;
     padding: 0 20px;
 }
 table {
@@ -27,20 +23,40 @@ table {
     text-align: center;
 }
 .cards {
-    border: 1px solid #4d6b50;
+    border: 2px solid #ff9946;
     border-radius: 10px;
 }
 .card-main {
-    height: 350px;
+    border: 2px solid #4c4240;
+    height: 310px;
     margin-bottom: 15px;
 }
 .card-top {
-    height: 200px;
+    height: 180px;
     margin-bottom: 15px;
 }
 .card-bottom {
-    height: 220px;
+    height: 205px;
 }
 .card-button {
+    border: 2px solid #4c4240;
     height: 50px;
+    font-family: 'Gothic A1', sans-serif;
+    color: #4c4240;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+}
+.card-button:hover {
+    cursor: pointer;
+    background: #4c4240;
+    color:#fffbed;
+}
+h3 {
+    font-family: 'Gothic A1', sans-serif;
+    color: #4c4240;
+    display: inline-block;
+}
+h3 a:hover {
+    color: #ff9946;
 }

@@ -14,5 +14,6 @@ public interface OrderDao {
 
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
+    public HashMap<String, String> getOrderInfoByOId(int o_id);
 
 }

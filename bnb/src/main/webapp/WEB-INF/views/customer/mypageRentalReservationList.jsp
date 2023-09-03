@@ -88,8 +88,16 @@
                                 <td>${rrItem.rr_reqdate}</td>
                                 <td>${rrItem.b_title}</td>
                                 <td>${rrItem.s_storename}</td>
-                                <td>${rrItem.res_status}</td>
-                                <td><button onclick="cancel('${rrItem.rr_id}')">예약취소</button></td>
+                                <td class="status_code">${rrItem.res_status}</td>
+                            
+                                <c:choose>
+                                    <c:when test="${rrItem.rr_res_status_id eq 1 || rrItem.rr_res_status_id eq 3}">
+                                        <td><button onclick="cancel('${rrItem.rr_id}')" class="cancel_btn">예약취소</button></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td width="80px"></td>
+                                    </c:otherwise>
+                                </c:choose>
                             </tr>
                          </c:forEach>
                     </c:if>
@@ -133,7 +141,7 @@
                 data: data,
                 dataType: 'json' 
                 
-            }).done(function (rrList) {    // update후의 대여예약 리스트가 res에 넘어옴
+            }).done(function(rrList) {    // update후의 대여예약 리스트가 파라미터자리로 넘어옴
                 
                 let rrListHtml = '';
 
@@ -146,7 +154,7 @@
                             + '<th> </th>'
                            + '</tr>'
                 
-                if (res == null) {
+                if (rrList == null) {
                     
                     rrListHtml += '<tr>'
                                 + '<td colspan="6">대여내역이 없습니다.</td>'
@@ -157,13 +165,18 @@
                     for (let rrItem of rrList) {
                         
                         rrListHtml += '<tr>'
-                                   + '<td>${rrItem.rr_id}</td>'
-                                   + '<td>${rrItem.rr_reqdate}</td>'
-                                   + '<td>${rrItem.b_title}</td>'
-                                   + '<td>${rrItem.s_storename}</td>'
-                                   + '<td>${rrItem.rr_res_status}</td>'
-                                   + '<td><button onclick="cancel('+'${rrItem.rr_id}'+')">예약취소</button></td>'
-                                  + '</tr>'    
+                                    + '<td>'+rrItem.rr_id+'</td>'
+                                    + '<td>'+rrItem.rr_reqdate+'</td>'
+                                    + '<td>'+rrItem.b_title+'</td>'
+                                    + '<td>'+rrItem.s_storename+'</td>'
+                                    + '<td>'+rrItem.res_status+'</td>'
+                        if (rrItem.rr_res_status_id == 1 || rrItem.rr_res_status_id == 3) {
+                            rrListHtml += '<td><button onclick="cancel('+rrItem.rr_id+')" class="cancel_btn">예약취소</button></td>'
+                        } else {
+                            rrListHtml += '<td width="80px"></td>'
+                        }
+                        rrListHtml += '</tr>'
+        
                     }
                 }
 

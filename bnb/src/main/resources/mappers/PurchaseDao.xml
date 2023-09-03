@@ -15,7 +15,9 @@
                b_title as "b_title",
                b_price as "b_price",
                p_amount as "p_amount",
+               order_status_id as "order_status_id",
                order_status as "order_status",
+               delivery_status_id as "delivery_status_id",
                delivery_status as "delivery_status",
                p_deliverydate as "p_deliverydate"
         FROM O, P, B, S, STATUS_O, STATUS_D
@@ -47,5 +49,11 @@
               ON o_id = re_o_id AND p_s_id = re_s_id AND p_b_isbn = re_b_isbn
         ORDER BY o_date DESC
     </select>
+
+    <update id="cancelPurchaseByOId" parameterType="Integer">
+        UPDATE P
+        SET p_order_status_id = 2
+        WHERE p_o_id = #{o_id}
+    </update>
 
 </mapper>

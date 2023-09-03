@@ -26,14 +26,16 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
-    <link rel="stylesheet" href="/css/customer/mypage.css">
-    <link rel="stylesheet" href="/css/customer/list.css">
+    <link rel="stylesheet" href="/css/customer/detail.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
         h3 {
             margin: 10px 0 5px;
+        }
+        #board-area-orderdetail {
+            height: none;
         }
     </style>
 
@@ -63,21 +65,20 @@
             </ul>
         </div>
 
-        <div class="board-area">
+        <div class="board-area" id="board-area-orderdetail">
             
             <div>
                 <h2 class="pagename">MY ORDER DETAILS</h2>
-                <!-- <h5>주문번호 ${oInfo.o_id}</h5>
-                <h5>주문일자 ${oInfo.o_date}</h5> -->
+                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> ${oInfo.o_date}</p>
             </div>
 
             <div>
                 <h3 class="tablename">구매</h3>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table>
                     <tr>
                         <th>서점명</th>
-                        <th>구매품목</th>
+                        <th>도서명</th>
                         <th>판매단가</th>
                         <th>수량</th>
                         <th>주문상태</th>
@@ -110,11 +111,11 @@
 
             <div>
                 <h3 class="tablename">대여</h3>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table>
                     <tr>
                         <th>서점명</th>
-                        <th>구매품목</th>
+                        <th>도서명</th>
                         <th>기본대여료</th>
                         <th>대여기간</th>
                         <th>주문상태</th>
@@ -146,8 +147,33 @@
             </div>
 
             <div>
-                <button onclick="location.href='/mypage/orderlist'">전체목록</button>
-                <button onclick="location.href=''">주문취소</button>
+                <div class="infobox">
+                    <div class="order-info"><span class="boldtext">| 배송방법 |</span> ${oInfo.o_delivery_sort}</div>
+                    <div class="order-info"><span class="boldtext">| 총결제금액 |</span> 25,000원</div>
+                </div>
+
+                <c:choose>
+                    <c:when test="${oInfo.o_delivery_sort eq '택배'}">
+                        <div class="deliveryinfobox">
+                            <p class="delivery-info">배송지 | ${oInfo.o_recip_addr}</p>
+                            <p class="delivery-info">수령인 | ${oInfo.o_recip_name}</p>
+                            <p class="delivery-info">수령인연락처 | ${oInfo.o_recip_phone}</p>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="deliveryinfobox">
+                            <p class="delivery-info">방문수령을 선택하셨습니다.</p>
+                            <p class="delivery-info">상품준비완료 상태가 되면 주문하신 서점에 직접 방문해주세요.</p>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
+                
+            </div>
+
+            <div class="btnbox">
+                <button onclick="location.href='/mypage/orderlist'">목록보기</button>
+                <button onclick="cancel_order('${oInfo.o_id}')" id="cancel-btn">주문전체취소</button>
             </div>
 
         </div>
@@ -164,6 +190,36 @@
 
 
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+
+    <script>
+    
+    $(document).ready(()=>{
+
+        let o_status_1 = '${oPList[0].order_status_id}'
+        let o_status_2 = '${oRList[0].order_status_id}'
+
+        if (o_status_1 == 1 || o_status_2 == 1) {
+            $('#cancel-btn').attr('disabled', false);
+        } else {
+            $('#cancel-btn').attr('disabled', true);
+        }
+
+    })
+
+    function cancel_order(o_id) {
+    
+        let conf = confirm('주문을 취소할까요?');
+
+		if (conf == true) {
+			location.href = '/mypage/ordercancel?o_id='+o_id;
+		}
+		
+    }
+
+    </script>
+    
 
 </body>
 

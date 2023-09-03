@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,6 +23,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
@@ -55,7 +59,7 @@
             </ul>
         </div>
 
-        <div class="board-area" id="trans">
+        <div class="board-area">
 
             <div class="container-1">
 
@@ -67,8 +71,8 @@
                         <p>여기 이미지 들어가야함</p>
                     </div>
 
-                    <div class="container-3 card-button cards">
-                        <button onclick="location.href='/mypage/info'">회원정보</button>
+                    <div class="container-3 card-button cards" onclick="location.href='/mypage/info'">
+                        나의 회원정보
                     </div>
 
                 </div>
@@ -77,7 +81,7 @@
     
                     <div class="container-3 card-top cards">
 
-                        <h2>진행 중인 교환/반품 : <a href="/mypage/refundexchangelist">2</a>건</h2>
+                        <h3>진행 중인 교환/반품 : <a href="/mypage/refundexchangelist">2건</a></h3>
                         <table>
                             <tr>
                                 <th>구분</th>
@@ -106,7 +110,7 @@
                     
                     <div class="container-3 card-top cards">
 
-                        <h2>현재 대여 중 : <a href="/mypage/rentallist">3</a>건</h2>
+                        <h3>현재 대여 중 : <a href="/mypage/rentallist">3건</a></h3>
                         <table>
                             <tr>
                                 <th>제목</th>
@@ -148,7 +152,7 @@
             <div class="container-1">
     
                 <div class="container-3 card-bottom cards">
-                    <h2>최근 구매내역</h2><button onclick="location.href='/mypage/purchaselist'">▶더보기</button>
+                    <h3>최근 구매내역</h3><button onclick="location.href='/mypage/purchaselist'">▶더보기</button>
                     <table>
                         <tr>
                             <th>주문번호</th>
@@ -178,7 +182,7 @@
                 </div>
     
                 <div class="container-3 card-bottom cards">
-                    <h2>최근 대여내역</h2><button onclick="location.href='/mypage/rentallist'">▶더보기</button>
+                    <h3>최근 대여내역</h3><button onclick="location.href='/mypage/rentallist'">▶더보기</button>
                     <table>
                         <tr>
                             <th>주문번호</th>

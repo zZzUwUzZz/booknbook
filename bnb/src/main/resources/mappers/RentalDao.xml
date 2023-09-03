@@ -15,7 +15,9 @@
                b_title as "b_title",
                b_rent as "b_rent",
                r_rentalperiod as "r_rentalperiod",
+               order_status_id as "order_status_id",
                order_status as "order_status",
+               delivery_status_id as "delivery_status_id",
                delivery_status as "delivery_status",
                r_deliverydate as "r_deliverydate"
         FROM O, R, B, S, STATUS_O, STATUS_D
@@ -42,6 +44,12 @@
               r_c_id = #{c_id}
         ORDER BY o_date DESC
     </select>
+
+    <update id="cancelRentalByOId" parameterType="Integer">
+        UPDATE R
+        SET r_order_status_id = 2
+        WHERE r_o_id = #{o_id}
+    </update>
 
     <select id="getReservationListByCId" parameterType="String" resultType="RentalReservationDto">
         SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason

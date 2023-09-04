@@ -1,0 +1,32 @@
+.container-fav {
+    box-sizing: border-box;
+    display: flex;
+    justify-content:flex-start;
+    align-content: space-evenly;
+    flex-wrap: wrap;
+    background-color: none;
+    width: 100%;
+    height: 100%;
+    padding-left: 23px;
+}
+.favstore {
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #4d6b50;
+    border-radius: 10px;
+    width: 400px;
+    height: 280px;
+    margin: 0 70px;
+}
+.favbook {
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #4d6b50;
+    border-radius: 10px;
+    width: 250px;
+    height: 280px;
+    margin-right: 22px;
+}
+img {
+    height: 280px;
+}

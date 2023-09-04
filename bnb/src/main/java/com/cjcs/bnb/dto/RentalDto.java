@@ -36,5 +36,13 @@ public class RentalDto {
     private String r_latefee_paid;          // 연체료납부여부(YorN)
     private Timestamp r_latefee_paydate;    // 연체료납부일
 
+    //뷰에만 있는 필드
+    private int b_rent;                // 대여료(7일기준)
+    private String s_storename;        // 서점명
+    private String b_title;            // 도서명
+    private String order_status;       // 주문상태(주문완료/취소요청/취소불가/취소완료)
+    private String delivery_status;    // 배송상태(결제완료/상품준비중/상품준비완료/수령완료/배송준비중/배송중/배송완료)
+    private String rental_status;      // 대여상태(대여중/연체/반납완료)
+
 
 }

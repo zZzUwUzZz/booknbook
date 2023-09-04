@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -24,70 +26,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/list.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
-
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -104,10 +46,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist" id="currpage">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
-                <li><a href="/mypage/rentallist" id="currpage">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentallist">대여내역</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -115,13 +58,43 @@
         </div>
 
         <div class="board-area">
+            
+            <div>
+                <h2 class="pagename">MY ORDER LIST</h2>
+            </div>
 
-            <div class="book-row">
+            <div>
+                <div class="table_lists">
+                <table>
+                    <tr class="headrow">
+                        <th>주문번호</th>
+                        <th>주문일자</th>
+                        <th>주문품목</th>
+                        <th>주문상태</th>
+                        <th>수령방법</th>
+                        <th> </th>
+                    </tr>
 
-                <div></div>
-                <div></div>
-                <div></div>
-
+                    <c:if test="${empty oList}">
+                        <tr>
+                            <td colspan="6">주문내역이 없습니다.</td>
+                        </tr>
+                    </c:if>
+        
+                    <c:if test="${!empty oList}">
+                        <c:forEach var="oItem" items="${oList}">
+                            <tr>
+                                <td>${oItem.o_id}</td>
+                                <td>${oItem.o_date}</td>
+                                <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
+                                <td>${oItem.order_status}</td>
+                                <td>${oItem.o_delivery_sort}</td>
+                                <td><button onclick="location.href='/mypage/orderdetail/${oItem.o_id}'">상세보기</button></td>
+                            </tr>
+                            </c:forEach>
+                    </c:if>
+                </table>
+                </div>
             </div>
 
         </div>

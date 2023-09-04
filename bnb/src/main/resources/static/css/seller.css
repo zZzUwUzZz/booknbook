@@ -1,0 +1,375 @@
+.wrap {
+    padding-bottom: 50px;
+}
+
+.content {
+    align-items: center;
+}
+
+.side-menu {
+    position: relative;
+    left: 200px;
+    top: 50px;
+    width: 200px;
+    margin: 15px;
+    font-size: large;
+    margin-left: 30px;
+    text-align: center;
+    border: 3px solid #ff9946;
+    background-color: #fffbed;
+    display: inline-block;
+}
+
+.bsname h1 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.bsname {
+    height: 150px;
+    line-height: 150px;
+    border-bottom: 3px solid #ff9946;
+}
+
+.menu-title {
+    background-color: #ff9946;
+    padding: 10px 35px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+}
+
+.menu {
+    display: block;
+    padding-bottom: 20px;
+    text-align: left;
+}
+
+.menu-group {
+    border-top: 1px solid #696260;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.menu-group:first-child {
+    border-top: 0px;
+}
+
+.menu-group:last-child {
+    padding-bottom: 0px;
+}
+
+.bigmenu {
+    width: 170px;
+    padding: 10px 0px 5px 30px;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    display: inline-block;
+}
+
+.submenu {
+    width: 170px;
+    padding: 5px 0px 5px 30px;
+    color: #666;
+    display: block;
+    margin-top: 8px;
+    font-size: 15px;
+}
+
+.menu a {
+    color: #333;
+    text-decoration: none;
+}
+
+.submenu a:hover {
+    color: #ff9946;
+    font-weight: bold;
+}
+
+.contain-1 {
+    position: relative;
+    left: 350px;
+    top: -70px;
+    width: 718px;
+    display: inline-block;
+}
+
+.box-1 {
+    border: 1px solid #4c4240;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    background-color: #fffbed;
+    margin-right: 0px;
+    display: inline-block;
+}
+
+.contain-2 {
+    position: relative;
+    left: 350px;
+    top: -576px;
+    width: 718px;
+    display: inline-block;
+}
+
+.box-2 {
+    border: 1px solid #4c4240;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    background-color: #fffbed;
+    margin-right: 0px;
+    height: 600px;
+    display: block;
+}
+
+.gap {
+    height: 30px;
+    display: inline-block;
+}
+
+.box-list {
+    text-align: center;
+    padding: 20px;
+}
+
+.box-list td {
+    width: 200px;
+    padding: 10px 0px;
+}
+
+.box-list tr {
+    font-size: 20px;
+}
+
+.contain-3 {
+    position: relative;
+    left: 350px;
+    top: -846px;
+    width: 718px;
+    display: inline-block;
+}
+
+.box-3 {
+    border: 1px solid #4c4240;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    background-color: #fffbed;
+    margin-right: 0px;
+    height: 600px;
+    display: block;
+}
+
+.member-list,
+.book-list {
+    border: 1px #a39485 solid;
+    font-size: .9em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.member-list th,
+.book-list th {
+    text-align: left;
+    padding: 1em .5em;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.member-list td,
+.book-list td {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    background: #fff;
+    padding: 1em .5em;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.member-list thead,
+.book-list thead {
+    font-weight: bold;
+    color: #fff;
+    background: #73685d;
+}
+
+table a {
+    text-decoration: none;
+    color: #000;
+}
+
+/* @media all and (max-width: 768px) {
+
+    .member-list table,
+    .member-list thead,
+    .member-list tbody,
+    .member-list th,
+    .member-list td,
+    .member-list tr {
+        display: block;
+    }
+
+    .member-list th {
+        text-align: right;
+    }
+
+    .member-list table {
+        position: relative;
+        padding-bottom: 0;
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    }
+
+    .member-list thead {
+        float: left;
+        white-space: nowrap;
+    }
+
+    .member-list tbody {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .member-list tr {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .member-list th {
+        border-bottom: 1px solid #a39485;
+    }
+
+    .member-list td {
+        border-bottom: 1px solid #e5e5e5;
+    } */
+
+.switch-button {
+    position: relative;
+    display: inline-block;
+    width: 55px;
+    height: 30px;
+}
+
+.switch-button input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.onoff-switch {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background-color: #ccc;
+    box-shadow: inset 1px 5px 1px #999;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.onoff-switch:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    -webkit-transition: .5s;
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.switch-button input:checked+.onoff-switch {
+    background-color: #ff9946;
+    box-shadow: inset 1px 5px 1px #d76c14;
+}
+
+.switch-button input:checked+.onoff-switch:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* IE */
+select::-ms-expand {
+    display: none;
+}
+
+.select {
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.selectBox {
+    position: relative;
+    width: 150px;
+    height: 35px;
+    border-radius: 4px;
+    border: 2px solid lightsalmon;
+}
+
+.selectBox .select {
+    width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 0 none;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3;
+    /* select가 위로 올라와야 함 */
+}
+
+.selectBox .select option {
+    background: lightsalmon;
+    color: #fff;
+    padding: 3px 0;
+    font-size: 16px;
+}
+
+.selectBox .icoArrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 35px;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selectBox .icoArrow {
+    width: 30%;
+    transition: .3s;
+    /* 부드럽게 회전 */
+}
+
+.selectBox .select:focus+.icoArrow {
+    transform: rotate(180deg);
+}
+
+.search-container input,
+.search-container button {
+    height: 30px;
+    border: 2px solid lightsalmon;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #000 ;
+}

@@ -1,13 +1,18 @@
 /* body */
  
- 
+
+a {
+    color: #FFF;
+    text-decoration-line: none;
+
+}
+
 @font-face {
     font-family: 'BookkGothic-Bd';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkGothic-Bd.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
     unicode-range: U+AC00-D7A3;
-
 }
 
 body, header, footer {
@@ -32,8 +37,9 @@ body {
 .hd {
     padding: 43px;
     padding-top: 25px;
-    color: #fffbed;
+    color: #FFF;
 }
+
 .hd_01 {
     justify-content: space-between;
     display: flex;
@@ -130,6 +136,13 @@ footer {
 }
 
 /* main - search */
+
+form#searchForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 
 .scbox {
     display: flex;
@@ -272,4 +285,4 @@ input.scbook::placeholder {color:#000000;}
     cursor: pointer;
 }
 
-/* noti */
+ 

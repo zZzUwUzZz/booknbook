@@ -74,6 +74,5 @@ $(document).ready(function () {
 
         })
 
+ 
 
-
-// 알림 목록창

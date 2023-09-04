@@ -13,7 +13,7 @@
 <div class="body">
   <div class="login-container">
     <h2 class="h2">login</h2>
-    <form id="login-form" onsubmit="return validateLoginForm()"action="/login" method="post" >
+    <form id="login-form" onsubmit="return validateLoginForm()" action="/member/login" method="post">
       <input type="text" id="m_id" name="m_id" required placeholder="아이디">
       <input type="password" id="m_pw" name="m_pw" required placeholder="비밀번호">
       <button class="login-button" type="submit">로그인</button>

@@ -13,8 +13,9 @@
   <div class="signup-container">
     <h2>회원가입</h2>
     <form action="/member/join" method="post" id="signupForm">
-      <input type="text" name="c_name" placeholder="이름" id="c_name">
-      <input type="text" name="m_id" placeholder="아이디 (6자 이상의 영문/숫자)" id="m_id">
+      <input type="text" name="c_name" placeholder="이름" id="c_name"> 
+      <input type="text" id="m_id" name="m_id" required placeholder="아이디(6자 이상의 영문/숫자)">
+<button type="button" onclick="checkId()">중복 확인</button>
       <input type="password" name="m_pw" placeholder="비밀번호 (6자 이상, 영문+숫자+특수문자 조합)" id="m_pw">
       <input type="password" placeholder="비밀번호 확인" id="confirm-password">
       <input type="text" name="m_addr" placeholder="주소" id="m_addr">
@@ -31,7 +32,6 @@
       let c_name = document.getElementById("c_name").value;
       let m_id = document.getElementById("m_id").value;
       let m_pw = document.getElementById("m_pw").value;
-      let confirmPassword = document.getElementById("confirm-password").value;
       let m_addr = document.getElementById("m_addr").value;
       let m_phone = document.getElementById("m_phone").value;
       let m_email = document.getElementById("m_email").value;
@@ -57,8 +57,21 @@
 
       alert("회원가입이 완료되었습니다!");
       document.querySelector('form').submit();
-      
     }
+    
+    function checkId() {
+    let userId = document.getElementById("m_id").value;
+
+    fetch('/member/checkId?m_id=' + userId)
+    .then(response => response.json())
+    .then(data => {
+        if (data.isDuplicated) {
+            alert("아이디가 이미 사용 중입니다.");
+        } else {
+            alert("사용 가능한 아이디입니다.");
+        }
+    });
+}
   </script>
 </body>
 </html>

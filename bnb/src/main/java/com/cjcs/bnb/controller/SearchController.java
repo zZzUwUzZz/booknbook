@@ -2,6 +2,7 @@ package com.cjcs.bnb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,16 +67,35 @@ public class SearchController {
             }
         }
 
+        // 이미지 정보와 함께 회원 정보도 불러와서 별도의 List에 추가
+        List<MemberDto> memberInfos = new ArrayList<>();
+        for (SellerDto seller : results) {
+            MemberDto member = searchService.getMemberInfo(seller.getS_id());
+            if (member != null) {
+                memberInfos.add(member); // 회원 정보를 리스트에 추가
+            }
+        }
+
+        // 위도와 경도 정보도 추가 (이 가정에서는 SellerDto가 s_latitude와 s_longitude를 가진다)
+        List<Double> latitudes = results.stream().map(SellerDto::getS_latitude).collect(Collectors.toList());
+        List<Double> longitudes = results.stream().map(SellerDto::getS_longitude).collect(Collectors.toList());
+
+        model.addAttribute("latitudes", latitudes);
+        model.addAttribute("longitudes", longitudes);
+
         model.addAttribute("keyword", keyword);
         model.addAttribute("results", results);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("imageInfos", imageInfos); // 이미지 정보를 추가
+        model.addAttribute("memberInfos", memberInfos); // 회원 정보를 추가
 
         System.out.println("검색한 키워드: " + keyword);
         System.out.println("검색 정보: " + results);
         System.out.println("검색 수: " + totalItems);
         System.out.println("이미지 주소: " + imageInfos);
-
+        System.out.println("회원 정보: " + memberInfos);
+        System.out.println("latitudes: " + latitudes);
+        System.out.println("longitudes: " + longitudes);
         return "/map/map";
     }
 

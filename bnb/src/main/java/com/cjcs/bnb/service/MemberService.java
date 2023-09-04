@@ -30,9 +30,6 @@ public class MemberService {
         return false;
     }
 
-
-
-
     // public MemberDto login(HashMap<String, String> member) {
 
     // // boolean result = mDao.login(member);
@@ -84,13 +81,7 @@ public class MemberService {
     // return "fail";
     // }
 
-
-    // 서점 회원 정보
-
-
-
-    
-    //수희
+    // 수희
     public MemberDto getCustomerInfoById(String c_id) {
 
         return mDao.getCustomerInfoById(c_id);
@@ -101,7 +92,7 @@ public class MemberService {
 
         updatedMDto.setM_id(c_id);
         log.info("updatedMDto:{}", updatedMDto);
-        
+
         mDao.updateMemberInfo(updatedMDto);
         mDao.updateCustomerInfo(updatedMDto);
     }
@@ -115,8 +106,5 @@ public class MemberService {
 
         return mDao.getFavBookList(c_id);
     }
-
-
-
 
 }

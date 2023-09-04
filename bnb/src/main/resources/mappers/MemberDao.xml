@@ -6,6 +6,16 @@
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
 
+
+<!-- 킹효진 -->
+
+<!-- 판매자 아이디 불러오기 -->
+   <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
+        SELECT m.m_id, m.m_addr, m.m_phone
+        FROM Member m
+        WHERE m.m_id = #{s_id}
+    </select>
+
 <!--재락-->
 
     <!--회원가입정보 DB에 넣기-->

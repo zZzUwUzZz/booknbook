@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -29,6 +30,31 @@
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <style>
+
+        .opt_num {
+            position: relative;
+            display: block;
+            border: solid 1px #ebebeb;
+        }
+        .opt_ipt {
+            display: block;
+            width: 36px;
+        }
+        .opt_num input {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 23px;
+            line-height: 23px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            border: none;
+            vertical-align: top;
+        }
+
+    </style>
 
     <title>Document</title>
 
@@ -68,7 +94,7 @@
         
                     <table>
                         <tr>
-                            <th> </th>
+                            <th></th>
                             <th>서점명</th>
                             <th>도서명</th>
                             <th>신청가능 수량</th>
@@ -76,22 +102,29 @@
                         </tr>
 
                         <c:if test="${!empty pList_re}">
-                            <c:forEach var="pItem_re" items="${pList_re}">
+                            <c:forEach var="pItem" items="${pList_re}">
                                 <tr>
-                                    <td>${pItem_re.p_id}<input type="hidden" name="p_id" value="${pItem_re.p_id}"></td>
-                                    <td>${pItem_re.s_storename}</td>
-                                    <td>${pItem_re.b_title}</td>
-                                    <td id="amount">${pItem_re.p_amount - pItem_re.re_amount}</td>
+                                    <td><input type="hidden" name="p_id" value="${pItem.p_id}"></td>
+                                    <td>${pItem.s_storename}</td>
+                                    <td>${pItem.b_title}</td>
+
+                                    <c:choose>
+                                        <c:when test="${!empty pItem.re_amount}">
+                                            <td class="amount">${pItem.p_amount - pItem.re_amount}</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td class="amount">${pItem.p_amount}</td>
+                                        </c:otherwise>
+                                    </c:choose>
+
                                     <td>
-                                        <div class="Ere_input_box">
-                                            <div style="float:left;">
-                                                <input type="text" id="qty" class="Ere_form_input" maxlength="1" onblur="fn_qty_check();" value="1" />
-                                            </div>
-                                            <div class="Ere_form_arrow">
-                                                <a href="javascript:fn_qty_change(true);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Aup.png" border="0" /></a>
-                                                <a href="javascript:fn_qty_change(false);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Adown.png" border="0" /></a>
-                                            </div>
-                                        </div>
+                                        <span class="opt_num">
+                                            <span class="opt_ipt">
+                                                <input type="text" name="qty" maxlength="1" value="1" onblur="fn_qty_check()">
+                                            </span>
+                                            <a href="javascript:fn_qty_change(false)" class="minus"></a>
+                                            <a href="javascript:fn_qty_change(true)" class="plus"></a>
+                                        </span>
                                     </td>
                                 </tr>
                              </c:forEach>

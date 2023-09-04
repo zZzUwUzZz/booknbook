@@ -1,12 +1,13 @@
 package com.cjcs.bnb.service;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
+import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
 
@@ -28,6 +29,7 @@ public class MemberService {
     public boolean updateinfo(MemberDto mDto) {
         return false;
     }
+
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -60,13 +62,13 @@ public class MemberService {
 
     // }
 
-    // public boolean join(MemberDto member) {
+    // public boolean join(MemberDto mDto) {
 
     // // 스프링Security(pom.xml디펜던시추가확인)로 비밀번호 암호화 하기!!
     // // encoding(암호화) <---> decoding(복호화) (스프링은 복호화는 안 해줌)
     // BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
     // // 1111 ---> dsjfkskhalsjflawekjfhaksdj
-    // member.setM_pw(pwEncoder.encode(member.getM_pw()));
+    // mDto.setM_pw(pwEncoder.encode(mDto.getM_pw()));
 
     // return mDao.join(member);
 
@@ -80,6 +82,38 @@ public class MemberService {
     // return "fail";
     // }
 
+
     // 서점 회원 정보
+
+
+
+    
+    //수희
+    public MemberDto getCustomerInfoById(String c_id) {
+
+        return mDao.getCustomerInfoById(c_id);
+    }
+
+    @Transactional
+    public void updateCustomerInfo(String c_id, MemberDto updatedMDto) {
+
+        updatedMDto.setM_id(c_id);
+        log.info("updatedMDto:{}", updatedMDto);
+        
+        mDao.updateMemberInfo(updatedMDto);
+        mDao.updateCustomerInfo(updatedMDto);
+    }
+
+    public List<MemberDto> getFavStores(String c_id) {
+
+        return mDao.getFavStoreList(c_id);
+    }
+
+    public List<BookDto> getFavBooks(String c_id) {
+
+        return mDao.getFavBookList(c_id);
+    }
+
+ 
 
 }

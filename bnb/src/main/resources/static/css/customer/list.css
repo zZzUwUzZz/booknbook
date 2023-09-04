@@ -1,0 +1,24 @@
+table {
+    width: 1020px;
+    text-align: center;
+    margin: auto;
+}
+
+.table_lists {
+    box-sizing: border-box;
+    border: 1px solid #ff9946;
+    border-radius: 10px;
+
+    width: 1040px;
+    margin: auto;
+    padding: 10px;
+}
+
+tr {
+    height: 40px;
+}
+
+.headrow {
+    background: #4c4240;
+    color:beige;
+}

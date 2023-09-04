@@ -20,6 +20,5 @@ public class DetailPageController {
     @Autowired
     private NotificationService nSer; // 책상세에서 입고알림신청, 대여예약 할 때 필요
 
-    // 서점 상세 페이지
 
 }

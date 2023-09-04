@@ -67,31 +67,52 @@
         
                     <table>
                         <tr>
-                            <td>아이디</td> <td>${mDto.m_id}</td>
+                            <th> </th>
+                            <th>서점명</th>
+                            <th>도서명</th>
+                            <th>신청가능 수량</th>
+                            <th>신청할 수량</th>
                         </tr>
-                        <tr>
-                            <td>이름</td> <td>${mDto.c_name}</td>
-                        </tr>
-                        <tr>
-                            <td>주소</td> <td>${mDto.m_addr}</td>
-                        </tr>
-                        <tr>
-                            <td>휴대전화번호</td> <td>${mDto.m_phone}</td>
-                        </tr>
-                        <tr>
-                            <td>이메일</td> <td>${mDto.m_email}</td>
-                        </tr>
-                        <tr>
-                            <td>가입일자</td> <td>${mDto.m_joindate}</td>
-                        </tr>
+
+                        <c:if test="${!empty pList_re}">
+                            <c:forEach var="pItem_re" items="${pList_re}">
+                                <tr>
+                                    <td>${pItem_re.p_id}<input type="hidden" name="p_id" value="${pItem_re.p_id}"></td>
+                                    <td>${pItem_re.s_storename}</td>
+                                    <td>${pItem_re.b_title}</td>
+                                    <td>${pItem_re.p_amount - pItem_re.re_amount}</td>
+                                    <td>
+                                        <div class="Ere_input_box">
+                                            <div style="float:left;">
+                                                <input type="text" id="qty" class="Ere_form_input" onkeydown="fn_number_check(event);" maxlength="1" onblur="fn_qty_check();" value="1" />
+                                            </div>
+                                            <div class="Ere_form_arrow">
+                                                <a href="javascript:fn_qty_change(true);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Aup.png" border="0" /></a>
+                                                <a href="javascript:fn_qty_change(false);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Adown.png" border="0" /></a>
+                                            </div>
+                                        </div>
+                                    </td>
+    
+                                    <c:choose>
+                                        <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
+                                                        && ((pItem.p_amount > pItem.re_amount) || empty pItem.re_amount)}">
+                                            <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td><input type="checkbox" name="p_idList" value="${pItem.p_id}" disabled></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                             </c:forEach>
+                        </c:if>
                     </table>
         
                 </div>
         
                 <div class="container-1">
                     <button onclick="location.href='/mypage/purchaselist'">돌아가기</button>
-                    <button onclick="location.href=''">교환요청</button>
-                    <button onclick="location.href=''">반품요청</button>
+                    <button onclick="">교환요청</button>
+                    <button onclick="">반품요청</button>
                 </div>
             
             </div>
@@ -101,8 +122,27 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+    function fn_number_check(event) {
+
+
+    }
+
+    function fn_qty_check() {
+
+
+    }
+
+    function fn_qty_change() {
+
+    }
+
+
+    </script>
 
 </body>
 

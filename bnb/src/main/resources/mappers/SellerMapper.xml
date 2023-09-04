@@ -3,32 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
+
      <!-- 서점 검색 -->
     <select id="searchBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
-SELECT S.*, SF.sf_sysname 
-FROM seller S 
-LEFT JOIN seller_file SF ON S.s_id = SF.sf_s_id 
-WHERE UPPER(S.s_storename) LIKE UPPER('%' || #{keyword} || '%')
+        SELECT S.*, SF.sf_sysname 
+        FROM seller S 
+        LEFT JOIN seller_file SF ON S.s_id = SF.sf_s_id 
+        WHERE UPPER(S.s_storename) LIKE UPPER('%' || #{keyword} || '%')
     </select>
 
     <select id="countBookstores" resultType="int">
-    SELECT COUNT(*) FROM seller WHERE UPPER(s_storename) LIKE UPPER('%' || #{keyword} || '%')
+        SELECT COUNT(*) FROM seller WHERE UPPER(s_storename) LIKE UPPER('%' || #{keyword} || '%')
     </select>
 
-    <!-- 서점 회원 -->
 
-    <!-- 판매자 데이터를 아이디로 가져오는 쿼리 -->
-  
-     <select id="getSellerById" resultType="com.cjcs.bnb.dto.SellerDto">
-        SELECT * FROM Seller WHERE s_id = #{sellerId}
-    </select> 
-
-    <!-- 판매자 정보 업데이트 -->
-   <update id="updateSellerInfo">
-        UPDATE Seller
-        SET s_storename = #{storeName}, s_storedesc = #{storeDesc}
-        WHERE s_id = #{sellerId}
-    </update> 
 
 </mapper>
 

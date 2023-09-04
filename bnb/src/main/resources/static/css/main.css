@@ -137,6 +137,10 @@ footer {
 
 /* main - search */
 
+form#mapSearchForm {
+    width: 100%;
+}
+
 form#searchForm {
     display: flex;
     align-items: center;
@@ -163,8 +167,8 @@ form#searchForm {
     background-position: center;
    }
  
-
 .scbox_01 {
+    width: 550px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,12 +176,8 @@ form#searchForm {
      z-index: 1;
 }
 
-
-.scbox_02 {
-    width: 500px;
-}
-
 .scstore {
+    box-sizing: border-box;
     width: 100%;
     font-family: 'Varela Round', sans-serif;
     font-family: 'BookkGothic-Bd';
@@ -193,12 +193,10 @@ form#searchForm {
 input:focus {outline: none;}
 input.scstore::placeholder {color:#FFF;}
 
-
 #scboxicon {
     font-size: 45px;
     color: #FFF;
     padding: 14px;
-
 }
 
 /* book store list */
@@ -210,7 +208,6 @@ input.scstore::placeholder {color:#FFF;}
     padding: 25px;
     color: #FFF;
     margin-top: 50px;
-
 }
 
 .list_tt {

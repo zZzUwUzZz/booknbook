@@ -10,12 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
        return;
     } 
-
-
       // Navigate to the search results page with the keyword as a query parameter
       window.location.href = `search?keyword=${encodeURIComponent(keyword)}`;
       //window.location.href = `search.jsp`;
-    
     });
   });
   

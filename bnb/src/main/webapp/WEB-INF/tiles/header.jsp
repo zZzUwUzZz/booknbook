@@ -3,6 +3,8 @@
 <head>
     <script src="/js/noti.js"></script>
     <link rel="stylesheet" href="/css/noti.css">
+    <script src="/js/search.js"></script>
+ 
 </head>
 
 
@@ -59,8 +61,8 @@
 
         <div class="hd_02">
             <div class="menu_01">
-                <a>BOOKSTORE</a>
-                <a>BOOKS</a>
+                <a href="<%=request.getContextPath()%>/bookstore">BOOKSTORE</a>
+                <a href="<%=request.getContextPath()%>/books">BOOKS</a>
                 <a>NEW</a>
                 <a>RENT</a>
             </div>

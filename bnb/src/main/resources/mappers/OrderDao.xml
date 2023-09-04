@@ -84,14 +84,6 @@
         <!-- where order_status_id = 7 and deliverydate = sysdate and s_id = #{s_id} -->
     </select>
 
-    <!-- 오늘 즐겨찾기 회원수 카운트 -->
-    <select id="getBookmarkMemberCnt" parameterType="SellerDto" resultType="Integer">
-        SELECT COUNT(*)
-        FROM FavStore
-        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE = sysdate
-        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE = sysdate --> 
-    </select>
-
     <!-- 한 달간 취소 요청 카운트 -->
     <select id="getMonthCancelRequest" parameterType="SellerDto" resultType="Integer">
         select count(*)
@@ -104,7 +96,8 @@
     <select id="getMonthReturnRequest" parameterType="SellerDto" resultType="Integer">
         select count(*)
         from Ref_Exch
-        where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') re_s_id = #{s_id}
+        where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = 'seller001'
+        <!-- where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = #{s_id} -->
     </select>
 
 </mapper>

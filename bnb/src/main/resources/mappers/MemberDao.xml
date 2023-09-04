@@ -53,6 +53,32 @@
         </set>
         WHERE S_ID=#{m_id}
     </update>
+
+    <!-- 오늘 즐겨찾기 회원수 카운트 -->
+    <select id="getTodayBookmarkCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = 'seller001' and TRUNC(FAVS_DATE) = TRUNC(SYSDATE)
+        <!-- WHERE FAVS_S_ID = #{s_id} and TRUNC(FAVS_DATE) = TRUNC(sysdate) --> 
+    </select>
+
+    <!-- 이번주 즐겨잧기 회원수 카운트 -->
+    <select id="getWeekBookmarkCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE >= to_char(sysdate-7, 'yy/mm/dd')
+        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE >= to_char(sysdate-7, 'yy/mm/dd') -->
+    </select>
+
+    <!-- 이번달 즐겨잧기 회원수 카운트 -->
+    <select id="getMonthBookmarkCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE >= to_char(sysdate-30, 'yy/mm/dd')
+        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE >= to_char(sysdate-30, 'yy/mm/dd') -->
+    </select>
+
+    
     
 
 

@@ -149,7 +149,7 @@
 .contain-3 {
     position: relative;
     left: 350px;
-    top: -846px;
+    top: -526px;
     width: 718px;
     display: inline-block;
 }
@@ -162,7 +162,6 @@
     padding-right: 20px;
     background-color: #fffbed;
     margin-right: 0px;
-    height: 600px;
     display: block;
 }
 
@@ -174,7 +173,6 @@
     width: 100%;
     border-collapse: collapse;
     border-radius: 5px;
-    overflow: hidden;
 }
 
 .member-list th,

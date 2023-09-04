@@ -16,7 +16,5 @@
         SELECT COUNT(*) FROM seller WHERE UPPER(s_storename) LIKE UPPER('%' || #{keyword} || '%')
     </select>
 
-
-
 </mapper>
 

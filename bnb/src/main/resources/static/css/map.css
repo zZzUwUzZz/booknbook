@@ -3,10 +3,16 @@ body {
     overflow-y: hidden;
 }
 
+
+.hd {
+    padding-bottom: 26px;
+
+}
 .mapContainer {
-    background: #000;
+    background: #c0c0c0;
     width: 100%;
     height: 100vh;
+    display: flex;
 }
 
 .mapSearchBox {
@@ -63,3 +69,15 @@ input.map_sc {
     object-fit: cover;
     height: 300px;
 }
+
+
+#gmp-map  {
+ width: 100%;
+  height: 100%;
+}
+
+.mapbox {
+    width: 100%;
+}
+
+ 

@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
+
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SellerDto;
 
 @Mapper
 public interface MemberDao {

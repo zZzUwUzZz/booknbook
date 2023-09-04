@@ -30,15 +30,6 @@
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <style>
-        h3 {
-            margin: 10px 0 5px;
-        }
-        #board-area-orderdetail {
-            height: none;
-        }
-    </style>
-
     <title>Document</title>
 
 </head>

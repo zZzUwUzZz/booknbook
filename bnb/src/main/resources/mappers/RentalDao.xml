@@ -19,7 +19,10 @@
                order_status as "order_status",
                delivery_status_id as "delivery_status_id",
                delivery_status as "delivery_status",
-               r_deliverydate as "r_deliverydate"
+               r_deliverydate as "r_deliverydate",
+               r_rental_status_id as "r_rental_status_id",
+               r_latefee_total as "r_latefee_total",
+               r_latefee_paid as "r_latefee_paid"
         FROM O, R, B, S, STATUS_O, STATUS_D
         WHERE o_id = r_o_id AND r_s_id = s_id AND
               r_s_id = b_s_id AND r_b_isbn = b_isbn AND

@@ -59,12 +59,14 @@
 
         <div class="board-area">
             
+            <form action="/mypage/refundexchange" method="post">
+
             <div>
                 <h2 class="pagename">PURCHASE LIST</h2>
             </div>
 
             <div>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table>
                     <tr class="headrow">
                         <th>주문번호</th>
@@ -72,32 +74,50 @@
                         <th>도서명</th>
                         <th>수량</th>
                         <th>서점명</th>
+                        <th>배송상태</th>
                         <th colspan="2">교환/반품이력</th>
+                        <th width="40px"></th>
                     </tr>
 
                     <c:if test="${empty pList}">
                         <tr>
-                            <td colspan="7">구매내역이 없습니다.</td>
+                            <td colspan="9">구매내역이 없습니다.</td>
                         </tr>
                     </c:if>
         
                     <c:if test="${!empty pList}">
                         <c:forEach var="pItem" items="${pList}">
                             <tr>
-                                <td>${pItem.o_id}</td>
+                                <td onclick="location.href='/mypage/orderdetail/${pItem.o_id}'" class="td-linked">${pItem.o_id}</td>
                                 <td>${pItem.o_date}</td>
                                 <td>${pItem.b_title}</td>
                                 <td>${pItem.p_amount}</td>
                                 <td>${pItem.s_storename}</td>
+                                <td>${pItem.delivery_status}</td>
                                 <td>${pItem.re_sort}</td>
                                 <td>${pItem.re_amount}</td>
-                                <td>${pItem.delivery_status}</td>
+
+                                <c:choose>
+                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
+                                                    && ((pItem.p_amount > pItem.re_amount) || empty pItem.re_amount)}">
+                                        <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><input type="checkbox" name="p_idList" value="${pItem.p_id}" disabled></td>
+                                    </c:otherwise>
+                                </c:choose>
                             </tr>
                          </c:forEach>
                     </c:if>
                 </table>
                 </div>
             </div>
+
+            <div class="btnbox">
+                <button type="submit" id="submit" disabled>교환/반품신청</button>
+            </div>
+
+            </form>
 
         </div>
 
@@ -111,8 +131,27 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+    $(document).ready(()=>{
+
+        $('input[type="checkbox"]').change(function() {
+
+            if ($('input[type="checkbox"]:checked').length > 0) {
+                $('#submit').prop('disabled', false);
+            } else {
+                $('#submit').prop('disabled', true);
+            }
+
+        });
+
+    })        
+
+    </script>
+
 
 </body>
 

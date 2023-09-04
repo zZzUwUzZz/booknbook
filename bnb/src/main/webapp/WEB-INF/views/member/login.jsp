@@ -13,7 +13,7 @@
 <div class="body">
   <div class="login-container">
     <h2 class="h2">login</h2>
-    <form id="login-form" onsubmit="return validateLoginForm()">
+    <form id="login-form" onsubmit="return validateLoginForm()" action="/member/login" method="post">
       <input type="text" id="m_id" name="m_id" required placeholder="아이디">
       <input type="password" id="m_pw" name="m_pw" required placeholder="비밀번호">
       <button class="login-button" type="submit">로그인</button>
@@ -43,11 +43,11 @@
         </div>
       </div>
 
-<script src="script.js"></script>
+
 <script>
   function validateLoginForm() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let username = document.getElementById("m_id").value;
+    let password = document.getElementById("m_pw").value;
 
     if (username === "" || password === "") {
       alert("아이디와 비밀번호를 모두 입력해주세요.");

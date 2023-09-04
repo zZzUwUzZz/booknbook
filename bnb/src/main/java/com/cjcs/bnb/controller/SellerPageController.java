@@ -3,6 +3,7 @@ package com.cjcs.bnb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,6 @@ import com.cjcs.bnb.service.FileService;
 
 import com.cjcs.bnb.service.MemberService;
 
-import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
 
 import com.cjcs.bnb.service.PurchaseService;
@@ -169,5 +169,4 @@ public class SellerPageController {
 
 
     }
-}
 

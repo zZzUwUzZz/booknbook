@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.dao.RentalDao">
+
+
+
+
+<!--수희-->
+    <select id="getRentalListByOId" parameterType="Integer" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT s_storename as "s_storename",
+               b_title as "b_title",
+               b_rent as "b_rent",
+               r_rentalperiod as "r_rentalperiod",
+               order_status_id as "order_status_id",
+               order_status as "order_status",
+               delivery_status_id as "delivery_status_id",
+               delivery_status as "delivery_status",
+               r_deliverydate as "r_deliverydate"
+        FROM O, R, B, S, STATUS_O, STATUS_D
+        WHERE o_id = r_o_id AND r_s_id = s_id AND
+              r_s_id = b_s_id AND r_b_isbn = b_isbn AND
+              r_order_status_id = order_status_id AND
+              r_delivery_status_id = delivery_status_id AND
+              o_id = #{o_id}
+        ORDER BY s_storename DESC
+    </select>
+
+    <select id="getRentalListByCId" parameterType="String" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               b_title as "b_title",
+               s_storename as "s_storename",
+               rental_status as "rental_status",
+               r_duedate as "r_duedate",
+               r_latefee_total as "r_latefee_total"
+        FROM O, R, B, S, STATUS_R
+        WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
+              r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
+              r_c_id = #{c_id}
+        ORDER BY o_date DESC
+    </select>
+
+    <select id="getCurrentRentalListByCId" parameterType="String" resultType="Map">
+        SELECT rownum,
+               b_title as "b_title",
+               s_storename as "s_storename",
+               r_duedate as "r_duedate",
+               rental_status as "rental_status"
+        FROM (SELECT b_title, s_storename, r_duedate, rental_status
+            FROM R, S, B, STATUS_R
+            WHERE r_s_id = s_id AND r_s_id = b_s_id AND r_b_isbn = b_isbn AND
+                    r_rental_status_id = rental_status_id AND
+                    (r_rental_status_id IN (2, 3)) AND
+                    r_c_id = #{c_id}
+            ORDER BY r_o_id DESC)
+        <![CDATA[
+        WHERE rownum<4
+        ]]>
+    </select>
+
+    <select id="getLatest5RentalListByCId" parameterType="String" resultType="RentalDto">
+        SELECT rownum, o_id, o_date, b_title, delivery_status
+        FROM (SELECT o_id, o_date, b_title, delivery_status
+              FROM order_list_r
+              WHERE o_c_id = #{c_id} ORDER BY o_date DESC)
+        <![CDATA[
+        WHERE rownum<6
+        ]]>
+    </select>
+
+    <select id="countCurrentRentalByCId" parameterType="String" resultType="Integer">
+        SELECT count(*)
+        FROM R
+        WHERE (r_rental_status_id IN (2, 3)) AND r_c_id = #{c_id}
+    </select>
+
+    <update id="cancelRentalByOId" parameterType="Integer">
+        UPDATE R
+        SET r_order_status_id = 2
+        WHERE r_o_id = #{o_id}
+    </update>
+
+    <select id="getReservationListByCId" parameterType="String" resultType="RentalReservationDto">
+        SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+        FROM RR, S, B, STATUS_RR
+        WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
+              rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
+              rr_c_id = #{c_id}
+        ORDER BY rr_id DESC
+    </select>
+
+    <update id="updateReservationByRRId" parameterType="Integer">
+        UPDATE RR
+        SET rr_res_status_id = 4
+        WHERE rr_id = #{rr_id}
+    </update>
+
+</mapper>

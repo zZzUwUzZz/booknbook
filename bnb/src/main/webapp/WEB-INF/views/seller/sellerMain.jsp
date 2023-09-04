@@ -105,11 +105,11 @@
                         <table class="box-list">
                             <tr>
                                 <td>오늘</td>
-                                <td>${BookmarkMemCnt}명</td>
+                                <td>${TodayBookmark}명</td>
                                 <td>이번 주</td>
-                                <td>0명</td>
+                                <td>${WeekBookmark}명</td>
                                 <td>이번 달</td>
-                                <td>0명</td>
+                                <td>${MonthBookmark}명</td>
                             </tr>
                         </table>
                     </div>
@@ -121,7 +121,7 @@
                                 <td>취소요청</td>
                                 <td>${CanelCnt}건</td>
                                 <td>반품/교환 요청</td>
-                                <td>0건</td>
+                                <td>${ReturnCnt}건</td>
                             </tr>
                         </table>
                     </div>

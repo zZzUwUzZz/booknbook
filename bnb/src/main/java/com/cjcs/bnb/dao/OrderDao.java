@@ -21,8 +21,8 @@ public interface OrderDao {
     int getTodayDeliveryPrepare(String s_id);
     int getTodayDeliverShip(String s_id);
     int getTodayDeliverComplete(String s_id);
-    int getBookmarkMemberCnt(String s_id);
     int getMonthCancelRequest(String s_id);
+    int getMonthReturnRequest(String s_id);
     
 
 }

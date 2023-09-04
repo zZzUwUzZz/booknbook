@@ -67,12 +67,12 @@ public class OrderService {
         return oDao.getTodayDeliverComplete(s_id);
     }
 
-    public int getBookmarkMemberCnt(String s_id){
-        return oDao.getBookmarkMemberCnt(s_id);
-    }
-
     public int getMonthCancelRequest(String s_id){
         return oDao.getMonthCancelRequest(s_id);
+    }
+
+    public int getMonthReturnRequest(String s_id){
+        return oDao.getMonthReturnRequest(s_id);
     }
 
     

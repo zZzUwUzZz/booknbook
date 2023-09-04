@@ -126,4 +126,20 @@ public class MemberService {
         return mDao.getFavBookList(c_id);
     }
 
+
+    //예림
+    
+
+    public int getTodayBookmarkCnt(String s_id){
+        return mDao.getTodayBookmarkCnt(s_id);
+    }
+
+    public int getWeekBookmarkCnt(String s_id){
+        return mDao.getWeekBookmarkCnt(s_id);
+    }
+
+    public int getMonthBookmarkCnt(String s_id){
+        return mDao.getMonthBookmarkCnt(s_id);
+    }
+
 }

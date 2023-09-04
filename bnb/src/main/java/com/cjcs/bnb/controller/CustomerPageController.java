@@ -1,5 +1,6 @@
 package com.cjcs.bnb.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -135,7 +137,6 @@ public class CustomerPageController {
         return "customer/mypageOrderList";
     }
 
-
     @GetMapping("/orderdetail/{o_id}")    // 주문상세
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
@@ -189,16 +190,24 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/refundExchange")     // 교환반품신청폼
-    public String mypageRefundExchangeFrm(List<Integer> p_idList, Model model, HttpSession session) {
+    @GetMapping("/refundexchange")     // 교환반품신청폼
+    public String mypageRefundExchangeFrm(@RequestParam("p_idList") ArrayList<Integer> p_idList, Model model) {
 
-        List<HashMap<String, String>> pList_re = pDao.getPurchaseListByPIds(p_idList);
+        log.info("p_idList:{}", p_idList);
+
+        List<HashMap<String, String>> pList_re = new ArrayList<>();
+        
+        for (Integer p_id : p_idList) {
+            HashMap<String, String> pItem = pDao.getPurchaseItemByPId(p_id);
+            pList_re.add(pItem);
+        }
+        log.info("pList_re:{}", pList_re);
         model.addAttribute("pList_re", pList_re);
         
         return "customer/mypageRefundExchange";
     }
 
-    @PostMapping("/refundExchange")     // 교환반품요청
+    @PostMapping("/refundexchange")     // 교환반품요청
     public String mypageRefundExchange() {
         
         return "redirect:/mypage/refundexchangelist";
@@ -209,6 +218,7 @@ public class CustomerPageController {
 
         return "customer/mypageRefundExchangeList";
     }
+
 
     @GetMapping("/rentalreservationlist")    // 대여예약내역
     public String mypageRentalReservationList(Model model, HttpSession session) {
@@ -238,6 +248,7 @@ public class CustomerPageController {
 
         return rrList;
     }
+
 
     @GetMapping("/favoritestores")   // 즐겨찾는서점
     public String mypageFavoriteStores(Model model, HttpSession session) {

@@ -48,6 +48,9 @@ public interface MemberDao {
     public void updateMemberInfo(MemberDto updatedMDto);
 
     public void updateSellerInfo(MemberDto updatedMDto);
+    public int getTodayBookmarkCnt(String s_id);
+    public int getWeekBookmarkCnt(String s_id);
+    public int getMonthBookmarkCnt(String s_id);
 
     // 수희
     public MemberDto getCustomerInfoById(String m_id);

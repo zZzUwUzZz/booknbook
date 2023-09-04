@@ -13,4 +13,7 @@ public class SellerDto {
     private int s_deliveryfee;
     private int s_latefee;
 
+    
 }
+
+

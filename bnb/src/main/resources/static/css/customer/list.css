@@ -4,7 +4,7 @@ table {
     margin: auto;
 }
 
-.table_lists {
+.tablebox {
     box-sizing: border-box;
     border: 1px solid #ff9946;
     border-radius: 10px;
@@ -17,8 +17,18 @@ table {
 tr {
     height: 40px;
 }
-
+.td-linked {
+    cursor: pointer;
+}
 .headrow {
     background: #4c4240;
     color:beige;
+}
+
+.btnbox {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 1040px;
+    margin: auto;
+    padding: 15px;
 }

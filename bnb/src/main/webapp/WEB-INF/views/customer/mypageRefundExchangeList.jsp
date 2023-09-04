@@ -62,7 +62,7 @@
             </div>
 
             <div>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table>
                     <tr class="headrow">
                         <th>구분</th>

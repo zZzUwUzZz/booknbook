@@ -13,12 +13,14 @@
         INSERT INTO M
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
-    <insert id="joinSeller" parameterType="MemberDto">
+    
+  <insert id="joinSeller" parameterType="MemberDto">
         INSERT INTO S(s_id, s_storename, s_crn )
         VALUES(#{m_id}, #{s_storename}, #{s_crn})
     </insert>
+
     <insert id="joinCustomer" parameterType="MemberDto">
-        INSERT INTO C(c_id, c_name)
+        INSERT INTO C(c_id, c_name) 
         VALUES(#{m_id}, #{c_name})
     </insert>
 
@@ -56,6 +58,7 @@
         </set>
         WHERE S_ID=#{m_id}
     </update>
+    
 
 
 

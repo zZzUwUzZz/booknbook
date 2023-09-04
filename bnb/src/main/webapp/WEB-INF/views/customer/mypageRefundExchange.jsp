@@ -24,70 +24,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
 
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -127,31 +67,52 @@
         
                     <table>
                         <tr>
-                            <td>아이디</td> <td>${mDto.m_id}</td>
+                            <th> </th>
+                            <th>서점명</th>
+                            <th>도서명</th>
+                            <th>신청가능 수량</th>
+                            <th>신청할 수량</th>
                         </tr>
-                        <tr>
-                            <td>이름</td> <td>${mDto.c_name}</td>
-                        </tr>
-                        <tr>
-                            <td>주소</td> <td>${mDto.m_addr}</td>
-                        </tr>
-                        <tr>
-                            <td>휴대전화번호</td> <td>${mDto.m_phone}</td>
-                        </tr>
-                        <tr>
-                            <td>이메일</td> <td>${mDto.m_email}</td>
-                        </tr>
-                        <tr>
-                            <td>가입일자</td> <td>${mDto.m_joindate}</td>
-                        </tr>
+
+                        <c:if test="${!empty pList_re}">
+                            <c:forEach var="pItem_re" items="${pList_re}">
+                                <tr>
+                                    <td>${pItem_re.p_id}<input type="hidden" name="p_id" value="${pItem_re.p_id}"></td>
+                                    <td>${pItem_re.s_storename}</td>
+                                    <td>${pItem_re.b_title}</td>
+                                    <td>${pItem_re.p_amount - pItem_re.re_amount}</td>
+                                    <td>
+                                        <div class="Ere_input_box">
+                                            <div style="float:left;">
+                                                <input type="text" id="qty" class="Ere_form_input" onkeydown="fn_number_check(event);" maxlength="1" onblur="fn_qty_check();" value="1" />
+                                            </div>
+                                            <div class="Ere_form_arrow">
+                                                <a href="javascript:fn_qty_change(true);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Aup.png" border="0" /></a>
+                                                <a href="javascript:fn_qty_change(false);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Adown.png" border="0" /></a>
+                                            </div>
+                                        </div>
+                                    </td>
+    
+                                    <c:choose>
+                                        <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
+                                                        && ((pItem.p_amount > pItem.re_amount) || empty pItem.re_amount)}">
+                                            <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td><input type="checkbox" name="p_idList" value="${pItem.p_id}" disabled></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                             </c:forEach>
+                        </c:if>
                     </table>
         
                 </div>
         
                 <div class="container-1">
                     <button onclick="location.href='/mypage/purchaselist'">돌아가기</button>
-                    <button onclick="location.href=''">교환요청</button>
-                    <button onclick="location.href=''">반품요청</button>
+                    <button onclick="">교환요청</button>
+                    <button onclick="">반품요청</button>
                 </div>
             
             </div>
@@ -161,8 +122,27 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+    function fn_number_check(event) {
+
+
+    }
+
+    function fn_qty_check() {
+
+
+    }
+
+    function fn_qty_change() {
+
+    }
+
+
+    </script>
 
 </body>
 

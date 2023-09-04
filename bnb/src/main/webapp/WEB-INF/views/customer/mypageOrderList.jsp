@@ -64,7 +64,7 @@
             </div>
 
             <div>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table>
                     <tr class="headrow">
                         <th>주문번호</th>
@@ -84,7 +84,7 @@
                     <c:if test="${!empty oList}">
                         <c:forEach var="oItem" items="${oList}">
                             <tr>
-                                <td>${oItem.o_id}</td>
+                                <td onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">${oItem.o_id}</td>
                                 <td>${oItem.o_date}</td>
                                 <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
                                 <td>${oItem.order_status}</td>

@@ -10,13 +10,16 @@
 
     <!--회원가입정보 DB에 넣기-->
     <insert id="joinMember" parameterType="MemberDto">
-        INSERT INTO M VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
+        INSERT INTO M
+        VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO S VALUES(#{s_id}, #{s_storename}, #{s_storedesc}, #{s_crn}, #{s_deliveryfee}, #{s_latefee})
+        INSERT INTO S(s_id, s_storename, s_storedesc, s_crn, s_deliveryfee, s_latefee)
+        VALUES(#{m_id}, #{s_storename}, #{s_storedesc}, #{s_crn}, #{s_deliveryfee}, #{s_latefee})
     </insert>
     <insert id="joinCustomer" parameterType="MemberDto">
-        INSERT INTO C VALUES(#{c_id}, #{c_name})
+        INSERT INTO C(c_id, c_name) 
+        VALUES(#{m_id}, #{c_name})
     </insert>
 
 

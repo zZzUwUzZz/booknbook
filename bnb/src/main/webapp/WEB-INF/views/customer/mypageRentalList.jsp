@@ -58,12 +58,14 @@
 
         <div class="board-area">
 
+            <form action="/payment" method="post">
+
             <div>
                 <h2 class="pagename">RENTAL LIST</h2>
             </div>
 
             <div>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table>
                     <tr class="headrow">
                         <th>주문번호</th>
@@ -73,30 +75,46 @@
                         <th>대여상태</th>
                         <th>반납기한</th>
                         <th>연체료총액</th>
+                        <th width="40px"></th>
                     </tr>
 
                     <c:if test="${empty rList}">
                         <tr>
-                            <td colspan="7">대여내역이 없습니다.</td>
+                            <td colspan="8">대여내역이 없습니다.</td>
                         </tr>
                     </c:if>
         
                     <c:if test="${!empty rList}">
                         <c:forEach var="rItem" items="${rList}">
                             <tr>
-                                <td>${rItem.o_id}</td>
+                                <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
                                 <td>${rItem.o_date}</td>
                                 <td>${rItem.b_title}</td>
                                 <td>${rItem.s_storename}</td>
                                 <td>${rItem.rental_status}</td>
                                 <td>${rItem.r_duedate}</td>
                                 <td>${rItem.r_latefee_total}</td>
+
+                                <c:choose>
+                                    <c:when test="${rItem.r_rental_status_id eq 3 && not empty rItem.r_latefee_total && rItem.r_latefee_paid ne 'Y'}">
+                                        <td><input type="checkbox"></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><input type="checkbox" disabled></td>
+                                    </c:otherwise>
+                                </c:choose>
                             </tr>
                          </c:forEach>
                     </c:if>
                 </table>
                 </div>
             </div>
+
+            <div class="btnbox">
+                <button type="submit" id="submit" disabled>연체료납부</button>
+            </div>
+
+            </form>
 
         </div>
 
@@ -110,8 +128,26 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+        $(document).ready(()=>{
+    
+            $('input[type="checkbox"]').change(function() {
+    
+                if ($('input[type="checkbox"]:checked').length > 0) {
+                    $('#submit').prop('disabled', false);
+                } else {
+                    $('#submit').prop('disabled', true);
+                }
+    
+            });
+    
+        })        
+    
+        </script>
 
 </body>
 

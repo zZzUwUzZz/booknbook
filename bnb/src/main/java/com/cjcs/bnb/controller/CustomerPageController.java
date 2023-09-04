@@ -190,8 +190,11 @@ public class CustomerPageController {
 
 
     @GetMapping("/refundExchange")     // 교환반품신청폼
-    public String mypageRefundExchangeFrm() {
+    public String mypageRefundExchangeFrm(List<Integer> p_idList, Model model, HttpSession session) {
 
+        List<HashMap<String, String>> pList_re = pDao.getPurchaseListByPIds(p_idList);
+        model.addAttribute("pList_re", pList_re);
+        
         return "customer/mypageRefundExchange";
     }
 

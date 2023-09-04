@@ -22,7 +22,7 @@ public class FileService {
     @Autowired
     private FileMapper fileMapper; // MyBatis mapper
 
-    private final String uploadDir = "src/main/resources/uploads/"; // 변경 가능한 경로
+    private final String uploadDir = "src/main/resources/static/uploads/"; // 변경 가능한 경로
 
     public List<String> FileNamesBySellerId(String sellerId) {
         List<String> filenames = fileMapper.FileNamesBySellerId(sellerId);

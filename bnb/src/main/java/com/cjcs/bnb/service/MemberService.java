@@ -31,6 +31,8 @@ public class MemberService {
     }
 
 
+
+
     // public MemberDto login(HashMap<String, String> member) {
 
     // // boolean result = mDao.login(member);
@@ -114,6 +116,7 @@ public class MemberService {
         return mDao.getFavBookList(c_id);
     }
 
- 
+
+
 
 }

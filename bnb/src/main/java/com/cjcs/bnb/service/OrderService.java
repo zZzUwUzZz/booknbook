@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 
@@ -29,7 +30,8 @@ public class OrderService {
     private PurchaseDao pDao;
     @Autowired
     private RentalDao rDao;
-
+    @Autowired
+    private OrderDao oDao;
 
 
     //수희
@@ -39,4 +41,39 @@ public class OrderService {
         pDao.cancelPurchaseByOId(o_id);
         rDao.cancelRentalByOId(o_id);
     }
+
+    //예림
+    public int getTodaySellCnt(String s_id){
+        return oDao.getTodaySellCnt(s_id);
+    }
+
+    public int getTodayRentCnt(String s_id){
+        return oDao.getTodayRentCnt(s_id);
+    }
+
+    public int getTodayRentResCnt(String rr_s_id){
+        return oDao.getTodayRentResCnt(rr_s_id);
+    }
+
+    public int getTodayDeliveryPrepare(String s_id){
+        return oDao.getTodayDeliveryPrepare(s_id);
+    }
+
+    public int getTodayDeliverShip(String s_id){
+        return oDao.getTodayDeliverShip(s_id);
+    }
+
+    public int getTodayDeliverComplete(String s_id){
+        return oDao.getTodayDeliverComplete(s_id);
+    }
+
+    public int getBookmarkMemberCnt(String s_id){
+        return oDao.getBookmarkMemberCnt(s_id);
+    }
+
+    public int getMonthCancelRequest(String s_id){
+        return oDao.getMonthCancelRequest(s_id);
+    }
+
+    
 }

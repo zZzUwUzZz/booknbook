@@ -9,9 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OrderDao {
     
     //유다
-
-
-
+    
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
     public HashMap<String, String> getOrderInfoByOId(int o_id);
@@ -25,6 +23,6 @@ public interface OrderDao {
     int getTodayDeliverComplete(String s_id);
     int getBookmarkMemberCnt(String s_id);
     int getMonthCancelRequest(String s_id);
-    int getMonthReturnRequest(String s_id);
     
+
 }

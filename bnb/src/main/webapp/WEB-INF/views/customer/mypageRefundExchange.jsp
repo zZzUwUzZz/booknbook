@@ -104,10 +104,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -116,20 +117,44 @@
 
         <div class="board-area">
 
-            <div class="book-row">
-
-                <div></div>
-                <div></div>
-                <div></div>
-
+            <div>
+                <h2 class="pagename">교환/반품 신청</h2>
             </div>
 
-        </div>
+            <div class="container-0">
 
-        <div class="button-area">
-
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+                <div class="container-1">
+        
+                    <table>
+                        <tr>
+                            <td>아이디</td> <td>${mDto.m_id}</td>
+                        </tr>
+                        <tr>
+                            <td>이름</td> <td>${mDto.c_name}</td>
+                        </tr>
+                        <tr>
+                            <td>주소</td> <td>${mDto.m_addr}</td>
+                        </tr>
+                        <tr>
+                            <td>휴대전화번호</td> <td>${mDto.m_phone}</td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td> <td>${mDto.m_email}</td>
+                        </tr>
+                        <tr>
+                            <td>가입일자</td> <td>${mDto.m_joindate}</td>
+                        </tr>
+                    </table>
+        
+                </div>
+        
+                <div class="container-1">
+                    <button onclick="location.href='/mypage/purchaselist'">돌아가기</button>
+                    <button onclick="location.href=''">교환요청</button>
+                    <button onclick="location.href=''">반품요청</button>
+                </div>
+            
+            </div>
 
         </div>
 

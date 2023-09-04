@@ -24,70 +24,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/list.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
-
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -104,10 +44,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist" id="currpage">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -116,12 +57,54 @@
 
         <div class="board-area">
 
-            <div class="book-row">
+            <div>
+                <h2 class="pagename">EXCHANGE/RETURN LIST</h2>
+            </div>
 
-                <div></div>
-                <div></div>
-                <div></div>
+            <div>
+                <div class="table_lists">
+                <table>
+                    <tr class="headrow">
+                        <th>구분</th>
+                        <th>신청일자</th>
+                        <th>주문번호</th>
+                        <th>서점명</th>
+                        <th>신청품목</th>
+                        <th>금액/수량</th>
+                        <th>처리상태</th>
+                    </tr>
 
+                    <tr>
+                        <td>교환</td>
+                        <td>2023-08-29</td>
+                        <td>12345</td>
+                        <td>효진이네서점</td>
+                        <td>누가 내 머리에 똥 쌌어</td>
+                        <td>10,000/1</td>
+                        <td>교환불가</td>  <!-- 교환불가/반품불가인 경우 클릭활성화 및 사유확인가능해야함-->
+                    </tr>
+
+                    <c:if test="${empty reExList}">
+                        <tr>
+                            <td colspan="7">교환/반품내역이 없습니다.</td>
+                        </tr>
+                    </c:if>
+        
+                    <c:if test="${!empty reExList}">
+                        <c:forEach var="reExItem" items="${reExList}">
+                            <tr>
+                                <td>${reExItem.re_sort}</td>
+                                <td>${reExItem.re_reqdate}</td>
+                                <td>${reExItem.re_o_id}</td>
+                                <td>${reExItem.s_storename}</td>
+                                <td>${reExItem.b_title}</td>
+                                <td>${reExItem.total_price} ${reExItem.re_amount}</td>
+                                <td>${reExItem.process_status}</td>
+                            </tr>
+                         </c:forEach>
+                    </c:if>
+                </table>
+                </div>
             </div>
 
         </div>

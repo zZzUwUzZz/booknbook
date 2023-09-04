@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -23,71 +25,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/list.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
-
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -104,10 +45,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist" id="currpage">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -116,12 +58,44 @@
 
         <div class="board-area">
 
-            <div class="book-row">
+            <div>
+                <h2 class="pagename">RENTAL LIST</h2>
+            </div>
 
-                <div></div>
-                <div></div>
-                <div></div>
+            <div>
+                <div class="table_lists">
+                <table>
+                    <tr class="headrow">
+                        <th>주문번호</th>
+                        <th>주문일자</th>
+                        <th>도서명</th>
+                        <th>서점명</th>
+                        <th>대여상태</th>
+                        <th>반납기한</th>
+                        <th>연체료총액</th>
+                    </tr>
 
+                    <c:if test="${empty rList}">
+                        <tr>
+                            <td colspan="7">대여내역이 없습니다.</td>
+                        </tr>
+                    </c:if>
+        
+                    <c:if test="${!empty rList}">
+                        <c:forEach var="rItem" items="${rList}">
+                            <tr>
+                                <td>${rItem.o_id}</td>
+                                <td>${rItem.o_date}</td>
+                                <td>${rItem.b_title}</td>
+                                <td>${rItem.s_storename}</td>
+                                <td>${rItem.rental_status}</td>
+                                <td>${rItem.r_duedate}</td>
+                                <td>${rItem.r_latefee_total}</td>
+                            </tr>
+                         </c:forEach>
+                    </c:if>
+                </table>
+                </div>
             </div>
 
         </div>

@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cjcs.bnb.dao.MemberDao">
-  <!-- Mapper queries go here -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.dao.OrderDao">
+
+<!--수희-->
+    <select id="getOrderListGroupByOId" parameterType="String" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               first_title as "first_title",
+               COUNT(*)-1 as "book_sorts_minus_one",
+               order_status as "order_status",
+               o_delivery_sort as "o_delivery_sort"
+        FROM (SELECT o_id,
+                    o_date,
+                    FIRST_VALUE(b_title) OVER(PARTITION BY o_id) AS first_title,
+                    order_status,
+                    o_delivery_sort
+              FROM order_list
+              WHERE o_c_id = #{c_id})
+        GROUP BY o_id, o_date, first_title, order_status, o_delivery_sort
+        ORDER BY o_id DESC
+    </select>
+
+    <select id="getOrderInfoByOId" parameterType="Integer" resultType="Map">
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               o_delivery_sort as "o_delivery_sort",
+               o_recip_addr as "o_recip_addr",
+               o_recip_name as "o_recip_name",
+               o_recip_phone as "o_recip_phone"
+        FROM O
+        WHERE o_id=#{o_id}
+    </select>
+
 </mapper>
 

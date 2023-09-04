@@ -24,70 +24,10 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/customer/mypage.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/slide.js"></script>
 
-    <style>
-        
-        .container-mypage {
-            border: 1px solid red;
-            display: flex;
-            flex-direction: row;
-            width: 1400px;
-            height: 650px;
-            margin: auto;
-            padding: 15px;
-        }
-        .board-area {
-            background-color: #fffbed;
-            width: 1135px;
-            margin: 0 15px;
-        }
-        .button-area {
-            display: flex;
-            flex-direction: column-reverse;
-            border: 1px solid orange;
-            width: 50px;
-        }
-        .buttons {
-            border: 1px solid yellow;
-            border-radius: 10px;
-            background-color: #fffbed;
-            width: 50px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .menu_simple ul {
-            margin: 0; 
-            padding: 0;
-            width:185px;
-            list-style-type: none;
-        }
-        
-        .menu_simple ul li a {
-            text-decoration: none;
-            color: #fffbed; 
-            padding: 10.5px 11px;
-            background-color: #4c4240;
-            display:block;
-        }
-        
-        /* .menu_simple ul li a:visited {
-            color: #fffbed;
-        } */    
-        
-        #currpage {
-            background-color: #fffbed;
-            color: #4c4240;
-            font-weight: 700;
-        }
-        .menu_simple ul li a:hover, .menu_simple ul li .current {
-            color: #fffbed;
-            background-color: #ff9946;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -104,10 +44,11 @@
             <ul>
                 <li><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
+                <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약조회</a></li>
+                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
                 <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
@@ -116,33 +57,40 @@
 
         <div class="board-area">
 
+            <div>
+                <h2 class="pagename">회원정보 수정</h2>
+            </div>
+
             <div class="container-0">
 
-                <div class="container-1">
+                <form id="updateForm" action="/mypage/updateinfo" method="POST">    
+
+                    <div class="container-1">
+                            
+                        아이디<input type="text" value="${mDto.m_id}" name="m_id" required><br>
+                        기존비밀번호<input type="password" id="pw_ori"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
+                        <span id="pw_check" style="display: none">기존 비밀번호 제대로 입력하세요</span>
+                        <!--
+                        새비밀번호<input type="password" id="pw_new1" name="m_pw"><br>
+                        <span id="pw_format_check" style="display: none">비번형식에 안 맞아요ㄱ-</span>
+                        새비밀번호 확인<input type="password" id="pw_new2"><br>
+                        <span id="pw_not_same" style="display: none">일치하지 않습니다. 입력한 내용을 확인해주세요.</span>
+                        -->
+                        이름<input type="text" value="${mDto.c_name}" name="c_name" required><br>
+                        주소<input type="text" value="${mDto.m_addr}" name="m_addr" required><br>
+                        휴대전화번호<input type="text" value="${mDto.m_phone}" name="m_phone" required><br>
+                        이메일<input type="text" value="${mDto.m_email}" name="m_email" required>
+
+                    </div>
+
+                    <div class="container-1">
+                        <button onclick="location.href='/mypage/info'">돌아가기</button>
+                        <button type="reset">입력취소</button>
+                        <button id="submit">저장하기</button>
+                    </div>
         
-                    <h2>회원정보수정</h2>
-        
-                    <form action="/mypage/updateinfo" method="POST">
-        
-                        아이디<input type="text" placeholder="abc123" name="m_id"><br>
-                        기존비밀번호<input type="password"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
-                        새비밀번호<input type="password" name="m_pw"><br>
-                        새비밀번호 확인<input type="password"><br>    <!-- 두번같게입력했는지확인해야함 -->
-                        이름<input type="text" placeholder="김댕댕" name="c_name"><br>
-                        주소<input type="text" placeholder="인천광역시 계양구 계산새로 100" name="m_addr"><br>
-                        휴대전화번호<input type="text" placeholder="010-1111-2222" name="m_phone"><br>
-                        이메일<input type="text" placeholder="abc123@naver.com" name="m_email">
-        
-                    </form>
-        
-                </div>
-        
-                <div class="container-1">
-                    <button onclick="location.href='/mypage/info'">돌아가기</button>
-                    <button onclick="location.href='/mypage/updateinfo'">입력취소</button>
-                    <button onclick="">저장하기</button>
-                </div>
-            
+                </form>
+
             </div>
 
         </div>
@@ -150,8 +98,72 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+
+
+        $('#pw_new1').focusout(()=>{
+
+            // (예시: 최소 8자, 대문자/소문자/숫자/특수문자 포함)
+            let pw_format = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            let pw_new1 = $('#pw_new1').val()
+            if (!pw_new1.match(pw_format) && pw_new1 !== '') {
+                $('#pw_format_check').css({'color': 'red', 'display': 'block'})
+            } else {
+                $('#pw_format_check').css({'display': 'none'})
+            }
+
+            let pw_new2 = $('#pw_new2').val()
+            if (pw_new1 !== pw_new2 && pw_new2 !== '') {
+                $('#pw_not_same').css({'color': 'red', 'display': 'block'})
+            } else {
+                $('#pw_not_same').css({'display': 'none'})
+            }
+
+        })
+
+        $('#pw_new2').focusout(()=>{
+
+            let pw_new1 = $('#pw_new1').val()
+            let pw_new2 = $('#pw_new2').val()
+            if (pw_new1 !== pw_new2 && pw_new1 !== '') {
+                $('#pw_not_same').css({'color': 'red', 'display': 'block'})
+            } else {
+                $('#pw_not_same').css({'display': 'none'})
+            }
+
+        })
+
+        $(document).ready(function() {
+
+            $('#submit').on('click', function() {
+
+                let pw_ori = $('#pw_ori').val();
+
+                if (pw_ori !== '1234') {
+                    $('#pw_check').css({'color': 'red', 'display': 'block'})
+                    return false
+                }
+
+                // let is_valid_1 = $('#pw_format_check').css('display')
+                // let is_valid_2 = $('#pw_not_same').css('display')
+                
+                // if (is_valid_1!=='none' || is_valid_2!=='none') {
+                //     return false
+                // }
+
+                $('form').updateForm.submit();
+            })
+
+        })
+ 
+
+    </script>
+
 
 </body>
 

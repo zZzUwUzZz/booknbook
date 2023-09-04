@@ -1,5 +1,9 @@
 package com.cjcs.bnb.controller;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,7 @@ public class BookController {
         return "/books/books";
     }
 
+
     @GetMapping("/books/detail/{isbn}/{sellerId}")
     public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId, Model model) {
         // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
@@ -46,3 +51,5 @@ public class BookController {
     }
 
 }
+
+

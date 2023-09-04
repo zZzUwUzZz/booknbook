@@ -21,6 +21,7 @@ import com.cjcs.bnb.dto.MemberDto;
 
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
+import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
@@ -43,6 +44,9 @@ public class SellerPageController {
     @Autowired
     private RentalService rSer;
 
+    @Autowired
+    private OrderService oSer;
+
 
     @Autowired
     private FileService fileService; // MyBatis mapper
@@ -57,13 +61,43 @@ public class SellerPageController {
     // 서점 정보 수정 페이지
     @GetMapping("/seller/settings/account")
     public String editSeller(@PathVariable String sellerId) {
+    
         // TODO: 필요한 로직 (예: 서점 정보 로드)
-
         return "seller/sellerInfoDetail"; // 'editSeller'는 서점 정보를 수정하는 HTML 페이지를 가리킵니다.
     }
 
     @GetMapping("/main")
-    public String sellermain() {
+    public String sellermain(String s_id, String rr_s_id, Model model) {
+
+        int getTodaySellCnt = oSer.getTodaySellCnt(s_id);
+        model.addAttribute("SellCnt", getTodaySellCnt);
+
+        int getTodayRentCnt = oSer.getTodayRentCnt(s_id);
+        model.addAttribute("RentCnt", getTodayRentCnt);
+
+        int getTodayRentResCnt = oSer.getTodayRentResCnt(rr_s_id);
+        model.addAttribute("RentResCnt", getTodayRentResCnt);
+
+        int TodayOrderCnt = getTodaySellCnt + getTodayRentCnt + getTodayRentResCnt;
+        model.addAttribute("OrderCnt", TodayOrderCnt);
+
+        int getTodayDeliveryPrepare = oSer.getTodayDeliveryPrepare(s_id);
+        model.addAttribute("DeliPre", getTodayDeliveryPrepare);
+        
+        int getTodayDeliverShip = oSer.getTodayDeliverShip(s_id);
+        model.addAttribute("DeliShip", getTodayDeliverShip);
+
+        int getTodayDeliverComplete = oSer.getTodayDeliverComplete(s_id);
+        model.addAttribute("DeliComplete", getTodayDeliverComplete);
+
+        int getBookmarkMemberCnt = oSer.getBookmarkMemberCnt(s_id);
+        model.addAttribute("BookmarkMemCnt", getBookmarkMemberCnt);
+
+        int getMonthCancelRequest = oSer.getMonthCancelRequest(s_id);
+        model.addAttribute("CanelCnt", getMonthCancelRequest);
+        
+        
+
         return "seller/sellerMain";
     }
 
@@ -142,6 +176,6 @@ public class SellerPageController {
     @GetMapping("/account")
     public String selleraccount(){
         return "seller/sellerAccount";
-
     }
 }
+

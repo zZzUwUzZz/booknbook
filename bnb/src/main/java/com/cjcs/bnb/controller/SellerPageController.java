@@ -54,7 +54,6 @@ public class SellerPageController {
         // TODO: 필요한 로직 (예: 서점 정보 로드)
         return "seller/sellerInfoDetail"; // 'editSeller'는 서점 정보를 수정하는 HTML 페이지를 가리킵니다.
     }
-
     @GetMapping("/main")
     public String sellermain(String s_id, String rr_s_id, Model model) {
 
@@ -166,6 +165,9 @@ public class SellerPageController {
     @GetMapping("/account")
     public String selleraccount(){
         return "seller/sellerAccount";
+    }
+
+
     }
 }
 

@@ -1,9 +1,9 @@
 package com.cjcs.bnb.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +15,10 @@ import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
 
-
 import com.cjcs.bnb.service.MemberService;
+
 import com.cjcs.bnb.service.OrderService;
+
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
@@ -57,7 +58,6 @@ public class SellerPageController {
         // TODO: 필요한 로직 (예: 서점 정보 로드)
         return "seller/sellerInfoDetail"; // 'editSeller'는 서점 정보를 수정하는 HTML 페이지를 가리킵니다.
     }
-
     @GetMapping("/main")
     public String sellermain(String s_id, String rr_s_id, Model model) {
 
@@ -121,6 +121,7 @@ public class SellerPageController {
     //     return "sellerinfoupdate";
     // }
     
+
     @GetMapping("/csmember")
     public String sellercsmember(){
         return "seller/sellerCSMember";
@@ -179,5 +180,7 @@ public class SellerPageController {
     public String selleraccount(){
         return "seller/sellerAccount";
     }
-}
+
+
+    }
 

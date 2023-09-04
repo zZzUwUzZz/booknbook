@@ -30,7 +30,12 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/mapSearch.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABg7GBJJBgt8BMt0MG6VCZdwbwLU0KTJI&callback=initMap&libraries=&v=weekly"
+        defer></script>
+
 
 </head>
 
@@ -39,15 +44,15 @@
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
     <div class="mapContainer">
-        <div class="mapSearchBox">
 
+
+        <div class="mapSearchBox">
             <form id="mapSearchForm">
                 <div class="ms_sc">
-                    <input class="mapscstore" id="mapscInput" type="text" name="keyword" placeholder="장소, 서점명 검색">
+                    <input class="mapscstore" id="mapscInput" onkeydown="if (event.key === 'Enter') window.location.href='/map?keyword=' + document.getElementById('mapscInput').value" 
+                        type="text" name="keyword" placeholder="장소, 서점명 검색">
                 </div>
             </form>
-
-
             <div class="maplist">
                 <div class="map_rs">
                     <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
@@ -72,9 +77,20 @@
                     </div>
                 </c:forEach>
             </div>
-
         </div>
+
+
+
+
+        <div class="mapbox" onload="initMap()">
+            <div id="gmp-map"></div>
+        </div>
+
     </div>
+
+
+ <script src="/js/mapSearch.js"></script>
+
 </body>
 
 </html>

@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
+
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SellerDto;
 
 @Mapper
 public interface MemberDao {
@@ -30,6 +33,10 @@ public interface MemberDao {
     public boolean joinMember(MemberDto mDto);
     public boolean joinSeller(MemberDto mDto);
     public boolean joinCustomer(MemberDto mDto);
+    public boolean join2(MemberDto mDto);
+
+    @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
+    MemberDto getMemberById(String m_id);
 
 
 

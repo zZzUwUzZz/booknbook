@@ -64,7 +64,7 @@
             </div>
 
             <div>
-                <div class="table_lists">
+                <div class="tablebox">
                 <table id="async_table">
                     <tr class="headrow">
                         <th>예약번호</th>

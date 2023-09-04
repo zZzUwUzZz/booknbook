@@ -130,3 +130,9 @@ tr {
 .boldtext {
     font-weight: 700;
 }
+h3 {
+    margin: 10px 0 5px;
+}
+#board-area-orderdetail {
+    height: none;
+}

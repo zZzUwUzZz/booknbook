@@ -82,19 +82,19 @@
                                 <td>0건</td>
                             </tr>
                             <tr>
-                                <td>└ 대여</td>
-                                <td>0건</td>
-                                <td>배송중</td>
-                                <td>0건</td>
-                            </tr>
-                            <tr>
                                 <td>└ 판매</td>
                                 <td>0건</td>
                                 <td>배송 완료</td>
                                 <td>0건</td>
                             </tr>
                             <tr>
-                                <td>└ 예약</td>
+                                <td>└ 대여</td>
+                                <td>0건</td>
+                                <td>배송중</td>
+                                <td>0건</td>
+                            </tr>
+                            <tr>
+                                <td>└ 대여 예약</td>
                                 <td>0건</td>
                             </tr>
                         </table>

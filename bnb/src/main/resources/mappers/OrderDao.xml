@@ -37,4 +37,51 @@
         WHERE o_id=#{o_id}
     </select>
 
+<!--예림-->
+    <select id="getTodaySellCnt" resultType="int">
+        select count(*)
+        from order_list
+        where to_char(o_date, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and order_sort = '구매' and s_id = #{s_id}
+    </select>
+    <!-- <select id="getTodayRentCnt" parameterType="SellerDto" resultType="Integer">
+        select count(*)
+        from order_list
+        where to_char(o_date, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and order_sort = '대여' and s_id = #{s_id}
+    </select>
+    <select id="getTodayRentResCnt" parameterType="RentalReservationDto" resultType="Integer">
+        select count(*)
+        from Rental_Res
+        where to_char(rr_reqdate, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and rr_s_id = #{rr_s_id}
+    </select>
+    <select id="getTodayDeliveryPrepare" parameterType="SellerDto" resultType="Integer">
+        SELECT count(*) AS cnt
+        from order_list
+        where order_status_id = 4 and deliverydate = sysdate and s_id = #{s_id}
+    </select>
+    <select id="getTodayDeliverShip" parameterType="SellerDto" resultType="Integer">
+        SELECT count(*) AS cnt
+        from order_list
+        where order_status_id = 6 and deliverydate = sysdate and s_id = #{s_id}
+    </select>
+    <select id="getTodayDeliverComplete" parameterType="SellerDto" resultType="Integer">
+        SELECT count(*) AS cnt
+        from order_list
+        where order_status_id = 7 and deliverydate = sysdate and s_id = #{s_id}
+    </select>
+    <select id="getBookmarkMemberCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = #{s_id}
+    </select>
+    <select id="getMonthCancelRequest" parameterType="SellerDto" resultType="Integer">
+        select count(*)
+        from order_list
+        where o_date between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and order_status_id = '2' and s_id = #{s_id}
+    </select>
+    <select id="getMonthReturnRequest" parameterType="SellerDto" resultType="Integer">
+        select count(*)
+        from Ref_Exch
+        where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') re_s_id = #{s_id}
+    </select> -->
+
 </mapper>

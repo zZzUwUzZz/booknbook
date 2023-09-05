@@ -190,7 +190,7 @@ public class CustomerPageController {
     }
 
 
-    @PostMapping("/refundexchange")     // 교환반품신청폼
+    @GetMapping("/refundexchange")     // 교환반품신청폼
     public String mypageRefundExchangeFrm(@RequestParam ArrayList<Integer> p_idList, Model model) {
 
         log.info("p_idList:{}", p_idList);
@@ -207,8 +207,8 @@ public class CustomerPageController {
         return "customer/mypageRefundExchange";
     }
 
-    @PostMapping("/refundexchange/{re_sort}")     // 교환반품요청처리
-    public String mypageRefundExchange(@PathVariable String re_sort, @RequestParam ArrayList<Integer> p_idList, 
+    @PostMapping("/refundexchange")     // 교환반품요청처리
+    public String mypageRefundExchange(@RequestParam String re_sort, @RequestParam ArrayList<Integer> p_idList, 
                                        @RequestParam ArrayList<Integer> re_amountList, @RequestParam String re_reason, 
                                        Model model, RedirectAttributes rttr) {
         

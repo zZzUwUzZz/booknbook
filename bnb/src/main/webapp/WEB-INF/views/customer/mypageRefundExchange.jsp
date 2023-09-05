@@ -166,6 +166,7 @@
         
                 <div class="container-1">
                     <button><a href="<%=request.getContextPath()%>/mypage/purchaselist">돌아가기</a></button>
+                    <input type="hidden" id="re_sort" name="re_sort" value="교환">
                     <button onclick="request_re('교환')" id="exchange-btn">교환신청</button>
                     <button onclick="request_re('반품')" id="refund-btn">반품신청</button>
                 </div>
@@ -257,8 +258,14 @@
     
         let conf = confirm(re_sort+'신청을 하시겠습니까?');
 
-        if (conf == true) {
-            location.href = '/mypage/refundexchange/'+re_sort;
+        if (conf === true) {
+            
+            if (re_sort == '반품') {
+                $('#re_sort').val('반품')
+            }
+            location.href = '/mypage/refundexchange';
+        } else {
+            return false
         }
         
     }

@@ -90,7 +90,7 @@
             </div>
 
             <div class="container-0">
-            <form action="/mypage/refundexchange/{re_sort}" method="POST">
+            <form action="/mypage/refundexchange" method="POST">
                 <div class="container-1">
         
                     <table>
@@ -258,14 +258,12 @@
     
         let conf = confirm(re_sort+'신청을 하시겠습니까?');
 
-        if (conf === true) {
+        if (conf == true) {
             
             if (re_sort == '반품') {
-                $('#re_sort').val('반품')
+                $('#re_sort').val('반품');
             }
             location.href = '/mypage/refundexchange';
-        } else {
-            return false
         }
         
     }

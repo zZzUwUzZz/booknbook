@@ -6,6 +6,16 @@
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
 
+
+<!-- 킹효진 -->
+
+<!-- 판매자 아이디 불러오기 -->
+   <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
+        SELECT m.m_id, m.m_addr, m.m_phone
+        FROM Member m
+        WHERE m.m_id = #{s_id}
+    </select>
+
 <!--재락-->
 
     <!--회원가입정보 DB에 넣기-->
@@ -13,16 +23,18 @@
         INSERT INTO M
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
-    <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO S(s_id, s_storename, s_storedesc, s_crn, s_deliveryfee, s_latefee)
-        VALUES(#{m_id}, #{s_storename}, #{s_storedesc}, #{s_crn}, #{s_deliveryfee}, #{s_latefee})
+    
+  <insert id="joinSeller" parameterType="MemberDto">
+        INSERT INTO S(s_id, s_storename, s_crn )
+        VALUES(#{m_id}, #{s_storename}, #{s_crn})
     </insert>
+
     <insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 
         VALUES(#{m_id}, #{c_name})
     </insert>
 
-
+   
 
 
 <!--예림-->
@@ -56,6 +68,33 @@
         </set>
         WHERE S_ID=#{m_id}
     </update>
+
+    <!-- 오늘 즐겨찾기 회원수 카운트 -->
+    <select id="getTodayBookmarkCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = 'seller001' and TRUNC(FAVS_DATE) = TRUNC(SYSDATE)
+        <!-- WHERE FAVS_S_ID = #{s_id} and TRUNC(FAVS_DATE) = TRUNC(sysdate) --> 
+    </select>
+
+    <!-- 이번주 즐겨잧기 회원수 카운트 -->
+    <select id="getWeekBookmarkCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE >= to_char(sysdate-7, 'yy/mm/dd')
+        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE >= to_char(sysdate-7, 'yy/mm/dd') -->
+    </select>
+
+    <!-- 이번달 즐겨잧기 회원수 카운트 -->
+    <select id="getMonthBookmarkCnt" parameterType="SellerDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM FavStore
+        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE >= to_char(sysdate-30, 'yy/mm/dd')
+        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE >= to_char(sysdate-30, 'yy/mm/dd') -->
+    </select>
+
+    
+    
 
 
 

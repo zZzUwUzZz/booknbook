@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -29,6 +30,31 @@
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <style>
+
+        .opt_num {
+            position: relative;
+            display: block;
+            border: solid 1px #ebebeb;
+        }
+        .opt_ipt {
+            display: block;
+            width: 36px;
+        }
+        .opt_num input {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 23px;
+            line-height: 23px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            border: none;
+            vertical-align: top;
+        }
+
+    </style>
 
     <title>Document</title>
 
@@ -68,7 +94,7 @@
         
                     <table>
                         <tr>
-                            <th> </th>
+                            <th></th>
                             <th>서점명</th>
                             <th>도서명</th>
                             <th>신청가능 수량</th>
@@ -76,33 +102,30 @@
                         </tr>
 
                         <c:if test="${!empty pList_re}">
-                            <c:forEach var="pItem_re" items="${pList_re}">
+                            <c:forEach var="pItem" items="${pList_re}">
                                 <tr>
-                                    <td>${pItem_re.p_id}<input type="hidden" name="p_id" value="${pItem_re.p_id}"></td>
-                                    <td>${pItem_re.s_storename}</td>
-                                    <td>${pItem_re.b_title}</td>
-                                    <td>${pItem_re.p_amount - pItem_re.re_amount}</td>
-                                    <td>
-                                        <div class="Ere_input_box">
-                                            <div>
-                                                <input type="text" id="qty" name="re_amount" value="1" onkeydown="fn_number_check(event);" maxlength="1" onblur="fn_qty_check();" />
-                                            </div>
-                                            <div class="Ere_form_arrow">
-                                                <a href="javascript:fn_qty_change(true);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Aup.png" border="0" /></a>
-                                                <a href="javascript:fn_qty_change(false);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Adown.png" border="0" /></a>
-                                            </div>
-                                        </div>
-                                    </td>
-    
+                                    <td><input type="hidden" name="p_id" value="${pItem.p_id}"></td>
+                                    <td>${pItem.s_storename}</td>
+                                    <td>${pItem.b_title}</td>
+
                                     <c:choose>
-                                        <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
-                                                        && ((pItem.p_amount > pItem.re_amount) || empty pItem.re_amount)}">
-                                            <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
+                                        <c:when test="${!empty pItem.re_amount}">
+                                            <td class="amount">${pItem.p_amount - pItem.re_amount}</td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td><input type="checkbox" name="p_idList" value="${pItem.p_id}" disabled></td>
+                                            <td class="amount">${pItem.p_amount}</td>
                                         </c:otherwise>
                                     </c:choose>
+
+                                    <td>
+                                        <span class="opt_num">
+                                            <span class="opt_ipt">
+                                                <input type="text" name="qty" maxlength="1" value="1" onblur="fn_qty_check()">
+                                            </span>
+                                            <a href="javascript:fn_qty_change(false)" class="minus"></a>
+                                            <a href="javascript:fn_qty_change(true)" class="plus"></a>
+                                        </span>
+                                    </td>
                                 </tr>
                              </c:forEach>
                         </c:if>
@@ -128,17 +151,36 @@
 
     <script>
 
-    function fn_number_check(event) {
-
-
-    }
-
     function fn_qty_check() {
 
+        let qty = $('#qty').val
+        let qty_format = /^[0-9]+$/
+
+        if (!qty.match(qty_format)) {
+            alert('숫자를 입력해주세요.')
+            $('#qty').val(1)
+        }
 
     }
 
-    function fn_qty_change() {
+    function fn_qty_change(up) {
+
+        let qty = $('#qty').val
+        let max_qty = $('#max_qty').val
+
+        if (up) {
+            if (qty == max_qty) {
+                alert('신청가능수량 초과입니다.')
+            } else {
+                $('#qty').val(qty+1)
+            }
+        } else {
+            if (qty == 1) {
+                alert('최소 신청수량은 1권입니다.')
+            } else {
+                $('#qty').val(qty-1)
+            }
+        }
 
     }
 

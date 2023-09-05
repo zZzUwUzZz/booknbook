@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+ 
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -30,7 +30,12 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/mapSearch.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABg7GBJJBgt8BMt0MG6VCZdwbwLU0KTJI&callback=initMap&libraries=&v=weekly"
+        defer></script>
+
 
 </head>
 
@@ -38,16 +43,18 @@
 
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
+  
     <div class="mapContainer">
-        <div class="mapSearchBox">
 
+     
+
+        <div class="mapSearchBox">
             <form id="mapSearchForm">
                 <div class="ms_sc">
-                    <input class="mapscstore" id="mapscInput" type="text" name="keyword" placeholder="장소, 서점명 검색">
+                    <input class="mapscstore" id="mapscInput" onkeydown="if (event.key === 'Enter') window.location.href='/map?keyword=' + document.getElementById('mapscInput').value" 
+                        type="text" name="keyword" placeholder="장소, 서점명 검색">
                 </div>
             </form>
-
-
             <div class="maplist">
                 <div class="map_rs">
                     <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
@@ -68,13 +75,44 @@
                             </c:forEach>
                         </div>
                         ${store.s_storename} <br>
-                        ${store.s_storedesc}
+                        ${store.s_storedesc} <br>
+                        
+                <c:forEach var="memberInfo" items="${memberInfos}">
+                    Address: ${memberInfo.m_addr} <br>
+                    Phone: ${memberInfo.m_phone} <br>
+                </c:forEach>
+
+
                     </div>
                 </c:forEach>
             </div>
-
         </div>
+
+ 
+        <div class="mapbox" onload="initMap()">
+            <div id="gmp-map"></div>
+        </div>
+
     </div>
-</body>
+
+
+ <script src="/js/mapSearch.js"></script>
+   
+ <!-- <script>
+    var dbMarkers = [
+    <c:forEach var="result" items="${results}" varStatus="loop">
+        {
+            lat: ${result.s_latitude},
+            lng: ${result.s_longitude},
+            title: "${result.s_storename}",
+            description: "${result.s_storedesc}",
+            address: "${memberInfos[loop.index].m_addr}"
+        }<c:if test="${!loop.last}">,</c:if>
+    </c:forEach>
+   ];
+</script> -->
+
+    
+  </body>
 
 </html>

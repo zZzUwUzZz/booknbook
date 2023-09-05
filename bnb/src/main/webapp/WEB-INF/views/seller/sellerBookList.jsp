@@ -74,32 +74,72 @@
                 <div class="contain-3">
                     <div class="box-3">
                         <h1>등록된 도서 리스트</h1>
-                        <button>수정</button>
+                        <table class="book-list">
+                            <thead>
+                                <tr>
+                                    <th>분류</th>
+                                    <th>제목</th>
+                                    <th>저자</th>
+                                    <th>판매재고</th>
+                                    <th>대여재고</th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody>
+                                <c:forEach items="${books}">
+                                    <tr>
+                                        <td>${books.b_title}</td>
+                                        <td>${books.b_author}</td>
+                                        <td>${books.b_salestock}</td>
+                                        <td>${books.b_rentalstock}</td>
+                                    </tr>
+                            </c:forEach> -->
+                            </tbody>
+                        </table>
                         <div class="gap"></div>
-
+                        <h1>대여중인 회원 리스트</h1>
+                        <table class="member-list">
+                            <thead>
+                                <tr>
+                                    <th>이름</th>
+                                    <th>아이디</th>
+                                    <th>구매 횟수</th>
+                                    <th>대여 횟수</th>
+                                    <th>연체 횟수</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>이름</td>
+                                    <td>아이디</td>
+                                    <td>구매 횟수</td>
+                                    <td>대여 횟수</td>
+                                    <td>연체 횟수</td>
+                                </tr>
+                                <tr>
+                                    <td>이름</td>
+                                    <td>아이디</td>
+                                    <td>구매 횟수</td>
+                                    <td>대여 횟수</td>
+                                    <td>연체 횟수</td>
+                                </tr>
+                                <tr>
+                                    <td>이름</td>
+                                    <td>아이디</td>
+                                    <td>구매 횟수</td>
+                                    <td>대여 횟수</td>
+                                    <td>연체 횟수</td>
+                                </tr>
+                                <tr>
+                                    <td>이름</td>
+                                    <td>아이디</td>
+                                    <td>구매 횟수</td>
+                                    <td>대여 횟수</td>
+                                    <td>연체 횟수</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <h1>대여중인 회원 리스트</h1>
-                    <div class="gap"></div>
-                    <table class="member-list">
-                        <thead>
-                            <tr>
-                                <th>이름</th>
-                                <th>아이디</th>
-                                <th>구매 횟수</th>
-                                <th>대여 횟수</th>
-                                <th>연체 횟수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>이름</td>
-                                <td>아이디</td>
-                                <td>구매 횟수</td>
-                                <td>대여 횟수</td>
-                                <td>연체 횟수</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
                 </div>
             </div>
         </div>

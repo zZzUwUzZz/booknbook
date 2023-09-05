@@ -54,16 +54,22 @@
         ORDER BY o_date DESC
     </select>
 
-    <select id="getPurchaseListByPIds" parameterType="List" resultType="Map">
+    <select id="getPurchaseItemByPId" parameterType="Integer" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
-        SELECT p_id, s_storename, b_title, p_amount, re_amount
-        FROM (SELECT p_id, s_storename, b_title, p_amount 
+        SELECT p_id as "p_id",
+               s_storename as "s_storename",
+               b_title as "b_title",
+               p_amount as "p_amount",
+               re_amount as "re_amount"
+        FROM (SELECT p_id, s_storename, b_title, p_amount, p_o_id, p_s_id, p_b_isbn
               FROM P, S, B
-              WHERE p_s_id = s_id AND p_s_id = b_s_id AND p_b_isbn = b_isbn AND
-                    )
-              LEFT JOIN
+              WHERE p_s_id = s_id AND
+                    p_s_id = b_s_id AND p_b_isbn = b_isbn AND
+                    p_id = #{p_id})
+              LEFT OUTER JOIN
               RE
               ON p_o_id = re_o_id AND p_s_id = re_s_id AND p_b_isbn = re_b_isbn
+        ORDER BY p_id DESC
     </select>
 
     <select id="getCurrentRefExchListByCId" parameterType="String" resultType="RefExchDto">

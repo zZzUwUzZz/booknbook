@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.cjcs.bnb.dto.OrderDto;
+import com.cjcs.bnb.dto.ShoppingAddressDto;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.RentalService;
@@ -54,8 +55,8 @@ public class OrderController {
     }
 
     // 배송지 정보 변경
-    @PostMapping("/updateShippingAddress")
-    public String updateShippingAddress(@ModelAttribute("shippingAddressDto") ShoppingAddressDto shippingAddressDto, Model model, HttpSession session) {
+    @PostMapping("/updateShoppingAddress")
+    public String updateShoppingAddress(@ModelAttribute("shoppingAddressDto") ShoppingAddressDto shoppingAddressDto, Model model, HttpSession session) {
         // 배송지 정보 변경 처리
         // 새로운 배송지 정보를 받아서 업데이트
         return "redirect:/order/checkout"; // 주문 페이지로 리다이렉트

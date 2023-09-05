@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -83,8 +84,8 @@
                                     <td>${pItem_re.p_amount - pItem_re.re_amount}</td>
                                     <td>
                                         <div class="Ere_input_box">
-                                            <div style="float:left;">
-                                                <input type="text" id="qty" class="Ere_form_input" onkeydown="fn_number_check(event);" maxlength="1" onblur="fn_qty_check();" value="1" />
+                                            <div>
+                                                <input type="text" id="qty" name="re_amount" value="1" onkeydown="fn_number_check(event);" maxlength="1" onblur="fn_qty_check();" />
                                             </div>
                                             <div class="Ere_form_arrow">
                                                 <a href="javascript:fn_qty_change(true);"><img src="//image.aladin.co.kr/img/shop/2018/icon_Aup.png" border="0" /></a>

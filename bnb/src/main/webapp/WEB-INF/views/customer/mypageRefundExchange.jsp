@@ -35,23 +35,24 @@
         .opt_num {
             position: relative;
             display: block;
-            border: solid 1px #ebebeb;
+            border: solid 1px #fffbed;
         }
         .opt_ipt {
             display: block;
             width: 36px;
         }
         .opt_num input {
-            margin: 0;
-            padding: 0;
             width: 100%;
             height: 23px;
             line-height: 23px;
             font-size: 12px;
-            color: #666;
+            color: #4c4240;
             text-align: center;
             border: none;
-            vertical-align: top;
+
+        }
+        h4 {
+            margin: 5px;
         }
 
     </style>
@@ -89,7 +90,7 @@
             </div>
 
             <div class="container-0">
-
+            <form action="/mypage/refundexchange/{re_sort}" method="POST">
                 <div class="container-1">
         
                     <table>
@@ -104,26 +105,29 @@
                         <c:if test="${!empty pList_re}">
                             <c:forEach var="pItem" items="${pList_re}">
                                 <tr>
-                                    <td><input type="hidden" name="p_id" value="${pItem.p_id}"></td>
+                                    <td><input type="hidden" name="p_idList" value="${pItem.p_id}"></td>
                                     <td>${pItem.s_storename}</td>
                                     <td>${pItem.b_title}</td>
+                                    <td id="max_q_${pItem.p_id}" value="${pItem.p_amount}">${pItem.p_amount}</td>
 
-                                    <c:choose>
+                                    <!-- <c:choose>
                                         <c:when test="${!empty pItem.re_amount}">
-                                            <td class="amount">${pItem.p_amount - pItem.re_amount}</td>
+                                            <td class="max_q_${pItem.p_id}" value="${pItem.p_amount - pItem.re_amount}">
+                                            </td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td class="amount">${pItem.p_amount}</td>
+                                            <td class="max_q_${pItem.p_id}" value="${pItem.p_amount}">
+                                            </td>
                                         </c:otherwise>
-                                    </c:choose>
+                                    </c:choose> -->
 
                                     <td>
                                         <span class="opt_num">
                                             <span class="opt_ipt">
-                                                <input type="text" name="qty" maxlength="1" value="1" onblur="fn_qty_check()">
+                                                <input type="text" id="q_${pItem.p_id}" class="inputbox" name="re_amountList" maxlength="1" value="1">
                                             </span>
-                                            <a href="javascript:fn_qty_change(false)" class="minus"></a>
-                                            <a href="javascript:fn_qty_change(true)" class="plus"></a>
+                                            <span class="plus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">+</span>
+                                            <span class="minus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">-</span>
                                         </span>
                                     </td>
                                 </tr>
@@ -132,13 +136,40 @@
                     </table>
         
                 </div>
+
+                <div>
+                    신청사유를 선택하세요.
+                    <h4>단순변심</h4>
+                    <label>
+                        <input type="radio" name="re_reason" value="상품이 마음에 들지 않음">
+                        상품이 마음에 들지 않음
+                    </label><br>
+                    <label>
+                        <input type="radio" name="re_reason" value="더 저렴한 상품을 발견함">
+                        더 저렴한 상품을 발견함
+                    </label><br>
+                    <h4>배송문제</h4>
+                    <label>
+                        <input type="radio" name="re_reason" value="잘못된 상품이 배송됨">
+                        잘못된 상품이 배송됨
+                    </label><br>
+                    <h4>상품문제</h4>
+                    <label>
+                        <input type="radio" name="re_reason" value="상품이 파손되어 배송됨">
+                        상품이 파손되어 배송됨
+                    </label><br>
+                    <label>
+                        <input type="radio" name="re_reason" value="상품에 결함/이상이 있음">
+                        상품에 결함/이상이 있음
+                    </label>
+                </div>
         
                 <div class="container-1">
-                    <button onclick="location.href='/mypage/purchaselist'">돌아가기</button>
-                    <button onclick="">교환요청</button>
-                    <button onclick="">반품요청</button>
+                    <button><a href="<%=request.getContextPath()%>/mypage/purchaselist">돌아가기</a></button>
+                    <button onclick="request_re('교환')" id="exchange-btn">교환신청</button>
+                    <button onclick="request_re('반품')" id="refund-btn">반품신청</button>
                 </div>
-            
+            </form>
             </div>
 
         </div>
@@ -151,37 +182,85 @@
 
     <script>
 
-    function fn_qty_check() {
+    $('.inputbox').on('focusout', function () {
 
-        let qty = $('#qty').val
-        let qty_format = /^[0-9]+$/
+        let qty = $(this).val()
+        let qty_format = /^[0-9]$/
 
         if (!qty.match(qty_format)) {
             alert('숫자를 입력해주세요.')
-            $('#qty').val(1)
+            $(this).val(1)
         }
 
-    }
+    })
 
-    function fn_qty_change(up) {
+    $('.plus').on('click', function () {
+                // 데이터 속성을 사용하여 연결된 입력 폼의 ID 가져오기
+        let q_id = $(this).data('q-id')
+        console.log(q_id)
+        let max_q_id = $(this).data('max-q-id')
+        console.log(max_q_id)
+        
+        let q = $('#'+q_id).val()
+        console.log(q)
+        let max_q = $('#'+max_q_id).val()
+        console.log(max_q)
 
-        let qty = $('#qty').val
-        let max_qty = $('#max_qty').val
 
-        if (up) {
-            if (qty == max_qty) {
-                alert('신청가능수량 초과입니다.')
-            } else {
-                $('#qty').val(qty+1)
-            }
-        } else {
-            if (qty == 1) {
-                alert('최소 신청수량은 1권입니다.')
-            } else {
-                $('#qty').val(qty-1)
-            }
+        // if (q === max_q) {
+        //     alert('신청가능수량 초과입니다.');
+        // } else {
+        //     $('#'+q_id).val(q+1);
+        // }
+
+    });
+
+    // $('.plus').on("click", function () {
+
+    //     let qty = $(this).parent().children('span').children('input').val()
+    //     console.log(qty)
+    //     let max_qty = $(this).parent().parent().parent().children('.max_qty').val()
+    //     console.log(max_qty)
+
+    // })
+
+    // $('.minus').on("click", function () {
+
+    //     let qty = $(this).parent().children('span').children('input').val()
+    //     console.log(qty)
+
+    // })
+
+    // function fn_qty_change(plus, p_item) {
+
+    //     let qty = $('"#qty_'+pItem.p_id+'"').val()
+    //     console.log(qty)
+    //     let max_qty = $('.max_qty').val()
+
+    //     if (plus) {
+    //         if (qty == max_qty) {
+    //             alert('신청가능수량 초과입니다.')
+    //         } else {
+    //             $(this).val(qty+1)
+    //         }
+    //     } else {
+    //         if (qty == 1) {
+    //             alert('최소 신청수량은 1권입니다.')
+    //         } else {
+    //             $(this).val(qty-1)
+    //         }
+    //     }
+
+    // }
+
+    function request_re(re_sort) {
+    
+        let conf = confirm(re_sort+'신청을 하시겠습니까?');
+
+        if (conf == true) {
+            location.href = '/mypage/refundexchange/'+re_sort;
         }
-
+        
     }
 
 

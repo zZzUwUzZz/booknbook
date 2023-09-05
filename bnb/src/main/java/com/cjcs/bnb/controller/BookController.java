@@ -47,8 +47,4 @@ public class BookController {
     }
 
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 135fffb019868eaec957f0471b679773e8f963b8
 

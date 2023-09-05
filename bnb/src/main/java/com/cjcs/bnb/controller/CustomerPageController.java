@@ -190,8 +190,8 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/refundexchange")     // 교환반품신청폼
-    public String mypageRefundExchangeFrm(@RequestParam("p_idList") ArrayList<Integer> p_idList, Model model) {
+    @PostMapping("/refundexchange")     // 교환반품신청폼
+    public String mypageRefundExchangeFrm(@RequestParam ArrayList<Integer> p_idList, Model model) {
 
         log.info("p_idList:{}", p_idList);
 
@@ -207,14 +207,32 @@ public class CustomerPageController {
         return "customer/mypageRefundExchange";
     }
 
-    @PostMapping("/refundexchange")     // 교환반품요청
-    public String mypageRefundExchange() {
+    @PostMapping("/refundexchange/{re_sort}")     // 교환반품요청처리
+    public String mypageRefundExchange(@PathVariable String re_sort, @RequestParam ArrayList<Integer> p_idList, 
+                                       @RequestParam ArrayList<Integer> re_amountList, @RequestParam String re_reason, 
+                                       Model model, RedirectAttributes rttr) {
         
+        log.info("re_sort:{}", re_sort);
+        log.info("p_idList:{}", p_idList);
+        log.info("re_amountList:{}", re_amountList);
+        log.info("re_reason:{}", re_reason);
+
+        pSer.requestRefExch(re_sort, p_idList, re_amountList, re_reason);
+
+        rttr.addFlashAttribute("msg", "신청되었습니다.");
+
         return "redirect:/mypage/refundexchangelist";
     }
 
     @GetMapping("/refundexchangelist")    // 교환반품내역
-    public String mypageRefundExchangeList(RefExchDto reDto) {
+    public String mypageRefundExchangeList(Model model, HttpSession session) {
+
+        //일단 하드코딩함.
+        String c_id = "customer001";
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+
+        List<RefExchDto> reList = pDao.getRefExchListByCId(c_id); 
+        model.addAttribute("reList", reList);
 
         return "customer/mypageRefundExchangeList";
     }

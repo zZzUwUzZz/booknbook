@@ -59,7 +59,7 @@
 
         <div class="board-area">
             
-            <form action="/mypage/refundexchange" method="GET">
+            <form action="/mypage/refundexchange" method="POST">
 
             <div>
                 <h2 class="pagename">PURCHASE LIST</h2>

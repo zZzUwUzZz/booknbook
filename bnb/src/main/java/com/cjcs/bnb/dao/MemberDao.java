@@ -18,12 +18,16 @@ import com.cjcs.bnb.dto.SellerDto;
 @Mapper
 public interface MemberDao {
 
+    // 킹효진
+
     List<SellerDto> searchBookstores(@Param("keyword") String keyword);
 
     int countBookstores(@Param("keyword") String keyword);
 
     @Select("SELECT * FROM seller_file WHERE sf_s_id = #{s_id}")
     List<SellerFileDto> getImagesBySellerId(String s_id);
+
+    MemberDto getMemberInfo(String s_id);
 
     // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
@@ -48,9 +52,12 @@ public interface MemberDao {
     public void updateMemberInfo(MemberDto updatedMDto);
 
     public void updateSellerInfo(MemberDto updatedMDto);
+
+
     public int getTodayBookmarkCnt(String s_id);
     public int getWeekBookmarkCnt(String s_id);
     public int getMonthBookmarkCnt(String s_id);
+
 
     // 수희
     public MemberDto getCustomerInfoById(String m_id);

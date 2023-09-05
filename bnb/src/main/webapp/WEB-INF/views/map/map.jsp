@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+ 
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -43,8 +43,10 @@
 
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
+  
     <div class="mapContainer">
 
+     
 
         <div class="mapSearchBox">
             <form id="mapSearchForm">
@@ -73,15 +75,20 @@
                             </c:forEach>
                         </div>
                         ${store.s_storename} <br>
-                        ${store.s_storedesc}
+                        ${store.s_storedesc} <br>
+                        
+                <c:forEach var="memberInfo" items="${memberInfos}">
+                    Address: ${memberInfo.m_addr} <br>
+                    Phone: ${memberInfo.m_phone} <br>
+                </c:forEach>
+
+
                     </div>
                 </c:forEach>
             </div>
         </div>
 
-
-
-
+ 
         <div class="mapbox" onload="initMap()">
             <div id="gmp-map"></div>
         </div>
@@ -90,7 +97,22 @@
 
 
  <script src="/js/mapSearch.js"></script>
+   
+ <!-- <script>
+    var dbMarkers = [
+    <c:forEach var="result" items="${results}" varStatus="loop">
+        {
+            lat: ${result.s_latitude},
+            lng: ${result.s_longitude},
+            title: "${result.s_storename}",
+            description: "${result.s_storedesc}",
+            address: "${memberInfos[loop.index].m_addr}"
+        }<c:if test="${!loop.last}">,</c:if>
+    </c:forEach>
+   ];
+</script> -->
 
-</body>
+    
+  </body>
 
 </html>

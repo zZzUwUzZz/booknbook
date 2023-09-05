@@ -48,6 +48,8 @@ public class MemberController {
     }
 
     @PostMapping("/login")
+
+  
     public String login(@RequestParam String m_id, @RequestParam String m_pw,
             RedirectAttributes rttr, HttpSession session) {
         HashMap<String, String> memberData = new HashMap<>();
@@ -63,7 +65,9 @@ public class MemberController {
             rttr.addFlashAttribute("msg", "로그인 실패");
             return "redirect:/member/login";
         }
+
     }
+  
 
     @GetMapping("/unregister")
     public String unregister() {
@@ -108,6 +112,7 @@ public class MemberController {
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join";
     }
 
+
     @GetMapping("/checkId")
     @ResponseBody
     public Map<String, Boolean> checkIdDuplication(@RequestParam String m_id) {
@@ -143,4 +148,5 @@ public class MemberController {
         model.addAllAttributes(resultMap);
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join2";
     }
+
 }

@@ -31,6 +31,7 @@ public class MemberService {
         return false;
     }
 
+
     public MemberDto login(HashMap<String, String> member) {
         try {
             MemberDto mb = mDao.getMemberById(member.get("m_id"));
@@ -46,6 +47,7 @@ public class MemberService {
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
     }
+
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -98,7 +100,6 @@ public class MemberService {
     // return "fail";
     // }
 
-    // 서점 회원 정보
 
     // 수희
     public MemberDto getCustomerInfoById(String c_id) {

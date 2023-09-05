@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="checkbook.css">
     <title>주문 페이지</title>
     <!-- CSS 및 JavaScript 파일 링크 -->
 </head>
@@ -55,6 +57,8 @@
     </form>
     
     <!-- 기타 페이지 요소 (로고, 로그인/회원가입 링크, 메뉴 등) -->
-
+    <footer>
+        <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+    </footer>
 </body>
 </html>

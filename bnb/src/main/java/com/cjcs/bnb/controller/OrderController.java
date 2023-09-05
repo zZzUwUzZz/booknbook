@@ -14,7 +14,6 @@ import com.cjcs.bnb.service.RentalService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Controller
 @RequestMapping("/order")

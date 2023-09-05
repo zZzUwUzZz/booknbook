@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class OrderService {
-     @Autowired
+    @Autowired
     private OrderDao orderDao;
 
     // 주문 처리 메서드

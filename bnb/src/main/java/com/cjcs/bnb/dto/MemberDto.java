@@ -25,4 +25,9 @@ public class MemberDto {
     private int s_deliveryfee; // 이 서점의 배송료
     private int s_latefee; // 이 서점의 1일당 연체료
 
+    //예림
+    private String o_c_id;
+    private int SELL_AMOUNT;
+    private int RENTAL_AMOUNT;
+    private int LATE_AMOUNT;
 }

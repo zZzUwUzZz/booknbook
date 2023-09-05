@@ -67,7 +67,7 @@
                         </div>
                         <div class="menu-group">
                             <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/account">정산 내역</a></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                         </div>
                     </div>
                 </div>

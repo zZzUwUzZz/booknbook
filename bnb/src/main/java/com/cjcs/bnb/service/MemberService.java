@@ -143,4 +143,8 @@ public class MemberService {
         return mDao.getMonthBookmarkCnt(s_id);
     }
 
+    public List<MemberDto> getCsMemberList(){
+        return mDao.getCsMemberList();
+    }
+
 }

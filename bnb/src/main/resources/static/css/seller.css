@@ -371,3 +371,46 @@ select::-ms-expand {
     background-color: #fff;
     color: #000 ;
 }
+
+.contain-Calc {
+    position: relative;
+    left: 350px;
+    top: -770px;
+    display: inline-block;
+}
+
+.box-Calc {
+    border: 1px solid #4c4240;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    background-color: #fffbed;
+    margin-right: 0px;
+    display: inline-block;
+    width: 800px;
+}
+.Calc-list {
+    border: 1px #a39485 solid;
+    font-size: .9em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
+    width: 80%;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+
+.Calc-list .left {
+    font-weight: bold;
+    color: #fff;
+    background: #73685d;
+    padding: 1em .5em;
+}
+
+.Calc-list td {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    background: #fff;
+    vertical-align: middle;
+    text-align: center;
+}
+.Calc-list .right {
+    padding: 1em 2em;
+}

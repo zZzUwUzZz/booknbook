@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -67,7 +68,7 @@
                         </div>
                         <div class="menu-group">
                             <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/account">정산 내역</a></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                         </div>
                     </div>
                 </div>
@@ -80,61 +81,21 @@
                                 <tr>
                                     <th>이름</th>
                                     <th>아이디</th>
-                                    <th>구매 횟수</th>
-                                    <th>대여 횟수</th>
+                                    <th>구매 권수</th>
+                                    <th>대여 권수</th>
                                     <th>연체 횟수</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
+                                <c:foreach items="${csMemberList}" var="csmember">
+                                    <tr>
+                                        <td>${csmember.o_c_id}</td>
+                                        <td>${csmember.c_name}</td>
+                                        <td>${csmember.SELL_AMOUNT}</td>
+                                        <td>${csmember.RENTAL_AMOUNT}</td>
+                                        <td>${csmember.LATE_AMOUNT}</td>
+                                    </tr>
+                                </c:foreach>
                             </tbody>
                         </table>
                     </div>

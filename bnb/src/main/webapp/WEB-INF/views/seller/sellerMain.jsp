@@ -67,7 +67,7 @@
                         </div>
                         <div class="menu-group">
                             <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/account">정산 내역</a></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                         </div>
                     </div>
                 </div>
@@ -131,9 +131,9 @@
                             <h1>정산 내역</h1>
                             <tr>
                                 <td>오늘 정산</td>
-                                <td>0원</td>
+                                <td>${TodaySumAmount}원</td>
                                 <td>이 달 정산</td>
-                                <td>0원</td>
+                                <td>${MonthSumAmount}원</td>
                             </tr>
                         </table>
                     </div>

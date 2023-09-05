@@ -58,6 +58,9 @@ public interface MemberDao {
     public int getWeekBookmarkCnt(String s_id);
     public int getMonthBookmarkCnt(String s_id);
 
+    public List<MemberDto> getCsMemberList();
+
+
 
     // 수희
     public MemberDto getCustomerInfoById(String m_id);

@@ -9,6 +9,8 @@ import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.SellerFileDto;
+import com.cjcs.bnb.mappers.FileMapper;
 
 @Service
 public class SearchService {
@@ -18,6 +20,9 @@ public class SearchService {
 
     @Autowired
     private MemberDao memberDao;
+
+    @Autowired
+    private FileMapper fileMapper;
 
     public List<BookDto> findByKwPg(String keyword, int start, int end) {
         return bookMapper.findByKwPg(keyword, start, end);
@@ -35,6 +40,10 @@ public class SearchService {
     // 서점 검색 결과 총 건수
     public int countBookstores(String keyword) {
         return memberDao.countBookstores(keyword);
+    }
+
+public List<SellerFileDto> getImagesBySellerId(String s_id) {
+        return fileMapper.getImagesBySellerId(s_id);
     }
 
 }

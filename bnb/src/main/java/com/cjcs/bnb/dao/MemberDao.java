@@ -19,6 +19,7 @@ import com.cjcs.bnb.dto.SellerDto;
 public interface MemberDao {
 
     // 킹효진
+
     List<SellerDto> searchBookstores(@Param("keyword") String keyword);
 
     int countBookstores(@Param("keyword") String keyword);
@@ -42,12 +43,21 @@ public interface MemberDao {
     @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
     MemberDto getMemberById(String m_id);
 
+    // 로그인 중복확인
+    int countById(String m_id);
+
     // 예림
     public MemberDto getSellerInfoById(String m_id);
 
     public void updateMemberInfo(MemberDto updatedMDto);
 
     public void updateSellerInfo(MemberDto updatedMDto);
+
+
+    public int getTodayBookmarkCnt(String s_id);
+    public int getWeekBookmarkCnt(String s_id);
+    public int getMonthBookmarkCnt(String s_id);
+
 
     // 수희
     public MemberDto getCustomerInfoById(String m_id);

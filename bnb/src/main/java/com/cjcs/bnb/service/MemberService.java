@@ -1,5 +1,6 @@
 package com.cjcs.bnb.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,24 @@ public class MemberService {
     public boolean updateinfo(MemberDto mDto) {
         return false;
     }
+
+
+    public MemberDto login(HashMap<String, String> member) {
+        try {
+            MemberDto mb = mDao.getMemberById(member.get("m_id"));
+            if (mb != null && mb.getM_pw().equals(member.get("m_pw"))) {
+                return mb;
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while trying to login: ", e);
+        }
+        return null;
+    }
+
+    public boolean isIdDuplicated(String m_id) {
+        return mDao.countById(m_id) > 0;
+    }
+
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -81,6 +100,7 @@ public class MemberService {
     // return "fail";
     // }
 
+
     // 수희
     public MemberDto getCustomerInfoById(String c_id) {
 
@@ -105,6 +125,22 @@ public class MemberService {
     public List<BookDto> getFavBooks(String c_id) {
 
         return mDao.getFavBookList(c_id);
+    }
+
+
+    //예림
+    
+
+    public int getTodayBookmarkCnt(String s_id){
+        return mDao.getTodayBookmarkCnt(s_id);
+    }
+
+    public int getWeekBookmarkCnt(String s_id){
+        return mDao.getWeekBookmarkCnt(s_id);
+    }
+
+    public int getMonthBookmarkCnt(String s_id){
+        return mDao.getMonthBookmarkCnt(s_id);
     }
 
 }

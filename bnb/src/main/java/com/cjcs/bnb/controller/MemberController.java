@@ -1,20 +1,28 @@
 package com.cjcs.bnb.controller;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.service.MemberService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -40,22 +48,26 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String loginProcess(@RequestParam String m_id, @RequestParam String m_pw, Model model) {
-        HashMap<String, Object> resultMap = new HashMap<>();
-        MemberDto member = mDao.getMemberById(m_id);
 
-        if (member != null && member.getM_pw().equals(m_pw)) {
-            resultMap.put("success", true);
-            resultMap.put("message", "로그인 성공");
-            // 세션 설정 등 필요한 로직 추가
-            return "redirect:/"; // 예: 홈으로 리다이렉트
+  
+    public String login(@RequestParam String m_id, @RequestParam String m_pw,
+            RedirectAttributes rttr, HttpSession session) {
+        HashMap<String, String> memberData = new HashMap<>();
+        memberData.put("m_id", m_id);
+        memberData.put("m_pw", m_pw);
+
+        MemberDto mb = mSer.login(memberData);
+
+        if (mb != null) {
+            session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
+            return "redirect:/";
+        } else {
+            rttr.addFlashAttribute("msg", "로그인 실패");
+            return "redirect:/member/login";
         }
 
-        resultMap.put("success", false);
-        resultMap.put("message", "Invalid ID or Password");
-        model.addAllAttributes(resultMap);
-        return "member/login";
     }
+  
 
     @GetMapping("/unregister")
     public String unregister() {
@@ -98,6 +110,16 @@ public class MemberController {
 
         model.addAllAttributes(resultMap);
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join";
+    }
+
+
+    @GetMapping("/checkId")
+    @ResponseBody
+    public Map<String, Boolean> checkIdDuplication(@RequestParam String m_id) {
+        boolean isDuplicated = mSer.isIdDuplicated(m_id);
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("isDuplicated", isDuplicated);
+        return result;
     }
 
     @GetMapping("/join2")

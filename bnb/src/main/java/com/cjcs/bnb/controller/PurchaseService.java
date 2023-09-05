@@ -1,4 +1,4 @@
-package com.cjcs.bnb.service;
+package com.cjcs.bnb.controller;
 
 public class PurchaseService {
 

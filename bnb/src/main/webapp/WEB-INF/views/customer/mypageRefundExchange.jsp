@@ -27,35 +27,9 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-  
+    <link rel="stylesheet" href="/css/customer/cardboard.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-
-        .opt_num {
-            position: relative;
-            display: block;
-            border: solid 1px #fffbed;
-        }
-        .opt_ipt {
-            display: block;
-            width: 36px;
-        }
-        .opt_num input {
-            width: 100%;
-            height: 23px;
-            line-height: 23px;
-            font-size: 12px;
-            color: #4c4240;
-            text-align: center;
-            border: none;
-
-        }
-        h4 {
-            margin: 5px;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -89,9 +63,9 @@
                 <h2 class="pagename">교환/반품 신청</h2>
             </div>
 
-            <div class="container-0">
-            <form action="/mypage/refundexchange" method="POST">
-                <div class="container-1">
+            <div class="formbox">
+            <form id="refExchForm" action="/mypage/refundexchange" method="POST">
+                <div class="tablebox">
         
                     <table>
                         <tr>
@@ -108,27 +82,28 @@
                                     <td><input type="hidden" name="p_idList" value="${pItem.p_id}"></td>
                                     <td>${pItem.s_storename}</td>
                                     <td>${pItem.b_title}</td>
-                                    <td id="max_q_${pItem.p_id}" value="${pItem.p_amount}">${pItem.p_amount}</td>
 
-                                    <!-- <c:choose>
+                                    <c:choose>
                                         <c:when test="${!empty pItem.re_amount}">
-                                            <td class="max_q_${pItem.p_id}" value="${pItem.p_amount - pItem.re_amount}">
+                                            <td>
+                                                ${pItem.p_amount - pItem.re_amount}
+                                                <input type="hidden" id="max_q_${pItem.p_id}" value="${pItem.p_amount - pItem.re_amount}">
                                             </td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td class="max_q_${pItem.p_id}" value="${pItem.p_amount}">
+                                            <td>
+                                                ${pItem.p_amount}
+                                                <input type="hidden" id="max_q_${pItem.p_id}" value="${pItem.p_amount}">
                                             </td>
                                         </c:otherwise>
-                                    </c:choose> -->
+                                    </c:choose>
 
                                     <td>
-                                        <span class="opt_num">
-                                            <span class="opt_ipt">
-                                                <input type="text" id="q_${pItem.p_id}" class="inputbox" name="re_amountList" maxlength="1" value="1">
-                                            </span>
-                                            <span class="plus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">+</span>
-                                            <span class="minus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">-</span>
-                                        </span>
+                                        <div class="counterbox">
+                                            <input type="text" id="q_${pItem.p_id}" class="inputbox" name="re_amountList" maxlength="1" value="1">
+                                            <div class="minus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">−</div>
+                                            <div class="plus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">+</div>
+                                        </div>
                                     </td>
                                 </tr>
                              </c:forEach>
@@ -137,8 +112,8 @@
         
                 </div>
 
-                <div>
-                    신청사유를 선택하세요.
+                <div class="reasonbox">
+                    (신청사유를 선택하세요.)
                     <h4>단순변심</h4>
                     <label>
                         <input type="radio" name="re_reason" value="상품이 마음에 들지 않음">
@@ -164,11 +139,14 @@
                     </label>
                 </div>
         
-                <div class="container-1">
-                    <button><a href="<%=request.getContextPath()%>/mypage/purchaselist">돌아가기</a></button>
-                    <input type="hidden" id="re_sort" name="re_sort" value="교환">
-                    <button onclick="request_re('교환')" id="exchange-btn">교환신청</button>
-                    <button onclick="request_re('반품')" id="refund-btn">반품신청</button>
+                <div class="buttonbox">
+                    <button type="button" onclick="location.href='/mypage/purchaselist'">돌아가기</button>
+                    <!-- <button><a href="<%=request.getContextPath()%>/mypage/purchaselist">돌아가기</a></button> -->
+                    <div>
+                        <input type="hidden" id="re_sort" name="re_sort" value="교환">
+                        <button id="exch-btn">교환신청</button>
+                        <button id="ref-btn">반품신청</button>
+                    </div>
                 </div>
             </form>
             </div>
@@ -196,77 +174,66 @@
     })
 
     $('.plus').on('click', function () {
-                // 데이터 속성을 사용하여 연결된 입력 폼의 ID 가져오기
+        
+        // 버튼의 data-데이터명 속성에 input폼id 저장해놓은거 꺼내오기 (input태그의 id만 저장가능한듯.. 다른태그의 id 저장해놓고 value꺼내기 해보니 안 됨)
         let q_id = $(this).data('q-id')
         console.log(q_id)
         let max_q_id = $(this).data('max-q-id')
         console.log(max_q_id)
         
-        let q = $('#'+q_id).val()
+        let q = parseInt($('#'+q_id).val())
         console.log(q)
-        let max_q = $('#'+max_q_id).val()
+        let max_q = parseInt($('#'+max_q_id).val())
         console.log(max_q)
 
 
-        // if (q === max_q) {
-        //     alert('신청가능수량 초과입니다.');
-        // } else {
-        //     $('#'+q_id).val(q+1);
-        // }
+        if (q === max_q) {
+            alert('신청가능수량 초과입니다.');
+        } else {
+            $('#'+q_id).val(q+1);
+        }
 
     });
 
-    // $('.plus').on("click", function () {
-
-    //     let qty = $(this).parent().children('span').children('input').val()
-    //     console.log(qty)
-    //     let max_qty = $(this).parent().parent().parent().children('.max_qty').val()
-    //     console.log(max_qty)
-
-    // })
-
-    // $('.minus').on("click", function () {
-
-    //     let qty = $(this).parent().children('span').children('input').val()
-    //     console.log(qty)
-
-    // })
-
-    // function fn_qty_change(plus, p_item) {
-
-    //     let qty = $('"#qty_'+pItem.p_id+'"').val()
-    //     console.log(qty)
-    //     let max_qty = $('.max_qty').val()
-
-    //     if (plus) {
-    //         if (qty == max_qty) {
-    //             alert('신청가능수량 초과입니다.')
-    //         } else {
-    //             $(this).val(qty+1)
-    //         }
-    //     } else {
-    //         if (qty == 1) {
-    //             alert('최소 신청수량은 1권입니다.')
-    //         } else {
-    //             $(this).val(qty-1)
-    //         }
-    //     }
-
-    // }
-
-    function request_re(re_sort) {
-    
-        let conf = confirm(re_sort+'신청을 하시겠습니까?');
-
-        if (conf == true) {
-            
-            if (re_sort == '반품') {
-                $('#re_sort').val('반품');
-            }
-            location.href = '/mypage/refundexchange';
-        }
+    $('.minus').on('click', function () {
         
-    }
+        let q_id = $(this).data('q-id')
+        console.log(q_id)
+        let q = parseInt($('#'+q_id).val())
+        console.log(q)
+
+
+        if (q === 1) {
+            alert('최소 신청수량은 1권입니다.');
+        } else {
+            $('#'+q_id).val(q-1);
+        }
+
+    });
+
+    $(document).ready(function () {
+
+        $('#refExchForm').submit(function (event) {
+        
+            event.preventDefault();
+
+            let sort_of_req = $('#re_sort').val()
+            let conf = confirm(sort_of_req+'신청을 하시겠습니까?')
+
+            if (conf == true) {
+                this.submit();
+            }
+        })
+
+        $('#exch-btn').on('click', function() {
+            $('#re_sort').val('교환');
+        })
+
+        $('#ref-btn').on('click', function() {
+            $('#re_sort').val('반품');
+        })
+
+    })
 
 
     </script>

@@ -46,22 +46,18 @@
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
  
-<!-- 모달 구조 예시 -->
-<div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
-    <div class="modal-content">
-      <span class="close-button">&times;</span>
-      <h2 id="storeName"></h2>
-      <p id="storeDescription"></p>
-    </div>
-  </div>
+
   
 
 
+       
+ 
     <div class="mapContainer">
 
      
 
         <div class="mapSearchBox">
+
             <form id="mapSearchForm">
                 <div class="ms_sc">
                     <input class="mapscstore" id="mapscInput" onkeydown="if (event.key === 'Enter') window.location.href='/map?keyword=' + document.getElementById('mapscInput').value" 
@@ -77,7 +73,7 @@
     <c:forEach var="store" items="${results}">
         <div class="bs_item" data-store-id="${store.s_id}">
             <!-- 이미지 출력 -->
-            <div class="bs_itempf">
+            <div class="bs_itempf" data-lat="${store.s_latitude}" data-lng="${store.s_longitude}">
                 <c:forEach var="imageInfo" items="${imageInfos}">
                     <c:if test="${imageInfo.sf_s_id == store.s_id}">
                         <img src="<c:url value='/uploads/${imageInfo.sf_sysname}' />" alt="${store.s_storename}">
@@ -87,14 +83,12 @@
             <!-- 서점 이름과 소개 -->
             <div class="bs_iteminfo">
                 ${store.s_storename} <br>
-                ${store.s_storedesc} <br>
             </div>
             <!-- 주소와 연락처 -->
             <div class="bs_itemcontact">
                 <c:forEach var="memberInfo" items="${memberInfos}">
                     <c:if test="${memberInfo.m_id == store.s_id}">
                         Address: ${memberInfo.m_addr} <br>
-                        Phone: ${memberInfo.m_phone} <br>
                     </c:if>
                 </c:forEach>
             </div>
@@ -104,10 +98,30 @@
  
          </div>
 
- 
+
+<!--서점 상세 정보 모달 -->
+<div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
+    <div class="cls_btn">
+        <span class="material-symbols-outlined close-button">close</span>
+    </div>
+    <div class="modal-content">
+    
+        <div class="storeImgBox">
+            <img id="storeImg" src="" alt="">
+        </div>
+        <h1 id="storeName"></h1>
+        <h2 id="storeAddr"></h2>
+        <p id="storeDescription"></p>
+        <p id="storePhone"></p>
+    </div>
+</div>
+
         <div class="mapbox" onload="initMap()">
             <div id="gmp-map"></div>
         </div>
+
+
+
 
     </div>  
 
@@ -115,7 +129,7 @@
 
  <script src="/js/mapSearch.js"></script>
 
- <script type="text/javascript"> 
+<script type="text/javascript"> 
 // 전역 변수 선언 (이거 실행되는거라 지우시면 안됨요..)
 var map;
 var infoWindow;

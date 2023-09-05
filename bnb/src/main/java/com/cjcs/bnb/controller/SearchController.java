@@ -59,22 +59,18 @@ public class SearchController {
         return "/search/search";
     }
 
-
-
     // 지도에서 서점 검색
 
-    
     @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
     public String search(
-    @RequestParam String keyword, 
-    @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-    Model model) {
+            @RequestParam String keyword,
+            @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+            Model model) {
 
-    int pageSize = 20;  // 페이지당 20개의 결과
-    int startIdx = (pageNum - 1) * pageSize;
-    
-        
-        List<SellerDto> results = searchService.searchBookstores(keyword, startIdx); 
+        int pageSize = 20; // 페이지당 20개의 결과
+        int startIdx = (pageNum - 1) * pageSize;
+
+        List<SellerDto> results = searchService.searchBookstores(keyword, startIdx);
         int totalItems = searchService.countBookstores(keyword);
 
         // 이미지 정보를 불러와서 별도의 List에 추가
@@ -106,29 +102,27 @@ public class SearchController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("results", results);
         model.addAttribute("totalItems", totalItems);
-        model.addAttribute("imageInfos", imageInfos);  
-        model.addAttribute("memberInfos", memberInfos); 
- 
+        model.addAttribute("imageInfos", imageInfos);
+        model.addAttribute("memberInfos", memberInfos);
+
         return "/map/map";
     }
 
-    
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId) {
         MemberDto seller = searchService.getMemberInfo(storeId);
         System.out.println("Seller Info: " + seller);
 
-    
         if (seller == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        
+
         Map<String, Object> response = new HashMap<>();
+        response.put("store_img", seller.getSf_sysname());
         response.put("store_name", seller.getS_storename());
+        response.put("store_addr", seller.getM_addr());
+        response.put("store_phone", seller.getM_phone());
         response.put("store_description", seller.getS_storedesc());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
-
 }
- 

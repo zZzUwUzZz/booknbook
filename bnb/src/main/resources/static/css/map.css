@@ -17,18 +17,20 @@ body {
 }
 
 .mapContainer {
-    background: #c0c0c0;
     width: 100%;
-    height: 100vh;
-    display: flex;
-}
+    overflow: hidden; /* float를 사용할 때 필요한 설정 */
+  }
 
-.mapSearchBox {
-    width: 600px;
-    height: 100vh;
-    background: #FFF;
-}
+  .mapSearchBox {
+    float: left;
+    width: 25%; /* 혹은 원하는 비율 */
+    height: 100vh; /* 혹은 원하는 높이 */
+    background-color: #ffffff; /* 배경색을 원하는 대로 설정 */
+    z-index: 2;
+    position: relative;
+  }
 
+  
 input.map_sc {
     width: 500px;
     margin: auto;
@@ -85,7 +87,53 @@ input.map_sc {
 }
 
 .mapbox {
+    float: left;
+    width: 75%; 
+    height: 100vh; 
+    background-color: #ffffff;
+  }
+
+
+
+/* 서점 상세 정보 모달 */
+ 
+.storeImgBox {
+    width: 511px;
+    height: 457px;
+    overflow: hidden;
+    background-color: #a7a7a7;
+    position: relative;
+    left: -37px;
+    top: -38px;
+}
+img#storeImg {
     width: 100%;
 }
 
- 
+#storeDetailModal  {
+    background: rgb(255, 255, 255);
+    width: 450px;
+    padding: 35px;
+    position: absolute;
+    display: none;
+    z-index: 1;
+    height: 100%;
+    overflow: scroll;
+    transition: transform .5s ease-out;
+    transform: translateX(-40%);
+}
+
+
+
+.cls_btn {
+    position: absolute;
+    width: 88%;
+    display: flex;
+    justify-content: end;
+    z-index: 1;
+}
+
+span.material-symbols-outlined.close-button {
+    font-size: 39px;
+    filter: contrast(0);
+}

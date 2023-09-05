@@ -9,12 +9,12 @@
 
 <!-- 판매자 아이디 불러오기 -->
    <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
-        SELECT M.*, s_storename, s_storedesc, s_crn, s_deliveryfee, s_latefee
-        FROM M, S
-        WHERE m_id = #{s_id} AND s_id = #{s_id}
+   SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname
+FROM M
+LEFT JOIN S ON M.m_id = S.s_id
+LEFT JOIN SF ON S.s_id = SF.sf_s_id
+WHERE M.m_id = #{s_id}
     </select>
-
-
 
 <!--재락-->
 

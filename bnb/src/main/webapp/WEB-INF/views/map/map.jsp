@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/map.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
 
@@ -43,7 +45,18 @@
 
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
+ 
+<!-- 모달 구조 예시 -->
+<div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2 id="storeName"></h2>
+      <p id="storeDescription"></p>
+    </div>
+  </div>
   
+
+
     <div class="mapContainer">
 
      
@@ -55,63 +68,72 @@
                         type="text" name="keyword" placeholder="장소, 서점명 검색">
                 </div>
             </form>
+
+
             <div class="maplist">
-                <div class="map_rs">
-                    <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
-                    <span>${imageInfo.sf_s_id}</span>
-                    <span>${imageInfo.sf_s_id}</span>
-                    <span>${store.s_id}</span>
-                </div>
-
-
-                <c:forEach var="store" items="${results}">
-                    <div class="bs_item">
-                        <div class="bs_itempf">
-                            <c:forEach items="${imageInfos}" var="imageInfo">
-                                <c:if test="${imageInfo.sf_s_id == store.s_id}">
-                                    <img src="<c:url value='/uploads/${imageInfo.sf_sysname}' />"
-                                        alt="${store.s_storename}">
-                                </c:if>
-                            </c:forEach>
-                        </div>
-                        ${store.s_storename} <br>
-                        ${store.s_storedesc} <br>
-                        
-                <c:forEach var="memberInfo" items="${memberInfos}">
-                    Address: ${memberInfo.m_addr} <br>
-                    Phone: ${memberInfo.m_phone} <br>
+    <div class="map_rs">
+        <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
+    </div>
+    <c:forEach var="store" items="${results}">
+        <div class="bs_item" data-store-id="${store.s_id}">
+            <!-- 이미지 출력 -->
+            <div class="bs_itempf">
+                <c:forEach var="imageInfo" items="${imageInfos}">
+                    <c:if test="${imageInfo.sf_s_id == store.s_id}">
+                        <img src="<c:url value='/uploads/${imageInfo.sf_sysname}' />" alt="${store.s_storename}">
+                    </c:if>
                 </c:forEach>
-
-
-                    </div>
+            </div>
+            <!-- 서점 이름과 소개 -->
+            <div class="bs_iteminfo">
+                ${store.s_storename} <br>
+                ${store.s_storedesc} <br>
+            </div>
+            <!-- 주소와 연락처 -->
+            <div class="bs_itemcontact">
+                <c:forEach var="memberInfo" items="${memberInfos}">
+                    <c:if test="${memberInfo.m_id == store.s_id}">
+                        Address: ${memberInfo.m_addr} <br>
+                        Phone: ${memberInfo.m_phone} <br>
+                    </c:if>
                 </c:forEach>
             </div>
         </div>
+    </c:forEach>
+            </div>
+ 
+         </div>
 
  
         <div class="mapbox" onload="initMap()">
             <div id="gmp-map"></div>
         </div>
 
-    </div>
+    </div>  
 
+ 
 
  <script src="/js/mapSearch.js"></script>
-   
- <!-- <script>
-    var dbMarkers = [
-    <c:forEach var="result" items="${results}" varStatus="loop">
-        {
-            lat: ${result.s_latitude},
-            lng: ${result.s_longitude},
-            title: "${result.s_storename}",
-            description: "${result.s_storedesc}",
-            address: "${memberInfos[loop.index].m_addr}"
-        }<c:if test="${!loop.last}">,</c:if>
-    </c:forEach>
-   ];
-</script> -->
 
+ <script type="text/javascript"> 
+// 전역 변수 선언 (이거 실행되는거라 지우시면 안됨요..)
+var map;
+var infoWindow;
+var markers = [];
+var dbMarkers = [
+        <c:forEach var="result" items="${results}" varStatus="loop">
+        {
+            lat: <c:out value="${result.s_latitude}" default="0"/>,
+            lng: <c:out value="${result.s_longitude}" default="0"/>,
+            title: '<c:out value="${result.s_storename}"/>',
+            description: '<c:out value="${result.s_storedesc}"/>',
+            address: '<c:out value="${memberInfos[loop.index].m_addr}"/>'
+        }
+        <c:if test="${!loop.last}">,</c:if>
+        </c:forEach>
+    ];
+</script>
+ 
     
   </body>
 

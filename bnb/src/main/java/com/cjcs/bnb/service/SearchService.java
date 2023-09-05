@@ -37,12 +37,12 @@ public class SearchService {
 
     public MemberDto getMemberInfo(String s_id) {
         return memberDao.getMemberInfo(s_id);
-    }
+    }   
 
     // 서점 검색
-    public List<SellerDto> searchBookstores(String keyword) {
-        return memberDao.searchBookstores("%" + keyword + "%");
-    }
+    public List<SellerDto> searchBookstores(String keyword, int startIdx) {
+        return memberDao.searchBookstores("%" + keyword + "%", startIdx);
+       }
 
     // 서점 검색 결과 총 건수
     public int countBookstores(String keyword) {
@@ -52,5 +52,4 @@ public class SearchService {
     public List<SellerFileDto> getImagesBySellerId(String s_id) {
         return fileMapper.getImagesBySellerId(s_id);
     }
-
 }

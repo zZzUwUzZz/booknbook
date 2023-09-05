@@ -20,7 +20,7 @@ public interface MemberDao {
 
     // 킹효진
 
-    List<SellerDto> searchBookstores(@Param("keyword") String keyword);
+    List<SellerDto> searchBookstores(@Param("keyword") String keyword, @Param("startIdx") int startIdx);
 
     int countBookstores(@Param("keyword") String keyword);
 
@@ -29,6 +29,7 @@ public interface MemberDao {
 
     MemberDto getMemberInfo(String s_id);
 
+    
     // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
     // 재락

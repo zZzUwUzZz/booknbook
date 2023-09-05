@@ -19,6 +19,7 @@ public class MemberDto {
     private String c_name; // 회원이름
 
     // 서점회원만 가지는 필드
+    
     private String s_storename; // 서점명
     private String s_storedesc; // 서점소개
     private String s_crn; // 사업자등록번호 10자리(문자열)

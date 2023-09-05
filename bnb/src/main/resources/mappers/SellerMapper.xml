@@ -5,21 +5,23 @@
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
     <!-- 서점 검색 -->
-    <select id="searchBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
+<select id="searchBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
         SELECT S.*, SF.sf_sysname 
         FROM seller S 
         LEFT JOIN seller_file SF ON S.s_id = SF.sf_s_id 
         JOIN member M ON S.s_id = M.m_id
         WHERE UPPER(S.s_storename) LIKE UPPER('%' || #{keyword} || '%')
         OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')
-    </select>
+</select>
 
-    <select id="countBookstores" resultType="int">
+    <!-- 서점 검색결과 카운트 -->
+<select id="countBookstores" resultType="int">
     SELECT COUNT(*) 
     FROM seller S
     JOIN member M ON S.s_id = M.m_id
     WHERE UPPER(S.s_storename) LIKE UPPER('%' || #{keyword} || '%')
-    OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')    </select>
+    OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')
+</select>
 
 </mapper>
 

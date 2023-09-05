@@ -5,16 +5,16 @@
 
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
-
-
 <!-- 킹효진 -->
 
 <!-- 판매자 아이디 불러오기 -->
    <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
-        SELECT m.m_id, m.m_addr, m.m_phone
-        FROM Member m
-        WHERE m.m_id = #{s_id}
+        SELECT M.*, s_storename, s_storedesc, s_crn, s_deliveryfee, s_latefee
+        FROM M, S
+        WHERE m_id = #{s_id} AND s_id = #{s_id}
     </select>
+
+
 
 <!--재락-->
 

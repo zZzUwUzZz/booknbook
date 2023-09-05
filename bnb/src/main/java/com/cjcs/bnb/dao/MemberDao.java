@@ -41,6 +41,13 @@ public interface MemberDao {
 
     // 로그인 중복확인
     int countById(String m_id);
+    //아이디 찾기
+    String findIdByEmail(@Param("name") String name, @Param("email") String email);
+   
+    String findIdByEmailAndCode(@Param("name") String name, @Param("email") String email, @Param("verificationCode") String verificationCode);
+
+
+
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);

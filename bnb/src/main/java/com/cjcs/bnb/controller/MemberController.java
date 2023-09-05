@@ -20,10 +20,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.Response;
 import com.cjcs.bnb.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+
 
 @Slf4j
 @Controller
@@ -73,6 +75,33 @@ public class MemberController {
 
     }
 
+    @Autowired
+    private MemberService mService;
+
+    @PostMapping("/sendVerificationCode")
+    public ResponseEntity<?> sendVerificationCode(@RequestParam String email) {
+        // 이메일로 인증 코드 전송
+        boolean isSent = mService.sendVerificationCode(email);
+        if (isSent) {
+            return ResponseEntity.ok().body(new Response(true, "인증 코드 전송 성공"));
+        }
+        return ResponseEntity.badRequest().body(new Response(false, "인증 코드 전송 실패"));
+    }
+
+    @PostMapping("/findId")
+    public ResponseEntity<?> findId(@RequestParam String name, @RequestParam String email, @RequestParam String verificationCode) {
+        // 이메일 및 인증 코드로 아이디 찾기
+        String foundId = mService.findIdByEmailAndCode(name, email, verificationCode);
+        if (foundId != null) {
+            return ResponseEntity.ok().body(new Response(true, foundId));
+        }
+        return ResponseEntity.badRequest().body(new Response(false, "아이디를 찾을 수 없습니다."));
+    }
+
+
+
+
+
     @GetMapping("/choice")
     public String choice() {
 
@@ -117,6 +146,9 @@ public class MemberController {
         return result;
     }
 
+
+
+
     @GetMapping("/join2")
     public String join2() {
 
@@ -124,6 +156,8 @@ public class MemberController {
         return "member/join2";
 
     }
+
+
 
     @PostMapping("/join2")
     public String join2Process(MemberDto member, Model model) {
@@ -142,5 +176,14 @@ public class MemberController {
 
         model.addAllAttributes(resultMap);
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join2";
+    }
+
+    @GetMapping("/checkId2")
+    @ResponseBody
+    public Map<String, Boolean> checkIdDuplication2(@RequestParam String m_id) {
+        boolean isDuplicated = mSer.isIdDuplicated(m_id);  // mSer가 MemberService를 의미한다고 가정
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("isDuplicated", isDuplicated);
+        return result;
     }
 }

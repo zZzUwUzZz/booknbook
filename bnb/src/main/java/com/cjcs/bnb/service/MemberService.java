@@ -46,6 +46,26 @@ public class MemberService {
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
     }
+    //아디 찾기
+    public String findId(String name, String email) {
+        // 이메일을 통한 검색
+        return mDao.findIdByEmail(name, email);
+    }
+    // 이메일로 인증 코드 전송 로직 (예: Random code 생성 후, 이메일 전송 서비스 사용)
+        public boolean sendVerificationCode(String email) {
+        // TODO: 코드 구현
+            return true; // 실패할 경우 false 반환
+        }
+    
+        // 이메일 및 인증 코드로 아이디 찾기 로직
+        public String findIdByEmailAndCode(String name, String email, String verificationCode) {
+            // TODO: 코드 구현
+            // 예: mDao.findIdByEmailAndCode(name, email, verificationCode)
+            return "foundId"; // 찾지 못하면 null 반환
+        }
+
+
+
 
     // public MemberDto login(HashMap<String, String> member) {
 

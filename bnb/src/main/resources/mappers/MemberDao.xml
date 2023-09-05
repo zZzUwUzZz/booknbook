@@ -24,7 +24,18 @@
         VALUES(#{m_id}, #{c_name})
     </insert>
 
-   
+    <select id="countById" resultType="int">
+    SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
+</select>
+
+
+ <!-- 이름과 이메일로 아이디 찾기 쿼리 -->
+    <select id="findIdByEmail" resultType="string">
+        SELECT M_ID 
+        FROM CJCS.MEMBER 
+        WHERE M_NAME = #{name} AND M_EMAIL = #{email}
+    </select>
+
 
 
 <!--예림-->

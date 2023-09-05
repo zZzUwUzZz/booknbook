@@ -1,5 +1,5 @@
 package com.cjcs.bnb.entity;
 
-public class BaseTimeEntity {
+public class BTimeEntity {
 
 }

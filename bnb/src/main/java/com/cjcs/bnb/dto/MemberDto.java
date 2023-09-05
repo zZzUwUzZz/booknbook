@@ -26,5 +26,5 @@ public class MemberDto {
     private String s_crn;          // 사업자등록번호 10자리(문자열)
     private int s_deliveryfee;     // 이 서점의 배송료
     private int s_latefee;         // 이 서점의 1일당 연체료
-
+    
 }

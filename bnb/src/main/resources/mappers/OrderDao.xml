@@ -1,0 +1,24 @@
+<!-- 주문취소 -->
+	<update id="orderCancle">
+		update p_order set orderState = '주문취소' where orderId = #{orderId}
+	</update>	
+
+	<!-- 주문 상품 정보(주문취소) -->
+	<select id="getOrderItemInfo" resultType="com.cjcs.bnb.OrderItemDto">
+	
+		select * from p_orderItem
+		where orderId = #{orderId}
+	
+	</select>
+	
+	<!-- 주문 정보(주문 취소) -->
+	<select id="getOrder" resultType="com.cjcs.bnb.OrderDto">
+	
+		select * from p_order        
+		where orderId = #{orderId} 
+	<!-- 더미데이터 만들기
+        회원가입 되어 있는 회원id와( m_id ) 주문자id확인 ( p_order )
+        또는 무조건 로그인으로 회원 확인된 상태 데이터 생성 불 필요 아직 구성 중... 
+     -->
+
+	</select>

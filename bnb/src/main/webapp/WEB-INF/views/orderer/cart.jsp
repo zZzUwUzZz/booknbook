@@ -90,7 +90,7 @@
                     <c:forEach var="book" items="${rentalCartItems}">
                         <tr>
                             <td>${book.bookTitle}</td>
-                            <td>${book.rentalFee}</td>
+                            <td>${book.rentalP}</td>
                             <td>${book.returnDate}</td>
                             <td><a href="removeFromRentalCart.jsp?bookId=${book.bookId}">삭제</a></td>
                         </tr>

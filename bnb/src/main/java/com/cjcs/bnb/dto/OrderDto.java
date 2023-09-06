@@ -16,6 +16,6 @@ public class OrderDto {
     private PaymentDto payment;
 
     // 배송 정보 필드
-    private ShoppingAddressDto sAddress;
+    private ShoppingAddressDto SADto;
 }
 

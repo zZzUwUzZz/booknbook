@@ -32,3 +32,9 @@ tr {
     margin: auto;
     padding: 15px;
 }
+
+.rej_reason {
+    text-align: right;
+    font-size: 14px;
+    
+}

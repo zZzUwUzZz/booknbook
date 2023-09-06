@@ -127,17 +127,43 @@
         WHERE C_ID=#{m_id}
     </update>
 
+    
+    <!--즐겨찾는서점 총 개수 세기-->
+    <select id="countFavStores" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM FAVSTORE
+        WHERE favs_c_id = #{c_id}
+    </select>
+
     <!--즐겨찾는서점 리스트 가져오기-->
-  	<select id="getFavStoreList" parameterType="String" resultType="MemberDto">
-        <!-- 참고: 메서드 리턴타입이 List인 경우.. resultType에는 <>안의 객체타입을 적어줘야함... 그러면 알아서 메서드에서는 리스트로 반환됨 -->
-        SELECT M_ID, S_STORENAME FROM FAVSTORE, M, S
-        WHERE FAVS_C_ID=#{c_id} AND FAVS_S_ID=S_ID AND S_ID=M_ID
+  	<select id="getFavStoreList" resultType="MemberDto">
+        SELECT *
+        FROM (SELECT rownum AS rnum, m_id, s_storename
+              FROM (SELECT m_id, s_storename
+                    FROM FAVSTORE, M, S
+                    WHERE favs_s_id = s_id AND s_id = m_id AND favs_c_id = #{c_id}
+                    ORDER BY favs_date DESC
+                   )
+             )
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <!--찜한도서 총 개수 세기-->
+    <select id="countFavBooks" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM FAVBOOK
+        WHERE favb_c_id = #{c_id}
     </select>
 
     <!--찜한도서 리스트 가져오기-->
-    <select id="getFavBookList" parameterType="String" resultType="BookDto">
-        SELECT B_S_ID, B_ISBN, B_TITLE, B_AUTHOR FROM FAVBOOK, B
-        WHERE FAVB_C_ID=#{c_id} AND FAVB_S_ID=B_S_ID AND FAVB_B_ISBN=B_ISBN
+    <select id="getFavBookList" resultType="BookDto">
+        SELECT *
+        FROM (SELECT rownum AS rnum, b_s_id, b_isbn, b_title, b_author
+              FROM (SELECT b_s_id, b_isbn, b_title, b_author
+                    FROM FAVBOOK, B
+                    WHERE favb_s_id = b_s_id AND favb_b_isbn = b_isbn AND favb_c_id = #{c_id}
+                    ORDER BY favb_date DESC
+                   )
+             )
+        WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
 </mapper>

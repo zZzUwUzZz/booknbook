@@ -19,8 +19,8 @@ public interface PurchaseDao {
     public HashMap<String, String> getPurchaseItemByPId(Integer p_id);
     public List<PurchaseDto> getLatest5PurchaseListByCId(String c_id);
 
-    public HashMap<String, Object> getPurchaseInfoForRE(Integer p_id);  // o_id, c_id, s_id, b_isbn만 가져와서 RefExchDto에 넣어 반환
-    public Boolean addRefExchList(HashMap<String, Object> pInfo);
+    public RefExchDto getPurchaseInfoForRE(Integer p_id);  // o_id, c_id, s_id, b_isbn만 가져와서 RefExchDto에 넣어 반환
+    public Boolean addRefExchList(RefExchDto reDto);
     public List<RefExchDto> getRefExchListByCId(String c_id);
     public List<RefExchDto> getCurrentRefExchListByCId(String c_id);
     public int countCurrentRefExchByCId(String c_id);

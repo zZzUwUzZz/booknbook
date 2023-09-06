@@ -80,15 +80,18 @@
         ]]>
     </select>
 
-    <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="Map">
-        SELECT p_o_id, p_c_id, p_s_id, p_b_isbn
+    <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="RefExchDto">
+        SELECT p_o_id as "re_o_id",
+               p_c_id as "re_c_id",
+               p_s_id as "re_s_id",
+               p_b_isbn as "re_b_isbn"
         FROM P
         WHERE p_id = #{p_id}
     </select>
 
     <insert id="addRefExchList" parameterType="RefExchDto">
         INSERT INTO RE(re_id, re_o_id, re_c_id, re_s_id, re_b_isbn, re_sort, re_reason, re_amount, re_reqdate, re_process_status_id, re_rejection_reason)
-        VALUES(RE_SEQ.NEXTVAL, #{p_o_id}, #{p_c_id}, #{p_s_id}, #{p_b_isbn}, #{re_sort}, #{re_reason}, #{re_amount}, DEFAULT, 1, NULL)
+        VALUES(RE_SEQ.NEXTVAL, #{re_o_id}, #{re_c_id}, #{re_s_id}, #{re_b_isbn}, #{re_sort}, #{re_reason}, #{re_amount}, DEFAULT, 1, NULL)
     </insert>
 
     <select id="getRefExchListByCId" parameterType="String" resultType="RefExchDto">

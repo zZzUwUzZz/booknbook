@@ -64,8 +64,10 @@ public interface MemberDao {
     // public void updateMemberInfo(MemberDto updatedMDto); //예림파트랑중복
     public void updateCustomerInfo(MemberDto updatedMDto);
 
-    public List<MemberDto> getFavStoreList(String c_id);
+    public Integer countFavStores(String c_id);
+    public List<MemberDto> getFavStoreList(String c_id, int start, int end);
 
-    public List<BookDto> getFavBookList(String c_id);
+    public Integer countFavBooks(String c_id);
+    public List<BookDto> getFavBookList(String c_id, int start, int end);
 
 }

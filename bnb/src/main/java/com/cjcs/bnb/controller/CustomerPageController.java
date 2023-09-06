@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
@@ -51,6 +52,8 @@ public class CustomerPageController {
     @Autowired
     private RentalService rSer;
 
+    @Autowired
+    private MemberDao mDao;
     @Autowired
     private OrderDao oDao;
     @Autowired
@@ -269,30 +272,59 @@ public class CustomerPageController {
 
 
     @GetMapping("/favoritestores")   // 즐겨찾는서점
-    public String mypageFavoriteStores(Model model, HttpSession session) {
+    public String mypageFavoriteStores(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<MemberDto> favStores = mSer.getFavStores(c_id);
+        // List<MemberDto> favStores = mDao.getFavStores(c_id);
+        // model.addAttribute("favStores", favStores);
+
+        log.info("page:{}", page);
+
+        int numOfStores = mDao.countFavStores(c_id);
+        int storesPerPage = 4;
+        int numOfPages = (int) Math.ceil((double) numOfStores / storesPerPage);
+        int start = (page - 1) * storesPerPage + 1;
+        int end = start + storesPerPage - 1;
+
+        List<MemberDto> favStores = mDao.getFavStoreList(c_id, start, end);
+
+        log.info("favStores:{}", favStores);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("favStores", favStores);
 
         return "customer/mypageFavoriteStores";
     }
 
     @GetMapping("/favoritebooks")    // 찜한도서
-    public String mypageFavoriteBooks(Model model, HttpSession session) {
+    public String mypageFavoriteBooks(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<BookDto> favBooks = mSer.getFavBooks(c_id);
-        System.out.println(favBooks);
+        log.info("page:{}", page);
+
+        int numOfBooks = mDao.countFavBooks(c_id);
+        int booksPerPage = 8;
+        int numOfPages = (int) Math.ceil((double) numOfBooks / booksPerPage);
+        int start = (page - 1) * booksPerPage + 1;
+        int end = start + booksPerPage - 1;
+
+        List<BookDto> favBooks = mDao.getFavBookList(c_id, start, end);
+
+        log.info("favBooks:{}", favBooks);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("favBooks", favBooks);
 
-        return "customer/mypageFavoriteBooks";
+        return "/customer/mypageFavoriteBooks";
+        
     }
 
 }

@@ -10,7 +10,7 @@ public class RefExchDto {
     //테이블에 있는 필드
     private int re_id;            // 교환반품신청번호
     private int re_o_id;          // 주문번호
-    private int re_c_id;          // 구매자아이디
+    private String re_c_id;       // 구매자아이디
     private String re_s_id;       // 판매자아이디
     private String re_b_isbn;     // 책ISBN
 

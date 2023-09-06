@@ -117,15 +117,6 @@ public class MemberService {
         mDao.updateCustomerInfo(updatedMDto);
     }
 
-    public List<MemberDto> getFavStores(String c_id) {
-
-        return mDao.getFavStoreList(c_id);
-    }
-
-    public List<BookDto> getFavBooks(String c_id) {
-
-        return mDao.getFavBookList(c_id);
-    }
 
 
     //예림

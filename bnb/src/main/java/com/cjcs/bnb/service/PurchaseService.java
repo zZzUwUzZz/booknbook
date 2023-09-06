@@ -1,13 +1,13 @@
 package com.cjcs.bnb.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.PurchaseDao;
+import com.cjcs.bnb.dto.RefExchDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,18 +39,16 @@ public class PurchaseService {
 
         for (int n=0; n<listLength; n++) {
 
-            int p_id = p_idList.indexOf(n);
-            int re_amount = re_amountList.indexOf(n);
+            int p_id = p_idList.get(n);
+            int re_amount = re_amountList.get(n);
 
-            HashMap<String, Object> pInfo = pDao.getPurchaseInfoForRE(p_id);
-            pInfo.put("re_sort", re_sort);
-            pInfo.put("re_reason", re_reason);
-            pInfo.put("re_amount", re_amount);
-            // reDto.setRe_sort(re_sort);
-            // reDto.setRe_reason(re_reason);
-            // reDto.setRe_amount(re_amount);
+            RefExchDto reDto = pDao.getPurchaseInfoForRE(p_id);
+            reDto.setRe_sort(re_sort);
+            reDto.setRe_reason(re_reason);
+            reDto.setRe_amount(re_amount);
+            log.info("reDto:{}", reDto);
 
-            pDao.addRefExchList(pInfo);
+            pDao.addRefExchList(reDto);
             
         }
 

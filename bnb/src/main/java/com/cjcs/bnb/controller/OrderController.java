@@ -27,6 +27,13 @@ public class OrderController {
     private RentalService rSer;
 
 
+
+    @GetMapping("/cart")
+    public String cart() {
+
+        return "orderer/purchase_cart";
+    }
+
     //여기부터 페이지-메서드 매핑
 
     // @GetMapping

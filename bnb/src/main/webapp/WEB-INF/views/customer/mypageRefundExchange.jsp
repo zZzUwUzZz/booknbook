@@ -116,7 +116,7 @@
                     (신청사유를 선택하세요.)
                     <h4>단순변심</h4>
                     <label>
-                        <input type="radio" name="re_reason" value="상품이 마음에 들지 않음">
+                        <input type="radio" name="re_reason" value="상품이 마음에 들지 않음" checked="true">
                         상품이 마음에 들지 않음
                     </label><br>
                     <label>

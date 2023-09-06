@@ -34,7 +34,6 @@
     text-align: center;
     line-height: 49px;
     font-size: 15px;
-    border: 1px solid yellow;
     border-radius: 10px;
     background-color: #fffbed;
     width: 50px;
@@ -44,6 +43,10 @@
 .buttons:hover {
     background-color: #4c4240;
     color:#fffbed;
+}
+.buttons:active {
+    position: relative;
+    top: 1px;
 }
 .menu_simple ul {
     margin: 0; 

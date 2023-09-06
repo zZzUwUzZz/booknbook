@@ -59,6 +59,8 @@ public interface MemberDao {
 
 
     // 수희
+    public List<MemberDto> getAllCustomerInfo();
+    public List<MemberDto> getAllSellerInfo();
     public MemberDto getCustomerInfoById(String m_id);
 
     // public void updateMemberInfo(MemberDto updatedMDto); //예림파트랑중복

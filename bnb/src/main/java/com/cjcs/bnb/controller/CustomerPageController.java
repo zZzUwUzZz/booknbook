@@ -255,7 +255,7 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @ResponseBody   // 비동기통신
+    @ResponseBody   // 비동기통신(굳이 비동기로 할 필요 없는 페이지인데 그냥 해보고 싶어서 해봄 -_-...)
     @PostMapping("/reservationcancel")    // 대여예약취소처리
     public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
 
@@ -277,9 +277,6 @@ public class CustomerPageController {
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
-
-        // List<MemberDto> favStores = mDao.getFavStores(c_id);
-        // model.addAttribute("favStores", favStores);
 
         log.info("page:{}", page);
 
@@ -324,7 +321,6 @@ public class CustomerPageController {
         model.addAttribute("favBooks", favBooks);
 
         return "/customer/mypageFavoriteBooks";
-        
     }
 
 }

@@ -14,6 +14,7 @@ import com.cjcs.bnb.service.RentalService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
+//의존성 주입
 @Slf4j
 @Controller
 @RequestMapping("/order")
@@ -31,8 +32,6 @@ public class OrderController {
     @Autowired
     private RentalService reSer;
 
-    @Autowired
-    private OrderService orderService;
 
     // 주문 페이지로 이동
     @GetMapping("/checkout")

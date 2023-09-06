@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="checkbook.css">
+    <link rel="stylesheet" href="checkout.jsp">
     <title>주문 페이지</title>
     <!-- CSS 및 JavaScript 파일 링크 -->
 </head>

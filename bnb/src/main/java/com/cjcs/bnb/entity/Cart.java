@@ -26,12 +26,12 @@ import lombok.NoArgsConstructor;
 
 public class Cart {
     @Id
-    @Column(name = "cart_id")
+    @Column(name = "c_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id") 
+    @JoinColumn(name = "m_id") 
     private Member member;
     
     public static Cart createCart(Member member){

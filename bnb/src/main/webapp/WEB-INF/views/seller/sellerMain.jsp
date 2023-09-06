@@ -77,25 +77,25 @@
                         <table class="box-list">
                             <tr>
                                 <td>총 주문</td>
-                                <td>${OrderCnt}건</td>
+                                <td>${TodayOrderCnt}건</td>
                                 <td>배송 준비중</td>
-                                <td>${DeliPre}건</td>
+                                <td>${TodayDeliPre}건</td>
                             </tr>
                             <tr>
                                 <td>└ 판매</td>
-                                <td>${SellCnt}건</td>
+                                <td>${TodaySellCnt}건</td>
                                 <td>배송중</td>
-                                <td>${DeliShip}건</td>
+                                <td>${TodayDeliShip}건</td>
                             </tr>
                             <tr>
                                 <td>└ 대여</td>
-                                <td>${RentCnt}건</td>
+                                <td>${TodayRentCnt}건</td>
                                 <td>배송 완료</td>
-                                <td>${DeliComplete}건</td>
+                                <td>${TodayDeliComplete}건</td>
                             </tr>
                             <tr>
                                 <td>└ 대여 예약</td>
-                                <td>${RentResCnt}건</td>
+                                <td>${TodayRentResCnt}건</td>
                             </tr>
                         </table>
                     </div>
@@ -105,11 +105,11 @@
                         <table class="box-list">
                             <tr>
                                 <td>오늘</td>
-                                <td>${TodayBookmark}명</td>
+                                <td>${TodayBookmarkCnt}명</td>
                                 <td>이번 주</td>
-                                <td>${WeekBookmark}명</td>
+                                <td>${WeekBookmarkCnt}명</td>
                                 <td>이번 달</td>
-                                <td>${MonthBookmark}명</td>
+                                <td>${MonthBookmarkCnt}명</td>
                             </tr>
                         </table>
                     </div>
@@ -119,9 +119,9 @@
                             <h1>최근 한 달간 취소 내역</h1>
                             <tr>
                                 <td>취소요청</td>
-                                <td>${CanelCnt}건</td>
+                                <td>${MonthCanelCnt}건</td>
                                 <td>반품/교환 요청</td>
-                                <td>${ReturnCnt}건</td>
+                                <td>${MonthReturnCnt}건</td>
                             </tr>
                         </table>
                     </div>

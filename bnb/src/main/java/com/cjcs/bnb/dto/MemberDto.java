@@ -27,7 +27,7 @@ public class MemberDto {
 
     //예림
     private String o_c_id;
-    private int SELL_AMOUNT;
-    private int RENTAL_AMOUNT;
-    private int LATE_AMOUNT;
+    private int sell_amount;
+    private int rental_amount;
+    private int late_amount;
 }

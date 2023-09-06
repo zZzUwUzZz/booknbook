@@ -2,6 +2,7 @@ package com.cjcs.bnb.service;
 
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
+import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.PurchaseDto;
 
 // 이 서비스클래스 안에서는 아래 관련작업 하시면 됨요.
 
@@ -36,38 +39,47 @@ public class OrderService {
     }
 
     // 예림
+    //오늘 판매 건수 카운트
     public int getTodaySellCnt(String s_id) {
         return oDao.getTodaySellCnt(s_id);
     }
 
+    //오늘 대여 건수 카운트
     public int getTodayRentCnt(String s_id) {
         return oDao.getTodayRentCnt(s_id);
     }
 
+    //오늘 예약 건수 카운트
     public int getTodayRentResCnt(String rr_s_id) {
         return oDao.getTodayRentResCnt(rr_s_id);
     }
 
+    //오늘 배송 준비중 건수 카운트
     public int getTodayDeliveryPrepare(String s_id) {
         return oDao.getTodayDeliveryPrepare(s_id);
     }
 
+    //오늘 배송중 건수 카운트
     public int getTodayDeliverShip(String s_id) {
         return oDao.getTodayDeliverShip(s_id);
     }
 
+    //오늘 배송 준비완료 건수 카운트
     public int getTodayDeliverComplete(String s_id) {
         return oDao.getTodayDeliverComplete(s_id);
     }
 
+    //한 달 간 취소 요청 수 카운트
     public int getMonthCancelRequest(String s_id) {
         return oDao.getMonthCancelRequest(s_id);
     }
 
+    //한 달 간 반품/교환 요청 수 카운트
     public int getMonthReturnRequest(String s_id) {
         return oDao.getMonthReturnRequest(s_id);
     }
 
+    //입력한 기간 내 총 정산 금액 합산
     public int getCalculate(String Start_Date, String End_Date) {
         List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date);
         List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date);
@@ -107,6 +119,7 @@ public class OrderService {
         return total;
     }
 
+    //입력한 기간 내 대여료 합계
     public int getCalculateRent(String Start_Date, String End_Date) {
         List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date);
 
@@ -122,6 +135,7 @@ public class OrderService {
         return total;
     }
 
+    //입력한 기간 내 연체료 합계
     public int getCalculateLate(String Start_Date, String End_Date) {
         List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date);
 
@@ -137,6 +151,7 @@ public class OrderService {
         return total;
     }
 
+    //입력한 기간 내 판매금액 합계
     public int getCalculateSell(String Start_Date, String End_Date) {
         List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date);
 
@@ -152,6 +167,7 @@ public class OrderService {
         return total;
     }
 
+    //입력한 기간 내 반품/환불 합계
     public int getCalculateReturn(String Start_Date, String End_Date) {
         List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date);
 
@@ -165,5 +181,25 @@ public class OrderService {
         }
 
         return total;
+    }
+
+    // 판매자 페이지 - 반납 내역
+    public List<PurchaseDto> RentReturnList(){
+        List<PurchaseDto> resultList = oDao.RentReturnList();
+
+        for (PurchaseDto dto : resultList) {
+            // r_returndate가 null인 경우에 대한 처리
+            if (dto.getR_returndate() == null) {
+                dto.setOverdue_days(0); // 또는 다른 기본값 설정
+            } else {
+                // r_returndate가 null이 아닌 경우, 연체일 계산 및 설정
+                Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+                long overdueMillis = currentTimestamp.getTime() - dto.getR_returndate().getTime();
+                int overdueDays = (int) (overdueMillis / (24 * 60 * 60 * 1000)); // 밀리초를 일로 변환
+                dto.setOverdue_days(overdueDays);
+            }
+        }
+
+        return resultList;
     }
 }

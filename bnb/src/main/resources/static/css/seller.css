@@ -93,7 +93,6 @@
 .contain-1 {
     position: relative;
     left: 350px;
-    top: -70px;
     width: 718px;
     display: inline-block;
 }
@@ -111,9 +110,11 @@
 .contain-2 {
     position: relative;
     left: 350px;
-    top: -576px;
     width: 718px;
     display: inline-block;
+    overflow: scroll;
+    max-height: 900px;
+    margin-bottom: 20px;
 }
 
 .box-2 {
@@ -149,9 +150,12 @@
 .contain-3 {
     position: relative;
     left: 350px;
-    top: -526px;
     width: 718px;
+    top: -300px;
     display: inline-block;
+    overflow: scroll;
+    max-height: 900px;
+    margin-bottom: 20px;
 }
 
 .box-3 {
@@ -166,7 +170,8 @@
 }
 
 .member-list,
-.book-list {
+.book-list,
+.Rent-Return-list {
     border: 1px #a39485 solid;
     font-size: .9em;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
@@ -176,7 +181,8 @@
 }
 
 .member-list th,
-.book-list th {
+.book-list th,
+.Rent-Return-list th {
     text-align: left;
     padding: 1em .5em;
     vertical-align: middle;
@@ -184,7 +190,8 @@
 }
 
 .member-list td,
-.book-list td {
+.book-list td,
+.Rent-Return-list td {
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     background: #fff;
     padding: 1em .5em;
@@ -193,7 +200,8 @@
 }
 
 .member-list thead,
-.book-list thead {
+.book-list thead,
+.Rent-Return-list thead {
     font-weight: bold;
     color: #fff;
     background: #73685d;

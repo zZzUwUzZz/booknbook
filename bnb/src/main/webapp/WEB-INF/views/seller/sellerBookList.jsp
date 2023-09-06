@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -73,6 +74,17 @@
                 </div>
                 <div class="contain-3">
                     <div class="box-3">
+                        <form action="/seller/book/list" method="GET">
+                            <select id="filter" name="filter">
+                                <option value="category">분류</option>
+                                <option value="title">제목</option>
+                                <option value="author">저자</option>
+                            </select>
+
+                            <input type="text" id="keyword" name="keyword">
+
+                            <input type="submit" value="검색">
+                        </form>
                         <h1>등록된 도서 리스트</h1>
                         <table class="book-list">
                             <thead>
@@ -84,62 +96,19 @@
                                     <th>대여재고</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                                <c:forEach items="${books}">
-                                    <tr>
-                                        <td>${books.b_title}</td>
-                                        <td>${books.b_author}</td>
-                                        <td>${books.b_salestock}</td>
-                                        <td>${books.b_rentalstock}</td>
-                                    </tr>
-                            </c:forEach> -->
-                            </tbody>
-                        </table>
-                        <div class="gap"></div>
-                        <h1>대여중인 회원 리스트</h1>
-                        <table class="member-list">
-                            <thead>
-                                <tr>
-                                    <th>이름</th>
-                                    <th>아이디</th>
-                                    <th>구매 횟수</th>
-                                    <th>대여 횟수</th>
-                                    <th>연체 횟수</th>
-                                </tr>
-                            </thead>
                             <tbody>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
+                                <c:forEach items="${SellerBookList}" var="Books">
+                                    <tr>
+                                        <td>${Books.category_s}</td>
+                                        <td>${Books.b_title}</td>
+                                        <td>${Books.b_author}</td>
+                                        <td>${Books.b_salestock}</td>
+                                        <td>${Books.b_rentalstock}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
-                    
                 </div>
             </div>
         </div>

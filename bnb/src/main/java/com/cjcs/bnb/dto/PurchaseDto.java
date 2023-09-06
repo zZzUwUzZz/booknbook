@@ -36,4 +36,7 @@ public class PurchaseDto {
     private String order_status;       // 주문상태(주문완료/취소요청/취소불가/취소완료)
     private String delivery_status;    // 배송상태(결제완료/상품준비중/상품준비완료/수령완료/배송준비중/배송중/배송완료)
 
+    private int overdue_days;
+    private Timestamp r_returndate;
+    private int r_latefee_total;
 }

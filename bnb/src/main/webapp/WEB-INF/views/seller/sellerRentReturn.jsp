@@ -71,9 +71,35 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-1">
-                    <div class="box-1">
-
+                <div class="contain-3">
+                    <div class="box-3">
+                        <h1>반납 내역</h1>
+                        <table class="Rent-Return-list">
+                            <thead>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <th>아이디</th>
+                                    <th>제목</th>
+                                    <th>대여일자</th>
+                                    <th>반납일자</th>
+                                    <th>연체일</th>
+                                    <th>연체료</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="RentReturnList" var="ReturnList">
+                                    <tr>
+                                        <td>${ReturnList.o_id}</td>
+                                        <td>${ReturnList.o_c_id}</td>
+                                        <td>${ReturnList.b_title}</td>
+                                        <td>${ReturnList.o_date}</td>
+                                        <td>${ReturnList.r_returndate}</td>
+                                        <td>${ReturnList.overdue_days}</td>
+                                        <td>${ReturnList.r_latefee_total}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

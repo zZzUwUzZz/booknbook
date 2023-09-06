@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -13,10 +13,6 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
@@ -79,23 +75,23 @@
                         <table class="member-list">
                             <thead>
                                 <tr>
-                                    <th>이름</th>
                                     <th>아이디</th>
+                                    <th>이름</th>
                                     <th>구매 권수</th>
                                     <th>대여 권수</th>
                                     <th>연체 횟수</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:foreach items="${csMemberList}" var="csmember">
+                                <c:forEach items="${csMemberList}" var="csmember">
                                     <tr>
                                         <td>${csmember.o_c_id}</td>
                                         <td>${csmember.c_name}</td>
-                                        <td>${csmember.SELL_AMOUNT}</td>
-                                        <td>${csmember.RENTAL_AMOUNT}</td>
-                                        <td>${csmember.LATE_AMOUNT}</td>
+                                        <td>${csmember.sell_amount}</td>
+                                        <td>${csmember.rental_amount}</td>
+                                        <td>${csmember.late_amount}</td>
                                     </tr>
-                                </c:foreach>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>

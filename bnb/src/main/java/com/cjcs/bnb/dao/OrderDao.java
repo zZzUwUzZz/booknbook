@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.PurchaseDto;
+
 @Mapper
 public interface OrderDao {
     
@@ -27,6 +30,8 @@ public interface OrderDao {
     public List<Integer> CalculateLate(String Start_Date, String End_Date);
     public List<Integer> CalculateSell(String Start_Date, String End_Date);
     public List<Integer> CalculateReturn(String Start_Date, String End_Date);
+    //판매자 페이지 - 반납 내역
+    public List<PurchaseDto> RentReturnList();
     
 
 }

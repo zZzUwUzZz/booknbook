@@ -99,7 +99,8 @@
         where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = 'seller001'
         <!-- where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = #{s_id} -->
     </select>
-
+    
+<!-- 유다 -->
 </mapper><!-- 주문취소 -->
 	<update id="orderCancle">
 		update p_order set orderState = '주문취소' where orderId = #{orderId}

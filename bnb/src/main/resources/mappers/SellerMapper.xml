@@ -6,12 +6,15 @@
 
     <!-- 서점 검색 -->
 <select id="searchBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
-        SELECT S.*, SF.sf_sysname 
+     SELECT * FROM (
+        SELECT S.*, SF.sf_sysname, ROW_NUMBER() OVER (ORDER BY S.s_id) AS rn
         FROM seller S 
         LEFT JOIN seller_file SF ON S.s_id = SF.sf_s_id 
         JOIN member M ON S.s_id = M.m_id
         WHERE UPPER(S.s_storename) LIKE UPPER('%' || #{keyword} || '%')
         OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')
+    ) 
+    WHERE rn BETWEEN #{startIdx} AND #{startIdx} + #{limit} - 1
 </select>
 
     <!-- 서점 검색결과 카운트 -->

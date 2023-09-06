@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.mappers.FavoriteMapper">
+
+   <select id="isFavorite" resultType="boolean">
+        SELECT COUNT(*) FROM FavStore WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
+    </select>
+  
+    <insert id="insertFavorite">
+        INSERT INTO FavStore (favs_c_id, favs_s_id, favs_date) VALUES (#{userId}, #{storeId}, sysdate)
+    </insert>
+   
+    <delete id="deleteFavorite">
+        DELETE FROM FavStore WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
+    </delete>
+
+
+</mapper>

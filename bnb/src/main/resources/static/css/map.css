@@ -137,3 +137,29 @@ span.material-symbols-outlined.close-button {
     font-size: 39px;
     filter: contrast(0);
 }
+
+
+
+/* 페이지네이션 */
+
+#pagination {
+    position: absolute;
+    z-index: 2;
+    font-size: 20px;
+    color: #000;
+    bottom: 141px;
+    width: 480px;
+    text-align: center;
+}
+
+#pagination a {
+    color: #000;
+}
+
+
+/* 즐겨찾기 */
+
+.favoriteButton {
+    position: absolute;
+    z-index: 99;
+}

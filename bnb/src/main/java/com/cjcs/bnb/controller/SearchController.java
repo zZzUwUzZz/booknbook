@@ -22,8 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.FavDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookService;
+import com.cjcs.bnb.service.FavoriteService;
 import com.cjcs.bnb.service.SearchService;
 
 @Controller
@@ -34,6 +36,10 @@ public class SearchController {
 
     @Autowired
     private BookService bookService;
+
+      @Autowired
+    private FavoriteService favoriteService;
+
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String searchBooks(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1") int page,
@@ -67,12 +73,13 @@ public class SearchController {
             @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
             Model model) {
 
-        int pageSize = 20; // 페이지당 20개의 결과
-        int startIdx = (pageNum - 1) * pageSize;
-
-        List<SellerDto> results = searchService.searchBookstores(keyword, startIdx);
-        int totalItems = searchService.countBookstores(keyword);
-
+                int pageSize = 5;  
+                int startIdx = (pageNum - 1) * pageSize;
+            
+                List<SellerDto> results = searchService.searchBookstores(keyword, startIdx, pageSize);
+                int totalItems = searchService.countBookstores(keyword);
+                int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 총 페이지 수 계산
+            
         // 이미지 정보를 불러와서 별도의 List에 추가
         List<SellerFileDto> imageInfos = new ArrayList<>();
         for (SellerDto seller : results) {
@@ -96,6 +103,7 @@ public class SearchController {
         List<Double> longitudes = results.stream().map(SellerDto::getS_longitude).collect(Collectors.toList());
 
         model.addAttribute("pageNum", pageNum);
+        model.addAttribute("totalPages", totalPages); 
         model.addAttribute("latitudes", latitudes);
         model.addAttribute("longitudes", longitudes);
 
@@ -108,6 +116,7 @@ public class SearchController {
         return "/map/map";
     }
 
+    
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId) {
         MemberDto seller = searchService.getMemberInfo(storeId);
@@ -125,4 +134,6 @@ public class SearchController {
         response.put("store_description", seller.getS_storedesc());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+ 
 }

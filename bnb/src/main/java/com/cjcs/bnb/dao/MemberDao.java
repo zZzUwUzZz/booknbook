@@ -20,7 +20,10 @@ public interface MemberDao {
 
     // 킹효진
 
-    List<SellerDto> searchBookstores(@Param("keyword") String keyword, @Param("startIdx") int startIdx);
+    List<SellerDto> searchBookstores(@Param("keyword") String keyword, 
+    @Param("startIdx") int startIdx, 
+    @Param("limit") int limit);
+
 
     int countBookstores(@Param("keyword") String keyword);
 

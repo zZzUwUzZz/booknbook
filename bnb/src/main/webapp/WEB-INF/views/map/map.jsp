@@ -46,15 +46,16 @@
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
  
-
+    <% 
+    String storeId = (String)request.getAttribute("storeId");
+    Boolean isFavorite = (Boolean)request.getAttribute("isFavorite");
+    %>
   
 
 
        
  
     <div class="mapContainer">
-
-     
 
         <div class="mapSearchBox">
 
@@ -94,21 +95,53 @@
             </div>
         </div>
     </c:forEach>
-            </div>
- 
+            </div>           
          </div>
+
+
+
+        <!-- 페이지네이션 -->
+        <div id="pagination">
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <c:choose>
+                    <c:when test="${i == pageNum}">
+                        <span><strong>${i}</strong></span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="/map?keyword=${keyword}&pageNum=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </div>
+
+
 
 
 <!--서점 상세 정보 모달 -->
 <div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
+  
+    <!-- <button class="favoriteButton" data-user-id="<%= session.getAttribute("userId") %>" data-store-id="<%= request.getAttribute("storeId") %>">
+        <%= request.getAttribute("isFavorite") != null && (Boolean) request.getAttribute("isFavorite") ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
+    </button> -->
+    
+    <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
+    <button class="favoriteButton" id="favoriteButton_<%=storeId%>" data-user-id="customer001" data-store-id="<%=storeId%>">
+        <%= (isFavorite != null && isFavorite.booleanValue()) ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
+      </button>
+      
+
     <div class="cls_btn">
         <span class="material-symbols-outlined close-button">close</span>
     </div>
     <div class="modal-content">
     
+    
         <div class="storeImgBox">
             <img id="storeImg" src="" alt="">
         </div>
+
+     
+
         <h1 id="storeName"></h1>
         <h2 id="storeAddr"></h2>
         <p id="storeDescription"></p>
@@ -120,8 +153,7 @@
             <div id="gmp-map"></div>
         </div>
 
-
-
+       
 
     </div>  
 

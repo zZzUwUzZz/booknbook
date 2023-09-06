@@ -1,9 +1,4 @@
 
-// 페이지네이션
-
-
-
-
 
 
 // 페이지가 로드되면 실행될 함수
@@ -191,11 +186,23 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => { 
           console.log("Received data from server:", data);  // 콘솔 로그를 통해 서버에서 받은 데이터 확인
-          
-          // ID 대신 클래스를 사용
-          const favoriteButton = document.querySelector(".favoriteButton");
-          
+          console.log("Is Favorite: ", data.isFavorite);
+
+           // class를 사용하여 favoriteButton을 찾고,
+          // 동적으로 id와 data-store-id 값을 설정한다.
+          let favoriteButton = document.getElementById(`favoriteButton_${storeId}`);
+          if (!favoriteButton) {
+              favoriteButton = document.querySelector(".favoriteButton");
+              favoriteButton.setAttribute('id', `favoriteButton_${storeId}`);
+          }
           favoriteButton.setAttribute('data-store-id', storeId);
+          favoriteButton.setAttribute('id', `favoriteButton_${storeId}`);
+          
+          if (data.isFavorite == "true") {
+            favoriteButton.textContent = "즐겨찾기 해제";
+          } else {
+            favoriteButton.textContent = "즐겨찾기 추가";
+          }
           document.getElementById("storeImg").src = "/uploads/" + data.store_img;
           document.getElementById("storeAddr").textContent = data.store_addr;
           document.getElementById("storeName").textContent = data.store_name;
@@ -210,36 +217,24 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-// 즐겨찾기
-//  $(document).ready(function() {
-//   $('.favoriteButton').click(function() {
-//     var storeId = $(this).attr('data-store-id');
-//     var userId =$(this).attr('data-user-id');
-    
-//     // AJAX 요청을 이용해 서버에 즐겨찾기 상태를 토글합니다.
-//     $.post('/toggleFavorite', { userId: userId, storeId: storeId }, function(response) {
-//       // 서버로부터 응답을 받았을 때의 처리. 예를 들면,
-//       if (response.isFavorite) {
-//         $(`[data-store-id=${storeId}]`).text("즐겨찾기 해제");
-//       } else {
-//         $(`[data-store-id=${storeId}]`).text("즐겨찾기 추가");
-//       }
-//     });
-//   });
-// });
 
-$(document).on('click', '.favoriteButton', function() {
-  var storeId = $(this).data('store-id');
-  var userId = $(this).data('user-id');
-  var buttonId = $(this).attr('id');
-  
-  // AJAX 요청을 이용해 서버에 즐겨찾기 상태를 토글합니다.
-  $.post('/toggleFavorite', { userId: userId, storeId: storeId }, function(response) {
-    // 서버로부터 응답을 받았을 때의 처리
-    if (response.isFavorite) {
-      $('#' + buttonId).text("즐겨찾기 해제");
-    } else {
-      $('#' + buttonId).text("즐겨찾기 추가");
-    }
-  });
+$(document).on('click', function(event) {
+  if (event.target.matches('.favoriteButton')) {
+    const buttonId = event.target.id;
+    const parts = buttonId.split('_');
+    const storeId = parts[1];  
+    const userId = event.target.getAttribute('data-user-id');
+
+    // AJAX 요청을 이용해 서버에 즐겨찾기 상태를 토글합니다.
+    $.post('/toggleFavorite', { userId: userId, storeId: storeId }, function(response) {
+      console.log("Toggled Favorite Status: ", response.isFavorite);
+
+      // 서버로부터 응답을 받았을 때의 처리
+      if (response.isFavorite == "true") {
+        $('#' + buttonId).text("즐겨찾기 해제");
+      } else {
+        $('#' + buttonId).text("즐겨찾기 추가");
+      }
+    });
+  }
 });

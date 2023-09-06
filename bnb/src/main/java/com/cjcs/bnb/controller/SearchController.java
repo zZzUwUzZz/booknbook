@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
@@ -37,9 +40,8 @@ public class SearchController {
     @Autowired
     private BookService bookService;
 
-      @Autowired
+    @Autowired
     private FavoriteService favoriteService;
-
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String searchBooks(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1") int page,
@@ -73,13 +75,13 @@ public class SearchController {
             @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
             Model model) {
 
-                int pageSize = 5;  
-                int startIdx = (pageNum - 1) * pageSize;
-            
-                List<SellerDto> results = searchService.searchBookstores(keyword, startIdx, pageSize);
-                int totalItems = searchService.countBookstores(keyword);
-                int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 총 페이지 수 계산
-            
+        int pageSize = 5;
+        int startIdx = (pageNum - 1) * pageSize;
+
+        List<SellerDto> results = searchService.searchBookstores(keyword, startIdx, pageSize);
+        int totalItems = searchService.countBookstores(keyword);
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 총 페이지 수 계산
+
         // 이미지 정보를 불러와서 별도의 List에 추가
         List<SellerFileDto> imageInfos = new ArrayList<>();
         for (SellerDto seller : results) {
@@ -103,7 +105,7 @@ public class SearchController {
         List<Double> longitudes = results.stream().map(SellerDto::getS_longitude).collect(Collectors.toList());
 
         model.addAttribute("pageNum", pageNum);
-        model.addAttribute("totalPages", totalPages); 
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("latitudes", latitudes);
         model.addAttribute("longitudes", longitudes);
 
@@ -116,9 +118,9 @@ public class SearchController {
         return "/map/map";
     }
 
-    
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId) {
+    public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId,
+            HttpServletRequest request) {
         MemberDto seller = searchService.getMemberInfo(storeId);
         System.out.println("Seller Info: " + seller);
 
@@ -126,14 +128,22 @@ public class SearchController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+
         Map<String, Object> response = new HashMap<>();
         response.put("store_img", seller.getSf_sysname());
         response.put("store_name", seller.getS_storename());
         response.put("store_addr", seller.getM_addr());
         response.put("store_phone", seller.getM_phone());
         response.put("store_description", seller.getS_storedesc());
+
+        if (userId != null) {
+            String isFavorite = favoriteService.isFavorite(userId, storeId);
+            response.put("isFavorite", isFavorite);
+        }
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
- 
 }

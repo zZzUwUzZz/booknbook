@@ -2,6 +2,7 @@ package com.cjcs.bnb.controller;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,34 +32,34 @@ public class DetailPageController {
     private MemberService mSer; // 책상세에서 찜, 서점상세에서 즐겨찾기 할 때 필요
 
     @Autowired
-    private NotificationService nSer; // 책상세에서 입고알림신청, 대여예약 할 때 필요 
+    private NotificationService nSer; // 책상세에서 입고알림신청, 대여예약 할 때 필요
 
     @Autowired
-    private FavoriteService favoriteService; //서점
+    private FavoriteService favoriteService; // 서점
 
+    // 서점 즐겨찾기
+    @RequestMapping(value = "/map", method = RequestMethod.GET, params = "id")
+    public String getStoreDetails(@RequestParam String id, Model model,
+            HttpServletRequest request) {
 
-@RequestMapping(value = "/map", method = RequestMethod.GET, params = "id")
-public String getStoreDetails(@RequestParam String id, Model model, HttpServletRequest request) {
-    // ... 기존 코드
-    model.addAttribute("storeId", id);
-    
-    HttpSession session = request.getSession();
-    String userId = (String) session.getAttribute("userId");
-    
-    if (userId != null) {
-        boolean isFavorite = favoriteService.isFavorite(userId, id);
-        model.addAttribute("isFavorite", isFavorite);
+        model.addAttribute("storeId", id);
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        System.out.println("User ID from session: " + userId); // 로그 추가
+
+        if (userId != null) {
+            String isFavorite = favoriteService.isFavorite(userId, id);
+            model.addAttribute("isFavorite", isFavorite);
+        }
+        return "/map/map";
     }
 
-    return "/map";
-}
+    @PostMapping("/toggleFavorite")
+    public ResponseEntity<?> toggleFavorite(@RequestParam String userId,
+            @RequestParam String storeId) {
 
-@PostMapping("/toggleFavorite")
-public ResponseEntity<?> toggleFavorite(@RequestParam String userId, @RequestParam String storeId) {
-  
-    boolean isFavorite = favoriteService.toggleFavorite(userId, storeId);
-    return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
-}
-
+        boolean isFavorite = favoriteService.toggleFavorite(userId, storeId);
+        return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
+    }
 
 }

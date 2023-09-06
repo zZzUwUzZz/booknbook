@@ -48,12 +48,9 @@
  
     <% 
     String storeId = (String)request.getAttribute("storeId");
-    Boolean isFavorite = (Boolean)request.getAttribute("isFavorite");
-    %>
-  
-
-
-       
+    String isFavorite = (String)request.getAttribute("isFavorite");
+%>
+    
  
     <div class="mapContainer">
 
@@ -125,9 +122,9 @@
     </button> -->
     
     <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
-    <button class="favoriteButton" id="favoriteButton_<%=storeId%>" data-user-id="customer001" data-store-id="<%=storeId%>">
-        <%= (isFavorite != null && isFavorite.booleanValue()) ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
-      </button>
+    <button class="favoriteButton" id="" data-user-id="customer001" data-store-id="<%=storeId%>">
+        <%= ("true".equals(isFavorite)) ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
+    </button>
       
 
     <div class="cls_btn">
@@ -161,7 +158,7 @@
 
  <script src="/js/mapSearch.js"></script>
 
-<script type="text/javascript"> 
+<script> 
 // 전역 변수 선언 (이거 실행되는거라 지우시면 안됨요..)
 var map;
 var infoWindow;
@@ -178,6 +175,14 @@ var dbMarkers = [
         <c:if test="${!loop.last}">,</c:if>
         </c:forEach>
     ];
+
+
+    let isFavorite = "<%= isFavorite %>";
+if (isFavorite === "true") {
+    // 즐겨찾기 상태 처리
+} else {
+    // 즐겨찾기가 아닌 상태 처리
+}
 </script>
  
     

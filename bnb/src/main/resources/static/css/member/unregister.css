@@ -78,6 +78,3 @@ input[type="radio"] {
     vertical-align: middle;
     cursor: pointer;
 }
-.lostInput::placeholder {
-    color: #f50101;
-}

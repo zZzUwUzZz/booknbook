@@ -20,8 +20,8 @@
   </form>
     <div id="kr">
     <a href="/member/choice">회원가입|</a>
-    <a href="/member/unregister">아이디 찾기|</a>
-    <a href="">비밀번호 재설정</a>
+    <a href="member/unregister">아이디 찾기|</a>
+    <a href="">비밀번호 초기화</a>
   </div>
   </div>
 </div>

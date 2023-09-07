@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/css/member/choice.css">
   <title>Static Folded Book with Choices</title>
 </head>
-<body>https://discord.com/channels/1138366742566031470/1138372031704997938
+<body>
   <div class="header"></div>
   
   <div class="books-container">

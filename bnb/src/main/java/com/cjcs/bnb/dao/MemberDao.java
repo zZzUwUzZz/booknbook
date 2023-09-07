@@ -46,8 +46,6 @@ public interface MemberDao {
     // 로그인 중복확인
     int countById(String m_id);
 
-    String findIdByNameAndEmail(@Param("name") String name, @Param("email") String email);
-
     // 예림
     public MemberDto getSellerInfoById(String m_id);
 
@@ -57,9 +55,7 @@ public interface MemberDao {
 
 
     public int getTodayBookmarkCnt(String s_id);
-
     public int getWeekBookmarkCnt(String s_id);
-
     public int getMonthBookmarkCnt(String s_id);
 
 

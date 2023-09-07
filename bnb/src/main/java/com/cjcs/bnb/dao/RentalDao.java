@@ -28,9 +28,11 @@ public interface RentalDao {
     public void updateReservationByRRId(int rr_id);
 
     //예림
-    public List<RentalDto> RentResList(String s_id); //예약신청리스트
-    public List<RentalDto> ResStatusList(); //예약상태
-    public List<RentalDto> RentReturnList(String s_id); //반납현황
+    public List<RentalDto> RentResList(String s_id); // 예약신청리스트
+    public List<RentalDto> ResStatusList(); // 예약상태
+    
+    public List<RentalDto> RentReturnList(String s_id); // 반납현황
+    
     
 
 }

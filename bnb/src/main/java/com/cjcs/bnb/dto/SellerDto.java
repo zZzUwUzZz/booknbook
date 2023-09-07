@@ -12,8 +12,6 @@ public class SellerDto {
     private String s_crn;
     private int s_deliveryfee;
     private int s_latefee;
-
-    
+    private Double s_latitude;
+    private Double s_longitude;
 }
-
-

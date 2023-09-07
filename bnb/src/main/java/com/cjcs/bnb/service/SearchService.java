@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.mappers.FileMapper;
@@ -32,6 +33,12 @@ public class SearchService {
         return bookMapper.countKeyword(keyword);
     }
 
+    // 서점 회원 정보
+
+    public MemberDto getMemberInfo(String s_id) {
+        return memberDao.getMemberInfo(s_id);
+    }
+
     // 서점 검색
     public List<SellerDto> searchBookstores(String keyword) {
         return memberDao.searchBookstores("%" + keyword + "%");
@@ -42,7 +49,7 @@ public class SearchService {
         return memberDao.countBookstores(keyword);
     }
 
-public List<SellerFileDto> getImagesBySellerId(String s_id) {
+    public List<SellerFileDto> getImagesBySellerId(String s_id) {
         return fileMapper.getImagesBySellerId(s_id);
     }
 

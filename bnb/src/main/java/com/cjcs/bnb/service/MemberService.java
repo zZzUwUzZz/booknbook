@@ -27,6 +27,7 @@ public class MemberService {
     @Autowired
     private MemberDao mDao; // DAO는 인터페이스로 만드는게 대세!!!
 
+  
     public boolean updateinfo(MemberDto mDto) {
         return false;
     }
@@ -55,6 +56,7 @@ public class MemberService {
             return null;
         }
     }
+
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -107,7 +109,6 @@ public class MemberService {
     // return "fail";
     // }
 
-    // 서점 회원 정보
 
     // 수희
     public MemberDto getCustomerInfoById(String c_id) {

@@ -28,17 +28,31 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
 
-  
+  // 마커 추가 하기
+  function addMarker(location, title, description, address) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        title: title
+    });
 
-  //지도 서점 검색 시 지도에 마커 표시
-  var map;
-  var markers = [];
-  var infoWindow;
+    var infoWindow = new google.maps.InfoWindow({
+        content: '<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>'
+    });
 
-  function initMap() {
-      var center = {lat: 37.5665, lng: 126.9780}; // 서울
+    marker.addListener('click', function() {
+        infoWindow.open(map, marker);
+    });
 
-      map = new google.maps.Map(document.getElementById('gmp-map'), {
+    markers.push(marker);
+}
+
+
+
+
+function initMap() {
+    var center = {lat: 37.5665, lng: 126.9780}; // 서울
+    map = new google.maps.Map(document.getElementById('gmp-map'), {
         zoom: 12,
         center: center,
         styles: [
@@ -51,35 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     });
 
-      infoWindow = new google.maps.InfoWindow();
+    infoWindow = new google.maps.InfoWindow();
 
-      addMarker({lat: 37.5665, lng: 126.9780}, '서울');
-      addMarker({lat: 37.5145, lng: 127.0600}, '강남');
-      addMarker({lat: 37.5890, lng: 127.0188}, '성북');
+    // dbMarkers 배열을 순회하면서 마커 추가
+    for (var i = 0; i < dbMarkers.length; i++) {
+        addMarker(dbMarkers[i], dbMarkers[i].title, dbMarkers[i].description, dbMarkers[i].address);
+    }
 
-      // URL의 쿼리 파라미터에서 keyword를 읽어옴
-      var urlParams = new URLSearchParams(window.location.search);
-      var keyword = urlParams.get('keyword');
+    // URL의 쿼리 파라미터에서 keyword를 읽어옴
+    var urlParams = new URLSearchParams(window.location.search);
+    var keyword = urlParams.get('keyword');
 
-      if (keyword) {
-          searchMarkers(keyword.toLowerCase());
-      }
-  }
+    if (keyword) {
+        searchMarkers(keyword.toLowerCase());
+    }
+}
 
-  function addMarker(location, title) {
-      var marker = new google.maps.Marker({
-          position: location,
-          map: map,
-          title: title
-      });
 
-      marker.addListener('click', function() {
-          infoWindow.setContent(title);
-          infoWindow.open(map, marker);
-      });
 
-      markers.push(marker);
-  }
 
   function searchMarkers(keyword) {
       var found = false;

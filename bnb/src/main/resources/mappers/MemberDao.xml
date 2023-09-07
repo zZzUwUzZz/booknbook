@@ -34,7 +34,14 @@
         VALUES(#{m_id}, #{c_name})
     </insert>
 
-   
+    <select id="countById" resultType="int">
+    SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
+</select>
+
+    <select id="findIdByNameAndEmail" resultType="string" parameterType="map">
+    SELECT m_id FROM MEMBER WHERE c_name = #{name} AND m_email = #{email}
+    </select>
+
 
 
 <!--예림-->

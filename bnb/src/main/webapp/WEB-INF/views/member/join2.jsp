@@ -16,7 +16,10 @@
   
 
 <form action="/member/join2" method="post" id="registration-form" onsubmit="validateRegistrationForm(event);">
-      <input type="text" id="m_id" name="m_id" placeholder="아이디" required>
+  <input type="text" name="c_name" placeholder="이름" id="c_name"> 
+  <input type="text" id="m_id" name="m_id" placeholder="아이디" required oninput="checkIdDuplication()">
+      <!-- <button type="button" onclick="checkIdDuplication()">중복 확인</button> -->
+      <span id="idCheckMessage"></span> <!-- 중복 확인 메시지를 표시할 요소 -->
       <input type="password" id="m_pw" name="m_pw" placeholder="비밀번호" required>
       <!-- <input type="password" id="confirm-password" name="m_password" placeholder="비밀번호 확인" required> -->
       <input type="text" id="business-number" name="s_crn" placeholder="사업자번호" required>
@@ -26,9 +29,11 @@
       <input type="email" id="m_email" name="m_email" placeholder="이메일" required>
       <button type="submit">회원가입</button>
     </form>
+    <p>이미 계정이 있으신가요? <a href="/css/member/login.html">로그인</a></p>
 
     <script>
   function validateRegistrationForm(event) {
+    let c_name = document.getElementById("c_name").value;
     let username = document.getElementById("m_id").value;
     let password = document.getElementById("m_pw").value;
     // let confirmPassword = document.getElementById("confirm-password").value;
@@ -77,6 +82,36 @@
 
     // Other field validations can be added similarly
   }
+
+
+  function checkIdDuplication() {
+    let username = document.getElementById("m_id").value;
+
+    
+    $.ajax({
+        url: "/member/checkId2",  // URL 변경
+        type: "GET",  // 요청 타입을 GET으로 변경
+        data: {
+            m_id: username
+        },
+        success: function (response) {
+          
+          let idCheckMessageElement = document.getElementById("idCheckMessage");
+
+         if (response.isDuplicated) {
+              idCheckMessageElement.innerText = "이 아이디는 이미 사용 중입니다.";
+              idCheckMessageElement.style.color = "red"; // 빨간색 스타일 적용
+              isIdChecked = false;
+            } else {
+              idCheckMessageElement.innerText = "사용 가능한 아이디입니다.";
+              idCheckMessageElement.style.color = "green"; 
+            }
+        },
+        error: function () {
+            alert("서버 에러. 다시 시도해주세요.");
+        }
+    });
+}
 </script>
 </body>
 </html>

@@ -27,10 +27,10 @@ public class MemberService {
     @Autowired
     private MemberDao mDao; // DAO는 인터페이스로 만드는게 대세!!!
 
+  
     public boolean updateinfo(MemberDto mDto) {
         return false;
     }
-
 
     public MemberDto login(HashMap<String, String> member) {
         try {
@@ -46,6 +46,15 @@ public class MemberService {
 
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
+    }
+
+    public String findIdByDetails(String name, String email) {
+        try {
+            return mDao.findIdByNameAndEmail(name, email);
+        } catch (Exception e) {
+            log.error("Error occurred while trying to find ID: ", e);
+            return null;
+        }
     }
 
 
@@ -127,19 +136,17 @@ public class MemberService {
         return mDao.getFavBookList(c_id);
     }
 
+    // 예림
 
-    //예림
-    
-
-    public int getTodayBookmarkCnt(String s_id){
+    public int getTodayBookmarkCnt(String s_id) {
         return mDao.getTodayBookmarkCnt(s_id);
     }
 
-    public int getWeekBookmarkCnt(String s_id){
+    public int getWeekBookmarkCnt(String s_id) {
         return mDao.getWeekBookmarkCnt(s_id);
     }
 
-    public int getMonthBookmarkCnt(String s_id){
+    public int getMonthBookmarkCnt(String s_id) {
         return mDao.getMonthBookmarkCnt(s_id);
     }
 

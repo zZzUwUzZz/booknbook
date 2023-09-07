@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.Response;
 import com.cjcs.bnb.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -77,6 +80,26 @@ public class MemberController {
 
     }
 
+    @PostMapping("/unregister")
+    public ResponseEntity<?> findId(@RequestBody MemberDto memberDto) {
+        String foundId = mSer.findIdByDetails(memberDto.getC_name(), memberDto.getM_email());
+
+        if (foundId != null) {
+            return ResponseEntity.ok(new Response(true, foundId));
+        } else {
+            return ResponseEntity.badRequest().body(new Response(false, "해당하는 아이디를 찾을 수 없습니다."));
+        }
+    }
+
+    @GetMapping("/findid2")
+    public String findid2() {
+
+        log.info("아이디 찾기(폼)");
+        return "member/findid2";
+
+    }
+
+    // 회원가입 선택 창
     @GetMapping("/choice")
     public String choice() {
 
@@ -85,6 +108,7 @@ public class MemberController {
 
     }
 
+    // 개인회원
     @GetMapping("/join")
     public String join() {
 
@@ -122,6 +146,7 @@ public class MemberController {
         return result;
     }
 
+    // 사업자 회원
     @GetMapping("/join2")
     public String join2() {
 
@@ -149,4 +174,15 @@ public class MemberController {
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join2";
     }
 
+    // 사업자 회원 아이디 중복확인
+    @GetMapping("/checkId2")
+    @ResponseBody
+    public Map<String, Boolean> checkIdDuplication2(@RequestParam String m_id) {
+        boolean isDuplicated = mSer.isIdDuplicated(m_id); // mSer가 MemberService를 의미한다고 가정
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("isDuplicated", isDuplicated);
+        return result;
+    }
+  
 }
+

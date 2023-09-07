@@ -59,6 +59,17 @@
             </div>
 
             <div>
+                <div class="searchbox">
+                    <select id="sel">
+                        <option value="m_id" selected>ID</option>
+                        <option value="s_storename">서점명</option>
+                    </select>
+                    <input type="text" id="keyword">
+                    <button id="search">검색</button>
+                </div>
+            </div>
+
+            <div>
                 <div class="tablebox">
                     <table>
                         <tr class="headrow">
@@ -94,6 +105,10 @@
                 </div>
             </div>
 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
+            </div>
+
         </div>
 
         <div class="button-area">
@@ -106,8 +121,28 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+		//검색기능
+		$('#search').click(function () {
+
+			let keyword = $('#keyword').val();
+			if (keyword == ''){
+				alert('검색어를 입력하세요');
+				return;
+			}
+
+			let select = $('#sel').val(); //m_id or s_storename
+			console.log(keyword, select);
+			location.href='/admin/sellerlist?colname='+select+'&keyword='+keyword
+					      +"&pageNum=1";
+			
+		}); //click end
+
+	</script>
 
 </body>
 

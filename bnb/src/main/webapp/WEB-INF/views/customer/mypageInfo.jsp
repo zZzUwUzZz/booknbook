@@ -94,7 +94,7 @@
                     <button onclick="location.href='/mypage'">돌아가기</button>
                     <div>
                         <button onclick="location.href='/member/leave'">회원탈퇴</button>
-                        <button onclick="location.href='/mypage'">비밀번호재설정</button>
+                        <button onclick="location.href='/member/resetPw'">비밀번호재설정</button>
                         <button onclick="location.href='/mypage/updateinfo'">회원정보수정</button>
                     </div>
                 </div>

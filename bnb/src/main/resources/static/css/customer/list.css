@@ -3,7 +3,6 @@ table {
     text-align: center;
     margin: auto;
 }
-
 .tablebox {
     box-sizing: border-box;
     border: 1px solid #ff9946;
@@ -13,7 +12,6 @@ table {
     margin: auto;
     padding: 10px;
 }
-
 tr {
     height: 40px;
 }
@@ -25,6 +23,19 @@ tr {
     color:beige;
 }
 
+.searchbox {
+    box-sizing: border-box;
+    border: 1px solid yellow;
+    width: 1040px;
+    margin: auto;
+}
+.pagebox {
+    box-sizing: border-box;
+    border: 1px solid yellow;
+    text-align: center;
+    width: 1040px;
+    margin: auto;
+}
 .btnbox {
     display: flex;
     flex-direction: row-reverse;

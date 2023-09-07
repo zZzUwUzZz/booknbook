@@ -59,6 +59,17 @@
             </div>
 
             <div>
+                <div class="searchbox">
+                    <select id="sel">
+                        <option value="report_title" selected>제목</option>
+                        <option value="report_content">내용</option>
+                    </select>
+                    <input type="text" id="keyword">
+                    <button id="search">검색</button>
+                </div>
+            </div>
+
+            <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
@@ -85,6 +96,10 @@
                 </div>
             </div>
 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
+            </div>
+
         </div>
 
         <div class="button-area">
@@ -97,8 +112,30 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+	<script>
+
+		//검색기능
+		$('#search').click(function () {
+
+			let keyword = $('#keyword').val();
+			if (keyword == ''){
+				alert('검색어를 입력하세요');
+				return;
+			}
+
+			let select = $('#sel').val(); //report_title or report_content
+			console.log(keyword, select);
+			location.href='/admin/reportlist?colname='+select+'&keyword='+keyword
+					      +"&pageNum=1";
+			//localhost/board/list?colname=b_title&keyword=33&pageNum=1
+			
+		}); //click end
+
+	</script>
+
 
 </body>
 

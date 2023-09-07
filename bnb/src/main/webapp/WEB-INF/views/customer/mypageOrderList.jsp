@@ -97,6 +97,10 @@
                 </div>
             </div>
 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
+            </div>
+
         </div>
 
         <div class="button-area">

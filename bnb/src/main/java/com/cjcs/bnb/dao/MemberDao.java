@@ -6,11 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.cjcs.bnb.dto.SellerDto;
-import com.cjcs.bnb.dto.SellerFileDto;
-
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 
@@ -60,7 +58,13 @@ public interface MemberDao {
 
     // 수희
     public List<MemberDto> getAllCustomerInfo();
+    public List<MemberDto> getCustomerListByKeyword(SearchDto sDto);
+    public Integer countCustomers(SearchDto sDto);
+
     public List<MemberDto> getAllSellerInfo();
+    public List<MemberDto> getSellerListByKeyword(SearchDto sDto);
+    public Integer countSellers(SearchDto sDto);
+    
     public MemberDto getCustomerInfoById(String m_id);
 
     // public void updateMemberInfo(MemberDto updatedMDto); //예림파트랑중복

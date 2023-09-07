@@ -10,6 +10,34 @@
         ORDER BY report_date DESC
     </select>
 
+    <select id="getReportListByKeyword" parameterType="SearchDto" resultType="ReportBoardDto">
+		SELECT * FROM
+		<choose>
+		    <when test="colname!=null and colname !=''">                
+		    	(SELECT rownum rn, RB.*      
+		    	 FROM (SELECT * FROM RB
+		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
+		    	       ORDER BY report_date DESC) RB
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, RB.*
+				 FROM RB
+            	 ORDER BY report_date DESC)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>	
+	</select>
+
+    <select id="countReports" parameterType="SearchDto" resultType="Integer">
+		SELECT COUNT(*) FROM RB
+		<if test="colname != null and colname != ''">
+		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
+		</if>	
+	</select>
+
 
 
 </mapper>

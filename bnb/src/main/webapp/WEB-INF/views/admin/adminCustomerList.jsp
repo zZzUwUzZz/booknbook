@@ -55,7 +55,18 @@
         <div class="board-area">
             
             <div>
-                <h2 class="pagename">CUSTOMER LIST 페이지나누셈!!!!</h2>
+                <h2 class="pagename">CUSTOMER LIST</h2>
+            </div>
+
+            <div>
+                <div class="searchbox">
+                    <select id="sel">
+                        <option value="m_id" selected>ID</option>
+                        <option value="c_name">이름</option>
+                    </select>
+                    <input type="text" id="keyword">
+                    <button id="search">검색</button>
+                </div>
             </div>
 
             <div>
@@ -92,6 +103,10 @@
                 </div>
             </div>
 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
+            </div>
+
         </div>
 
         <div class="button-area">
@@ -104,8 +119,28 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+		//검색기능
+		$('#search').click(function () {
+
+			let keyword = $('#keyword').val();
+			if (keyword == ''){
+				alert('검색어를 입력하세요');
+				return;
+			}
+
+			let select = $('#sel').val(); //m_id or c_name
+			console.log(keyword, select);
+			location.href='/admin/customerlist?colname='+select+'&keyword='+keyword
+					      +"&pageNum=1";
+			
+		}); //click end
+
+	</script>
 
 </body>
 

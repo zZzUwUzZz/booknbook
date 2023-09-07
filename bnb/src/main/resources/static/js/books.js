@@ -9,3 +9,17 @@ $(document).ready(function() {
         });
     });
 });
+
+$(document).ready(function() {
+    $('.medium-category').hover(
+      function() {
+        const index = $(this).attr('id').split('-').pop();
+        $(`#small-categories-${index}`).stop().fadeIn();
+      },
+      function() {
+        const index = $(this).attr('id').split('-').pop();
+        $(`#small-categories-${index}`).stop().fadeOut();
+      }
+    );
+  });
+  

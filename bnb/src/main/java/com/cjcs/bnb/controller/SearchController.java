@@ -28,7 +28,6 @@ import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.FavDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookService;
-import com.cjcs.bnb.service.FavoriteService;
 import com.cjcs.bnb.service.SearchService;
 
 @Controller
@@ -40,14 +39,11 @@ public class SearchController {
     @Autowired
     private BookService bookService;
 
-    @Autowired
-    private FavoriteService favoriteService;
-
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String searchBooks(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1") int page,
             Model model) {
 
-        int booksPerPage = 15;
+        int booksPerPage = 16;
         int start = (page - 1) * booksPerPage + 1;
         int end = start + booksPerPage - 1;
         List<BookDto> books = searchService.findByKwPg(keyword, start, end);
@@ -123,28 +119,22 @@ public class SearchController {
             HttpServletRequest request) {
         MemberDto seller = searchService.getMemberInfo(storeId);
         System.out.println("Seller Info: " + seller);
-    
+
         if (seller == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    
+
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
-    
+
         Map<String, Object> response = new HashMap<>();
         response.put("store_img", seller.getSf_sysname());
         response.put("store_name", seller.getS_storename());
         response.put("store_addr", seller.getM_addr());
         response.put("store_phone", seller.getM_phone());
         response.put("store_description", seller.getS_storedesc());
-    
-        if (userId != null) {
-            Boolean isFavorite = favoriteService.isFavorite(userId, storeId);  // Boolean 타입을 사용
-            response.put("isFavorite", isFavorite);  // Boolean 타입으로 저장
-        }
-    
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
 
 }

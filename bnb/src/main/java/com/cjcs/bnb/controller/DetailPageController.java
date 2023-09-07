@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cjcs.bnb.service.FavoriteService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 
@@ -35,36 +34,14 @@ public class DetailPageController {
     @Autowired
     private NotificationService nSer; // 책상세에서 입고알림신청, 대여예약 할 때 필요
 
-    @Autowired
-    private FavoriteService favoriteService; // 서점
-
     // 서점 즐겨찾기
-    @RequestMapping(value = "/map", method = RequestMethod.GET, params = "id")
-    public String getStoreDetails(@RequestParam String id, Model model, HttpServletRequest request) {
 
-        model.addAttribute("storeId", id);
-        HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
-        System.out.println("User ID from session: " + userId); // 로그 추가
+    // @PostMapping("/toggleFavorite")
+    // public ResponseEntity<?> toggleFavorite(@RequestParam String userId,
+    // @RequestParam String storeId) {
+    // boolean isFavorite = favoriteService.toggleFavorite(userId, storeId);
 
-        if (userId != null) {
-            Boolean isFavorite = favoriteService.isFavorite(userId, id);
-            model.addAttribute("isFavorite", isFavorite);
-        }
-        return "/map/map";
-    }
-
-
-
-// @PostMapping("/toggleFavorite")
-// public ResponseEntity<?> toggleFavorite(@RequestParam String userId, @RequestParam String storeId) {
-//     boolean isFavorite = favoriteService.toggleFavorite(userId, storeId);
-    
-//     return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
-// }
-
- 
-
-
+    // return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
+    // }
 
 }

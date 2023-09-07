@@ -7,8 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인</title>
 <link rel="stylesheet" href="/css/member/login.css">
+
+
 </head>
-<body>
+<body>+
+
 <div class="header"></div>
 <div class="body">
   <div class="login-container">
@@ -20,8 +23,9 @@
   </form>
     <div id="kr">
     <a href="/member/choice">회원가입|</a>
-    <a href="/member/unregister">아이디 찾기|</a>
-    <a href="">비밀번호 재설정</a>
+    <a href="/member/findId">아이디 찾기|</a>
+    <a href="/member/resetPw">비밀번호 재설정</a>
+
   </div>
   </div>
 </div>

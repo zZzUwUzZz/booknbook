@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.Response;
@@ -25,6 +27,7 @@ import com.cjcs.bnb.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+
 
 
 @Slf4j
@@ -67,37 +70,28 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/unregister")
+    @GetMapping("/findId")
     public String unregister() {
 
         log.info("아이디 찾기(폼)");
-        return "member/unregister";
+        return "member/findId";
 
     }
 
-    @Autowired
-    private MemberService mService;
-
-    @PostMapping("/sendVerificationCode")
-    public ResponseEntity<?> sendVerificationCode(@RequestParam String email) {
-        // 이메일로 인증 코드 전송
-        boolean isSent = mService.sendVerificationCode(email);
-        if (isSent) {
-            return ResponseEntity.ok().body(new Response(true, "인증 코드 전송 성공"));
-        }
-        return ResponseEntity.badRequest().body(new Response(false, "인증 코드 전송 실패"));
-    }
-
+   
     @PostMapping("/findId")
-    public ResponseEntity<?> findId(@RequestParam String name, @RequestParam String email, @RequestParam String verificationCode) {
-        // 이메일 및 인증 코드로 아이디 찾기
-        String foundId = mService.findIdByEmailAndCode(name, email, verificationCode);
-        if (foundId != null) {
-            return ResponseEntity.ok().body(new Response(true, foundId));
-        }
-        return ResponseEntity.badRequest().body(new Response(false, "아이디를 찾을 수 없습니다."));
+@ResponseBody
+public String findIdByEmail(@RequestParam String name,@RequestParam String email ) {
+    String memberId=mSer.findIdByEmail(name,email);
+    
+    if (memberId != null) {
+        return memberId; // 해당 이메일과 이름으로 찾은 아이디를 응답으로 보냅니다.
+    } else {
+        return "not found"; // 아이디를 찾을 수 없을 경우
     }
-
+}
+    
+     
 
 
 
@@ -186,4 +180,36 @@ public class MemberController {
         result.put("isDuplicated", isDuplicated);
         return result;
     }
+
+
+
+@GetMapping("/resetPw")
+public String resetPw() {
+
+        log.info("비밀번호 초기화(폼)");
+        return "member/resetPw";
+
+    }
+
+// @PostMapping("/resetPw")
+//     public String resetPassword(ResetPasswordDto dto, Model model) {
+//         // 사용자 확인
+//         boolean isValidUser = mSer.verifyUser(dto);
+        
+//         if(isValidUser) {
+//             // 비밀번호 업데이트
+//             boolean isSuccess = mSer.updatePassword(dto);
+            
+//             if(isSuccess) {
+//                 model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
+//                 return "redirect:/member/login";  // 비밀번호 변경 성공 후 로그인 페이지로 리다이렉트
+//             } else {
+//                 model.addAttribute("error", "비밀번호 변경 중 오류가 발생하였습니다.");
+//                 return "member/resetPasswordForm";  // 오류 시 비밀번호 변경 폼으로 돌아감
+//             }
+//         } else {
+//             model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
+//             return "member/resetPasswordForm";  // 잘못된 사용자 정보 입력 시 비밀번호 변경 폼으로 돌아감
+//         }
+//     }
 }

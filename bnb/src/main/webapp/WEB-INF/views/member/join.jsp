@@ -67,7 +67,7 @@
         let idCheckMessageElement = document.getElementById("idCheckMessage");
         
         if (!userId) {
-            idCheckMessageElement.innerText = ""; // 아무 메시지도 표시하지 않습니다.
+            idCheckMessageElement.innerText = "아이디는 6자 이상의 영문/숫자로 입력해주세요."; 
             return;
         }
 

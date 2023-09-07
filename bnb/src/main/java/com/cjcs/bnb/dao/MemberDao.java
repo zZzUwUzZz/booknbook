@@ -42,12 +42,23 @@ public interface MemberDao {
     // 로그인 중복확인
     int countById(String m_id);
     //아이디 찾기
+    String findIdByEmailAndName(String email, String name);
+
+    
     String findIdByEmail(@Param("name") String name, @Param("email") String email);
    
     String findIdByEmailAndCode(@Param("name") String name, @Param("email") String email, @Param("verificationCode") String verificationCode);
 
+    
+    @Select("SELECT M_ID FROM CJCS.MEMBER WHERE M_EMAIL = #{email} AND M_NAME = #{name}")
+    
+    String getIdByEmailAndName(@Param("email") String email, @Param("name") String name);
 
 
+    // //비밀번호 초기화yo
+
+    // boolean verifyUser(ResetPasswordDto resetPasswordDto); // 현재 비밀번호 확인
+    // int updatePassword(ResetPasswordDto resetPasswordDto);
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);

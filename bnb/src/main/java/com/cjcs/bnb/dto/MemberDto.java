@@ -15,6 +15,8 @@ public class MemberDto {
 	private String m_phone;
 	private String m_email;
 	private Timestamp m_joindate;  // 가입일자
+    private String currentPassword;
+    private String newPassword;
 	
 	//일반회원만 가지는 필드
     private String c_name;         // 회원이름

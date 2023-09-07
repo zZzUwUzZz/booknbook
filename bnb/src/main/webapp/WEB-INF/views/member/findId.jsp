@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/member/unregister.css">
+    <link rel="stylesheet" href="/css/member/findId.css">
     <title>Find ID</title>
 </head>
 <body>
@@ -35,47 +35,57 @@
                 </p>
                 <p class="input-group" id="input_name">
                     <strong class="input_label">이름 </strong>
-                    <input id="input_field_name" name="input_field_name" class="lostInput" placeholder="이름을 입력하세요" value="" type="text">
+                    <input id="input_field_name" name="name" class="lostInput" placeholder="이름을 입력하세요" value="" type="text">
                 </p>
                 <p class="input-group" id="input_email">
                     <strong class="input_label">이메일 입력</strong>
-                    <input id="input_field_email" name="input_field_email" class="lostInput" placeholder="이메일을 입력하세요" value="" type="text">
+                    <input id="input_field_email" name="email" class="lostInput" placeholder="이메일을 입력하세요" value="" type="text">
                 </p>
+                    <!-- 결과를 표시할 부분을 추가 -->
+                    <span id="idResult" style="display:none;">
+                        회원님의 아이디: <span id="userId"></span>
+                    </span>                 
+                </p>
+          
                 <div class="ec-base-button gColumn" id="button_group">
                     <button type="submit" id="submit_button" class="btnSubmit sizeM" onclick="findIdAction(); return false;">확인</button>
-                </div>
+                    <!-- 로그인 버튼을 추가 (기본 상태는 숨김) -->
+                    <a href="/member/login" id="login_button" style="display:none;" class="btnSubmit sizeM">로그인페이지로</a>
+                </div>        
             </fieldset>
         </div>
     </form>
-    <p class="input-group" id="input_verification_code" style="display:none;">
-        <strong class="input_label">인증 코드 입력</strong>
-        <input id="verification_code" name="verification_code" class="lostInput" placeholder="인증 코드를 입력하세요" type="text">
-    </p>
-    <div class="ec-base-button gColumn" id="verify_button_group">
-        <button type="submit" id="verify_button" class="btnSubmit sizeM" onclick="verifyCode(); return false;" style="display:none;">인증 확인</button>
+
+    <!-- 결과를 보여줄 부분 -->
+    <div id="idResult" style="display:none;">
+        <strong>회원님의 아이디:</strong> <span id="userId"></span>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
     <script>
-       function findIdAction() {
+         function findIdAction() {
+    // 입력 데이터를 가져옴
     var inputData = {
         name: $("#input_field_name").val(),
         email: $("#input_field_email").val()
     };
 
-    // AJAX 요청: 이메일로 인증 코드 발송
+    // AJAX 요청을 이용하여 아이디 찾기
     $.ajax({
-        type: "POST", // 요청 방식
-        url: "/some-endpoint", // 요청을 보낼 서버 URL, 해당 URL을 적절하게 수정해야 합니다.
-        data: inputData, // 서버에 전송할 데이터
+        type: "POST",
+        url: "/member/findId",
+        data: inputData,
         success: function(response) {
-            if (response.success) {
-                alert('인증 코드가 이메일로 발송되었습니다.');
-                document.getElementById('input_verification_code').style.display = 'block';
-                document.getElementById('submit_button').style.display = 'none';
-                document.getElementById('verify_button').style.display = 'block';
+            if (response) {
+                // 아이디 결과를 이메일 입력 필드 밑에 표시
+                $("#userId").text(response);
+                $("#idResult").show();
+                
+                // "확인" 버튼을 숨기고, "로그인" 버튼을 보여줌
+                $("#submit_button").hide();
+                $("#login_button").show();
             } else {
                 alert('해당하는 아이디를 찾을 수 없습니다.');
             }

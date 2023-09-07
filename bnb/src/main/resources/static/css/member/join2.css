@@ -68,19 +68,3 @@ button[type="submit"] {
 button:hover {
   background-color: #4d6b50;
 }
-
-p {
-  margin-top: 20px;
-}
-
-a {
-  color: #506c7f;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-a:hover {
-  color: #3f5870;
-}
-
-

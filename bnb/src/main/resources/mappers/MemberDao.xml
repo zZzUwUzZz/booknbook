@@ -28,12 +28,8 @@
     SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
 </select>
 
-
- <!-- 이름과 이메일로 아이디 찾기 쿼리 -->
-    <select id="findIdByEmail" resultType="string">
-        SELECT M_ID 
-        FROM CJCS.MEMBER 
-        WHERE M_NAME = #{name} AND M_EMAIL = #{email}
+    <select id="findIdByNameAndEmail" resultType="string" parameterType="map">
+    SELECT m_id FROM MEMBER WHERE c_name = #{name} AND m_email = #{email}
     </select>
 
 

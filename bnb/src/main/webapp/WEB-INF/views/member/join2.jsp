@@ -16,6 +16,7 @@
   
 
 <form action="/member/join2" method="post" id="registration-form" onsubmit="validateRegistrationForm(event);">
+  <input type="text" name="c_name" placeholder="이름" id="c_name"> 
   <input type="text" id="m_id" name="m_id" placeholder="아이디" required oninput="checkIdDuplication()">
       <!-- <button type="button" onclick="checkIdDuplication()">중복 확인</button> -->
       <span id="idCheckMessage"></span> <!-- 중복 확인 메시지를 표시할 요소 -->
@@ -32,6 +33,7 @@
 
     <script>
   function validateRegistrationForm(event) {
+    let c_name = document.getElementById("c_name").value;
     let username = document.getElementById("m_id").value;
     let password = document.getElementById("m_pw").value;
     // let confirmPassword = document.getElementById("confirm-password").value;

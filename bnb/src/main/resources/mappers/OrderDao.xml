@@ -138,21 +138,7 @@
         AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
     </select>
     
-    <!-- 판매자 페이지 - 반납 내역 -->
-    <select id="RentReturnList" resultType="PurchaseDto">
-        select o_id, o_c_id, b_title, o_date, r_returndate,
-            CASE
-                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
-                ELSE NULL
-            END AS overdue_days,
-            r_latefee_total
-        FROM
-            order_list
-        WHERE
-            order_sort = '대여'
-            AND
-            S_ID = 'seller001'
-    </select>
+    
     
 </mapper>
 

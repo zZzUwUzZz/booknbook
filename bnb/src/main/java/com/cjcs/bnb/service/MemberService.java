@@ -146,8 +146,8 @@ public class MemberService {
     }
 
     //서점 이용 기록 있는 회원들 리스트 불러오기
-    public List<MemberDto> getCsMemberList(){
-        return mDao.getCsMemberList();
+    public List<MemberDto> getCsMemberList(String s_id){
+        return mDao.getCsMemberList(s_id);
     }
 
 }

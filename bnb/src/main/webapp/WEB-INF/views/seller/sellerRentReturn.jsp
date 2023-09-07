@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -73,8 +74,8 @@
                 </div>
                 <div class="contain-3">
                     <div class="box-3">
-                        <h1>반납 내역</h1>
-                        <table class="Rent-Return-list">
+                        <h1>반납 현황</h1>
+                        <table class="seller-list">
                             <thead>
                                 <tr>
                                     <th>주문번호</th>
@@ -87,15 +88,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="RentReturnList" var="ReturnList">
+                                <c:forEach items="${RentReturnList}" var="returnlist">
                                     <tr>
-                                        <td>${ReturnList.o_id}</td>
-                                        <td>${ReturnList.o_c_id}</td>
-                                        <td>${ReturnList.b_title}</td>
-                                        <td>${ReturnList.o_date}</td>
-                                        <td>${ReturnList.r_returndate}</td>
-                                        <td>${ReturnList.overdue_days}</td>
-                                        <td>${ReturnList.r_latefee_total}</td>
+                                        <td>${returnlist.o_id}</td>
+                                        <td>${returnlist.o_c_id}</td>
+                                        <td>${returnlist.b_title}</td>
+                                        <td>${returnlist.o_dateStr}</td>
+                                        <td>${returnlist.r_returndate}</td>
+                                        <td>${returnlist.overdue_days}</td>
+                                        <td>${returnlist.r_latefee_total}</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

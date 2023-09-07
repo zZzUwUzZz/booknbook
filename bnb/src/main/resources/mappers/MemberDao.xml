@@ -105,6 +105,8 @@
             order_list
         INNER JOIN 
             customer ON order_list.o_c_id = customer.c_id
+        where
+            s_id = 'seller001'
         GROUP BY 
             o_c_id, c_name
     </select>

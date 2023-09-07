@@ -30,8 +30,6 @@ public interface OrderDao {
     public List<Integer> CalculateLate(String Start_Date, String End_Date);
     public List<Integer> CalculateSell(String Start_Date, String End_Date);
     public List<Integer> CalculateReturn(String Start_Date, String End_Date);
-    //판매자 페이지 - 반납 내역
-    public List<PurchaseDto> RentReturnList();
     
 
 }

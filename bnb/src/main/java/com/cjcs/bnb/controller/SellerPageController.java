@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mybatis.logging.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.PurchaseDto;
+import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
 
@@ -177,10 +180,10 @@ public class SellerPageController {
     // }
 
     @GetMapping("/csmember")
-    public String sellercsmember(Model model) {
+    public String sellercsmember(String s_id, Model model) {
 
         // 서점 이용 기록 있는 회원들 리스트 불러오기
-        List<MemberDto> getCsMemberList = mSer.getCsMemberList();
+        List<MemberDto> getCsMemberList = mSer.getCsMemberList(s_id);
         model.addAttribute("csMemberList", getCsMemberList);
 
         return "seller/sellerCSMember";
@@ -217,7 +220,16 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/reserve")
-    public String sellerrentreserve() {
+    public String sellerrentreserve(String s_id, Model model) {
+
+        //예약 신청 리스트 불러오기
+        List<RentalDto> resultList = rSer.RentResList(s_id);
+        model.addAttribute("RentResList", resultList);
+
+        //예약상태
+        List<RentalDto> ResStatusList = rSer.ResStatusList();
+        model.addAttribute("ResStatusList", ResStatusList);
+        
         return "seller/sellerRentReserve";
     }
 
@@ -227,10 +239,10 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/return")
-    public String sellerrentreturn(Model model) {
+    public String sellerrentreturn(String s_id, Model model) {
 
-        //반납 내역 불러오기
-        List<PurchaseDto> RentReturnList = oSer.RentReturnList();
+        // 반납 내역 불러오기
+        List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
         model.addAttribute("RentReturnList", RentReturnList);
 
         return "seller/sellerRentReturn";

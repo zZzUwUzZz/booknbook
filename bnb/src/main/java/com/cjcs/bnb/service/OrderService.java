@@ -14,6 +14,7 @@ import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.PurchaseDto;
+import com.cjcs.bnb.dto.RentalDto;
 
 // 이 서비스클래스 안에서는 아래 관련작업 하시면 됨요.
 
@@ -183,23 +184,5 @@ public class OrderService {
         return total;
     }
 
-    // 판매자 페이지 - 반납 내역
-    public List<PurchaseDto> RentReturnList(){
-        List<PurchaseDto> resultList = oDao.RentReturnList();
-
-        for (PurchaseDto dto : resultList) {
-            // r_returndate가 null인 경우에 대한 처리
-            if (dto.getR_returndate() == null) {
-                dto.setOverdue_days(0); // 또는 다른 기본값 설정
-            } else {
-                // r_returndate가 null이 아닌 경우, 연체일 계산 및 설정
-                Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-                long overdueMillis = currentTimestamp.getTime() - dto.getR_returndate().getTime();
-                int overdueDays = (int) (overdueMillis / (24 * 60 * 60 * 1000)); // 밀리초를 일로 변환
-                dto.setOverdue_days(overdueDays);
-            }
-        }
-
-        return resultList;
-    }
+    
 }

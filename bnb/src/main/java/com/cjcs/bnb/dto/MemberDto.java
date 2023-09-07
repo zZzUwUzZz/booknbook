@@ -20,6 +20,7 @@ public class MemberDto {
 
     // 서점회원만 가지는 필드
     private String s_storename; // 서점명
+    private String s_id; //서점 아이디
     private String s_storedesc; // 서점소개
     private String s_crn; // 사업자등록번호 10자리(문자열)
     private int s_deliveryfee; // 이 서점의 배송료

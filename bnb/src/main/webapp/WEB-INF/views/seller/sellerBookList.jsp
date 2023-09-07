@@ -86,7 +86,7 @@
                             <input type="submit" value="검색">
                         </form>
                         <h1>등록된 도서 리스트</h1>
-                        <table class="book-list">
+                        <table class="seller-list">
                             <thead>
                                 <tr>
                                     <th>분류</th>

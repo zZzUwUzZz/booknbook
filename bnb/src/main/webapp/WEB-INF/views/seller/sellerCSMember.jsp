@@ -72,7 +72,7 @@
                     <div class="box-3">
                         <h1>이용 회원 리스트</h1>
                         <div class="gap"></div>
-                        <table class="member-list">
+                        <table class="seller-list">
                             <thead>
                                 <tr>
                                     <th>아이디</th>

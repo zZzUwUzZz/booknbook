@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -71,9 +72,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-1">
-                    <div class="box-1">
-
+                <div class="contain-3">
+                    <div class="box-3">
+                        <h1>대여 예약 신청 관리</h1>
+                        <button id="res_status_save">저장</button>
+                        <button id="res_refuse">거절</button><br><br>
+                        <table class="seller-list">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <!-- 공백 -->
+                                    </th>
+                                    <th>예약번호</th>
+                                    <th>아이디</th>
+                                    <th>제목</th>
+                                    <th>신청일자</th>
+                                    <th>예약상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${RentResList}" var="rentres">
+                                    <tr>
+                                        <td><input type="checkbox" id="res_manage" name="res_manage"></td>
+                                        <td>${rentres.rr_id}</td>
+                                        <td>${rentres.rr_c_id}</td>
+                                        <td>${rentres.b_title}</td>
+                                        <td>${rentres.rr_reqdateStr}</td>
+                                        <td>
+                                            <select id="res_status" name="res_status">
+                                                <option value="">죽음</option>
+                                                <c:forEach items="${ResStatusList}" var="ResStatus">
+                                                    <c:choose>
+                                                        <c:when test="${ResStatus.res_status == '예약취소'}">
+                                                            <option value="${ResStatus.res_status}" selected disabled>
+                                                                ${ResStatus.res_status}
+                                                            </option>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <option value="${ResStatus.res_status}">
+                                                                ${ResStatus.res_status}
+                                                            </option>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -81,5 +128,24 @@
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
 </body>
+
+<script>
+    document.getElementById('res_status_save').addEventListener('click', function () {
+        var selectedOptions = [];
+        var checkboxes = document.querySelectorAll('.res_manage:checked');
+
+        checkboxes.forEach(function (checkbox) {
+            var select = checkbox.closest('tr').querySelector('.res_status');
+            var selectedValue = select.value;
+
+            // selectedOptions 배열에 선택된 값 저장함
+            selectedOptions.push({
+                rr_id: checkbox.value,
+                res_status: selectedValue
+            });
+        });
+
+    });
+</script>
 
 </html>

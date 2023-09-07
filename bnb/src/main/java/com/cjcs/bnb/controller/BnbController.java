@@ -52,9 +52,6 @@ public class BnbController {
 
     // 여기부터 관리자페이지
 
-    private int pageCnt = 5;   // 관리자페이지의 모든 리스트는 한화면에 최대 5개의 페이지번호만 띄울 거임.
-    private int listCnt = 10;  // 관리자페이지의 모든 리스트는 한페이지에 최대 10개의 글만 띄울 거임.
-
     @GetMapping("/admin")
     public String admin(Model model) {
 
@@ -63,10 +60,6 @@ public class BnbController {
 
     @GetMapping("/admin/customerlist")
     public String adminCustomerList(SearchDto sDto, Model model, HttpSession session) {
-
-        if (sDto.getPageNum() == 0) {sDto.setPageNum(1);}
-        if (sDto.getPageCnt() == 0) {sDto.setPageCnt(pageCnt);}
-        if (sDto.getListCnt() == 0) {sDto.setListCnt(listCnt);}
 
         List<MemberDto> customerList = mDao.getCustomerListByKeyword(sDto);
         log.info("customerList:{}", customerList.size());
@@ -94,10 +87,6 @@ public class BnbController {
     @GetMapping("/admin/sellerlist")
     public String adminSellerList(SearchDto sDto, Model model, HttpSession session) {
 
-        if (sDto.getPageNum() == 0) {sDto.setPageNum(1);}
-        if (sDto.getPageCnt() == 0) {sDto.setPageCnt(pageCnt);}
-        if (sDto.getListCnt() == 0) {sDto.setListCnt(listCnt);}
-
         List<MemberDto> sellerList = mDao.getSellerListByKeyword(sDto);
         log.info("sellerList:{}", sellerList.size());
 
@@ -122,10 +111,6 @@ public class BnbController {
 
     @GetMapping("/admin/reportlist")
     public String adminReportList(SearchDto sDto, Model model, HttpSession session) {
-
-        if (sDto.getPageNum() == 0) {sDto.setPageNum(1);}
-        if (sDto.getPageCnt() == 0) {sDto.setPageCnt(pageCnt);}
-        if (sDto.getListCnt() == 0) {sDto.setListCnt(listCnt);}
 
         List<ReportBoardDto> reportList = rbDao.getReportListByKeyword(sDto);
 		log.info("reportList:{}", reportList.size());

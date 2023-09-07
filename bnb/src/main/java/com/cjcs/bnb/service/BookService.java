@@ -11,6 +11,7 @@ import com.cjcs.bnb.dto.BookDto;
 
 @Service
 public class BookService {
+    
     @Autowired
     private BookMapper bookMapper;
     @Autowired

@@ -1,11 +1,13 @@
 package com.cjcs.bnb.mappers;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface FavoriteMapper {
-    String isFavorite(@Param("userId") String userId, @Param("storeId") String storeId); // boolean -> String
+    Integer isFavorite(Map<String, Object> params);
 
     void insertFavorite(@Param("userId") String userId, @Param("storeId") String storeId);
 

@@ -123,27 +123,28 @@ public class SearchController {
             HttpServletRequest request) {
         MemberDto seller = searchService.getMemberInfo(storeId);
         System.out.println("Seller Info: " + seller);
-
+    
         if (seller == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
+    
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
-
+    
         Map<String, Object> response = new HashMap<>();
         response.put("store_img", seller.getSf_sysname());
         response.put("store_name", seller.getS_storename());
         response.put("store_addr", seller.getM_addr());
         response.put("store_phone", seller.getM_phone());
         response.put("store_description", seller.getS_storedesc());
-
+    
         if (userId != null) {
-            String isFavorite = favoriteService.isFavorite(userId, storeId);
-            response.put("isFavorite", isFavorite);
+            Boolean isFavorite = favoriteService.isFavorite(userId, storeId);  // Boolean 타입을 사용
+            response.put("isFavorite", isFavorite);  // Boolean 타입으로 저장
         }
-
+    
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    
 
 }

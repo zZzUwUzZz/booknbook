@@ -48,8 +48,10 @@
  
     <% 
     String storeId = (String)request.getAttribute("storeId");
+
     String isFavorite = (String)request.getAttribute("isFavorite");
 %>
+
     
  
     <div class="mapContainer">
@@ -117,14 +119,9 @@
 <!--서점 상세 정보 모달 -->
 <div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
   
-    <!-- <button class="favoriteButton" data-user-id="<%= session.getAttribute("userId") %>" data-store-id="<%= request.getAttribute("storeId") %>">
-        <%= request.getAttribute("isFavorite") != null && (Boolean) request.getAttribute("isFavorite") ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
-    </button> -->
-    
     <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
     <button class="favoriteButton" id="" data-user-id="customer001" data-store-id="<%=storeId%>">
-        <%= ("true".equals(isFavorite)) ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
-    </button>
+     </button>
       
 
     <div class="cls_btn">

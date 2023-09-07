@@ -31,4 +31,7 @@ public class BookDto {
     private String category_s;      // 소분류명
     private String category_m;      // 중분류명
 
+
+
 }
+ 

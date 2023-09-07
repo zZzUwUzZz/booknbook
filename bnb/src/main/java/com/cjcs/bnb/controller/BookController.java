@@ -8,14 +8,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.service.BookService;
+import com.cjcs.bnb.service.CategoryService;
 
 @Controller
 public class BookController {
     @Autowired
     private BookService bookService;
+
+     @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/books")
     public String listBooks(Model model, @RequestParam(defaultValue = "1") int page) {
@@ -29,6 +35,13 @@ public class BookController {
 
         int totalPages = (int) Math.ceil((double) totalItems / booksPerPage);
         System.out.println("Total pages: " + totalPages); // 로그 출력
+
+
+        List<BookDto> mediumCategories = categoryService.listMediumCategories();
+        model.addAttribute("mediumCategories", mediumCategories);
+     List<BookDto> smallCategories = categoryService.listAllSmallCategories();
+        model.addAttribute("smallCategories", smallCategories);
+     
 
         model.addAttribute("books", books); // 모델에 책 데이터 추가
         model.addAttribute("currentPage", page); // 현재 페이지 정보 추가
@@ -46,6 +59,8 @@ public class BookController {
         return "/books/detail";
     }
 
+
+ 
 }
 
 

@@ -14,4 +14,7 @@ public class SellerDto {
     private int s_latefee;
     private Double s_latitude;
     private Double s_longitude;
+
+    public String Start_Date;
+    public String End_Date;
 }

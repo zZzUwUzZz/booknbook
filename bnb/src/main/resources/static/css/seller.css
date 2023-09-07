@@ -93,7 +93,6 @@
 .contain-1 {
     position: relative;
     left: 350px;
-    top: -70px;
     width: 718px;
     display: inline-block;
 }
@@ -111,9 +110,11 @@
 .contain-2 {
     position: relative;
     left: 350px;
-    top: -576px;
     width: 718px;
     display: inline-block;
+    overflow: scroll;
+    max-height: 900px;
+    margin-bottom: 20px;
 }
 
 .box-2 {
@@ -149,9 +150,12 @@
 .contain-3 {
     position: relative;
     left: 350px;
-    top: -526px;
     width: 718px;
+    top: -300px;
     display: inline-block;
+    overflow: scroll;
+    max-height: 900px;
+    margin-bottom: 20px;
 }
 
 .box-3 {
@@ -165,8 +169,7 @@
     display: block;
 }
 
-.member-list,
-.book-list {
+.seller-list {
     border: 1px #a39485 solid;
     font-size: .9em;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
@@ -175,16 +178,14 @@
     border-radius: 5px;
 }
 
-.member-list th,
-.book-list th {
+.seller-list th {
     text-align: left;
     padding: 1em .5em;
     vertical-align: middle;
     text-align: center;
 }
 
-.member-list td,
-.book-list td {
+.seller-list td {
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     background: #fff;
     padding: 1em .5em;
@@ -192,8 +193,7 @@
     text-align: center;
 }
 
-.member-list thead,
-.book-list thead {
+.seller-list thead {
     font-weight: bold;
     color: #fff;
     background: #73685d;
@@ -370,4 +370,47 @@ select::-ms-expand {
     border-radius: 4px;
     background-color: #fff;
     color: #000 ;
+}
+
+.contain-Calc {
+    position: relative;
+    left: 350px;
+    top: -770px;
+    display: inline-block;
+}
+
+.box-Calc {
+    border: 1px solid #4c4240;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    background-color: #fffbed;
+    margin-right: 0px;
+    display: inline-block;
+    width: 800px;
+}
+.Calc-list {
+    border: 1px #a39485 solid;
+    font-size: .9em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
+    width: 80%;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+
+.Calc-list .left {
+    font-weight: bold;
+    color: #fff;
+    background: #73685d;
+    padding: 1em .5em;
+}
+
+.Calc-list td {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    background: #fff;
+    vertical-align: middle;
+    text-align: center;
+}
+.Calc-list .right {
+    padding: 1em 2em;
 }

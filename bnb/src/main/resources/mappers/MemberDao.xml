@@ -93,7 +93,23 @@
         <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE >= to_char(sysdate-30, 'yy/mm/dd') -->
     </select>
 
-    
+    <!-- 이용 회원 리스트 불러오기 -->
+    <select id="getCsMemberList" resultType="MemberDto">
+        SELECT 
+            o_c_id,
+            c_name,
+            SUM(CASE WHEN order_sort = '구매' THEN amount ELSE 0 END) AS SELL_AMOUNT,
+            SUM(CASE WHEN order_sort = '대여' THEN amount ELSE 0 END) AS RENTAL_AMOUNT,
+            COUNT(CASE WHEN r_latefee_total > 0 THEN 1 ELSE NULL END) AS LATE_AMOUNT
+        FROM 
+            order_list
+        INNER JOIN 
+            customer ON order_list.o_c_id = customer.c_id
+        where
+            s_id = 'seller001'
+        GROUP BY 
+            o_c_id, c_name
+    </select>
     
 
 

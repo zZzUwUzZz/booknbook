@@ -37,16 +37,13 @@
     <div class="page">
       <!-- Content for the page -->
     </div>
-  </div>
+ 
   <div class="book">
-    <div class="cover">
-      <div class="page">
         <div class="content">
           <h2>BooK N BooK</h2>
           <p>I want to go home</p>
-        </div>
       </div>
-
+      </div>
 
 <script>
   function validateLoginForm() {

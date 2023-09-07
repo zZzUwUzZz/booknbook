@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
+<!-- css파일  -->
 <link rel="stylesheet" href=".css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"

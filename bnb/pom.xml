@@ -100,7 +100,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
- 
+		<!--mailgun : 이메일API 라이브러리-->
+		<dependency>
+    		<groupId>com.mailgun</groupId>
+    		<artifactId>mailgun-java</artifactId>
+    		<version>1.0.8</version>
+    	</dependency>
 
 	</dependencies>
 

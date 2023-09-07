@@ -27,34 +27,9 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-  
+    <link rel="stylesheet" href="/css/customer/cardboard.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-
-        .opt_num {
-            position: relative;
-            display: block;
-            border: solid 1px #ebebeb;
-        }
-        .opt_ipt {
-            display: block;
-            width: 36px;
-        }
-        .opt_num input {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 23px;
-            line-height: 23px;
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-            border: none;
-            vertical-align: top;
-        }
-
-    </style>
 
     <title>Document</title>
 
@@ -88,9 +63,9 @@
                 <h2 class="pagename">교환/반품 신청</h2>
             </div>
 
-            <div class="container-0">
-
-                <div class="container-1">
+            <div class="formbox">
+            <form id="refExchForm" action="/mypage/refundexchange" method="POST">
+                <div class="tablebox">
         
                     <table>
                         <tr>
@@ -104,27 +79,31 @@
                         <c:if test="${!empty pList_re}">
                             <c:forEach var="pItem" items="${pList_re}">
                                 <tr>
-                                    <td><input type="hidden" name="p_id" value="${pItem.p_id}"></td>
+                                    <td><input type="hidden" name="p_idList" value="${pItem.p_id}"></td>
                                     <td>${pItem.s_storename}</td>
                                     <td>${pItem.b_title}</td>
 
                                     <c:choose>
                                         <c:when test="${!empty pItem.re_amount}">
-                                            <td class="amount">${pItem.p_amount - pItem.re_amount}</td>
+                                            <td>
+                                                ${pItem.p_amount - pItem.re_amount}
+                                                <input type="hidden" id="max_q_${pItem.p_id}" value="${pItem.p_amount - pItem.re_amount}">
+                                            </td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td class="amount">${pItem.p_amount}</td>
+                                            <td>
+                                                ${pItem.p_amount}
+                                                <input type="hidden" id="max_q_${pItem.p_id}" value="${pItem.p_amount}">
+                                            </td>
                                         </c:otherwise>
                                     </c:choose>
 
                                     <td>
-                                        <span class="opt_num">
-                                            <span class="opt_ipt">
-                                                <input type="text" name="qty" maxlength="1" value="1" onblur="fn_qty_check()">
-                                            </span>
-                                            <a href="javascript:fn_qty_change(false)" class="minus"></a>
-                                            <a href="javascript:fn_qty_change(true)" class="plus"></a>
-                                        </span>
+                                        <div class="counterbox">
+                                            <input type="text" id="q_${pItem.p_id}" class="inputbox" name="re_amountList" maxlength="1" value="1">
+                                            <div class="minus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">−</div>
+                                            <div class="plus" data-q-id="q_${pItem.p_id}" data-max-q-id="max_q_${pItem.p_id}">+</div>
+                                        </div>
                                     </td>
                                 </tr>
                              </c:forEach>
@@ -132,13 +111,44 @@
                     </table>
         
                 </div>
-        
-                <div class="container-1">
-                    <button onclick="location.href='/mypage/purchaselist'">돌아가기</button>
-                    <button onclick="">교환요청</button>
-                    <button onclick="">반품요청</button>
+
+                <div class="reasonbox">
+                    (신청사유를 선택하세요.)
+                    <h4>단순변심</h4>
+                    <label>
+                        <input type="radio" name="re_reason" value="상품이 마음에 들지 않음" checked="true">
+                        상품이 마음에 들지 않음
+                    </label><br>
+                    <label>
+                        <input type="radio" name="re_reason" value="더 저렴한 상품을 발견함">
+                        더 저렴한 상품을 발견함
+                    </label><br>
+                    <h4>배송문제</h4>
+                    <label>
+                        <input type="radio" name="re_reason" value="잘못된 상품이 배송됨">
+                        잘못된 상품이 배송됨
+                    </label><br>
+                    <h4>상품문제</h4>
+                    <label>
+                        <input type="radio" name="re_reason" value="상품이 파손되어 배송됨">
+                        상품이 파손되어 배송됨
+                    </label><br>
+                    <label>
+                        <input type="radio" name="re_reason" value="상품에 결함/이상이 있음">
+                        상품에 결함/이상이 있음
+                    </label>
                 </div>
-            
+        
+                <div class="buttonbox">
+                    <button type="button" onclick="location.href='/mypage/purchaselist'">돌아가기</button>
+                    <!-- <button><a href="<%=request.getContextPath()%>/mypage/purchaselist">돌아가기</a></button> -->
+                    <div>
+                        <input type="hidden" id="re_sort" name="re_sort" value="교환">
+                        <button id="exch-btn">교환신청</button>
+                        <button id="ref-btn">반품신청</button>
+                    </div>
+                </div>
+            </form>
             </div>
 
         </div>
@@ -151,38 +161,79 @@
 
     <script>
 
-    function fn_qty_check() {
+    $('.inputbox').on('focusout', function () {
 
-        let qty = $('#qty').val
-        let qty_format = /^[0-9]+$/
+        let qty = $(this).val()
+        let qty_format = /^[0-9]$/
 
         if (!qty.match(qty_format)) {
             alert('숫자를 입력해주세요.')
-            $('#qty').val(1)
+            $(this).val(1)
         }
 
-    }
+    })
 
-    function fn_qty_change(up) {
+    $('.plus').on('click', function () {
+        
+        // 버튼의 data-데이터명 속성에 input폼id 저장해놓은거 꺼내오기 (input태그의 id만 저장가능한듯.. 다른태그의 id 저장해놓고 value꺼내기 해보니 안 됨)
+        let q_id = $(this).data('q-id')
+        console.log(q_id)
+        let max_q_id = $(this).data('max-q-id')
+        console.log(max_q_id)
+        
+        let q = parseInt($('#'+q_id).val())
+        console.log(q)
+        let max_q = parseInt($('#'+max_q_id).val())
+        console.log(max_q)
 
-        let qty = $('#qty').val
-        let max_qty = $('#max_qty').val
 
-        if (up) {
-            if (qty == max_qty) {
-                alert('신청가능수량 초과입니다.')
-            } else {
-                $('#qty').val(qty+1)
-            }
+        if (q === max_q) {
+            alert('신청가능수량 초과입니다.');
         } else {
-            if (qty == 1) {
-                alert('최소 신청수량은 1권입니다.')
-            } else {
-                $('#qty').val(qty-1)
-            }
+            $('#'+q_id).val(q+1);
         }
 
-    }
+    });
+
+    $('.minus').on('click', function () {
+        
+        let q_id = $(this).data('q-id')
+        console.log(q_id)
+        let q = parseInt($('#'+q_id).val())
+        console.log(q)
+
+
+        if (q === 1) {
+            alert('최소 신청수량은 1권입니다.');
+        } else {
+            $('#'+q_id).val(q-1);
+        }
+
+    });
+
+    $(document).ready(function () {
+
+        $('#refExchForm').submit(function (event) {
+        
+            event.preventDefault();
+
+            let sort_of_req = $('#re_sort').val()
+            let conf = confirm(sort_of_req+'신청을 하시겠습니까?')
+
+            if (conf == true) {
+                this.submit();
+            }
+        })
+
+        $('#exch-btn').on('click', function() {
+            $('#re_sort').val('교환');
+        })
+
+        $('#ref-btn').on('click', function() {
+            $('#re_sort').val('반품');
+        })
+
+    })
 
 
     </script>

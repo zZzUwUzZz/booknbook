@@ -37,7 +37,10 @@ WHERE rn BETWEEN #{start} AND #{end}
 </select>
 
 <select id="findBookByIsbnAndSellerId" resultType="com.cjcs.bnb.dto.BookDto">
-    SELECT * FROM BOOK WHERE B_ISBN = #{isbn} AND B_S_ID = #{sellerId}
+    SELECT B.*, CS.category_m_id, CS.category_s, CM.category_m, s_storename
+    FROM B, S, CATEGORY_M CM, CATEGORY_S CS
+    WHERE b_s_id = s_id AND b_category_s_id = category_s_id AND CS.category_m_id = CM.category_m_id AND
+          B_ISBN = #{isbn} AND B_S_ID = #{sellerId}
 </select>
 
  

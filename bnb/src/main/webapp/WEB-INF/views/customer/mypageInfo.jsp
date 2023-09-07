@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -25,6 +27,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/cardboard.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -60,9 +63,9 @@
                 <h2 class="pagename">나의 회원정보</h2>
             </div>
 
-            <div class="container-0">
+            <div class="formbox">
 
-                <div class="container-1">
+                <div class="tablebox infotable">
         
                     <table>
                         <tr>
@@ -87,10 +90,13 @@
         
                 </div>
         
-                <div class="container-1">
+                <div class="buttonbox">
                     <button onclick="location.href='/mypage'">돌아가기</button>
-                    <button onclick="location.href='/mypage/updateinfo'">회원정보수정</button>
-                    <button onclick="location.href='/member/leave'">회원탈퇴</button>
+                    <div>
+                        <button onclick="location.href='/member/leave'">회원탈퇴</button>
+                        <button onclick="location.href='/member/resetPw'">비밀번호재설정</button>
+                        <button onclick="location.href='/mypage/updateinfo'">회원정보수정</button>
+                    </div>
                 </div>
             
             </div>

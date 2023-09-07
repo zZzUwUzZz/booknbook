@@ -18,6 +18,7 @@ public class RentalDto {
     private String o_recip_phone;     // 수령인연락처
 
     //대여항목만 가지는 필드
+    private int r_id;                 // 대여항목번호
     private String r_s_id;            // 판매자아이디
     private String r_b_isbn;          // 책ISBN
     private String r_c_id;            // 대여자아이디(공통필드랑 값은 중복이지만 아무튼 필요함)

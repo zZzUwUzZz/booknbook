@@ -22,7 +22,7 @@
         </ul>
     </div>
      
-    <form id="findIdForm" name="findIdForm" action="/exec/front/Member/findId/" method="post" target="_self" enctype="multipart/form-data">
+    <form id="findIdForm" name="findIdForm" action="/member/findId" method="post" target="_self" enctype="multipart/form-data">
         <input id="returnUrl" name="returnUrl" value="/member/id/find_id_result.html" type="hidden">
         <div class="findId">
            
@@ -42,9 +42,9 @@
                     <input id="check_method2" name="check_method" value="3" type="radio" onchange="toggleInput('mobile');">
                     <label for="check_method2"><span id="search_type_mobile_label">휴대폰번호</span></label>
                 </p>
-                <p class="input-group" id="input_name">
-                    <strong class="input_label">이름 </strong>
-                    <input id="input_field_name" name="input_field_name" class="lostInput" placeholder="이름을 입력하세요" value="" type="text">
+                <p class="input-group" id="input_id">
+                    <strong class="input_label">사용자ID</strong>
+                    <input id="input_field_id" name="input_field_id" class="lostInput" placeholder="아이디를 입력하세요" value="" type="text">
                 </p>
                 <p class="input-group" id="input_email">
                     <strong class="input_label">이메일 입력</strong>
@@ -55,7 +55,8 @@
                     <input id="input_field_mobile" name="input_field_mobile" class="lostInput" placeholder="휴대폰 번호를 입력하세요" value="" type="text">
                 </p>
                 <div class="ec-base-button gColumn" id="bu">
-                    <a href="#none" class="btnSubmit sizeM" onclick="findIdAction(); return false;">확인</a>
+                    <!-- <a href="#none" class="btnSubmit sizeM" onclick="findIdAction(); return false;">확인</a> -->
+                    <button type="button" onclick="location.href='/member/emailAuth'">이메일보내기</button>
                 </div>
             </fieldset>
         </div>

@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
+    <link rel="stylesheet" href="/css/customer/cardboard.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -61,32 +62,56 @@
                 <h2 class="pagename">회원정보 수정</h2>
             </div>
 
-            <div class="container-0">
+            <div class="formbox">
 
                 <form id="updateForm" action="/mypage/updateinfo" method="POST">    
 
-                    <div class="container-1">
+                    <div class="tablebox infotable">
                             
-                        아이디<input type="text" value="${mDto.m_id}" name="m_id" required><br>
-                        기존비밀번호<input type="password" id="pw_ori"><br>    <!-- 기존비번입력제대로했는지확인해야함 -->
-                        <span id="pw_check" style="display: none">기존 비밀번호 제대로 입력하세요</span>
+                        <table>
+                            <tr>
+                                <td>아이디</td>
+                                <td>${mDto.m_id}</td>
+                            </tr>
+                            <tr>
+                                <td>기존비밀번호</td>
+                                <td><input type="password" id="pw_ori"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><span id="pw_check" class="red_msg" style="display: none">비밀번호가 일치하지 않습니다. 입력하신 내용을 확인해주세요.</span></td>
+                            </tr>
+                            <tr>
+                                <td>이름</td>
+                                <td><input type="text" value="${mDto.c_name}" name="c_name" required></td>
+                            </tr>
+                            <tr>
+                                <td>주소</td>
+                                <td><input type="text" value="${mDto.m_addr}" name="m_addr" required></td>
+                            </tr>
+                            <tr>
+                                <td>휴대전화번호</td>
+                                <td><input type="text" value="${mDto.m_phone}" name="m_phone" required></td>
+                            </tr>
+                            <tr>
+                                <td>이메일</td>
+                                <td><input type="text" value="${mDto.m_email}" name="m_email" required></td>
+                            </tr>
+                        </table>
+
                         <!--
                         새비밀번호<input type="password" id="pw_new1" name="m_pw"><br>
                         <span id="pw_format_check" style="display: none">비번형식에 안 맞아요ㄱ-</span>
                         새비밀번호 확인<input type="password" id="pw_new2"><br>
                         <span id="pw_not_same" style="display: none">일치하지 않습니다. 입력한 내용을 확인해주세요.</span>
                         -->
-                        이름<input type="text" value="${mDto.c_name}" name="c_name" required><br>
-                        주소<input type="text" value="${mDto.m_addr}" name="m_addr" required><br>
-                        휴대전화번호<input type="text" value="${mDto.m_phone}" name="m_phone" required><br>
-                        이메일<input type="text" value="${mDto.m_email}" name="m_email" required>
-
                     </div>
 
-                    <div class="container-1">
-                        <button onclick="location.href='/mypage/info'">돌아가기</button>
-                        <button type="reset">입력취소</button>
-                        <button id="submit">저장하기</button>
+                    <div class="buttonbox">
+                        <button type="button" onclick="location.href='/mypage/info'">돌아가기</button>
+                        <div>
+                            <button type="reset">입력취소</button>
+                            <button type="submit">저장하기</button>
+                        </div>
                     </div>
         
                 </form>
@@ -140,7 +165,9 @@
 
         $(document).ready(function() {
 
-            $('#submit').on('click', function() {
+            $('#updateForm').submit(function(event) {
+
+                event.preventDefault();
 
                 let pw_ori = $('#pw_ori').val();
 
@@ -155,8 +182,12 @@
                 // if (is_valid_1!=='none' || is_valid_2!=='none') {
                 //     return false
                 // }
+                let conf = confirm('저장할까요?')
 
-                $('form').updateForm.submit();
+                if (conf == true) {
+                    this.submit();
+                }
+
             })
 
         })

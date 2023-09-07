@@ -75,33 +75,28 @@
                         <th>처리상태</th>
                     </tr>
 
-                    <tr>
-                        <td>교환</td>
-                        <td>2023-08-29</td>
-                        <td>12345</td>
-                        <td>효진이네서점</td>
-                        <td>누가 내 머리에 똥 쌌어</td>
-                        <td>10,000/1</td>
-                        <td>교환불가</td>  <!-- 교환불가/반품불가인 경우 클릭활성화 및 사유확인가능해야함-->
-                    </tr>
-
-                    <c:if test="${empty reExList}">
+                    <c:if test="${empty reList}">
                         <tr>
                             <td colspan="7">교환/반품내역이 없습니다.</td>
                         </tr>
                     </c:if>
         
-                    <c:if test="${!empty reExList}">
-                        <c:forEach var="reExItem" items="${reExList}">
+                    <c:if test="${!empty reList}">
+                        <c:forEach var="reItem" items="${reList}">
                             <tr>
-                                <td>${reExItem.re_sort}</td>
-                                <td>${reExItem.re_reqdate}</td>
-                                <td>${reExItem.re_o_id}</td>
-                                <td>${reExItem.s_storename}</td>
-                                <td>${reExItem.b_title}</td>
-                                <td>${reExItem.total_price} ${reExItem.re_amount}</td>
-                                <td>${reExItem.process_status}</td>
+                                <td>${reItem.re_sort}</td>
+                                <td>${reItem.re_reqdate}</td>
+                                <td>${reItem.re_o_id}</td>
+                                <td>${reItem.s_storename}</td>
+                                <td>${reItem.b_title}</td>
+                                <td>${reItem.re_amount}</td>
+                                <td>${reItem.process_status}</td>
                             </tr>
+                            <c:if test="${!empty reItem.re_rejection_reason}">
+                                <tr>
+                                    <td class="rej_reason" colspan="7">${reItem.re_rejection_reason}</td>
+                                </tr>
+                            </c:if>
                          </c:forEach>
                     </c:if>
                 </table>

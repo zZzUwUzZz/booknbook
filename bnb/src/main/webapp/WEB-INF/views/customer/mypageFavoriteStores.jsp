@@ -60,7 +60,7 @@
         <div class="board-area">
 
             <c:if test="${empty favStores}">
-                <div>즐겨찾는 서점이 아직 없</div>
+                <div>즐겨찾는 서점이 아직 없습니다.</div>
             </c:if>
 
             <c:if test="${!empty favStores}">
@@ -86,16 +86,36 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">다음</div>
+            <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">이전</div>
 
         </div>
 
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+        function shiftPage(currPageNum, numOfPages, num) {
+                    
+            if (currPageNum == 1 && num == -1) {
+                alert('첫 페이지입니다.');
+                return;
+            }
+            if (currPageNum == numOfPages && num == 1) {
+                alert('마지막 페이지입니다.');
+                return;
+            }
+
+            let page = parseInt(currPageNum) + num;
+            location.href='/mypage/favoritestores?page='+page;
+
+        }
+
+    </script>
 
 </body>
 

@@ -3,6 +3,7 @@ package com.cjcs.bnb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.PurchaseService;
@@ -36,10 +37,10 @@ public class OrderController {
         return "orderer/cart";
     }
 
-    @GetMapping("/pcart")
-    public String  purchase_cart() {
+    @GetMapping("/payment")
+    public String payment() {
 
-        return "orderer/purchase_cart";
+        return "orderer/payment";
     }
     //여기부터 페이지-메서드 매핑
 

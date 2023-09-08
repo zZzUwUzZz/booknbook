@@ -5,20 +5,12 @@
 <mapper namespace="com.cjcs.bnb.dao.OrderDao">
 
 <!-- 유다 -->
-    <select id="getCartByCId" parameterType="String" resultType="CartDto">
-        SELECT * FROM CART
-        WHERE cart_c_id = #{c_id}
-    </select>
-    <select id="getPurchaseCartByCId" parameterType="String" resultType="CartDto">
+    <select id="getCartItemsByCId" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
         SELECT * FROM CART_ITEMS
-        WHERE cart_c_id = #{c_id} AND cart_sort ='구매'
+        WHERE cart_c_id = #{c_id} AND cart_sort = #{cart_sort}
     </select>
-        <select id="getRentalCartByCId" parameterType="String" resultType="CartDto">
-        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
-        SELECT * FROM CART_ITEMS
-        WHERE cart_c_id = #{c_id} AND cart_sort ='대여'
-    </select>
+
 
 <!--수희-->
     <select id="getOrderListGroupByOId" parameterType="String" resultType="Map">

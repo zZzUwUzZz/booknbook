@@ -11,9 +11,7 @@ import com.cjcs.bnb.dto.CartDto;
 public interface OrderDao {
     
     //유다
-    public List<CartDto> getCartByCId(String c_id);
-    public List<CartDto> getPurchaseCartByCId(String c_id);
-    public List<CartDto> getRentalCartByCId(String c_id);
+    public List<CartDto> getCartItemsByCId(String c_id, String cart_sort);
 
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);

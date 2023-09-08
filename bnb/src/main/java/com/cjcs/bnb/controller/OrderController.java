@@ -40,8 +40,10 @@ public class OrderController {
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<CartDto> cPList = oDao.getCartByCId(c_id);
-        List<CartDto> cRList = oDao.getCartByCId(c_id);
+        List<CartDto> cPList = oDao.getCartItemsByCId(c_id, "구매");
+        log.info("cPList:{}", cPList);
+        List<CartDto> cRList = oDao.getCartItemsByCId(c_id, "대여");
+        log.info("cRList:{}", cRList);
 
         model.addAttribute("cPList", cPList);
         model.addAttribute("cRList", cRList);

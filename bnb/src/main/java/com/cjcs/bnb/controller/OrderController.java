@@ -40,7 +40,6 @@ public class OrderController {
 //         // 주문 상품 목록, 배송지 정보 등을 모델에 추가
 //         return "checkout"; // checkout.jsp로 이동
 //     }
-
 //     // 주문 처리
 //     @PostMapping("/placeOrder")
 //     public String placeOrder(@ModelAttribute("orderDto") OrderDto oDto, Model model, HttpSession session) {

@@ -131,7 +131,7 @@
 
     <!--검색조건에 맞는 구매자회원 수 세기-->
     <select id="countCustomers" resultType="Integer">
-        SELECT COUNT(*) FROM C
+        SELECT COUNT(*) FROM CUSTOMER_INFO
         <if test="colname != null and colname != ''">
 		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		</if>
@@ -167,7 +167,7 @@
 
     <!--검색조건에 맞는 판매자회원 수 세기-->
     <select id="countSellers" resultType="Integer">
-        SELECT COUNT(*) FROM S
+        SELECT COUNT(*) FROM SELLER_INFO
         <if test="colname != null and colname != ''">
 		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		</if>

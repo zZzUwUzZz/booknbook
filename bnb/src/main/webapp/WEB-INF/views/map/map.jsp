@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/map.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
 
@@ -43,75 +45,143 @@
 
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
-  
+ 
+    <% 
+    String storeId = (String)request.getAttribute("storeId");
+
+    String isFavorite = (String)request.getAttribute("isFavorite");
+%>
+
+    
+ 
     <div class="mapContainer">
 
-     
-
         <div class="mapSearchBox">
+
             <form id="mapSearchForm">
                 <div class="ms_sc">
                     <input class="mapscstore" id="mapscInput" onkeydown="if (event.key === 'Enter') window.location.href='/map?keyword=' + document.getElementById('mapscInput').value" 
                         type="text" name="keyword" placeholder="장소, 서점명 검색">
                 </div>
             </form>
+
+
             <div class="maplist">
-                <div class="map_rs">
-                    <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
-                    <span>${imageInfo.sf_s_id}</span>
-                    <span>${imageInfo.sf_s_id}</span>
-                    <span>${store.s_id}</span>
-                </div>
-
-
-                <c:forEach var="store" items="${results}">
-                    <div class="bs_item">
-                        <div class="bs_itempf">
-                            <c:forEach items="${imageInfos}" var="imageInfo">
-                                <c:if test="${imageInfo.sf_s_id == store.s_id}">
-                                    <img src="<c:url value='/uploads/${imageInfo.sf_sysname}' />"
-                                        alt="${store.s_storename}">
-                                </c:if>
-                            </c:forEach>
-                        </div>
-                        ${store.s_storename} <br>
-                        ${store.s_storedesc} <br>
-                        
-                <c:forEach var="memberInfo" items="${memberInfos}">
-                    Address: ${memberInfo.m_addr} <br>
-                    Phone: ${memberInfo.m_phone} <br>
+    <div class="map_rs">
+        <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
+    </div>
+    <c:forEach var="store" items="${results}">
+        <div class="bs_item" data-store-id="${store.s_id}">
+            <!-- 이미지 출력 -->
+            <div class="bs_itempf" data-lat="${store.s_latitude}" data-lng="${store.s_longitude}">
+                <c:forEach var="imageInfo" items="${imageInfos}">
+                    <c:if test="${imageInfo.sf_s_id == store.s_id}">
+                        <img src="<c:url value='/uploads/${imageInfo.sf_sysname}' />" alt="${store.s_storename}">
+                    </c:if>
                 </c:forEach>
-
-
-                    </div>
+            </div>
+            <!-- 서점 이름과 소개 -->
+            <div class="bs_iteminfo">
+                ${store.s_storename} <br>
+            </div>
+            <!-- 주소와 연락처 -->
+            <div class="bs_itemcontact">
+                <c:forEach var="memberInfo" items="${memberInfos}">
+                    <c:if test="${memberInfo.m_id == store.s_id}">
+                        Address: ${memberInfo.m_addr} <br>
+                    </c:if>
                 </c:forEach>
             </div>
         </div>
+    </c:forEach>
+            </div>           
+         </div>
 
- 
+
+
+        <!-- 페이지네이션 -->
+        <div id="pagination">
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <c:choose>
+                    <c:when test="${i == pageNum}">
+                        <span><strong>${i}</strong></span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="/map?keyword=${keyword}&pageNum=${i}">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </div>
+
+
+
+
+<!--서점 상세 정보 모달 -->
+<div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
+  
+    <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
+    <button class="favoriteButton" id="" data-user-id="customer001" data-store-id="<%=storeId%>">
+     </button>
+      
+
+    <div class="cls_btn">
+        <span class="material-symbols-outlined close-button">close</span>
+    </div>
+    <div class="modal-content">
+    
+    
+        <div class="storeImgBox">
+            <img id="storeImg" src="" alt="">
+        </div>
+
+     
+
+        <h1 id="storeName"></h1>
+        <h2 id="storeAddr"></h2>
+        <p id="storeDescription"></p>
+        <p id="storePhone"></p>
+    </div>
+</div>
+
         <div class="mapbox" onload="initMap()">
             <div id="gmp-map"></div>
         </div>
 
-    </div>
+       
 
+    </div>  
+
+ 
 
  <script src="/js/mapSearch.js"></script>
-   
- <!-- <script>
-    var dbMarkers = [
-    <c:forEach var="result" items="${results}" varStatus="loop">
-        {
-            lat: ${result.s_latitude},
-            lng: ${result.s_longitude},
-            title: "${result.s_storename}",
-            description: "${result.s_storedesc}",
-            address: "${memberInfos[loop.index].m_addr}"
-        }<c:if test="${!loop.last}">,</c:if>
-    </c:forEach>
-   ];
-</script> -->
 
+<script> 
+// 전역 변수 선언 (이거 실행되는거라 지우시면 안됨요..)
+var map;
+var infoWindow;
+var markers = [];
+var dbMarkers = [
+        <c:forEach var="result" items="${results}" varStatus="loop">
+        {
+            lat: <c:out value="${result.s_latitude}" default="0"/>,
+            lng: <c:out value="${result.s_longitude}" default="0"/>,
+            title: '<c:out value="${result.s_storename}"/>',
+            description: '<c:out value="${result.s_storedesc}"/>',
+            address: '<c:out value="${memberInfos[loop.index].m_addr}"/>'
+        }
+        <c:if test="${!loop.last}">,</c:if>
+        </c:forEach>
+    ];
+
+
+    let isFavorite = "<%= isFavorite %>";
+if (isFavorite === "true") {
+    // 즐겨찾기 상태 처리
+} else {
+    // 즐겨찾기가 아닌 상태 처리
+}
+</script>
+ 
     
   </body>
 

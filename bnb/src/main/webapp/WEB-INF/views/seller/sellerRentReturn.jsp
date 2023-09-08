@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -12,10 +13,6 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
@@ -67,13 +64,39 @@
                         </div>
                         <div class="menu-group">
                             <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/account">정산 내역</a></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                         </div>
                     </div>
                 </div>
-                <div class="contain-1">
-                    <div class="box-1">
-
+                <div class="contain-3">
+                    <div class="box-3">
+                        <h1>반납 현황</h1>
+                        <table class="seller-list">
+                            <thead>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <th>아이디</th>
+                                    <th>제목</th>
+                                    <th>대여일자</th>
+                                    <th>반납일자</th>
+                                    <th>연체일</th>
+                                    <th>연체료</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${RentReturnList}" var="returnlist">
+                                    <tr>
+                                        <td>${returnlist.o_id}</td>
+                                        <td>${returnlist.o_c_id}</td>
+                                        <td>${returnlist.b_title}</td>
+                                        <td>${returnlist.o_dateStr}</td>
+                                        <td>${returnlist.r_returndate}</td>
+                                        <td>${returnlist.overdue_days}</td>
+                                        <td>${returnlist.r_latefee_total}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

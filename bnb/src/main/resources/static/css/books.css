@@ -1,6 +1,6 @@
 .bookListContainer {
   width: 1300px;
-  height: 1050px;
+  height: auto;
   margin: auto;
   padding: 20px;
 }
@@ -13,6 +13,11 @@
     color: #FFF;
     margin-bottom: 19px;
   }
+
+   .bk_tt p {
+    color: #FFF;
+    font-size: 20px;
+   }
   
   .bk_list {
     display: flex;
@@ -20,7 +25,7 @@
   }
   
   .bk_item {
-    width: calc(100% / 5);
+    width: calc(100% / 4);
     height: calc(964px / 3);
     box-sizing: border-box;
     padding: 10px;
@@ -48,3 +53,27 @@
     color: black;
   }
   
+
+  /* 카테고리  */
+
+  .cateContain {
+    display: flex;
+    padding: 22px 23px;
+  }
+
+  .medium-category {
+    position: relative;
+    margin: 18px 16px;
+    width: 100px;
+    
+  }
+  
+  .small-categories {
+    position: absolute;
+    top: 33px;
+    left: 0; 
+    display: none; 
+    line-height: 32px;
+    background: #FFF;
+    padding: 10px;
+  }

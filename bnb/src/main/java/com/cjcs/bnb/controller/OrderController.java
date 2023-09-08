@@ -10,7 +10,6 @@ import com.cjcs.bnb.service.RentalService;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 // 이 컨트롤러에서 카트페이지, 결제페이지 url-메서드 매핑하셈
 
 @Slf4j
@@ -27,6 +26,9 @@ public class OrderController {
     private RentalService rSer;
 
 
+    // 여기부터 페이지-메서드 매핑
+
+
 
     @GetMapping("/cart")
     public String cart() {
@@ -39,25 +41,25 @@ public class OrderController {
     // @GetMapping
     // public String cart() {
 
-    //     return "cart";
+    // return "cart";
     // }
 
-    // @PostMapping  
+    // @PostMapping
     // public String cart() {
 
-    //     return "cart";
+    // return "cart";
     // }
 
-    // @GetMapping 
+    // @GetMapping
     // public String payment() {
 
-    //     return "payment";
+    // return "payment";
     // }
 
-    // @PostMapping 
+    // @PostMapping
     // public String payment() {
 
-    //     return "payment";
+    // return "payment";
     // }
 
 }

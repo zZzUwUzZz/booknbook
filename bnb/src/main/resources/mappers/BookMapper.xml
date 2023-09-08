@@ -24,7 +24,6 @@ SELECT * FROM (
     ) B ON A.B_ISBN = B.B_ISBN
 )
 WHERE rn BETWEEN #{start} AND #{end}
-
 </select>
 
  
@@ -68,15 +67,59 @@ SELECT * FROM (
 WHERE rn BETWEEN #{start} AND #{end}
 </select>
 
+
+<!-- 카테고리별 조회 -->
+<!-- 중분류 카테고리 조회 -->
+<select id="findBooksByMediumCategory" resultType="com.cjcs.bnb.dto.BookDto">
+SELECT * FROM (
+    SELECT B.*, ROW_NUMBER() OVER (ORDER BY B.B_ISBN) AS rn
+    FROM (
+        SELECT DISTINCT B_ISBN FROM BOOK
+        WHERE b_category_s_id IN (
+          SELECT category_s_id FROM Category_S WHERE category_m_id = #{category_m_id}
+        )
+    ) A
+    JOIN (
+        SELECT * FROM (
+            SELECT BOOK.*, ROW_NUMBER() OVER (PARTITION BY B_ISBN ORDER BY B_PRICE ASC) AS rnk
+            FROM BOOK
+        ) WHERE rnk = 1
+    ) B ON A.B_ISBN = B.B_ISBN
+  ) 
+  WHERE rn BETWEEN #{start} AND #{end}
+</select>
+
+
+<select id="countBooksByMediumCategory" resultType="int">
+  SELECT COUNT(*) FROM Book WHERE b_category_s_id IN (
+    SELECT category_s_id FROM Category_S WHERE category_m_id = #{category_m_id}
+  )
+</select>
+
+
+
 <!-- 예림 -->
-<!-- 판매자 페이지-등록된 도서 리스트 조회 -->
-    <!-- <select id="getSellerBookList" parameterType="BookDto">
-    SELECT b_title, b_author, b_forsale, b_salestock, b_forrental, b_rentalstock
-    FROM Book
-    WHERE b_s_id = #{b_s_id}
-    </select> -->
+    <!-- 판매자 페이지 - 등록된 도서 리스트 조회 -->
+    <select id="searchSellerBookList" resultType="BookDto" parameterType="map">
+    SELECT CATEGORY_S, B_TITLE, B_AUTHOR, B_SALESTOCK, B_RENTALSTOCK
+    FROM BOOK
+    INNER JOIN CATEGORY_S ON BOOK.B_CATEGORY_S_ID = CATEGORY_S.CATEGORY_S_ID
+    WHERE B_S_ID = 'seller001'
+    <!-- WHERE B_S_ID = #{s_id} -->
+        <choose>
+            <when test="filter == 'category'">
+                AND UPPER(CATEGORY_S.CATEGORY_S) = UPPER(#{keyword})
+            </when>
+            <when test="filter == 'title'">
+                AND UPPER(B_TITLE) LIKE '%' || UPPER(#{keyword}) || '%'
+            </when>
+            <when test="filter == 'author'">
+                AND UPPER(B_AUTHOR) LIKE '%' || UPPER(#{keyword}) || '%'
+            </when>
+        </choose>
+    </select>
 
-
+    
 </mapper>
 
  

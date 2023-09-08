@@ -19,10 +19,18 @@ public class MemberDto {
     private String c_name; // 회원이름
 
     // 서점회원만 가지는 필드
+
+    private String sf_sysname;
     private String s_storename; // 서점명
+    private String s_id; //서점 아이디
     private String s_storedesc; // 서점소개
     private String s_crn; // 사업자등록번호 10자리(문자열)
     private int s_deliveryfee; // 이 서점의 배송료
     private int s_latefee; // 이 서점의 1일당 연체료
 
+    //예림
+    private String o_c_id;
+    private int sell_amount;
+    private int rental_amount;
+    private int late_amount;
 }

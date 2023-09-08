@@ -45,6 +45,17 @@ public class BookService {
         return bookMapper.countBooksByMediumCategory(category_m_id);
     }
 
+
+    public List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end) {
+        return bookMapper.findBooksBySmallCategory(category_s_id, start, end);
+    }
+
+    public int countBooksBySmallCategory(String category_s_id) {
+        return bookMapper.countBooksBySmallCategory(category_s_id);
+    }
+
+
+
     // public static List<BookDto> getSellerBookList(String b_s_id){
     // return bDao.getSellerBookList(b_s_id);
     // }

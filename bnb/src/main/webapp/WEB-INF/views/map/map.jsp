@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  
+<%
+Integer storeIdObj = (Integer) request.getAttribute("storeId");
+int storeId = (storeIdObj != null) ? storeIdObj.intValue() : 0; // 0은 기본값
+
+Integer isFavoriteObj = (Integer) request.getAttribute("isFavorite");
+int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은 기본값
+%>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -32,7 +41,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
-
+    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABg7GBJJBgt8BMt0MG6VCZdwbwLU0KTJI&callback=initMap&libraries=&v=weekly"
@@ -45,14 +54,7 @@
 
     <%@include file="/WEB-INF/tiles/header.jsp" %>
 
- 
-    <% 
-    String storeId = (String)request.getAttribute("storeId");
 
-    String isFavorite = (String)request.getAttribute("isFavorite");
-%>
-
-    
  
     <div class="mapContainer">
 
@@ -120,16 +122,19 @@
 <div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
   
     <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
-    <button class="favoriteButton" id="" data-user-id="customer001" data-store-id="<%=storeId%>">
-     </button>
-      
 
+
+    <button class="favoriteButton" id="favoriteButton_<%=storeId%>" data-user-id="<%= session.getAttribute("userId") %>" data-store-id="<%=storeId%>" data-is-favorite="<%=isFavorite==1%>">
+        <%= (isFavorite == 1) ? "즐겨찾기 해제" : "즐겨찾기 추가" %>
+    </button>
+    
+    
     <div class="cls_btn">
         <span class="material-symbols-outlined close-button">close</span>
     </div>
     <div class="modal-content">
-    
-    
+
+     
         <div class="storeImgBox">
             <img id="storeImg" src="" alt="">
         </div>
@@ -173,16 +178,11 @@ var dbMarkers = [
         </c:forEach>
     ];
 
-
-    let isFavorite = "<%= isFavorite %>";
-if (isFavorite === "true") {
-    // 즐겨찾기 상태 처리
-} else {
-    // 즐겨찾기가 아닌 상태 처리
-}
+ 
 </script>
  
-    
+<script src="/js/fav.js"></script>
+
   </body>
 
 </html>

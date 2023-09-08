@@ -77,3 +77,7 @@
     background: #FFF;
     padding: 10px;
   }
+  
+  .small-categories a {
+    color: #000;
+  }

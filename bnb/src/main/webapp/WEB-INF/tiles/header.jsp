@@ -33,7 +33,6 @@
                 </span>
                 <input class="scbook" type="text" id="searchInput" name="keyword" placeholder="Search...">
             </div>
-
         </div>
     </form>
 </div>

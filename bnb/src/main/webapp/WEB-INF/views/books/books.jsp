@@ -49,16 +49,18 @@
             
               <c:forEach var="mediumCategory" items="${mediumCategories}" varStatus="loop">
                 <div class="medium-category" id="medium-category-${loop.index}">
-                  <a href="/books/category/medium/${mediumCategory.category_m_id}">${mediumCategory.category_m}</a>
-                  <div class="small-categories" id="small-categories-${loop.index}">
-                    <c:forEach var="smallCategory" items="${smallCategories}">
-                      <c:if test="${smallCategory.category_m_id == mediumCategory.category_m_id}">
-                        <div>${smallCategory.category_s}</div>
-                      </c:if>
-                    </c:forEach>
-                  </div>
+                    <a href="/books/category/medium/${mediumCategory.category_m_id}">${mediumCategory.category_m}</a>
+                    <div class="small-categories" id="small-categories-${loop.index}">
+                        <c:forEach var="smallCategory" items="${smallCategories}">
+                            <c:if test="${smallCategory.category_m_id == mediumCategory.category_m_id}">
+                                <div><a href="/books/category/small/${smallCategory.category_s_id}">${smallCategory.category_s}</a></div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
                 </div>
-              </c:forEach>
+            </c:forEach>
+            
+            
 
               
             </div>

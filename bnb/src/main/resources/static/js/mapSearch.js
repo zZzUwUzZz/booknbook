@@ -1,5 +1,5 @@
 
-
+var infoWindow;
 // 페이지가 로드되면 실행될 함수
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -49,16 +49,13 @@ function initMap() {
 
   infoWindow = new google.maps.InfoWindow();
 
-
   // dbMarkers 배열을 순회하면서 마커 추가
   for (var i = 0; i < dbMarkers.length; i++) {
       addMarker(dbMarkers[i], dbMarkers[i].title, dbMarkers[i].description, dbMarkers[i].address);
   }
-
   // URL의 쿼리 파라미터에서 keyword를 읽어옴
   var urlParams = new URLSearchParams(window.location.search);
   var keyword = urlParams.get('keyword');
-
   if (keyword) {
       searchMarkers(keyword.toLowerCase());
   }
@@ -77,11 +74,13 @@ function addMarker(location, title, description, address) {
   });
 
   marker.addListener('click', function () {
-      map.setCenter(marker.getPosition());
-      map.setZoom(14);
-      infoWindow.open(map, marker);
-  });
+    infoWindow.setContent('<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>');
+    infoWindow.open(map, marker);
 
+      map.setCenter(marker.getPosition());
+      map.setZoom(12);
+      
+  });
   markers.push(marker);
 }
 
@@ -127,35 +126,37 @@ function addMarker(location, title, description, address) {
   });
 
   marker.addListener('click', function() {
-      infoWindow.open(map, marker);
+    infoWindow.setContent('<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>');
+    infoWindow.open(map, marker);
+    map.setCenter(marker.getPosition());
+    map.setZoom(13);
   });
-
   markers.push(marker);
   infoWindows.push(infoWindow);
 }
 
 // bs_itempf 클릭 이벤트에서 마커에 대응하는 InfoWindow 열기
-document.addEventListener('DOMContentLoaded', function() {
-  // bs_itempf 클릭 이벤트
-  document.querySelectorAll('.bs_itempf').forEach(function(item) {
-    item.addEventListener('click', function() {
-      const lat = parseFloat(this.getAttribute('data-lat'));
-      const lng = parseFloat(this.getAttribute('data-lng'));
+document.addEventListener('DOMContentLoaded', function() {	
+  // bs_itempf 클릭 이벤트	
+  document.querySelectorAll('.bs_itempf').forEach(function(item) {	
+    item.addEventListener('click', function() {	
+      const lat = parseFloat(this.getAttribute('data-lat'));	
+      const lng = parseFloat(this.getAttribute('data-lng'));	
+      // 지도를 해당 위치로 이동	
+      map.panTo({ lat, lng });	
+      map.setZoom(15);	
+      // 대응하는 마커의 InfoWindow 열기	
+      for (var i = 0; i < markers.length; i++) {	
+          if (markers[i].getPosition().lat() === lat && markers[i].getPosition().lng() === lng) {	
+              infoWindows[i].open(map, markers[i]);	
+              break;	
+          }	
+      }	
+    });	
+  });	
+});	
 
-      // 지도를 해당 위치로 이동
-      map.panTo({ lat, lng });
-      map.setZoom(15);
 
-      // 대응하는 마커의 InfoWindow 열기
-      for (var i = 0; i < markers.length; i++) {
-          if (markers[i].getPosition().lat() === lat && markers[i].getPosition().lng() === lng) {
-              infoWindows[i].open(map, markers[i]);
-              break;
-          }
-      }
-    });
-  });
-});
 
 
 
@@ -218,33 +219,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
-
-
-
-
-// $(document).on('click', function(event) {
-// if (event.target.matches('.favoriteButton')) {
-//   const buttonId = event.target.id;
-//   const parts = buttonId.split('_');
-//   const storeId = parts[1];  
-//   const userId = event.target.getAttribute('data-user-id');
-
-//   // AJAX 요청을 이용해 서버에 즐겨찾기 상태를 토글합니다.
-//   $.post('/toggleFavorite', { userId: userId, storeId: storeId }, function(response) {
-//     console.log("Toggled Favorite Status: ", response.isFavorite);
-
-//     // 서버로부터 응답을 받았을 때의 처리
-//     if (response.isFavorite) { // 이 부분
-//       $('#' + buttonId).text("즐겨찾기 해제");
-//     } else {
-//       $('#' + buttonId).text("즐겨찾기 추가");
-//     }
-    
-//   });
-// }
-// });
-
-
 
  

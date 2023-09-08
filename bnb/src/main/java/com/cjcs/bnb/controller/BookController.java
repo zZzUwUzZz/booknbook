@@ -97,5 +97,46 @@ public class BookController {
         return "/books/books";
     }
 
+
+
+    @RequestMapping("/books/category/small/{category_s_id}")
+public String listBooksBySmallCategory(
+        @PathVariable String category_s_id,
+        @RequestParam(defaultValue = "1") int page,
+        Model model) {
+    int booksPerPage = 16;
+    int start = (page - 1) * booksPerPage + 1;
+    int end = start + booksPerPage - 1;
+
+    // 소분류 카테고리별 도서 목록을 불러옵니다.
+    List<BookDto> books = bookService.findBooksBySmallCategory(category_s_id, start, end);
+    model.addAttribute("books", books);
+
+    // 도서 개수도 불러옵니다.
+    int totalItems = bookService.countBooksBySmallCategory(category_s_id);
+    model.addAttribute("totalItems", totalItems);
+
+    // 전체 페이지 수를 계산합니다.
+    int totalPages = (int) Math.ceil((double) totalItems / booksPerPage);
+    model.addAttribute("totalPages", totalPages);
+    model.addAttribute("currentPage", page);
+
+    // 중분류와 소분류 데이터도 다시 불러옵니다.
+    List<BookDto> mediumCategories = categoryService.listMediumCategories();
+    model.addAttribute("mediumCategories", mediumCategories);
+    List<BookDto> smallCategories = categoryService.listAllSmallCategories();
+    model.addAttribute("smallCategories", smallCategories);
+
+    // 현재 카테고리를 모델에 추가합니다.
+    model.addAttribute("category_s_id", category_s_id);
+
+    System.out.println("카테고리 Total items: " + totalItems);
+    System.out.println("카테고리 Total pages: " + totalPages);
+    System.out.println("Start: " + start + ", End: " + end);
+    System.out.println("Number of books: " + books.size());
+
+    return "/books/books";
+}
+
 }
 

@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
-import com.cjcs.bnb.dto.FavDto;
+import com.cjcs.bnb.dto.FavoriteDTO;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.SearchService;

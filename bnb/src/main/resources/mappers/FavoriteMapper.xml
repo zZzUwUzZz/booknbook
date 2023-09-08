@@ -4,19 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cjcs.bnb.mappers.FavoriteMapper">
-
-<select id="isFavorite" resultType="Integer">
-    SELECT COUNT(*)
-    FROM FavStore WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
-</select>
-  
-    <insert id="insertFavorite">
-        INSERT INTO FavStore (favs_c_id, favs_s_id, favs_date) VALUES (#{userId}, #{storeId}, sysdate)
+ 
+  <select id="isFavorite" resultType="int">
+        SELECT state FROM favstore WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
+    </select>
+    
+    <insert id="addFavorite">
+        INSERT INTO favstore (favs_c_id, favs_s_id, state) VALUES (#{userId}, #{storeId}, 1)
     </insert>
-   
-    <delete id="deleteFavorite">
-        DELETE FROM FavStore WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
+    
+    <delete id="removeFavorite">
+        DELETE FROM favstore WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
     </delete>
 
+    <update id="toggleFavorite">
+        UPDATE favstore SET state = #{state} WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
+    </update>
+ 
 
 </mapper>

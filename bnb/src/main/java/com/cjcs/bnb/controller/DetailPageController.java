@@ -41,18 +41,6 @@ public class DetailPageController {
     @Autowired
     private BookService bSer;
 
-
-
-    // 서점 즐겨찾기
-
-    // @PostMapping("/toggleFavorite")
-    // public ResponseEntity<?> toggleFavorite(@RequestParam String userId,
-    // @RequestParam String storeId) {
-    // boolean isFavorite = favoriteService.toggleFavorite(userId, storeId);
-
-    // return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
-    // }
-
     @GetMapping("/bookdetail/{isbn}/{sellerId}")
     public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId, Model model) {
         // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.

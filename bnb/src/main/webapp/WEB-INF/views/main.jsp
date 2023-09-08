@@ -189,7 +189,7 @@
                 <div class="bnb_list">
                     <div class="list_tt">
                         <div class="lt_02">이런 책은 어때요?</div>
-                        <div class="listmore">더보기</div>
+                        <div class="listmore"><a href="/books">더보기</a></div>
                     </div>
 
                     <div class="itemlist">

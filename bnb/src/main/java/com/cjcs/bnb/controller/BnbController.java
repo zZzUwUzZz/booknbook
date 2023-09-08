@@ -1,6 +1,5 @@
 package com.cjcs.bnb.controller;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.service.BoardService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -142,6 +140,11 @@ public class BnbController {
 
     @GetMapping("/admin/reportdetail/{report_id}")
     public String adminReportDetail(@PathVariable("report_id") int report_id, Model model) {
+
+        ReportBoardDto rbDto = rbDao.getReportByRId(report_id);
+        log.info("rbDto:{}", rbDto);
+
+        model.addAttribute("rbDto", rbDto);
 
         return "admin/adminReportDetail";
     }

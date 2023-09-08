@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-    <link rel="stylesheet" href="/css/customer/cardboard.css">
+    <link rel="stylesheet" href="/css/customer/board.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -52,7 +52,7 @@
             </ul>
         </div>
 
-        <div class="board-area">
+        <div class="board-area" id="board-area-flexible">
             
             <div>
                 <h2 class="pagename">REPORT DETAIL</h2>
@@ -61,9 +61,26 @@
             <div>
                 <div class="tablebox">
                 <table>
-                   
+                    <tr>
+                        <td class="th" width="100px">글번호</td>
+                        <td class="info_td" width="180px">${rbDto.report_id}</td>
+                        <td class="th" width="100px">작성일</td>
+                        <td class="info_td">${rbDto.report_date}</td>
+                    </tr>
+                    <tr>
+                        <td class="th">글제목</td>
+                        <td colspan="3" class="info_td">${rbDto.report_title}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="content_td">${rbDto.report_content}</td>
+                    </tr>
                 </table>
                 </div>
+            </div>
+
+            <div class="buttonbox">
+                <button onclick="location.href='/admin/reportlist'">목록으로</button>
+                <button onclick="location.href='/admin/reportlist'">삭제하기</button>
             </div>
 
         </div>

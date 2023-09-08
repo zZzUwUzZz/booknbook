@@ -56,7 +56,7 @@
             </ul>
         </div>
 
-        <div class="board-area" id="board-area-orderdetail">
+        <div class="board-area" id="board-area-flexible">
             
             <div>
                 <h2 class="pagename">MY ORDER DETAILS</h2>

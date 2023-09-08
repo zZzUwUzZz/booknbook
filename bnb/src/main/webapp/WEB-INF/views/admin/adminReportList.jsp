@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-    <link rel="stylesheet" href="/css/customer/list.css">
+    <link rel="stylesheet" href="/css/customer/board.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -59,7 +59,7 @@
             </div>
 
             <div>
-                <div class="searchbox">
+                <div class="searchbox narrow_box">
                     <select id="sel">
                         <option value="report_title" selected>제목</option>
                         <option value="report_content">내용</option>
@@ -70,8 +70,8 @@
             </div>
 
             <div>
-                <div class="tablebox">
-                <table>
+                <div class="tablebox narrow_box">
+                <table class="narrow_table">
                     <tr class="headrow">
                         <th width="40px"></th>
                         <th>글제목</th>
@@ -97,7 +97,7 @@
             </div>
 
             <div>
-                <div class="pagebox">${pageHtml}</div>
+                <div class="pagebox narrow_box">${pageHtml}</div>
             </div>
 
         </div>

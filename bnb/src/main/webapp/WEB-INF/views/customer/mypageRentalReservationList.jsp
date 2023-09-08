@@ -88,7 +88,15 @@
                                 <td>${rrItem.rr_reqdate}</td>
                                 <td>${rrItem.b_title}</td>
                                 <td>${rrItem.s_storename}</td>
-                                <td class="status_code">${rrItem.res_status}</td>
+
+                                <c:choose>
+                                    <c:when test="${rrItem.rr_res_status_id eq 2}">
+                                        <td class="status_code">${rrItem.res_status}<br>${rrItem.rr_rejection_reason}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${rrItem.res_status}</td>
+                                    </c:otherwise>
+                                </c:choose>
                             
                                 <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 1 || rrItem.rr_res_status_id eq 3}">
@@ -99,13 +107,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
-
-                            <c:if test="${!empty rrItem.rr_rejection_reason}">
-                                <tr>
-                                    <td class="rej_reason" colspan="6">${rrItem.rr_rejection_reason}</td>
-                                </tr>
-                            </c:if>
-                         </c:forEach>
+                        </c:forEach>
                     </c:if>
                 </table>
                 </div>

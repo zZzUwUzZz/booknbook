@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.dao.ReportBoardDao">
+
+    <select id="getReportList" resultType="ReportBoardDto">
+        SELECT * FROM RB
+        ORDER BY report_date DESC
+    </select>
+
+    <select id="getReportListByKeyword" parameterType="SearchDto" resultType="ReportBoardDto">
+		SELECT * FROM
+		<choose>
+		    <when test="colname!=null and colname !=''">                
+		    	(SELECT rownum rn, RB.*      
+		    	 FROM (SELECT * FROM RB
+		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
+		    	       ORDER BY report_date DESC) RB
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, RB.*
+				 FROM RB
+            	 ORDER BY report_date DESC)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>	
+	</select>
+
+    <select id="countReports" parameterType="SearchDto" resultType="Integer">
+		SELECT COUNT(*) FROM RB
+		<if test="colname != null and colname != ''">
+		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
+		</if>	
+	</select>
+
+
+
+</mapper>

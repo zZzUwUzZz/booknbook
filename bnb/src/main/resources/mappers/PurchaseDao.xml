@@ -72,6 +72,38 @@
         ORDER BY p_id DESC
     </select>
 
+    <select id="getLatest5PurchaseListByCId" parameterType="String" resultType="PurchaseDto">
+        SELECT rownum, o_id, o_date, b_title, delivery_status
+        FROM (SELECT * FROM order_list_p WHERE o_c_id = #{c_id} ORDER BY o_date DESC)
+        <![CDATA[
+        WHERE rownum<6
+        ]]>
+    </select>
+
+    <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="RefExchDto">
+        SELECT p_o_id as "re_o_id",
+               p_c_id as "re_c_id",
+               p_s_id as "re_s_id",
+               p_b_isbn as "re_b_isbn"
+        FROM P
+        WHERE p_id = #{p_id}
+    </select>
+
+    <insert id="addRefExchList" parameterType="RefExchDto">
+        INSERT INTO RE(re_id, re_o_id, re_c_id, re_s_id, re_b_isbn, re_sort, re_reason, re_amount, re_reqdate, re_process_status_id, re_rejection_reason)
+        VALUES(RE_SEQ.NEXTVAL, #{re_o_id}, #{re_c_id}, #{re_s_id}, #{re_b_isbn}, #{re_sort}, #{re_reason}, #{re_amount}, DEFAULT, 1, NULL)
+    </insert>
+
+    <select id="getRefExchListByCId" parameterType="String" resultType="RefExchDto">
+        SELECT RE.*, s_storename, b_title, b_price, process_status
+        FROM RE, S, B, STATUS_RE
+        WHERE re_s_id = s_id AND
+              re_s_id = b_s_id AND re_b_isbn = b_isbn AND
+              re_process_status_id = process_status_id AND
+              re_c_id = #{c_id}
+        ORDER BY re_reqdate DESC
+    </select>
+
     <select id="getCurrentRefExchListByCId" parameterType="String" resultType="RefExchDto">
         SELECT rownum, re_sort, re_reqdate, b_title, s_storename, process_status
         FROM (SELECT re_sort, re_reqdate, b_title, s_storename, process_status
@@ -88,13 +120,6 @@
         ]]>
     </select>
 
-    <select id="getLatest5PurchaseListByCId" parameterType="String" resultType="PurchaseDto">
-        SELECT rownum, o_id, o_date, b_title, delivery_status
-        FROM (SELECT * FROM order_list_p WHERE o_c_id = #{c_id} ORDER BY o_date DESC)
-        <![CDATA[
-        WHERE rownum<6
-        ]]>
-    </select>
 
     <select id="countCurrentRefExchByCId" parameterType="String" resultType="Integer">
         SELECT count(*)

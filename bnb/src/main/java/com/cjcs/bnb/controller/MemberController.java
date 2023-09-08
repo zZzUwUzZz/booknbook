@@ -3,24 +3,23 @@ package com.cjcs.bnb.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.service.MemberService;
+// import com.mailgun.api.v3.MailgunMessagesApi;
+// import com.mailgun.client.MailgunClient;
+// import com.mailgun.model.message.Message;
+// import com.mailgun.model.message.MessageResponse;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -148,5 +147,26 @@ public class MemberController {
         model.addAllAttributes(resultMap);
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join2";
     }
+
+    // @ResponseBody
+    // @GetMapping("/emailAuth")
+    // public MessageResponse sendSimpleMessage() {
+
+    //     String API_KEY = "key-02898c1623290dd7927fdc6fd18bfbab";
+    //     String DOMAIN_NAME = "sandbox2a9762a2df5948a194ffad1917207b6d.mailgun.org";
+
+    //     MailgunMessagesApi mailgunMessagesApi = MailgunClient.config(API_KEY)
+    //         .createApi(MailgunMessagesApi.class);
+
+    //     Message message = Message.builder()
+    //         .from("Nilla <bnb@sandbox2a9762a2df5948a194ffad1917207b6d.mailgun.org>")
+    //         .to("bahnnn@naver.com")
+    //         .subject("BOOK N BOOK - 본인인증코드")
+    //         .text("a126^vy23h")
+    //         .build();
+
+    //     return mailgunMessagesApi.sendMessage(DOMAIN_NAME, message);
+    // }
+
 
 }

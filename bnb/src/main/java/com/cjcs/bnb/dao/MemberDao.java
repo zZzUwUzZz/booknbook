@@ -4,23 +4,23 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import com.cjcs.bnb.dto.SellerDto;
-import com.cjcs.bnb.dto.SellerFileDto;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.SellerFileDto;
 
 @Mapper
 public interface MemberDao {
 
     // 킹효진
 
-    List<SellerDto> searchBookstores(@Param("keyword") String keyword);
+    List<SellerDto> searchBookstores(@Param("keyword") String keyword, 
+    @Param("startIdx") int startIdx, 
+    @Param("limit") int limit);
+
 
     int countBookstores(@Param("keyword") String keyword);
 
@@ -29,6 +29,7 @@ public interface MemberDao {
 
     MemberDto getMemberInfo(String s_id);
 
+    
     // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
     // 재락
@@ -63,13 +64,23 @@ public interface MemberDao {
 
 
     // 수희
+    public List<MemberDto> getAllCustomerInfo();
+    public List<MemberDto> getCustomerListByKeyword(SearchDto sDto);
+    public Integer countCustomers(SearchDto sDto);
+
+    public List<MemberDto> getAllSellerInfo();
+    public List<MemberDto> getSellerListByKeyword(SearchDto sDto);
+    public Integer countSellers(SearchDto sDto);
+    
     public MemberDto getCustomerInfoById(String m_id);
 
     // public void updateMemberInfo(MemberDto updatedMDto); //예림파트랑중복
     public void updateCustomerInfo(MemberDto updatedMDto);
 
-    public List<MemberDto> getFavStoreList(String c_id);
+    public Integer countFavStores(String c_id);
+    public List<MemberDto> getFavStoreList(String c_id, int start, int end);
 
-    public List<BookDto> getFavBookList(String c_id);
+    public Integer countFavBooks(String c_id);
+    public List<BookDto> getFavBookList(String c_id, int start, int end);
 
 }

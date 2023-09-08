@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
@@ -51,6 +52,8 @@ public class CustomerPageController {
     @Autowired
     private RentalService rSer;
 
+    @Autowired
+    private MemberDao mDao;
     @Autowired
     private OrderDao oDao;
     @Autowired
@@ -191,7 +194,7 @@ public class CustomerPageController {
 
 
     @GetMapping("/refundexchange")     // 교환반품신청폼
-    public String mypageRefundExchangeFrm(@RequestParam("p_idList") ArrayList<Integer> p_idList, Model model) {
+    public String mypageRefundExchangeFrm(@RequestParam ArrayList<Integer> p_idList, Model model) {
 
         log.info("p_idList:{}", p_idList);
 
@@ -207,14 +210,32 @@ public class CustomerPageController {
         return "customer/mypageRefundExchange";
     }
 
-    @PostMapping("/refundexchange")     // 교환반품요청
-    public String mypageRefundExchange() {
+    @PostMapping("/refundexchange")     // 교환반품요청처리
+    public String mypageRefundExchange(@RequestParam String re_sort, @RequestParam ArrayList<Integer> p_idList, 
+                                       @RequestParam ArrayList<Integer> re_amountList, @RequestParam String re_reason, 
+                                       Model model, RedirectAttributes rttr) {
         
+        log.info("re_sort:{}", re_sort);
+        log.info("p_idList:{}", p_idList);
+        log.info("re_amountList:{}", re_amountList);
+        log.info("re_reason:{}", re_reason);
+
+        pSer.requestRefExch(re_sort, p_idList, re_amountList, re_reason);
+
+        rttr.addFlashAttribute("msg", "신청되었습니다.");
+
         return "redirect:/mypage/refundexchangelist";
     }
 
     @GetMapping("/refundexchangelist")    // 교환반품내역
-    public String mypageRefundExchangeList(RefExchDto reDto) {
+    public String mypageRefundExchangeList(Model model, HttpSession session) {
+
+        //일단 하드코딩함.
+        String c_id = "customer001";
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+
+        List<RefExchDto> reList = pDao.getRefExchListByCId(c_id); 
+        model.addAttribute("reList", reList);
 
         return "customer/mypageRefundExchangeList";
     }
@@ -234,7 +255,7 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @ResponseBody   // 비동기통신
+    @ResponseBody   // 비동기통신(굳이 비동기로 할 필요 없는 페이지인데 그냥 해보고 싶어서 해봄 -_-...)
     @PostMapping("/reservationcancel")    // 대여예약취소처리
     public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
 
@@ -251,30 +272,55 @@ public class CustomerPageController {
 
 
     @GetMapping("/favoritestores")   // 즐겨찾는서점
-    public String mypageFavoriteStores(Model model, HttpSession session) {
+    public String mypageFavoriteStores(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<MemberDto> favStores = mSer.getFavStores(c_id);
+        log.info("page:{}", page);
+
+        int numOfStores = mDao.countFavStores(c_id);
+        int storesPerPage = 4;
+        int numOfPages = (int) Math.ceil((double) numOfStores / storesPerPage);
+        int start = (page - 1) * storesPerPage + 1;
+        int end = start + storesPerPage - 1;
+
+        List<MemberDto> favStores = mDao.getFavStoreList(c_id, start, end);
+
+        log.info("favStores:{}", favStores);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("favStores", favStores);
 
         return "customer/mypageFavoriteStores";
     }
 
     @GetMapping("/favoritebooks")    // 찜한도서
-    public String mypageFavoriteBooks(Model model, HttpSession session) {
+    public String mypageFavoriteBooks(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<BookDto> favBooks = mSer.getFavBooks(c_id);
-        System.out.println(favBooks);
+        log.info("page:{}", page);
+
+        int numOfBooks = mDao.countFavBooks(c_id);
+        int booksPerPage = 8;
+        int numOfPages = (int) Math.ceil((double) numOfBooks / booksPerPage);
+        int start = (page - 1) * booksPerPage + 1;
+        int end = start + booksPerPage - 1;
+
+        List<BookDto> favBooks = mDao.getFavBookList(c_id, start, end);
+
+        log.info("favBooks:{}", favBooks);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("favBooks", favBooks);
 
-        return "customer/mypageFavoriteBooks";
+        return "/customer/mypageFavoriteBooks";
     }
 
 }

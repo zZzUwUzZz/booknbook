@@ -1,5 +1,3 @@
-const data = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
-
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const keyword = params.get('keyword');

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- 
+<%@ page import="java.util.List" %>
+<%@ page import="com.cjcs.bnb.dto.BookDto" %>
 
         <!DOCTYPE html>
         <html lang="en">
@@ -35,6 +36,7 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="/js/main.js"></script>
             <script src="/js/search.js"></script>
+             <script src="/js/books.js"></script>
         </head>
 
         <body>
@@ -42,8 +44,29 @@
             <%@include file="/WEB-INF/tiles/header.jsp" %>
 
             <div class="bookListContainer">
+
+            <div class="cateContain">
+            
+              <c:forEach var="mediumCategory" items="${mediumCategories}" varStatus="loop">
+                <div class="medium-category" id="medium-category-${loop.index}">
+                  <a href="/books/category/medium/${mediumCategory.category_m_id}">${mediumCategory.category_m}</a>
+                  <div class="small-categories" id="small-categories-${loop.index}">
+                    <c:forEach var="smallCategory" items="${smallCategories}">
+                      <c:if test="${smallCategory.category_m_id == mediumCategory.category_m_id}">
+                        <div>${smallCategory.category_s}</div>
+                      </c:if>
+                    </c:forEach>
+                  </div>
+                </div>
+              </c:forEach>
+
+              
+            </div>
+
+ 
                 <div class="bk_tt">
                   BOOKS
+                  <p class="totalct">전체 ${totalItems}개</p>
                 </div>
                 <ul class="bk_list">
                   <c:forEach var="book" items="${books}">
@@ -62,11 +85,20 @@
               </div>
 
               <div class="pagination">
-                <c:forEach var="i" begin="1" end="${totalPages}">
-                    <a href="<c:url value='/books?page=${i}' />">${i}</a>
-                </c:forEach>
-            </div>
-
+                <c:choose>
+                  <c:when test="${not empty category_m_id}">
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                      <a href="<c:url value='/books/category/medium/${category_m_id}?page=${i}' />">${i}</a>
+                    </c:forEach>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                      <a href="<c:url value='/books?page=${i}' />">${i}</a>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </div>
+            
               
 
                 <%@include file="/WEB-INF/tiles/footer.jsp" %>

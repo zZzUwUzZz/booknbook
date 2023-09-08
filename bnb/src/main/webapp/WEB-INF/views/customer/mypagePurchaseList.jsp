@@ -112,6 +112,10 @@
                 </table>
                 </div>
             </div>
+         
+            <div>
+                <div class="pagebox">${pageHtml}</div>
+            </div>
 
             <div class="btnbox">
                 <button type="submit" id="submit" disabled>교환/반품신청</button>

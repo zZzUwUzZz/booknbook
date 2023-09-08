@@ -111,7 +111,7 @@
     <select id="getCustomerListByKeyword" parameterType="SearchDto" resultType="MemberDto">
 		SELECT * FROM
 		<choose>
-		    <when test="colname!=null and colname !=''">                
+		    <when test="colname != null and colname != ''">                
 		    	(SELECT rownum rn, CI.*
 		    	 FROM (SELECT * FROM CUSTOMER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
@@ -147,7 +147,7 @@
     <select id="getSellerListByKeyword" parameterType="SearchDto" resultType="MemberDto">
 		SELECT * FROM
 		<choose>
-		    <when test="colname!=null and colname !=''">                
+		    <when test="colname != null and colname != ''">                
 		    	(SELECT rownum rn, SI.*
 		    	 FROM (SELECT * FROM SELLER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
@@ -191,6 +191,7 @@
         </set>
         WHERE M_ID=#{m_id}
     </update> 예림이랑 중복-->
+
     <update id="updateCustomerInfo" parameterType="MemberDto">
         UPDATE C 
         <set>
@@ -198,7 +199,6 @@
         </set>
         WHERE C_ID=#{m_id}
     </update>
-
     
     <!--즐겨찾는서점 총 개수 세기-->
     <select id="countFavStores" parameterType="String" resultType="Integer">

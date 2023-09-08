@@ -19,22 +19,6 @@
             font-weight: bold;
         }
 
-        .book-introduction {
-            border: solid 1px black;
-            width: 470px;
-            margin: 10px auto;
-            padding: 20px;
-            font-weight: bold;
-        }
-
-        .btn {
-            background: #ffff;
-            border: solid 1px black;
-            margin: 3px;
-            padding: 5px 12px;
-            font-size: 10px;
-        }
-
         .book-image img {
             max-width: 100%;
             height: auto;
@@ -45,6 +29,22 @@
 
         .book-details {
             text-align: left; 
+        }
+
+        .btn {
+            background: #ffff;
+            border: solid 1px black;
+            margin: 3px;
+            padding: 5px 12px;
+            font-size: 10px;
+        }
+
+        .book-introduction {
+            border: solid 1px black;
+            width: 470px;
+            margin: 10px auto;
+            padding: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -66,25 +66,14 @@
             <button type="button" class="btn btn-outline-dark">알림</button>
             <button type="button" class="btn btn-outline-warning">대여하기</button>
             <button type="button" class="btn btn-outline-dark">장바구니</button>
-            <button id="modalOpenButton">모달창 열기</button>
-
-<div id="modalContainer" class="hidden">
-  <div id="modalContent">
-    <p>모달 창 입니다.</p>
-    <button id="modalCloseButton">닫기</button>
-  </div>
-</div>
-            
         </div>
     </div>
     <div class="book-introduction">
         <h2>도서 소개</h2>
-        <p> 이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 
+        <p> 이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은
             당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서...</p> 
-        <p class="lead" th:text="${item.itemDetail}"></p> 
     </div>
 
-    <!-- 수량 버튼 -->
     <script>
         const decreaseButton = document.querySelector('#decreaseButton');
         const increaseButton = document.querySelector('#increaseButton');

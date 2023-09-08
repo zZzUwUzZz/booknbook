@@ -1,0 +1,47 @@
+body {
+    background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+}
+
+.titleArea {
+    background-color: #6d7f8d; /* 색상을 약간 조절 */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.findId {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    border-radius: 10px;
+}
+
+.lostInput::placeholder {
+    color: #a5a5a5; /* 플레이스홀더 색상을 중립적으로 조절 */
+}
+
+.btnSubmit {
+    background-color: #e74c3c; /* 버튼의 색상을 변경 */
+}
+
+.btnSubmit:hover {
+    background-color: #c0392b; /* 호버 시의 색상을 조절 */
+}
+
+/* 비밀번호 재설정 페이지 특성에 맞춘 추가 스타일 */
+
+/* 비밀번호 재설정과 관련된 아이콘 스타일 */
+.icon-reset {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-image: url('path/to/your/icon.png'); /* 아이콘의 경로를 설정해주세요 */
+    background-size: contain;
+    margin-right: 10px;
+}
+
+/* 타이틀 영역의 스타일 조절 */
+.titleArea h2 {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 텍스트에 약간의 그림자 효과 추가 */
+}

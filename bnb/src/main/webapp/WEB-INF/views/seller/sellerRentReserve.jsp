@@ -126,22 +126,33 @@
 </body>
 
 <script>
-    document.getElementById('res_status_save').addEventListener('click', function () {
-        var selectedOptions = [];
-        var checkboxes = document.querySelectorAll('.res_manage:checked');
-
-        checkboxes.forEach(function (checkbox) {
-            var select = checkbox.closest('tr').querySelector('.res_status');
-            var selectedValue = select.value;
-
-            // selectedOptions 배열에 선택된 값 저장함
-            selectedOptions.push({
-                rr_id: checkbox.value,
-                res_status: selectedValue
-            });
+    function updateSelectedRows() {
+        var selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
+        var dataToSend = [];
+    
+        selectedRows.forEach(function (row) {
+            var rrId = row.closest('tr').querySelector('td:nth-child(2)').textContent;
+            var resStatus = row.closest('tr').querySelector('select[name="res_status"]').value;
+            dataToSend.push({ rrId: rrId, resStatus: resStatus });
         });
-
-    });
-</script>
+    
+        // dataToSend 배열에 선택된 행의 rr_id와 res_status가 저장됩니다.
+        // 이 데이터를 서버로 전송하여 데이터베이스를 업데이트합니다.
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/updateResStatus", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("예약 상태를 변경했습니다!");
+            }
+        };
+    
+        // JSON 형식으로 데이터 전송
+        var dataToSendJSON = JSON.stringify(dataToSend);
+        xhr.send(dataToSendJSON);
+    }
+    </script>
+    
 
 </html>

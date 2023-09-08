@@ -48,7 +48,7 @@
                 <a href="/">BOOK N BOOK</a>
             </div>
             <div class="login_bell">
-                <a>LOGIN</a>
+                <a href="/member/login">LOGIN</a>
 
                 <div class="noti_btn">
                     <span class="material-symbols-rounded">

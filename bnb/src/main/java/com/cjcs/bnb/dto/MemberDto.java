@@ -7,13 +7,17 @@ import lombok.Data;
 @Data
 public class MemberDto {
 
-    // 회원공통 필드
-    private String m_id; // request객체파라미터명==필드명(==컬럼명) 이면 스프링이 알아서 객체생성해서 필드에다 파라미터값 넣어줌..
-    private String m_pw; // 우리는 지금 DTO와 Entity를 합쳐서 DTO만으로 하려고하므로 (==컬럼명) 까지 지켜주자..
-    private String m_addr;
-    private String m_phone;
-    private String m_email;
-    private Timestamp m_joindate; // 가입일자
+    //회원공통 필드
+	private String m_id;       // request객체파라미터명==필드명(==컬럼명) 이면 스프링이 알아서 객체생성해서 필드에다 파라미터값 넣어줌..
+	private String m_pw;       // 우리는 지금 DTO와 Entity를 합쳐서 DTO만으로 하려고하므로 (==컬럼명) 까지 지켜주자..
+	private String m_addr;
+	private String m_phone;
+	private String m_email;
+	private Timestamp m_joindate;  // 가입일자
+    private String currentPassword;
+    private String newPassword;
+	
+	
 
     // 일반회원만 가지는 필드
     private String c_name; // 회원이름

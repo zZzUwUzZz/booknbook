@@ -32,7 +32,7 @@ public interface MemberDao {
     
     // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
-    // 재락
+    /// 재락
     public boolean joinMember(MemberDto mDto);
 
     public boolean joinSeller(MemberDto mDto);
@@ -46,6 +46,24 @@ public interface MemberDao {
 
     // 로그인 중복확인
     int countById(String m_id);
+    //아이디 찾기
+    String findIdByEmailAndName(String email, String name);
+
+    
+    String findIdByEmail(@Param("name") String name, @Param("email") String email);
+   
+    String findIdByEmailAndCode(@Param("name") String name, @Param("email") String email, @Param("verificationCode") String verificationCode);
+
+    
+    @Select("SELECT M_ID FROM CJCS.MEMBER WHERE M_EMAIL = #{email} AND M_NAME = #{name}")
+    
+    String getIdByEmailAndName(@Param("email") String email, @Param("name") String name);
+
+
+    // //비밀번호 초기화yo
+
+    // boolean verifyUser(ResetPasswordDto resetPasswordDto); // 현재 비밀번호 확인
+    // int updatePassword(ResetPasswordDto resetPasswordDto);
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);

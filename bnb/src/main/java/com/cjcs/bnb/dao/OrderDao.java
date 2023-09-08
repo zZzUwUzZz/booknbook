@@ -24,7 +24,6 @@ public class OrderDao {
         // 업데이트 성공 또는 실패 여부를 반환
     }
 }
-
 // @Mapper
 // public interface OrderDao {
 //     /* 주문 취소 */
@@ -35,5 +34,4 @@ public class OrderDao {
 	
 // 	/* 주문 정보(주문취소) */
 // 	public OrderDto getOrder(String orderId);
- 
 // }

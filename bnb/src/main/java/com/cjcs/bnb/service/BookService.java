@@ -20,8 +20,8 @@ public class BookService {
         return bookMapper.findAll();
     }
 
-    public List<BookDto> bookAllList(int start, int limit) {
-        return bookMapper.bookAllList(start, limit);
+    public List<BookDto> bookAllList(int start, int end) {
+        return bookMapper.bookAllList(start, end);
     }
 
     public int countTotalBooks() {
@@ -37,8 +37,8 @@ public class BookService {
     }
 
     // 중분류 카테고리 조회
-    public List<BookDto> findBooksByMediumCategory(String category_m_id, int start, int limit) {
-        return bookMapper.findBooksByMediumCategory(category_m_id, start, limit);
+    public List<BookDto> findBooksByMediumCategory(String category_m_id, int start, int end) {
+        return bookMapper.findBooksByMediumCategory(category_m_id, start, end);
     }
 
     public int countBooksByMediumCategory(String category_m_id) {

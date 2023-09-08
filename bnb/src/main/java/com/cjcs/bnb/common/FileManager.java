@@ -3,11 +3,9 @@ package com.cjcs.bnb.common;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @Service
 public class FileManager { // 서버-파일 간 업로드(DB에추가O)/다운로드/삭제(DB에서삭제X) 관리.. 이때 파일이 업로드될 서버내폴더의 경로는 세션으로부터 가져올거임
-
     // @Autowired
     // private MemberDao mDao;
 

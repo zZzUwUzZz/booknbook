@@ -33,9 +33,14 @@ public class OrderController {
     @GetMapping("/cart")
     public String cart() {
 
-        return "orderer/purchase_cart";
+        return "orderer/cart";
     }
 
+    @GetMapping("/pcart")
+    public String  purchase_cart() {
+
+        return "orderer/purchase_cart";
+    }
     //여기부터 페이지-메서드 매핑
 
     // @GetMapping

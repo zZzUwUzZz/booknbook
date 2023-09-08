@@ -12,7 +12,7 @@ import com.cjcs.bnb.dto.RefExchDto;
 public interface PurchaseDao {
     
     
-
+    
     //수희
     public List<HashMap<String, String>> getPurchaseListByOId(Integer o_id);
     public List<HashMap<String, String>> getPurchaseListByCId(String c_id);

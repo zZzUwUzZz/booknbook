@@ -43,7 +43,7 @@
     
     <div class="bookListContainer">
         <div class="bk_tt">
-            <b>'${keyword}' 검색 결과</b>
+            <b>'${keyword}' 검색 결과  ${totalItems}개 </b>
         </div>
         <ul class="bk_list">
           <c:forEach var="book" items="${books}">

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjcs.bnb.dao.CategoryDao">
+
+<select id="listMediumCategories" resultType="BookDto">
+    SELECT * FROM category_m
+</select>
+
+<select id="listAllSmallCategories" resultType="BookDto">
+    SELECT * FROM category_s 
+</select>
+
+
+
+
+</mapper>

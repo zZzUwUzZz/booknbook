@@ -2,15 +2,20 @@ package com.cjcs.bnb.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.javassist.compiler.ast.Member;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,9 +56,19 @@ public class MemberService {
         return mDao.findIdByEmail(name,email);
     }
     
+     
+
+
+   
+
+    public Boolean verifyUser(Map<String, String> inputData) {
+        Integer count = mDao.verifyUser(inputData);
+        return count > 0;
+    }
+
+
     
-
-
+    
 
 
        //탈퇴

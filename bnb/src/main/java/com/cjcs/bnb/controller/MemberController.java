@@ -3,11 +3,15 @@ package com.cjcs.bnb.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -206,25 +210,26 @@ public String resetPw() {
 
     }
 
-// @PostMapping("/resetPw")
-//     public String resetPassword(ResetPasswordDto dto, Model model) {
-//         // 사용자 확인
-//         boolean isValidUser = mSer.verifyUser(dto);
+@PostMapping("/resetPw")
+public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> inputData) {
+    Boolean isUserValid = mSer.verifyUser(inputData);
+    log.info("User verification result: {}", isUserValid);
+    return ResponseEntity.ok(isUserValid);
+     }
+
+
+    // @PostMapping("/updatePw")
+    // public ResponseEntity<?> updatePassword(@RequestBody Map<String, String> request) {
+    //     String userId = request.get("userId");
+    //     String newPassword = request.get("newPassword");
         
-//         if(isValidUser) {
-//             // 비밀번호 업데이트
-//             boolean isSuccess = mSer.updatePassword(dto);
-            
-//             if(isSuccess) {
-//                 model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
-//                 return "redirect:/member/login";  // 비밀번호 변경 성공 후 로그인 페이지로 리다이렉트
-//             } else {
-//                 model.addAttribute("error", "비밀번호 변경 중 오류가 발생하였습니다.");
-//                 return "member/resetPasswordForm";  // 오류 시 비밀번호 변경 폼으로 돌아감
-//             }
-//         } else {
-//             model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-//             return "member/resetPasswordForm";  // 잘못된 사용자 정보 입력 시 비밀번호 변경 폼으로 돌아감
-//         }
-//     }
+    //     boolean result = mSer.updatePassword(userId, newPassword);
+        
+    //     if (result) {
+    //         return new ResponseEntity<>(true, HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    //     }
+    // }
+
 }

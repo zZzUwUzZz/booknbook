@@ -18,18 +18,24 @@
         </ul>
     </div>
 
-    <form id="resetPasswordForm" name="resetPasswordForm" action="/exec/front/Member/resetPassword/" method="post" target="_self" enctype="multipart/form-data">
+    <form id="resetPasswordForm" name="resetPasswordForm" action="/member/resetPw" method="post" target="_self" enctype="multipart/form-data">
         <div class="findId">
             <fieldset>   
                 <legend>본인 확인</legend>
+                
+                <p class="input-group">
+                    <strong class="input_label">이름</strong>
+                    <input id="input_field_name" name="name" class="lostInput" placeholder="이름을 입력하세요" type="text">
+                </p>
                 <p class="input-group">
                     <strong class="input_label">아이디</strong>
                     <input id="input_field_id" name="userId" class="lostInput" placeholder="아이디를 입력하세요" type="text">
                 </p>
                 <p class="input-group">
-                    <strong class="input_label">비밀번호</strong>
-                    <input id="input_field_password" name="password" class="lostInput" placeholder="비밀번호를 입력하세요" type="password">
+                    <strong class="input_label">이메일</strong>
+                    <input id="input_field_email" name="email" class="lostInput" placeholder="이메일을 입력하세요" type="text">
                 </p>
+               
                 <!-- 새로운 비밀번호와 확인 입력창 (초기 상태에서는 숨김) -->
                 <p class="input-group" id="new_password_field" style="display:none;">
                     <strong class="input_label">새로운 비밀번호</strong>
@@ -48,23 +54,26 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
-        function verifyUser() {
+       function verifyUser() {
             var inputData = {
+                name: $("#input_field_name").val(),
                 userId: $("#input_field_id").val(),
-                password: $("#input_field_password").val()
+                email: $("#input_field_email").val()
             };
 
             $.ajax({
-                type: "POST",
-                url: "/member/verifyUser",
-                data: inputData,
-                success: function(response) {
-                    if (response) {
-                        // 본인 확인에 성공하면 새 비밀번호 입력창과 확인창을 보여준다.
-                        $("#new_password_field").show();
-                        $("#confirm_password_field").show();
+        type: "POST",
+        url: "/member/resetPw",
+        contentType: "application/json",  // <- 이 부분 추가
+        data: JSON.stringify(inputData),  // <- JSON 형식으로 변환
+        success: function(response) {
+                        if (response) {
+                        $("#new_password_field").fadeIn();
+                        $("#confirm_password_field").fadeIn();
+                        
+                        $("#submit_button").off("click").on("click", resetPassword).text("비밀번호 재설정");
                     } else {
-                        alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+                        alert('아이디, 이름 또는 이메일이 일치하지 않습니다.');
                     }
                 },
                 error: function(error) {
@@ -72,6 +81,49 @@
                 }
             });
         }
+
+
+      
+       
+    function resetPassword() {
+    var newPassword = $("#input_new_password").val();
+    var confirmPassword = $("#input_confirm_password").val();
+
+    // 비밀번호 유효성 검사
+    if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(newPassword)) {
+        alert("비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합으로 6자 이상 입력해주세요.");
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return;
+    }
+
+    // 서버로 새 비밀번호 전송
+    var sendData = {
+        userId: $("#input_field_id").val(),
+        newPassword: newPassword
+    };
+
+    $.ajax({
+    type: "POST",
+    url: "/member/resetPw",
+    contentType: "application/json",  // <- 이 부분 추가
+    data: JSON.stringify(sendData),  // <- JSON 형식으로 변환
+    success: function(response) {
+            if (response) {
+                alert('비밀번호가 성공적으로 변경되었습니다.');
+            } else {
+                alert('비밀번호 변경에 실패하였습니다.');
+            }
+        },
+        error: function(error) {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    });
+}
+
     </script>
 </body>
 </html>

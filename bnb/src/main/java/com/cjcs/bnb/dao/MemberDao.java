@@ -1,10 +1,16 @@
 package com.cjcs.bnb.dao;
 
 import java.util.List;
+import java.util.Map;
+
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
@@ -41,6 +47,8 @@ public interface MemberDao {
 
     public boolean join2(MemberDto mDto);
 
+    
+
     @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
     MemberDto getMemberById(String m_id);
 
@@ -59,11 +67,13 @@ public interface MemberDao {
     
     String getIdByEmailAndName(@Param("email") String email, @Param("name") String name);
 
+    Integer verifyUser(Map<String, String> inputData);
 
-    // //비밀번호 초기화yo
 
-    // boolean verifyUser(ResetPasswordDto resetPasswordDto); // 현재 비밀번호 확인
-    // int updatePassword(ResetPasswordDto resetPasswordDto);
+  
+    
+    
+   
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);

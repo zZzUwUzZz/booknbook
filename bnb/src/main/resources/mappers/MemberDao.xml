@@ -36,29 +36,27 @@ WHERE M.m_id = #{s_id}
 
     <select id="countById" resultType="int">
     SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
-</select>
+    </select>
+
+
+    <!-- id찾기 -->
+    <select id="findIdByEmail" resultType="String">
+       SELECT M_ID
+        FROM CUSTOMER_INFO
+       WHERE M_EMAIL = #{email} AND C_NAME = #{name}
+    </select>
+
+
+    <select id="verifyUser" resultType="Integer">
+        SELECT COUNT(*)
+        FROM CUSTOMER_INFO
+        WHERE C_NAME = #{name}
+        AND M_ID = #{userId}
+        AND M_EMAIL = #{email}
+    </select>
 
 
 
-<select id="findIdByEmail" resultType="string">
-   SELECT M_ID
-    FROM CUSTOMER_INFO
-   WHERE M_EMAIL = #{email} AND C_NAME = #{name}
-</select>
-
-
-<!-- 사용자 확인 비번 변경
-<select id="verifyUser" parameterType="your.package.domain.ResetPasswordDto" resultType="boolean">
-    SELECT COUNT(*) FROM "CJCS"."CUSTOMER_INFO"
-    WHERE "M_ID" = #{userId} AND "M_PW" = #{currentPassword}
-</select>
-
-비밀번호 업데이트
-<update id="updatePassword" parameterType="your.package.domain.ResetPasswordDto">
-    UPDATE "CJCS"."CUSTOMER_INFO"
-    SET "M_PW" = #{newPassword} 
-    WHERE "M_ID" = #{userId}
-</update> -->
 <!--예림-->
 
     <!--id로 판매자회원정보 가져오기-->

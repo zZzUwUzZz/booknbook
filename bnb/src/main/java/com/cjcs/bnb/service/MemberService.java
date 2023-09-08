@@ -31,7 +31,6 @@ public class MemberService {
         return false;
     }
 
-
     public MemberDto login(HashMap<String, String> member) {
         try {
             MemberDto mb = mDao.getMemberById(member.get("m_id"));
@@ -47,6 +46,32 @@ public class MemberService {
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
     }
+
+    public String findIdByEmail(String name,String email) {
+        return mDao.findIdByEmail(name,email);
+    }
+    
+    
+
+
+
+
+       //탈퇴
+    //    @Transactional
+    //    public boolean withdraw(String m_id) {
+    //        try {
+    //            return mDao.delete(m_id) > 0;
+    //        } catch(Exception e) {
+    //            log.error("Error during withdrawal: ", e);
+    //            return false;
+    //        }
+    //    }
+
+
+
+
+
+
 
 
     // public MemberDto login(HashMap<String, String> member) {
@@ -99,7 +124,6 @@ public class MemberService {
     // }
     // return "fail";
     // }
-
 
     // 수희
     public MemberDto getCustomerInfoById(String c_id) {

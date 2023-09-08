@@ -5,14 +5,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.cjcs.bnb.dto.BookDto;
-import com.cjcs.bnb.dto.PurchaseDto;
+import com.cjcs.bnb.dto.CartDto;
 
 @Mapper
 public interface OrderDao {
     
     //유다
-    
+    public List<CartDto> getCartByCId(String c_id);
+    public List<CartDto> getPurchaseCartByCId(String c_id);
+    public List<CartDto> getRentalCartByCId(String c_id);
+
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
     public HashMap<String, String> getOrderInfoByOId(int o_id);

@@ -20,7 +20,7 @@ public class Paging {
 	@SuppressWarnings("unused")
 	public String makeHtmlPaging() {
 
-		// 전체 페이지 개수   44   %  10
+		//전체 페이지 개수 44   %  10
 		int totalPage = (totalNum % listCount > 0)
 				? totalNum/listCount+1 : totalNum/listCount;
 

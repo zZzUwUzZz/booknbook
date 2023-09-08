@@ -15,8 +15,10 @@ table {
 tr {
     height: 40px;
 }
-.td-linked {
+.td-linked:hover {
     cursor: pointer;
+    color: #ff9946;
+    font-weight: 600;
 }
 .headrow {
     background: #4c4240;
@@ -26,33 +28,19 @@ tr {
 .searchbox {
     text-align: right;
     box-sizing: border-box;
+    text-align: right;
     width: 1040px;
-    height: 35px;
+    padding: 5px;
     margin: auto;
-    margin-top: -35px;
-}
-#sel {
-    box-sizing: border-box;
-    height: 24px;
-    width: 60px;
-}
-#keyword {
-    box-sizing: border-box;
-    height: 24px;
-}
-#search {
-    position: relative;
-    top: 1px;
-    width: 50px;
+    margin-top: -25px;
 }
 .pagebox {
     box-sizing: border-box;
-    border-top: 2px solid #4c4240;
     text-align: center;
     width: 1040px;
+    padding: 5px;
     margin: auto;
-    margin-top: 15px;
-    padding: 10px;
+    margin-top: 10px;
 }
 .btnbox {
     display: flex;
@@ -65,5 +53,4 @@ tr {
 .rej_reason {
     text-align: right;
     font-size: 14px;
-    
 }

@@ -31,7 +31,6 @@ public class MemberService {
         return false;
     }
 
-
     public MemberDto login(HashMap<String, String> member) {
         try {
             MemberDto mb = mDao.getMemberById(member.get("m_id"));
@@ -47,6 +46,32 @@ public class MemberService {
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
     }
+
+    public String findIdByEmail(String name,String email) {
+        return mDao.findIdByEmail(name,email);
+    }
+    
+    
+
+
+
+
+       //탈퇴
+    //    @Transactional
+    //    public boolean withdraw(String m_id) {
+    //        try {
+    //            return mDao.delete(m_id) > 0;
+    //        } catch(Exception e) {
+    //            log.error("Error during withdrawal: ", e);
+    //            return false;
+    //        }
+    //    }
+
+
+
+
+
+
 
 
     // public MemberDto login(HashMap<String, String> member) {
@@ -100,7 +125,6 @@ public class MemberService {
     // return "fail";
     // }
 
-
     // 수희
     public MemberDto getCustomerInfoById(String c_id) {
 
@@ -121,17 +145,24 @@ public class MemberService {
 
     //예림
     
-
+    //오늘 즐겨찾기한 회원 수 카운트
     public int getTodayBookmarkCnt(String s_id){
         return mDao.getTodayBookmarkCnt(s_id);
     }
 
+    //이번 주 즐겨찾기한 회원 수 카운트
     public int getWeekBookmarkCnt(String s_id){
         return mDao.getWeekBookmarkCnt(s_id);
     }
 
+    //이번 달 즐겨찾기한 회원 수 카운트
     public int getMonthBookmarkCnt(String s_id){
         return mDao.getMonthBookmarkCnt(s_id);
+    }
+
+    //서점 이용 기록 있는 회원들 리스트 불러오기
+    public List<MemberDto> getCsMemberList(String s_id){
+        return mDao.getCsMemberList(s_id);
     }
 
 }

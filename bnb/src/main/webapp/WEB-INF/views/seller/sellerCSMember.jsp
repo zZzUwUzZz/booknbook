@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -12,10 +13,6 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
@@ -67,7 +64,7 @@
                         </div>
                         <div class="menu-group">
                             <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/account">정산 내역</a></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                         </div>
                     </div>
                 </div>
@@ -75,66 +72,26 @@
                     <div class="box-3">
                         <h1>이용 회원 리스트</h1>
                         <div class="gap"></div>
-                        <table class="member-list">
+                        <table class="seller-list">
                             <thead>
                                 <tr>
-                                    <th>이름</th>
                                     <th>아이디</th>
-                                    <th>구매 횟수</th>
-                                    <th>대여 횟수</th>
+                                    <th>이름</th>
+                                    <th>구매 권수</th>
+                                    <th>대여 권수</th>
                                     <th>연체 횟수</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>아이디</td>
-                                    <td>구매 횟수</td>
-                                    <td>대여 횟수</td>
-                                    <td>연체 횟수</td>
-                                </tr>
+                                <c:forEach items="${csMemberList}" var="csmember">
+                                    <tr>
+                                        <td>${csmember.o_c_id}</td>
+                                        <td>${csmember.c_name}</td>
+                                        <td>${csmember.sell_amount}</td>
+                                        <td>${csmember.rental_amount}</td>
+                                        <td>${csmember.late_amount}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>

@@ -61,7 +61,7 @@ public class Paging {
 				sb.append(" ] ");
 				sb.append("</a>");
 			} else {               //현재 페이지인 경우 링크 해제
-				sb.append("<font style='color: #ff9946; font-weight: 600'>");
+				sb.append("<font style='color: #ff9946;'>");
 				sb.append(" [ ");
 				sb.append(i);
 				sb.append(" ] ");

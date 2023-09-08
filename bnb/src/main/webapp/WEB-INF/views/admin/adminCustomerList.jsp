@@ -73,29 +73,31 @@
                 <div class="tablebox">
                     <table>
                         <tr class="headrow">
-                            <th>ID</th>
-                            <th>이름</th>
+                            <th width="110px">ID</th>
+                            <th width="100px">이름</th>
                             <th>주소</th>
-                            <th>전화번호</th>
-                            <th>이메일</th>
-                            <th>가입일자</th>
+                            <th width="130px">전화번호</th>
+                            <th width="250px">이메일</th>
+                            <th width="110px">가입일자</th>
+                            <th width="150px">연체이력</th>
                         </tr>
     
                         <c:if test="${empty customerList}">
                             <tr>
-                                <td colspan="6">가입한 회원이 없습니다.</td>
+                                <td colspan="7">가입한 회원이 없습니다.</td>
                             </tr>
                         </c:if>
             
                         <c:if test="${!empty customerList}">
                             <c:forEach var="customer" items="${customerList}">
                                 <tr>
-                                    <td>${customer.m_id}</td>
+                                    <td><span>${customer.m_id}</span></td>
                                     <td>${customer.c_name}</td>
-                                    <td>${customer.m_addr}</td>
+                                    <td><span>${customer.m_addr}</span></td>
                                     <td>${customer.m_phone}</td>
                                     <td>${customer.m_email}</td>
-                                    <td>${customer.m_joindate}</td>
+                                    <td><fmt:formatDate value="${customer.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                    <td>총 ${customer.overdue}회</td>
                                 </tr>
                                 </c:forEach>
                         </c:if>

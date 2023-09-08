@@ -103,4 +103,39 @@
         WHERE rr_id = #{rr_id}
     </update>
 
+<!-- 예림 -->
+    <!-- 판매자 페이지 - 예약신청리스트 -->
+    <select id="RentResList" resultType="RentalDto">
+        select rr_id, rr_c_id, b_title, rr_reqdate, res_status
+        from Rental_Res
+        inner join Book on Rental_Res.rr_b_isbn = Book.b_isbn
+        inner join Status_RR on Rental_Res.rr_res_status_id = Status_RR.res_status_id
+        where rr_s_id = 'seller001'
+    </select>
+
+    <!-- 판매자 페이지 - 예약신청리스트 - 대여예약상태 -->
+    <select id="ResStatusList" resultType="RentalDto">
+        select res_status from Status_RR
+    </select>
+
+    <!-- 판매자 페이지 - 반납 현황 -->
+    <select id="RentReturnList" resultType="RentalDto">
+        select o_id, o_c_id, b_title, o_date, r_returndate,
+            CASE
+                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
+                ELSE NULL
+            END AS overdue_days,
+            r_latefee_total
+        FROM
+            order_list
+        WHERE
+            order_sort = '대여'
+            AND
+            S_ID = 'seller001'
+            and
+            r_returndate is not null
+    </select>
+    
+
+
 </mapper>

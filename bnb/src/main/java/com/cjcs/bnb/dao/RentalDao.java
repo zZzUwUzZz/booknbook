@@ -21,10 +21,19 @@ public interface RentalDao {
     public List<RentalDto> getLatest5RentalListByCId(String c_id);
 
     public int countCurrentRentalByCId(String c_id);
+    public int countLateReturnByCId(String c_id);
 
     public boolean cancelRentalByOId(Integer o_id);
 
     public List<RentalReservationDto> getReservationListByCId(String c_id);
     public void updateReservationByRRId(int rr_id);
+
+    //예림
+    public List<RentalDto> RentResList(String s_id); // 예약신청리스트
+    public List<RentalDto> ResStatusList(); // 예약상태
+    
+    public List<RentalDto> RentReturnList(String s_id); // 반납현황
+    
+    
 
 }

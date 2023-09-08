@@ -1,10 +1,14 @@
 package com.cjcs.bnb.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +16,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.FavDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.SearchService;
@@ -33,7 +43,7 @@ public class SearchController {
     public String searchBooks(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1") int page,
             Model model) {
 
-        int booksPerPage = 15;
+        int booksPerPage = 16;
         int start = (page - 1) * booksPerPage + 1;
         int end = start + booksPerPage - 1;
         List<BookDto> books = searchService.findByKwPg(keyword, start, end);
@@ -53,10 +63,20 @@ public class SearchController {
         return "/search/search";
     }
 
+    // 지도에서 서점 검색
+
     @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
-    public String search(@RequestParam String keyword, Model model) {
-        List<SellerDto> results = searchService.searchBookstores(keyword);
+    public String search(
+            @RequestParam String keyword,
+            @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+            Model model) {
+
+        int pageSize = 5;
+        int startIdx = (pageNum - 1) * pageSize;
+
+        List<SellerDto> results = searchService.searchBookstores(keyword, startIdx, pageSize);
         int totalItems = searchService.countBookstores(keyword);
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 총 페이지 수 계산
 
         // 이미지 정보를 불러와서 별도의 List에 추가
         List<SellerFileDto> imageInfos = new ArrayList<>();
@@ -80,23 +100,41 @@ public class SearchController {
         List<Double> latitudes = results.stream().map(SellerDto::getS_latitude).collect(Collectors.toList());
         List<Double> longitudes = results.stream().map(SellerDto::getS_longitude).collect(Collectors.toList());
 
+        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("latitudes", latitudes);
         model.addAttribute("longitudes", longitudes);
 
         model.addAttribute("keyword", keyword);
         model.addAttribute("results", results);
         model.addAttribute("totalItems", totalItems);
-        model.addAttribute("imageInfos", imageInfos); // 이미지 정보를 추가
-        model.addAttribute("memberInfos", memberInfos); // 회원 정보를 추가
+        model.addAttribute("imageInfos", imageInfos);
+        model.addAttribute("memberInfos", memberInfos);
 
-        System.out.println("검색한 키워드: " + keyword);
-        System.out.println("검색 정보: " + results);
-        System.out.println("검색 수: " + totalItems);
-        System.out.println("이미지 주소: " + imageInfos);
-        System.out.println("회원 정보: " + memberInfos);
-        System.out.println("latitudes: " + latitudes);
-        System.out.println("longitudes: " + longitudes);
         return "/map/map";
+    }
+
+    @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId,
+            HttpServletRequest request) {
+        MemberDto seller = searchService.getMemberInfo(storeId);
+        System.out.println("Seller Info: " + seller);
+
+        if (seller == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("store_img", seller.getSf_sysname());
+        response.put("store_name", seller.getS_storename());
+        response.put("store_addr", seller.getM_addr());
+        response.put("store_phone", seller.getM_phone());
+        response.put("store_description", seller.getS_storedesc());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

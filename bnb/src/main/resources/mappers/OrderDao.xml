@@ -4,6 +4,25 @@
 
 <mapper namespace="com.cjcs.bnb.dao.OrderDao">
 
+<!--유다-->
+    <select id="getCartByCId" parameterType="String" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_c_id = #{c_id}
+    </select>
+    <select id="getPurchaseCartByCId" parameterType="String" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_c_id = #{c_id} AND cart_sort ='구매'
+    </select>
+        <select id="getRentalCartByCId" parameterType="String" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_c_id = #{c_id} AND cart_sort ='대여'
+    </select>
+
+
+
 <!--수희-->
     <select id="getOrderListGroupByOId" parameterType="String" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
@@ -100,5 +119,45 @@
         <!-- where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = #{s_id} -->
     </select>
 
+    <!-- 정산 내역 -->
+    
+    <!-- 설정한 기간 내의 대여료 합계 -->
+    <select id="CalculateRent" resultType="Integer">
+        SELECT Book.b_rent
+        FROM Book
+        INNER JOIN Rental ON Rental.r_b_isbn = Book.b_isbn
+        INNER JOIN Orders ON Orders.o_id = Rental.r_o_id
+        WHERE Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+    </select>
+
+    <!-- 설정한 기간 내의 연체료 합계 -->
+    <select id="CalculateLate" resultType="Integer">
+        SELECT r_latefee_total
+        FROM Rental
+        INNER JOIN Orders ON Orders.o_id = Rental.r_o_id
+        WHERE Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+    </select>
+
+    <!-- 설정한 기간 내의 판매 금액 합계 -->
+    <select id="CalculateSell" resultType="Integer">
+        SELECT Book.b_price * Purchase.p_amount
+        FROM Book, Purchase
+        INNER JOIN Orders ON Orders.o_id = Purchase.p_o_id
+        WHERE Purchase.p_b_isbn = Book.b_isbn
+        AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+    </select>
+
+    <!-- 설정한 기간 내의 반품 금액 합계 -->
+    <select id="CalculateReturn" resultType="Integer">
+        SELECT Book.b_price * Ref_Exch.re_amount
+        FROM Ref_Exch
+        INNER JOIN Orders ON Orders.o_id = Ref_Exch.re_o_id
+        INNER JOIN Book ON Ref_Exch.re_b_isbn = Book.b_isbn
+        WHERE Ref_Exch.re_sort = '반품'
+        AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+    </select>
+    
+    
+    
 </mapper>
 

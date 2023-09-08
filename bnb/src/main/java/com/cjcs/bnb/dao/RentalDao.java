@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
@@ -30,7 +31,8 @@ public interface RentalDao {
     //예림
     public List<RentalDto> RentResList(String s_id); // 예약신청리스트
     public List<RentalDto> ResStatusList(); // 예약상태
-    
+    public void updateReserveStatus(@Param("rr_id") int rr_id, @Param("res_status") String res_status); //예약상태 업데이트
+
     public List<RentalDto> RentReturnList(String s_id); // 반납현황
     
     

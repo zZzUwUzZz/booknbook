@@ -118,6 +118,17 @@
         select res_status from Status_RR
     </select>
 
+    <!-- 예약 상태 업데이트 -->
+    <update id="updateResStatus">
+        UPDATE Rental_Res
+        SET rr_res_status_id = (
+            SELECT res_status_id
+            FROM Status_RR
+            WHERE res_status = #{res_status}
+        )
+        WHERE rr_id = #{rr_id}
+    </update>
+
     <!-- 판매자 페이지 - 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">
         select o_id, o_c_id, b_title, o_date, r_returndate,
@@ -135,6 +146,8 @@
             and
             r_returndate is not null
     </select>
+
+    
     
 
 

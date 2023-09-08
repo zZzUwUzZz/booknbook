@@ -71,7 +71,7 @@
                 <div class="contain-3">
                     <div class="box-3">
                         <h1>대여 예약 신청 관리</h1>
-                        <button id="res_status_save">저장</button>
+                        <button id="res_status_save" onclick="updateSelectedsSatus()">저장</button>
                         <button id="res_refuse">거절</button><br><br>
                         <table class="seller-list">
                             <thead>
@@ -87,20 +87,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${RentResList}" var="rentres">
+                                <c:forEach items="${RentResList}" var="rentres" varStatus="status">
                                     <tr>
-                                        <td><input type="checkbox" id="res_manage" name="res_manage"></td>
+                                        <td><input type="checkbox" class="res_manage" name="res_manage"></td>
                                         <td>${rentres.rr_id}</td>
                                         <td>${rentres.rr_c_id}</td>
                                         <td>${rentres.b_title}</td>
                                         <td>${rentres.rr_reqdateStr}</td>
                                         <td>
-                                            <select id="res_status" name="res_status">
-                                                <option value="">죽음</option>
+                                            <select class="res_status" name="res_status_${status.index}">
                                                 <c:forEach items="${ResStatusList}" var="ResStatus">
                                                     <c:choose>
                                                         <c:when test="${ResStatus.res_status == '예약취소'}">
-                                                            <option value="${ResStatus.res_status}" selected disabled>
+                                                            <option value="${ResStatus.res_status}" disabled selected>
                                                                 ${ResStatus.res_status}
                                                             </option>
                                                         </c:when>
@@ -126,33 +125,74 @@
 </body>
 
 <script>
-    function updateSelectedRows() {
+    document.addEventListener('DOMContentLoaded', function () {
+        var button = document.getElementById('res_status_save');
+
+        // 체크박스의 상태가 변경될 때마다 실행되는 함수
+        document.addEventListener('change', function (event) {
+            if (event.target.classList.contains('res_manage')) {
+                updateButtonState(); // 체크박스 상태에 따라 버튼 상태 업데이트
+            }
+        });
+    });
+
+    function updateButtonState() {
+        // 체크박스의 상태에 따라 버튼 활성화 또는 비활성화
+        var selectedCheckboxes = document.querySelectorAll('input.res_manage:checked');
+        var button = document.getElementById('res_status_save');
+
+        if (selectedCheckboxes.length > 0) {
+            button.disabled = false; // 체크된 경우 버튼 활성화
+        } else {
+            button.disabled = true; // 체크되지 않은 경우 버튼 비활성화
+        }
+    }
+
+    // 페이지 로드 시 초기 버튼 상태 설정
+    updateButtonState();
+
+    function updateSelectedsSatus() {
         var selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
         var dataToSend = [];
-    
-        selectedRows.forEach(function (row) {
-            var rrId = row.closest('tr').querySelector('td:nth-child(2)').textContent;
-            var resStatus = row.closest('tr').querySelector('select[name="res_status"]').value;
-            dataToSend.push({ rrId: rrId, resStatus: resStatus });
-        });
-    
-        // dataToSend 배열에 선택된 행의 rr_id와 res_status가 저장됩니다.
-        // 이 데이터를 서버로 전송하여 데이터베이스를 업데이트합니다.
-    
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/updateResStatus", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                alert("예약 상태를 변경했습니다!");
-            }
-        };
-    
-        // JSON 형식으로 데이터 전송
-        var dataToSendJSON = JSON.stringify(dataToSend);
-        xhr.send(dataToSendJSON);
+
+        if (selectedRows.length > 0) {
+            selectedRows.forEach(function (checkbox) {
+                var row = checkbox.closest('tr'); // 체크박스가 속한 행 가져오기
+                var rr_idElement = row.querySelector('td:nth-child(2)'); // 두 번째 td 요소에서 rr_id 가져오기
+                var rr_id = rr_idElement.textContent.trim(); // rr_id 값 추출
+                var resStatusElement = row.querySelector('select[name^="res_status"]'); // 선택 상자 가져오기
+                var res_status = resStatusElement ? resStatusElement.value : null;
+
+                if (rr_id !== null) {
+                    dataToSend.push({
+                        rr_id: rr_id,
+                        res_status: res_status
+                    });
+                }
+            });
+
+            // 데이터를 서버로 보내고 업데이트 요청을 처리하는 부분 추가
+            $.ajax({
+                type: 'POST',
+                url: '/seller/rent/reserve', // 서버의 업데이트 URL 경로 설정
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert("예약 상태를 변경했습니다!");
+                    // 성공 시 실행할 코드
+                },
+                error: function (error) {
+                    alert("예약 상태 변경 실패");
+                    // 실패 시 실행할 코드
+                }
+            });
+        } else {
+            alert("선택된 항목이 없습니다.");
+            return; // 선택된 항목이 없을 경우 함수 종료
+        }
     }
-    </script>
-    
+</script>
+
+
 
 </html>

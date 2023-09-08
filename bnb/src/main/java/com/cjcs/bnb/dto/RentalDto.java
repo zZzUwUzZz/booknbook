@@ -18,6 +18,7 @@ public class RentalDto {
     private String o_recip_phone;     // 수령인연락처
 
     //대여항목만 가지는 필드
+    private int r_id;                 // 대여항목번호
     private String r_s_id;            // 판매자아이디
     private String r_b_isbn;          // 책ISBN
     private String r_c_id;            // 대여자아이디(공통필드랑 값은 중복이지만 아무튼 필요함)
@@ -44,5 +45,15 @@ public class RentalDto {
     private String delivery_status;    // 배송상태(결제완료/상품준비중/상품준비완료/수령완료/배송준비중/배송중/배송완료)
     private String rental_status;      // 대여상태(대여중/연체/반납완료)
 
+    //
+    private int rr_id;                 // 대여 예약번호
+    private String rr_c_id;            // 대여자 아이디
+    private Timestamp rr_reqdate;      // 예약 신청일자
+    private String rr_reqdateStr;      // 예약 신청일자 (날짜 데이터 형식 변환)
+    private String res_status;         // 예약 상태
+    private String new_res_status;     // 예약 상태 (DB 업데이트용)
+    private int overdue_days;          // 연체일
+    
+    private String o_dateStr;         // 주문일시 (날짜 데이터 형식 변환)
 
 }

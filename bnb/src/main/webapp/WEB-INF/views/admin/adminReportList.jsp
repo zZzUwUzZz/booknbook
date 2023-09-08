@@ -31,7 +31,7 @@
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <title>Document</title>
+    <title>REPORT BOARD</title>
 
 </head>
 
@@ -44,53 +44,52 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
+                <li><a href="/admin">관리자페이지 홈</a></li>
                 <hr>
-                <li><a href="/mypage/orderlist" id="currpage">나의 주문내역</a></li>
-                <li><a href="/mypage/purchaselist">구매내역</a></li>
-                <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
-                <li><a href="/mypage/rentallist">대여내역</a></li>
-                <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
-                <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
-                <li><a href="/mypage/favoritebooks">찜한도서</a></li>
+                <li><a href="/admin/reportlist" id="currpage">독립서점 제보</a></li>
+                <li><a href="/admin/sellerlist">서점회원 리스트</a></li>
+                <li><a href="/admin/customerlist">일반회원 리스트</a></li>
             </ul>
         </div>
 
         <div class="board-area">
             
             <div>
-                <h2 class="pagename">MY ORDER LIST</h2>
+                <h2 class="pagename">REPORT BOARD</h2>
+            </div>
+
+            <div>
+                <div class="searchbox">
+                    <select id="sel">
+                        <option value="report_title" selected>제목</option>
+                        <option value="report_content">내용</option>
+                    </select>
+                    <input type="text" id="keyword">
+                    <button id="search">검색</button>
+                </div>
             </div>
 
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>주문번호</th>
-                        <th>주문일자</th>
-                        <th>주문품목</th>
-                        <th>주문상태</th>
-                        <th>수령방법</th>
-                        <th> </th>
+                        <th width="40px"></th>
+                        <th>글제목</th>
+                        <th>작성일</th>
                     </tr>
 
-                    <c:if test="${empty oList}">
+                    <c:if test="${empty reportList}">
                         <tr>
-                            <td colspan="6">주문내역이 없습니다.</td>
+                            <td colspan="3">제보가 없습니다.</td>
                         </tr>
                     </c:if>
         
-                    <c:if test="${!empty oList}">
-                        <c:forEach var="oItem" items="${oList}">
+                    <c:if test="${!empty reportList}">
+                        <c:forEach var="report" items="${reportList}">
                             <tr>
-                                <td onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">${oItem.o_id}</td>
-                                <td>${oItem.o_date}</td>
-                                <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
-                                <td>${oItem.order_status}</td>
-                                <td>${oItem.o_delivery_sort}</td>
-                                <td><button onclick="location.href='/mypage/orderdetail/${oItem.o_id}'">상세보기</button></td>
-                            </tr>
+                                <td>${report.report_id}</td>
+                                <td onclick="location.href='/admin/reportdetail/${report.report_id}'" class="td-linked">${report.report_title}</td>
+                                <td>${report.report_date}</td>
                             </c:forEach>
                     </c:if>
                 </table>
@@ -113,8 +112,30 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+	<script>
+
+		//검색기능
+		$('#search').click(function () {
+
+			let keyword = $('#keyword').val();
+			if (keyword == ''){
+				alert('검색어를 입력하세요');
+				return;
+			}
+
+			let select = $('#sel').val(); //report_title or report_content
+			console.log(keyword, select);
+			location.href='/admin/reportlist?colname='+select+'&keyword='+keyword
+					      +"&pageNum=1";
+			//localhost/board/list?colname=b_title&keyword=33&pageNum=1
+			
+		}); //click end
+
+	</script>
+
 
 </body>
 

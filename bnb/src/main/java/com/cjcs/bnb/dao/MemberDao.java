@@ -4,16 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import com.cjcs.bnb.dto.SellerDto;
-import com.cjcs.bnb.dto.SellerFileDto;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.SellerFileDto;
 
 @Mapper
 public interface MemberDao {
@@ -62,15 +59,28 @@ public interface MemberDao {
     public int getWeekBookmarkCnt(String s_id);
     public int getMonthBookmarkCnt(String s_id);
 
+    public List<MemberDto> getCsMemberList(String s_id);
+
+
 
     // 수희
+    public List<MemberDto> getAllCustomerInfo();
+    public List<MemberDto> getCustomerListByKeyword(SearchDto sDto);
+    public Integer countCustomers(SearchDto sDto);
+
+    public List<MemberDto> getAllSellerInfo();
+    public List<MemberDto> getSellerListByKeyword(SearchDto sDto);
+    public Integer countSellers(SearchDto sDto);
+    
     public MemberDto getCustomerInfoById(String m_id);
 
     // public void updateMemberInfo(MemberDto updatedMDto); //예림파트랑중복
     public void updateCustomerInfo(MemberDto updatedMDto);
 
-    public List<MemberDto> getFavStoreList(String c_id);
+    public Integer countFavStores(String c_id);
+    public List<MemberDto> getFavStoreList(String c_id, int start, int end);
 
-    public List<BookDto> getFavBookList(String c_id);
+    public Integer countFavBooks(String c_id);
+    public List<BookDto> getFavBookList(String c_id, int start, int end);
 
 }

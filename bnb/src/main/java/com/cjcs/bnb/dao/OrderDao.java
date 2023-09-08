@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.PurchaseDto;
+
 @Mapper
 public interface OrderDao {
     
@@ -15,14 +18,18 @@ public interface OrderDao {
     public HashMap<String, String> getOrderInfoByOId(int o_id);
 
     //예림
-    int getTodaySellCnt(String s_id);
-    int getTodayRentCnt(String s_id);
-    int getTodayRentResCnt(String rr_s_id);
-    int getTodayDeliveryPrepare(String s_id);
-    int getTodayDeliverShip(String s_id);
-    int getTodayDeliverComplete(String s_id);
-    int getMonthCancelRequest(String s_id);
-    int getMonthReturnRequest(String s_id);
+    public int getTodaySellCnt(String s_id);
+    public int getTodayRentCnt(String s_id);
+    public int getTodayRentResCnt(String rr_s_id);
+    public int getTodayDeliveryPrepare(String s_id);
+    public int getTodayDeliverShip(String s_id);
+    public int getTodayDeliverComplete(String s_id);
+    public int getMonthCancelRequest(String s_id);
+    public int getMonthReturnRequest(String s_id);
+    public List<Integer> CalculateRent(String Start_Date, String End_Date);
+    public List<Integer> CalculateLate(String Start_Date, String End_Date);
+    public List<Integer> CalculateSell(String Start_Date, String End_Date);
+    public List<Integer> CalculateReturn(String Start_Date, String End_Date);
     
 
 }

@@ -18,6 +18,7 @@ public class PurchaseDto {
     private String o_recip_phone;     // 수령인연락처
 
     //구매항목만 가지는 필드
+    private int p_id;                 // 구매항목번호
     private String p_s_id;            // 판매자아이디
     private String p_b_isbn;          // 책ISBN
     private String p_c_id;            // 구매자아이디
@@ -36,4 +37,6 @@ public class PurchaseDto {
     private String order_status;       // 주문상태(주문완료/취소요청/취소불가/취소완료)
     private String delivery_status;    // 배송상태(결제완료/상품준비중/상품준비완료/수령완료/배송준비중/배송중/배송완료)
 
+    
+    
 }

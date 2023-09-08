@@ -67,6 +67,7 @@ public class BookController {
         int start = (page - 1) * booksPerPage + 1;
         int end = start + booksPerPage - 1;
 
+
         // 카테고리별 도서 목록을 불러옵니다.
         List<BookDto> books = bookService.findBooksByMediumCategory(category_m_id, start, end);
         model.addAttribute("books", books);
@@ -97,3 +98,4 @@ public class BookController {
     }
 
 }
+

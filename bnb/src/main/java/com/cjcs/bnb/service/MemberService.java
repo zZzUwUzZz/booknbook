@@ -117,30 +117,28 @@ public class MemberService {
         mDao.updateCustomerInfo(updatedMDto);
     }
 
-    public List<MemberDto> getFavStores(String c_id) {
-
-        return mDao.getFavStoreList(c_id);
-    }
-
-    public List<BookDto> getFavBooks(String c_id) {
-
-        return mDao.getFavBookList(c_id);
-    }
 
 
     //예림
     
-
+    //오늘 즐겨찾기한 회원 수 카운트
     public int getTodayBookmarkCnt(String s_id){
         return mDao.getTodayBookmarkCnt(s_id);
     }
 
+    //이번 주 즐겨찾기한 회원 수 카운트
     public int getWeekBookmarkCnt(String s_id){
         return mDao.getWeekBookmarkCnt(s_id);
     }
 
+    //이번 달 즐겨찾기한 회원 수 카운트
     public int getMonthBookmarkCnt(String s_id){
         return mDao.getMonthBookmarkCnt(s_id);
+    }
+
+    //서점 이용 기록 있는 회원들 리스트 불러오기
+    public List<MemberDto> getCsMemberList(String s_id){
+        return mDao.getCsMemberList(s_id);
     }
 
 }

@@ -14,10 +14,6 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -67,7 +63,7 @@
                         </div>
                         <div class="menu-group">
                             <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/account">정산 내역</a></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                         </div>
                     </div>
                 </div>
@@ -77,25 +73,25 @@
                         <table class="box-list">
                             <tr>
                                 <td>총 주문</td>
-                                <td>${OrderCnt}건</td>
+                                <td>${TodayOrderCnt}건</td>
                                 <td>배송 준비중</td>
-                                <td>${DeliPre}건</td>
+                                <td>${TodayDeliPre}건</td>
                             </tr>
                             <tr>
                                 <td>└ 판매</td>
-                                <td>${SellCnt}건</td>
+                                <td>${TodaySellCnt}건</td>
                                 <td>배송중</td>
-                                <td>${DeliShip}건</td>
+                                <td>${TodayDeliShip}건</td>
                             </tr>
                             <tr>
                                 <td>└ 대여</td>
-                                <td>${RentCnt}건</td>
+                                <td>${TodayRentCnt}건</td>
                                 <td>배송 완료</td>
-                                <td>${DeliComplete}건</td>
+                                <td>${TodayDeliComplete}건</td>
                             </tr>
                             <tr>
                                 <td>└ 대여 예약</td>
-                                <td>${RentResCnt}건</td>
+                                <td>${TodayRentResCnt}건</td>
                             </tr>
                         </table>
                     </div>
@@ -105,11 +101,11 @@
                         <table class="box-list">
                             <tr>
                                 <td>오늘</td>
-                                <td>${TodayBookmark}명</td>
+                                <td>${TodayBookmarkCnt}명</td>
                                 <td>이번 주</td>
-                                <td>${WeekBookmark}명</td>
+                                <td>${WeekBookmarkCnt}명</td>
                                 <td>이번 달</td>
-                                <td>${MonthBookmark}명</td>
+                                <td>${MonthBookmarkCnt}명</td>
                             </tr>
                         </table>
                     </div>
@@ -119,9 +115,9 @@
                             <h1>최근 한 달간 취소 내역</h1>
                             <tr>
                                 <td>취소요청</td>
-                                <td>${CanelCnt}건</td>
+                                <td>${MonthCanelCnt}건</td>
                                 <td>반품/교환 요청</td>
-                                <td>${ReturnCnt}건</td>
+                                <td>${MonthReturnCnt}건</td>
                             </tr>
                         </table>
                     </div>
@@ -131,9 +127,9 @@
                             <h1>정산 내역</h1>
                             <tr>
                                 <td>오늘 정산</td>
-                                <td>0원</td>
+                                <td>${TodaySumAmount}원</td>
                                 <td>이 달 정산</td>
-                                <td>0원</td>
+                                <td>${MonthSumAmount}원</td>
                             </tr>
                         </table>
                     </div>

@@ -6,8 +6,8 @@
     flex-wrap: wrap;
     background-color: none;
     width: 100%;
-    height: 100%;
-    padding-left: 23px;
+    padding: 13px 0 13px 27px;
+
 }
 .favstore {
     display: inline-block;
@@ -16,7 +16,7 @@
     border-radius: 10px;
     width: 400px;
     height: 280px;
-    margin: 0 70px;
+    margin: 14px 70px;
 }
 .favbook {
     display: inline-block;
@@ -25,7 +25,7 @@
     border-radius: 10px;
     width: 250px;
     height: 280px;
-    margin-right: 22px;
+    margin: 14px 22px 15px 0;
 }
 img {
     height: 280px;

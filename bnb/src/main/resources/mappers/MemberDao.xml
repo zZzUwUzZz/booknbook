@@ -55,6 +55,19 @@ WHERE M.m_id = #{s_id}
         AND M_EMAIL = #{email}
     </select>
 
+ <update id="resetPassword" parameterType="Map">
+    UPDATE M
+    SET M_PW = #{newPassword}
+    WHERE M_ID = #{userId}
+</update>
+
+
+
+
+
+         
+
+
 
 
 <!--예림-->

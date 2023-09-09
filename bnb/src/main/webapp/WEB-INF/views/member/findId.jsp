@@ -65,25 +65,30 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
     <script>
-         function findIdAction() {
-    // 입력 데이터를 가져옴
+        function findIdAction() {
     var inputData = {
         name: $("#input_field_name").val(),
         email: $("#input_field_email").val()
     };
 
-    // AJAX 요청을 이용하여 아이디 찾기
+    // 간단한 유효성 검사
+    if (!inputData.name || !inputData.email) {
+        alert('이름과 이메일을 모두 입력하세요.');
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: "/member/findId",
         data: inputData,
         success: function(response) {
-            if (response) {
-                // 아이디 결과를 이메일 입력 필드 밑에 표시
+            // 여기서 response는 서버로부터 받은 응답입니다.
+            // 일반적으로, 데이터베이스의 값과 일치하는 경우 서버에서는 아이디 값을 반환하며,
+            // 일치하지 않는 경우 null 또는 비어있는 값을 반환할 것입니다.
+            // 이를 기반으로 아래의 로직을 작성하였습니다.
+            if (response && response !== 'not found') {
                 $("#userId").text(response);
                 $("#idResult").show();
-                
-                // "확인" 버튼을 숨기고, "로그인" 버튼을 보여줌
                 $("#submit_button").hide();
                 $("#login_button").show();
             } else {

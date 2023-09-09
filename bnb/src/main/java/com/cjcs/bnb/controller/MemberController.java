@@ -3,7 +3,6 @@ package com.cjcs.bnb.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,23 +75,17 @@ public class MemberController {
 
     }
 
-   
     @PostMapping("/findId")
-@ResponseBody
-public String findIdByEmail(@RequestParam String name,@RequestParam String email ) {
-    String memberId=mSer.findIdByEmail(name,email);
-    
-    if (memberId != null) {
-        return memberId; // 해당 이메일과 이름으로 찾은 아이디를 응답으로 보냅니다.
-    } else {
-        return "not found"; // 아이디를 찾을 수 없을 경우
+    @ResponseBody
+    public String findIdByEmail(@RequestParam String name, @RequestParam String email) {
+        String memberId = mSer.findIdByEmail(name, email);
+
+        if (memberId != null) {
+            return memberId; // 해당 이메일과 이름으로 찾은 아이디를 응답으로 보냅니다.
+        } else {
+            return "not found"; // 아이디를 찾을 수 없을 경우
+        }
     }
-}
-    
-     
-
-
-
 
     @GetMapping("/choice")
     public String choice() {
@@ -138,9 +131,6 @@ public String findIdByEmail(@RequestParam String name,@RequestParam String email
         return result;
     }
 
-
-
-
     @GetMapping("/join2")
     public String join2() {
 
@@ -148,8 +138,6 @@ public String findIdByEmail(@RequestParam String name,@RequestParam String email
         return "member/join2";
 
     }
-
-
 
     @PostMapping("/join2")
     public String join2Process(MemberDto member, Model model) {
@@ -173,63 +161,64 @@ public String findIdByEmail(@RequestParam String name,@RequestParam String email
     // @GetMapping("/emailAuth")
     // public MessageResponse sendSimpleMessage() {
 
-    //     String API_KEY = "key-02898c1623290dd7927fdc6fd18bfbab";
-    //     String DOMAIN_NAME = "sandbox2a9762a2df5948a194ffad1917207b6d.mailgun.org";
+    // String API_KEY = "key-02898c1623290dd7927fdc6fd18bfbab";
+    // String DOMAIN_NAME = "sandbox2a9762a2df5948a194ffad1917207b6d.mailgun.org";
 
-    //     MailgunMessagesApi mailgunMessagesApi = MailgunClient.config(API_KEY)
-    //         .createApi(MailgunMessagesApi.class);
+    // MailgunMessagesApi mailgunMessagesApi = MailgunClient.config(API_KEY)
+    // .createApi(MailgunMessagesApi.class);
 
-    //     Message message = Message.builder()
-    //         .from("Nilla <bnb@sandbox2a9762a2df5948a194ffad1917207b6d.mailgun.org>")
-    //         .to("bahnnn@naver.com")
-    //         .subject("BOOK N BOOK - 본인인증코드")
-    //         .text("a126^vy23h")
-    //         .build();
+    // Message message = Message.builder()
+    // .from("Nilla <bnb@sandbox2a9762a2df5948a194ffad1917207b6d.mailgun.org>")
+    // .to("bahnnn@naver.com")
+    // .subject("BOOK N BOOK - 본인인증코드")
+    // .text("a126^vy23h")
+    // .build();
 
-    //     return mailgunMessagesApi.sendMessage(DOMAIN_NAME, message);
+    // return mailgunMessagesApi.sendMessage(DOMAIN_NAME, message);
     // }
 
-
-
-     @GetMapping("/checkId2")
+    @GetMapping("/checkId2")
     @ResponseBody
     public Map<String, Boolean> checkIdDuplication2(@RequestParam String m_id) {
-        boolean isDuplicated = mSer.isIdDuplicated(m_id);  // mSer가 MemberService를 의미한다고 가정
+        boolean isDuplicated = mSer.isIdDuplicated(m_id); // mSer가 MemberService를 의미한다고 가정
         Map<String, Boolean> result = new HashMap<>();
         result.put("isDuplicated", isDuplicated);
         return result;
     }
 
-
-
-@GetMapping("/resetPw")
-public String resetPw() {
+    @GetMapping("/resetPw")
+    public String resetPw() {
 
         log.info("비밀번호 초기화(폼)");
         return "member/resetPw";
 
     }
 
-@PostMapping("/resetPw")
-public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> inputData) {
-    Boolean isUserValid = mSer.verifyUser(inputData);
-    log.info("User verification result: {}", isUserValid);
-    return ResponseEntity.ok(isUserValid);
-     }
+    @PostMapping("/resetPw")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> inputData) {
+        Boolean isUserValid = mSer.verifyUser(inputData);
+        log.info("User verification result: {}", isUserValid);
+        return ResponseEntity.ok(isUserValid);
+    }
 
+    @PostMapping("/changePw")
+    public ResponseEntity<?> changePw(@RequestBody Map<String, String> inputData) {
+        try {
+            // 비밀번호 재설정
+            Boolean isPasswordChanged = mSer.resetPassword(inputData);
 
-    // @PostMapping("/updatePw")
-    // public ResponseEntity<?> updatePassword(@RequestBody Map<String, String> request) {
-    //     String userId = request.get("userId");
-    //     String newPassword = request.get("newPassword");
-        
-    //     boolean result = mSer.updatePassword(userId, newPassword);
-        
-    //     if (result) {
-    //         return new ResponseEntity<>(true, HttpStatus.OK);
-    //     } else {
-    //         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-    //     }
-    // }
-
+            if (isPasswordChanged) {
+                return ResponseEntity.ok("Password reset successful.");
+            } else {
+                // 비밀번호 변경 실패시 응답
+                return new ResponseEntity<>("Failed to reset password.",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            // 에러 메시지 로그 기록
+            log.error("Error while resetting password: ", e);
+            return new ResponseEntity<>(e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -4,18 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.javassist.compiler.ast.Member;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,42 +51,38 @@ public class MemberService {
         return mDao.countById(m_id) > 0;
     }
 
-    public String findIdByEmail(String name,String email) {
-        return mDao.findIdByEmail(name,email);
+    public String findIdByEmail(String name, String email) {
+        return mDao.findIdByEmail(name, email);
     }
-    
-     
-
-
-   
 
     public Boolean verifyUser(Map<String, String> inputData) {
         Integer count = mDao.verifyUser(inputData);
         return count > 0;
     }
 
+    public Boolean resetPassword(Map<String, String> inputData) {
+        try {
+            String userId = inputData.get("userId");
+            String newPassword = inputData.get("newPassword");
 
-    
-    
+            return mDao.resetPassword(userId, newPassword); // 이 부분을 수정했습니다.
+        } catch (Exception e) {
+            // 로그 출력
+            log.error("Error in resetting password in service layer: ", e);
+            return false;
+        }
+    }
 
-
-       //탈퇴
-    //    @Transactional
-    //    public boolean withdraw(String m_id) {
-    //        try {
-    //            return mDao.delete(m_id) > 0;
-    //        } catch(Exception e) {
-    //            log.error("Error during withdrawal: ", e);
-    //            return false;
-    //        }
-    //    }
-
-
-
-
-
-
-
+    // 탈퇴
+    // @Transactional
+    // public boolean withdraw(String m_id) {
+    // try {
+    // return mDao.delete(m_id) > 0;
+    // } catch(Exception e) {
+    // log.error("Error during withdrawal: ", e);
+    // return false;
+    // }
+    // }
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -156,27 +151,25 @@ public class MemberService {
         mDao.updateCustomerInfo(updatedMDto);
     }
 
+    // 예림
 
-
-    //예림
-    
-    //오늘 즐겨찾기한 회원 수 카운트
-    public int getTodayBookmarkCnt(String s_id){
+    // 오늘 즐겨찾기한 회원 수 카운트
+    public int getTodayBookmarkCnt(String s_id) {
         return mDao.getTodayBookmarkCnt(s_id);
     }
 
-    //이번 주 즐겨찾기한 회원 수 카운트
-    public int getWeekBookmarkCnt(String s_id){
+    // 이번 주 즐겨찾기한 회원 수 카운트
+    public int getWeekBookmarkCnt(String s_id) {
         return mDao.getWeekBookmarkCnt(s_id);
     }
 
-    //이번 달 즐겨찾기한 회원 수 카운트
-    public int getMonthBookmarkCnt(String s_id){
+    // 이번 달 즐겨찾기한 회원 수 카운트
+    public int getMonthBookmarkCnt(String s_id) {
         return mDao.getMonthBookmarkCnt(s_id);
     }
 
-    //서점 이용 기록 있는 회원들 리스트 불러오기
-    public List<MemberDto> getCsMemberList(String s_id){
+    // 서점 이용 기록 있는 회원들 리스트 불러오기
+    public List<MemberDto> getCsMemberList(String s_id) {
         return mDao.getCsMemberList(s_id);
     }
 

@@ -65,7 +65,7 @@
                         <td class="th" width="100px">글번호</td>
                         <td class="info_td" width="180px">${rbDto.report_id}</td>
                         <td class="th" width="100px">작성일</td>
-                        <td class="info_td">${rbDto.report_date}</td>
+                        <td class="info_td"><fmt:formatDate value="${rbDto.report_date}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate></td>
                     </tr>
                     <tr>
                         <td class="th">글제목</td>
@@ -80,7 +80,7 @@
 
             <div class="buttonbox">
                 <button onclick="location.href='/admin/reportlist'">목록으로</button>
-                <button onclick="location.href='/admin/reportlist'">삭제하기</button>
+                <button onclick="delete_post('${rbDto.report_id}')">삭제하기</button>
             </div>
 
         </div>
@@ -95,8 +95,22 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+    function delete_post(report_id) {
+
+        let conf = confirm('글을 삭제할까요?');
+
+        if (conf == true) {
+            location.href = '/admin/reportdelete/' + report_id;
+        }
+
+    }
+
+    </script>
 
 </body>
 

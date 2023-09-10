@@ -51,7 +51,7 @@
               LEFT OUTER JOIN
               RE
               ON o_id = re_o_id AND p_s_id = re_s_id AND p_b_isbn = re_b_isbn
-        ORDER BY o_date DESC
+        ORDER BY o_date DESC, s_storename, b_title
     </select>
 
     <select id="getPurchaseItemByPId" parameterType="Integer" resultType="Map">
@@ -120,12 +120,16 @@
         ]]>
     </select>
 
-
     <select id="countCurrentRefExchByCId" parameterType="String" resultType="Integer">
         SELECT count(*)
         FROM RE, O
         WHERE (re_process_status_id IN (1, 2)) AND re_o_id = o_id AND o_c_id = #{c_id}
     </select>
+
+    <delete id="deleteRefExchList">
+        DELETE FROM RE
+        WHERE re_id = #{re_id}
+    </delete>
 
     <update id="cancelPurchaseByOId" parameterType="Integer">
         UPDATE P

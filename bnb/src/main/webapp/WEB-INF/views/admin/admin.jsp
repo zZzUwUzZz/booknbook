@@ -25,9 +25,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-    <link rel="stylesheet" href="/css/customer/list.css">
+    <link rel="stylesheet" href="/css/customer/adminmain.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -58,12 +57,66 @@
                 <h2 class="pagename">ADMIN PAGE</h2>
             </div>
 
-            <div>
-                <div class="tablebox">
-                <table>
-                    여기에는 뭘 해야할까..-_-
-                </table>
+            <div class="container-1">
+
+                <div class="container-2">
+    
+                    <div class="container-3 card-main cards">
+                        <p>카테고리관리</p>
+                    </div>
+
+                    <div class="container-3 card-button cards" onclick="location.href='/mypage/info'">
+                        나의 회원정보
+                    </div>
+
                 </div>
+    
+                <div class="container-2">
+    
+                    <div class="container-3 card-top cards">
+
+                        <h3>총 입점서점 수 : <a href="/admin/sellerlist">${num_of_seller}건</a></h3>
+                        <h3>총 일반회원 수 : <a href="/admin/customerlist">${num_of_customer}건</a></h3>
+                        <h3>총 주문 건수 : <a href="/mypage/rentallist">${num_of_order}건</a></h3>
+                        <h3>총 구매항목 수 : <a href="/mypage/rentallist">${num_of_purchaseItem}건</a></h3>
+                        <h3>총 대여항목 수 : <a href="/mypage/rentallist">${num_of_rentalItem}건</a></h3>
+                        <h3>총 주문취소 건수 : <a href="/mypage/rentallist">${num_of_ordercancel}건</a></h3>
+
+                    </div>
+                    
+                    <div class="container-3 card-bottom cards">
+
+                        <h3>대여도서 반납 연체자 : <a href="/admin/rentallist">${num_of_latereturn}건</a></h3>
+                        <table>
+                            <tr>
+                                <th>제목</th>
+                                <th>서점</th>
+                                <th>반납기한</th>
+                                <th>대여상태</th>
+                            </tr>
+
+                            <c:if test="${empty curr_rList}">
+                                <tr>
+                                    <td colspan="4">대여 중인 도서가 없습니다.</td>
+                                </tr>
+                            </c:if>
+                
+                            <c:if test="${!empty curr_rList}">
+                                <c:forEach var="rItem" items="${curr_rList}">
+                                    <tr>
+                                        <td>${rItem.b_title}</td>
+                                        <td>${rItem.s_storename}</td>
+                                        <td>${rItem.r_duedate}</td>
+                                        <td>${rItem.rental_status}</td>
+                                    </tr>
+                                    </c:forEach>
+                            </c:if>
+                        </table>
+
+                    </div>
+
+                </div>
+    
             </div>
 
         </div>

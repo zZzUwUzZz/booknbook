@@ -147,18 +147,15 @@
 		SELECT * FROM
 		<choose>
 		    <when test="colname != null and colname != ''">                
-		    	(SELECT rownum rn, CI.*, overdues
+		    	(SELECT rownum rn, CI.*
 		    	 FROM (SELECT * FROM CUSTOMER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		    	       ORDER BY m_joindate DESC) CI
-                       LEFT OUTER JOIN
-                      (SELECT r_c_id, COUNT(r_latefee_total) overdues FROM R GROUP BY r_c_id)
 		    	)
 		    </when>
 		    <otherwise>
-		    	(SELECT rownum rn, CI.*, overdues
-				 FROM CUSTOMER_INFO CI LEFT OUTER JOIN (SELECT r_c_id, COUNT(r_latefee_total) overdues FROM R GROUP BY r_c_id)
-                 ON m_id = r_c_id
+		    	(SELECT rownum rn, CI.*
+				 FROM CUSTOMER_INFO CI
             	 ORDER BY m_joindate DESC)
 		    </otherwise>
 		</choose>
@@ -237,7 +234,7 @@
         </set>
         WHERE C_ID=#{m_id}
     </update>
-    
+
     <!--즐겨찾는서점 총 개수 세기-->
     <select id="countFavStores" parameterType="String" resultType="Integer">
         SELECT COUNT(*) FROM FAVSTORE
@@ -270,10 +267,29 @@
               FROM (SELECT b_s_id, b_isbn, b_title, b_author
                     FROM FAVBOOK, B
                     WHERE favb_s_id = b_s_id AND favb_b_isbn = b_isbn AND favb_c_id = #{c_id}
-                    ORDER BY favb_date DESC
-                   )
+                    ORDER BY favb_date DESC)
              )
         WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <!--가장 최근에 등록한 즐찾서점의 서점아이디, 서점명 가져오기-->
+    <select id="getLatestFavStoreByCId" resultType="Map">
+        SELECT favs_s_id as "favs_s_id", s_storename as "favs_s_storename"
+        FROM (SELECT rownum rn, favs_s_id, s_storename
+                FROM (SELECT favs_s_id, s_storename FROM FAVSTORE, S
+                      WHERE favs_c_id = #{c_id} AND favs_s_id = s_id
+                      ORDER BY favs_date DESC)
+              )
+        WHERE rn = #{rownum}
+    </select>
+
+    <!--가장 최근에 등록한 찜도서의 판매서점아이디, 책isbn 가져오기-->
+    <select id="getLatestFavBookByCId" resultType="Map">
+        <!--결과를 Map에 넣을 땐 까먹지 말고 as "키이름" 해주기ㅅㅂ-->
+        SELECT favb_s_id as "favb_s_id", favb_b_isbn as "favb_b_isbn"
+        FROM (SELECT rownum rn, favb_s_id, favb_b_isbn
+              FROM (SELECT favb_s_id, favb_b_isbn FROM FAVBOOK WHERE favb_c_id = #{c_id} ORDER BY favb_date DESC))
+        WHERE rn = #{rownum}
     </select>
 
 </mapper>

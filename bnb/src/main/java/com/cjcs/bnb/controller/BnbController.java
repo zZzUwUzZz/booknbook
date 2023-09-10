@@ -50,16 +50,18 @@ public class BnbController {
 
     // 여기부터 관리자페이지
 
-    @GetMapping("/admin")
+    @GetMapping("/admin")    // 관리자페이지 홈
     public String admin(Model model) {
+
 
         return "admin/admin";
     }
 
-    @GetMapping("/admin/customerlist")
+    @GetMapping("/admin/customerlist")    // 일반회원리스트
     public String adminCustomerList(SearchDto sDto, Model model, HttpSession session) {
 
         List<MemberDto> customerList = mDao.getCustomerListByKeyword(sDto);
+        
         log.info("customerList:{}", customerList.size());
 
 		String pageHtml = bSer.getPageboxHtml(sDto, "/admin/customerlist");
@@ -82,7 +84,7 @@ public class BnbController {
         return "admin/adminCustomerList";
     }
 
-    @GetMapping("/admin/sellerlist")
+    @GetMapping("/admin/sellerlist")    // 서점회원리스트
     public String adminSellerList(SearchDto sDto, Model model, HttpSession session) {
 
         List<MemberDto> sellerList = mDao.getSellerListByKeyword(sDto);
@@ -107,7 +109,7 @@ public class BnbController {
         return "admin/adminSellerList";
     }
 
-    @GetMapping("/admin/reportlist")
+    @GetMapping("/admin/reportlist")    // 제보글리스트
     public String adminReportList(SearchDto sDto, Model model, HttpSession session) {
 
         List<ReportBoardDto> reportList = rbDao.getReportListByKeyword(sDto);
@@ -116,29 +118,23 @@ public class BnbController {
 		String pageHtml = bSer.getPageboxHtml(sDto, "/admin/reportlist");
 
 		if (reportList != null) {
-			//세션에 필요 정보 저장(pageNum, 검색관련 정보)
-		    //페이지 번호 저장- 글쓰기 또는 상세보기 화면에서
-			//목록으로 돌아갈 때 보고 있던 페이지로 돌아가기 위해
+
 			session.setAttribute("pageNum", sDto.getPageNum());
 
 			if(sDto.getColname() != null) {
-				session.setAttribute("sDto", sDto);  //페이지번호,컬럼이름,키워드
+				session.setAttribute("sDto", sDto);
 			}else {
-				//검색이 아닐때는 SearchDto 제거
 				session.removeAttribute("sDto");
-			} //session
+			}
 
-			model.addAttribute("reportList", reportList); // 3, jstl(쉽다,협업X)
+			model.addAttribute("reportList", reportList);
 			model.addAttribute("pageHtml", pageHtml);
-			// model.addAttribute("bList", makeHtml(bList)); //1 서버
-			// model.addAttribute("bList",
-			// new ObjectMapper().writeValueAsString(bList)); //2,js(어렵다, 협업O)
 		}
 
         return "admin/adminReportList";
     }
 
-    @GetMapping("/admin/reportdetail/{report_id}")
+    @GetMapping("/admin/reportdetail/{report_id}")    // 제보글상세보기
     public String adminReportDetail(@PathVariable("report_id") int report_id, Model model) {
 
         ReportBoardDto rbDto = rbDao.getReportByRId(report_id);
@@ -147,6 +143,14 @@ public class BnbController {
         model.addAttribute("rbDto", rbDto);
 
         return "admin/adminReportDetail";
+    }
+
+    @GetMapping("admin/reportdelete/{report_id}")    // 제보글삭제
+    public String adminReportDelete(@PathVariable("report_id") int report_id, Model model) {
+
+        rbDao.deleteReportByRId(report_id);
+        
+        return "redirect:/admin/reportlist";
     }
     
 }

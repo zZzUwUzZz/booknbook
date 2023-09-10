@@ -15,5 +15,7 @@ public interface ReportBoardDao {
     public ReportBoardDto getReportByRId(int report_id);
     
     public Integer countReports(SearchDto sDto);
+    
+    public void deleteReportByRId(int report_id);
 
 }

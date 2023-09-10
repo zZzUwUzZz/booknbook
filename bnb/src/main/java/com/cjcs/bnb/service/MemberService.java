@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.FavDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
 
@@ -126,11 +127,13 @@ public class MemberService {
     // }
 
     // 수희
+    
     public MemberDto getCustomerInfoById(String c_id) {
 
         return mDao.getCustomerInfoById(c_id);
     }
 
+    //일반회원 회원정보수정
     @Transactional
     public void updateCustomerInfo(String c_id, MemberDto updatedMDto) {
 
@@ -141,6 +144,22 @@ public class MemberService {
         mDao.updateCustomerInfo(updatedMDto);
     }
 
+    //가장최근 즐겨찾기한 서점정보와 가장최근 찜한 도서정보 가져오기
+    public HashMap<String, String> getLatestFavStoreAndBookByCId(String c_id) {
+
+        HashMap<String, String> latestFav = new HashMap<>();
+
+        HashMap<String, String> favs = mDao.getLatestFavStoreByCId(c_id, 1);
+        HashMap<String, String> favb = mDao.getLatestFavBookByCId(c_id, 1);
+
+        latestFav.put("favs_s_id", favs.get("favs_s_id"));
+        latestFav.put("favs_s_storename", favs.get("favs_s_storename"));
+        latestFav.put("favb_s_id", favb.get("favb_s_id"));
+        latestFav.put("favb_b_isbn", favb.get("favb_b_isbn"));
+        log.info("latestFav:{}", latestFav);
+    
+        return latestFav;
+    }
 
 
     //예림

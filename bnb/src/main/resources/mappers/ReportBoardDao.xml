@@ -43,6 +43,11 @@
 		</if>	
 	</select>
 
+	<delete id="deleteReportByRId">
+		DELETE FROM RB
+		WHERE report_id = #{report_id}
+	</delete>
+
 
 
 </mapper>

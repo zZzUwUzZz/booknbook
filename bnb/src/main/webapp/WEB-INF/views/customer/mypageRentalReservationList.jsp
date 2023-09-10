@@ -85,7 +85,7 @@
                         <c:forEach var="rrItem" items="${rrList}">
                             <tr>
                                 <td>${rrItem.rr_id}</td>
-                                <td>${rrItem.rr_reqdate}</td>
+                                <td><fmt:formatDate value="${rrItem.rr_reqdate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                                 <td>${rrItem.b_title}</td>
                                 <td>${rrItem.s_storename}</td>
 

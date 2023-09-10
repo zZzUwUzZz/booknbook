@@ -74,7 +74,7 @@
                         <th>서점명</th>
                         <th>대여상태</th>
                         <th>반납기한</th>
-                        <th>연체료총액</th>
+                        <th>총 연체료</th>
                         <th width="40px"></th>
                     </tr>
 
@@ -88,12 +88,12 @@
                         <c:forEach var="rItem" items="${rList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
-                                <td>${rItem.o_date}</td>
+                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                                 <td>${rItem.b_title}</td>
                                 <td>${rItem.s_storename}</td>
                                 <td>${rItem.rental_status}</td>
-                                <td>${rItem.r_duedate}</td>
-                                <td>${rItem.r_latefee_total}</td>
+                                <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
 
                                 <c:choose>
                                     <c:when test="${rItem.r_rental_status_id eq 3 && not empty rItem.r_latefee_total && rItem.r_latefee_paid ne 'Y'}">

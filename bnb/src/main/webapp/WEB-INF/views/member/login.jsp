@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 
 
 </head>
-<body>+
+<body>
 
 <div class="header"></div>
 <div class="body">
@@ -21,12 +21,11 @@
       <input type="password" id="m_pw" name="m_pw" required placeholder="비밀번호">
       <button class="login-button" type="submit">로그인</button>
   </form>
-    <div id="kr">
-    <a href="/member/choice">회원가입|</a>
-    <a href="/member/findId">아이디 찾기|</a>
-    <a href="/member/resetPw">비밀번호 재설정</a>
-
-  </div>
+  <div id="kr">
+    <a href="/member/choice" class="nav-link">회원가입</a>
+    <a href="/member/findId" class="nav-link">아이디 찾기</a>
+    <a href="/member/resetPw" class="nav-link last">비밀번호 재설정</a>
+</div>
   </div>
 </div>
 
@@ -39,13 +38,11 @@
     </div>
   </div>
   <div class="book">
-    <div class="cover">
-      <div class="page">
         <div class="content">
           <h2>BooK N BooK</h2>
           <p>I want to go home</p>
         </div>
-      </div>
+     
 
 
 <script>

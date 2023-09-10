@@ -1,0 +1,93 @@
+.btnSubmit {
+    display: inline-block;
+    padding: 12px 36px;
+    font-weight: bold;
+    color: white;
+    background-color: #0e1a22;
+    background-image: linear-gradient(45deg, #0e1a22, #2980b9);
+    border: none;
+    border-radius: 45px; /* 버튼 모서리 둥글게 */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 2px; /
+}
+
+/* 버튼에 호버 효과 추가 */
+.btnSubmit:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2); 
+}
+
+.btnSubmit:active {
+    transform: scale(0.95); /* 버튼을 클릭하면 약간 줄어들게 만들기 */
+}
+
+/* 전체 페이지의 배경색과 폰트 설정 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* 타이틀 영역 스타일링 */
+.titleArea {
+    background-color: #4d6b50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.titleArea ul {
+    padding: 0;
+    list-style-type: none;
+    line-height: 1.5;
+}
+
+/* 폼 영역 스타일링 */
+.deactivateArea {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 430px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* 입력창 스타일링 */
+.inputField {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.inputField:focus {
+    border-color: #2980b9;
+}
+
+.inputField::placeholder {
+    color: #ccc;
+}
+
+.reasonArea {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.confirmCheck {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}

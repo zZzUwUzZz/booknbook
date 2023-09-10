@@ -3,6 +3,7 @@ package com.cjcs.bnb.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -63,9 +64,13 @@ public interface MemberDao {
 
         Integer verifyUser(Map<String, String> inputData);
 
-        // @Update("UPDATE CJCS.MEMBER SET M_PASSWORD = #{newPassword} WHERE M_ID
-        // =#{userId}")
+        // 비번 초기화
         boolean resetPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
+
+        // 회원 탈퇴
+        String getEncodedPassword(String m_id);
+
+        int deleteMemberById(String m_id);
 
         // 예림
         public MemberDto getSellerInfoById(String m_id);

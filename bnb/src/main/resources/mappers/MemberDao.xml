@@ -62,7 +62,36 @@ WHERE M.m_id = #{s_id}
 </update>
 
 
+<!-- 회원탈퇴 -->
+ 
+<resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">
+    <result property="m_id" column="M_ID"/>
+    <result property="m_pw" column="M_PW"/>
+    <result property="c_name" column="C_NAME"/>
+    <result property="m_addr" column="M_ADDR"/>
+    <result property="m_phone" column="M_PHONE"/>
+    <result property="m_email" column="M_EMAIL"/>
+    <result property="m_joindate" column="M_JOINDATE"/>
+</resultMap>
 
+
+<select id="getEncodedPassword" resultType="String">
+    SELECT M_PW
+    FROM "CJCS"."CUSTOMER_INFO"
+    WHERE M_ID = #{m_id}
+</select>
+
+
+<select id="getMemberInfoById" resultMap="MemberResult">
+    SELECT * 
+    FROM "CJCS"."CUSTOMER_INFO"
+    WHERE M_ID = #{m_id}
+</select>
+
+
+<delete id="deleteMemberById">
+    DELETE FROM "CJCS"."CUSTOMER_INFO" WHERE M_ID = #{m_id}
+</delete>
 
 
          

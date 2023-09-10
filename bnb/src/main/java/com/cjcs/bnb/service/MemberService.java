@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.javassist.compiler.ast.Member;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +61,13 @@ public class MemberService {
         return count > 0;
     }
 
+    // 비번 초기화
     public Boolean resetPassword(Map<String, String> inputData) {
         try {
             String userId = inputData.get("userId");
             String newPassword = inputData.get("newPassword");
 
-            return mDao.resetPassword(userId, newPassword); // 이 부분을 수정했습니다.
+            return mDao.resetPassword(userId, newPassword);
         } catch (Exception e) {
             // 로그 출력
             log.error("Error in resetting password in service layer: ", e);
@@ -73,7 +75,29 @@ public class MemberService {
         }
     }
 
+    @Autowired
+    private BCryptPasswordEncoder pwEncoder;
+
+    @Transactional
+    public boolean unregister(String m_id, String m_pw) {
+        try {
+            // Get encoded password from the database for the user
+            String encodedPwd = mDao.getEncodedPassword(m_id);
+
+            // Check if the entered password matches the encoded password
+            if (encodedPwd != null && pwEncoder.matches(m_pw, encodedPwd)) {
+                return mDao.deleteMemberById(m_id) > 0;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error during withdrawal: ", e);
+            return false;
+        }
+    }
+
     // 탈퇴
+
     // @Transactional
     // public boolean withdraw(String m_id) {
     // try {

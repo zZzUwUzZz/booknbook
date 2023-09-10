@@ -63,28 +63,28 @@
     }
     
     function checkId() {
-        let userId = document.getElementById("m_id").value;
-        let idCheckMessageElement = document.getElementById("idCheckMessage");
-        
-        if (!userId) {
-            idCheckMessageElement.innerText = "아이디는 6자 이상의 영문/숫자로 입력해주세요."; 
-            return;
-        }
-
-        fetch('/member/checkId?m_id=' + userId)
-        .then(response => response.json())
-        .then(data => {
-            if (data.isDuplicated) {
-                idCheckMessageElement.innerText = "이 아이디는 이미 사용 중입니다.";
-                idCheckMessageElement.style.color = "red";
-            } else {
-                idCheckMessageElement.innerText = "사용 가능한 아이디입니다.";
-                idCheckMessageElement.style.color = "green";
-            }
-        });
+    let userId = document.getElementById("m_id").value;
+    let idCheckMessageElement = document.getElementById("idCheckMessage");
+    
+    // 추가된 아이디 길이 검사 로직
+    if (userId.length < 6) {
+        idCheckMessageElement.innerText = "";
+        idCheckMessageElement.style.color = "red";
+        return;
     }
 
-
+    fetch('/member/checkId?m_id=' + userId)
+    .then(response => response.json())
+    .then(data => {
+        if (data.isDuplicated) {
+            idCheckMessageElement.innerText = "이 아이디는 이미 사용 중입니다.";
+            idCheckMessageElement.style.color = "red";
+        } else {
+            idCheckMessageElement.innerText = "사용 가능한 아이디입니다.";
+            idCheckMessageElement.style.color = "green";
+        }
+    });
+}
 
   </script>
 </body>

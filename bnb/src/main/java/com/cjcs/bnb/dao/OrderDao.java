@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.cjcs.bnb.dto.CartDto;
 
@@ -12,7 +15,21 @@ public interface OrderDao {
     
     //유다
     public List<CartDto> getCartItemsByCId(String c_id, String cart_sort);
+   @Repository
+    public class CartItemDAO {
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    // 상품 삭제 메서드
+    public void deleteCartItem(int itemId) {
+        String sql = "DELETE FROM cart_items WHERE item_id = ?";
+        jdbcTemplate.update(sql, itemId);
+    }
+
+    // 다른 메서드들...
+}
+    
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
     public HashMap<String, String> getOrderInfoByOId(int o_id);

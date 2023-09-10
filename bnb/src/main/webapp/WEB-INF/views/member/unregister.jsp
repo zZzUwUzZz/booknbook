@@ -25,11 +25,11 @@
                 
                 <p class="input-group">
                     <label for="input_field_id" class="input_label">아이디</label>
-                    <input id="input_field_id" name="userId" class="inputField" type="text" placeholder="아이디를 입력하세요" autocomplete="off">
+                    <input id="input_field_id" name="m_id" class="inputField" type="text" placeholder="아이디를 입력하세요" autocomplete="off">
                 </p>
                 <p class="input-group">
                     <label for="input_field_password" class="input_label">비밀번호</label>
-                    <input id="input_field_password" name="password" class="inputField" type="password" placeholder="비밀번호를 입력하세요" autocomplete="off">
+                    <input id="input_field_password" name="m_pw" class="inputField" type="password" placeholder="비밀번호를 입력하세요" autocomplete="off">
                 </p>
                 
                 <div class="reasonArea">

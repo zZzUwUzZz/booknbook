@@ -48,6 +48,19 @@ public class MemberService {
         return null;
     }
 
+    // 시큐리티 용 그러나 실행 안됨
+    // public MemberDto login(HashMap<String, String> member) {
+    // try {
+    // MemberDto mb = mDao.getMemberById(member.get("m_id"));
+    // if (mb != null && pwEncoder.matches(member.get("m_pw"), mb.getM_pw())) {
+    // return mb;
+    // }
+    // } catch (Exception e) {
+    // log.error("Error occurred while trying to login: ", e);
+    // }
+    // return null;
+    // }
+
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
     }
@@ -62,12 +75,28 @@ public class MemberService {
     }
 
     // 비번 초기화
+
+    // public Boolean resetPassword(Map<String, String> inputData) {
+    // try {
+    // String userId = inputData.get("userId");
+    // String newPassword = inputData.get("newPassword");
+
+    // return mDao.resetPassword(userId, newPassword);
+    // } catch (Exception e) {
+    // // 로그 출력
+    // log.error("Error in resetting password in service layer: ", e);
+    // return false;
+    // }
+    // }
+
+    // // 비번 초기화
     public Boolean resetPassword(Map<String, String> inputData) {
         try {
             String userId = inputData.get("userId");
-            String newPassword = inputData.get("newPassword");
+            String rawPassword = inputData.get("newPassword");
+            String encryptedPassword = pwEncoder.encode(rawPassword); // BCrypt로 비밀번호 암호화
 
-            return mDao.resetPassword(userId, newPassword);
+            return mDao.resetPassword(userId, encryptedPassword);
         } catch (Exception e) {
             // 로그 출력
             log.error("Error in resetting password in service layer: ", e);
@@ -75,21 +104,40 @@ public class MemberService {
         }
     }
 
+    // @Autowired
+    // private BCryptPasswordEncoder pwEncoder;
+
+    // @Transactional
+    // public boolean unregister(String m_id, String m_pw) {
+    // try {
+    // // Get encoded password from the database for the user
+    // String encodedPwd = mDao.getEncodedPassword(m_id);
+
+    // // Check if the entered password matches the encoded password
+    // if (encodedPwd != null && pwEncoder.matches(m_pw, encodedPwd)) {
+    // return mDao.deleteMemberById(m_id) > 0;
+    // } else {
+    // return false;
+    // }
+    // } catch (Exception e) {
+    // log.error("Error during withdrawal: ", e);
+    // return false;
+    // }
+    // }
+
+    public String getEncryptedPassword(String m_id) {
+        return mDao.getEncodedPassword(m_id);
+    }
+
     @Autowired
     private BCryptPasswordEncoder pwEncoder;
 
     @Transactional
-    public boolean unregister(String m_id, String m_pw) {
+    public boolean unregister(String m_id) {
         try {
-            // Get encoded password from the database for the user
-            String encodedPwd = mDao.getEncodedPassword(m_id);
-
-            // Check if the entered password matches the encoded password
-            if (encodedPwd != null && pwEncoder.matches(m_pw, encodedPwd)) {
-                return mDao.deleteMemberById(m_id) > 0;
-            } else {
-                return false;
-            }
+            // Simply delete the member by ID, as password verification is done at the
+            // controller level
+            return mDao.deleteMemberById(m_id) > 0;
         } catch (Exception e) {
             log.error("Error during withdrawal: ", e);
             return false;

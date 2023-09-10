@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,9 @@ public class MemberController {
     public MemberService mSer;
     @Autowired
     private MemberDao mDao;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     // 여기서부터 페이지-메서드 매핑
 
@@ -230,19 +234,52 @@ public class MemberController {
 
     }
 
+    // @PostMapping("/unregister")
+    // public String unregister(@RequestParam String m_id, @RequestParam String
+    // m_pw,
+    // HttpSession session, RedirectAttributes rttr) {
+    // // 회원 탈퇴 로직을 위해 m_id와 m_pw 값을 직접 넘겨주면 됩니다.
+    // boolean result = mSer.unregister(m_id, m_pw);
+
+    // if (result) {
+    // // 탈퇴 성공 시 세션 정보도 삭제
+    // session.removeAttribute("loggedInUser");
+    // rttr.addFlashAttribute("msg", "회원 탈퇴가 성공적으로 이루어졌습니다.");
+    // return "redirect:/";
+    // } else {
+    // rttr.addFlashAttribute("msg", "회원 탈퇴에 실패했습니다. 아이디와 비밀번호를 다시 확인해주세요.");
+    // return "redirect:/member/unregister";
+    // }
+    // }
+
     @PostMapping("/unregister")
     public String unregister(@RequestParam String m_id, @RequestParam String m_pw,
             HttpSession session, RedirectAttributes rttr) {
-        // 회원 탈퇴 로직을 위해 m_id와 m_pw 값을 직접 넘겨주면 됩니다.
-        boolean result = mSer.unregister(m_id, m_pw);
+        // 데이터베이스에서 사용자의 실제 암호화된 비밀번호를 가져옵니다.
+        String storedPassword = mSer.getEncryptedPassword(m_id);
 
-        if (result) {
-            // 탈퇴 성공 시 세션 정보도 삭제
-            session.removeAttribute("loggedInUser");
-            rttr.addFlashAttribute("msg", "회원 탈퇴가 성공적으로 이루어졌습니다.");
-            return "redirect:/";
+        if (storedPassword == null) {
+            rttr.addFlashAttribute("msg", "해당하는 아이디가 없습니다.");
+            return "redirect:/member/unregister";
+        }
+
+        // BCrypt로 암호화된 비밀번호와 사용자가 입력한 비밀번호가 일치하는지 확인합니다.
+        boolean isPasswordMatch = passwordEncoder.matches(m_pw, storedPassword);
+
+        if (isPasswordMatch) {
+            // 회원 탈퇴 로직을 실행합니다.
+            boolean result = mSer.unregister(m_id);
+
+            if (result) {
+                session.removeAttribute("loggedInUser");
+                rttr.addFlashAttribute("msg", "회원 탈퇴가 성공적으로 이루어졌습니다.");
+                return "redirect:/";
+            } else {
+                rttr.addFlashAttribute("msg", "회원 탈퇴에 실패했습니다.");
+                return "redirect:/member/unregister";
+            }
         } else {
-            rttr.addFlashAttribute("msg", "회원 탈퇴에 실패했습니다. 아이디와 비밀번호를 다시 확인해주세요.");
+            rttr.addFlashAttribute("msg", "비밀번호가 일치하지 않습니다.");
             return "redirect:/member/unregister";
         }
     }

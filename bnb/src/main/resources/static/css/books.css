@@ -1,4 +1,19 @@
+body {
+  background: #dfdad5;
+}
+
+a {
+  color: #203b23;
+}
+
+.hd {
+  color: #203b23;
+  border-bottom: 1px solid #203b23;
+}
+
+
 .bookListContainer {
+  font-family: 'BookkGothic-Bd';
   width: 1300px;
   height: auto;
   margin: auto;
@@ -6,27 +21,27 @@
 }
   
   .bk_tt {
-    font-size: 30px;
     font-weight: bold;
-    width: 1220px;
+    width: 1190px;
     margin: auto;
-    color: #FFF;
-    margin-bottom: 19px;
+    color: #203b23;
+    margin-bottom: 0px;
   }
 
    .bk_tt p {
-    color: #FFF;
-    font-size: 20px;
+    color: #203b23;
+    font-size: 16px;
    }
   
   .bk_list {
     display: flex;
     flex-wrap: wrap;
+    color: #203b23;
   }
   
   .bk_item {
     width: calc(100% / 4);
-    height: calc(964px / 3);
+    height: calc(1170px / 3);
     box-sizing: border-box;
     padding: 10px;
     display: flex;
@@ -46,38 +61,124 @@
 }
 
   .pagination a {
-    border: 1px solid #ddd;
-    margin: 8px 16px;
-    padding: 8px 16px;
+    margin: 8px 3px;
+    padding: 6px 11px;
     text-decoration: none;
-    color: black;
+    color: #203b23;
+    font-size: 14px;
   }
-  
+
+  .pagination .active  {
+    color: #dfdad5;
+    font-weight: bold;
+    background: #203b23;
+    border-radius: 50%;
+  }
+
+
+
 
   /* 카테고리  */
+/* 선택된 중분류 스타일 */
+ 
+ .selected {
+background: #203b23;
+  }
+
+  .selected-link {
+        color: #dfdad5!important;
+  }
 
   .cateContain {
     display: flex;
-    padding: 22px 23px;
-  }
+    margin-left: 45px;
+    margin-top: 25px;
+    margin-bottom: 45px;
+    width: 1200px;
+}
 
   .medium-category {
     position: relative;
-    margin: 18px 16px;
-    width: 100px;
-    
+    margin: 18px 11px;
+    width: auto;
+    padding: 6px 19px;
+    border-radius: 31px;
+    color: #203b23;
+    border: 1px solid #203b23;
   }
   
   .small-categories {
+    display: none;
     position: absolute;
-    top: 33px;
-    left: 0; 
-    display: none; 
-    line-height: 32px;
-    background: #FFF;
+    top: 44px;
+    left: 0;
+    line-height: 35px;
+    background: #203b23;
     padding: 10px;
+    width: 117px;
+    border-radius: 5px;
   }
   
-  .small-categories a {
-    color: #000;
+  .medium-category a {
+    color: #203b23;
   }
+
+   .small-categories a {
+    color: #d5d5d5;
+  }
+
+  /* 도서 아이템 리스트 */
+
+ .catetext {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 26px;
+    color: #203b23;
+    margin: 26px 0;
+}
+.catetext h4 {
+  margin: 0;
+}
+
+  .bkimgbox {
+    width: 250px;
+    height: 250px;
+    padding: 15px;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    margin-bottom: 17px;
+}
+
+.bk_item_text {
+  line-height: 27px;
+  font-size: 14px;
+}
+
+
+
+/* 검색 결과 */
+
+p.result_tt {
+  font-size: 23px;
+}
+
+
+.no-results {
+  color: rgb(32, 59, 35);
+  font-size: 21px;
+  text-align: center;
+  height: 300px;
+  margin: 0 auto;
+  margin-top: 227px;
+  font-weight: bold;
+  }
+
+  p.randomemoji {
+    font-size: 118px;
+    margin: 0;
+    color: #728b74;
+}

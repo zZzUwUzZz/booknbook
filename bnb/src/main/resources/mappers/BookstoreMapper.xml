@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjcs.bnb.mappers.BookstoreMapper">
+
+    <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
+        SELECT sf.sf_sysname, s.s_storename, s.s_id
+        FROM seller_file sf
+        JOIN seller s ON sf.sf_s_id = s.s_id
+    </select>
+
+    <select id="getAllImageList" resultType="com.cjcs.bnb.dto.MemberDto">
+    SELECT sf.sf_sysname, s.s_storename, s.s_id
+    FROM seller_file sf
+    JOIN seller s ON sf.sf_s_id = s.s_id
+</select>
+
+
+</mapper>

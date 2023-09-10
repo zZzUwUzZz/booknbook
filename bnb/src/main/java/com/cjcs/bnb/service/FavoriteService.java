@@ -7,25 +7,13 @@ import com.cjcs.bnb.mappers.FavoriteMapper;
 
 @Service
 public class FavoriteService {
-   @Autowired
+    @Autowired
     private FavoriteMapper favoriteMapper;
 
-    // public int isFavorite(String userId, String storeId) {
-    //     return favoriteMapper.isFavorite(userId, storeId);
-    // }
-
-    // public boolean toggleFavorite(String userId, String storeId) {
-    //     System.out.println("Service: toggleFavorite called with userId: " + userId + ", storeId: " + storeId);
-    //     int isFavorite = isFavorite(userId, storeId); // int로 받음
-    //     if (isFavorite == 1) { // 1과 비교
-    //         favoriteMapper.removeFavorite(userId, storeId);
-    //         return false;
-    //     } else {
-    //         favoriteMapper.addFavorite(userId, storeId);
-    //         return true;
-    //     }
-    // }
-    
+    public boolean isFavorite(String userId, String storeId) {
+        Integer result = favoriteMapper.isFavorite(userId, storeId);
+        return result != null && result > 0;
+    }
 
     public boolean addFavorite(String userId, String storeId) {
         favoriteMapper.addFavorite(userId, storeId);
@@ -37,4 +25,7 @@ public class FavoriteService {
         return true;
     }
 
+    public void toggleFavorite(String userId, String storeId, int state) {
+        favoriteMapper.toggleFavorite(userId, storeId, state);
+    }
 }

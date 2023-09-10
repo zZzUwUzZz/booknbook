@@ -6,8 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,27 @@ public class FileService {
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
             List<String> allowedExtensions = Arrays.asList("png", "jpg", "jpeg");
+
+            // List<String> existingFiles = fileMapper.FileNamesBySellerId(sellerId);
+            // if (existingFiles != null && !existingFiles.isEmpty()) {
+            // // 기존 파일 정보를 지운다.
+            // fileMapper.deleteFileInfo(sellerId);
+            // }
+            List<String> existingFiles = fileMapper.FileNamesBySellerId(sellerId);
+            if (existingFiles != null && !existingFiles.isEmpty()) {
+                // 파일 시스템에서 기존 파일 삭제
+                for (String existingFile : existingFiles) {
+                    File fileToDelete = new File(uploadDir + existingFile);
+                    if (fileToDelete.exists()) {
+                        if (!fileToDelete.delete()) {
+                            throw new Exception("Failed to delete existing file");
+                        }
+                    }
+                }
+
+                // 데이터베이스에서 기존 파일 정보 삭제
+                fileMapper.deleteFileInfo(sellerId);
+            }
 
             if (!allowedExtensions.contains(extension)) {
                 throw new Exception("Invalid file extension");

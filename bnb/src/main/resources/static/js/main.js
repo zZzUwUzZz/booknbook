@@ -74,5 +74,34 @@ $(document).ready(function () {
 
         })
 
- 
 
+        // 메인 텍스트 
+        const text = `"어서오세요, 조용한 골목 책방 한강 서점 입니다."`;
+        let index = 0;
+    
+        function typeText() {
+          if (index < text.length) {
+            $(".maintt").append(text.charAt(index));
+            index++;
+            setTimeout(typeText, 80); // 100ms delay between each character
+          } else {
+            // After the text is fully typed
+            setTimeout(eraseText, 3000); // 3 seconds delay before erasing
+          }
+        }
+    
+        function eraseText() {
+          const currentText = $(".maintt").text();
+          if (currentText.length > 0) {
+            $(".maintt").text(currentText.slice(0, -1));
+            setTimeout(eraseText, 80); // 100ms delay between each backspace
+          } else {
+            // After the text is fully erased
+            index = 0;
+            setTimeout(typeText, 80); // 100ms delay before retyping
+          }
+        }
+    
+        $(document).ready(function() {
+          typeText();
+        });

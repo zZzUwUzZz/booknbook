@@ -29,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
   
-
-
 function initMap() {
   var center = {
       lat: 37.5665,
@@ -101,9 +99,8 @@ function searchMarkers(keyword) {
           markers[i].setMap(null);
       }
   }
-
   if (!found) {
-      alert('No matching places found.');
+      //alert('No matching places found.');
   }
 }
 
@@ -138,7 +135,7 @@ function addMarker(location, title, description, address) {
 // bs_itempf 클릭 이벤트에서 마커에 대응하는 InfoWindow 열기
 document.addEventListener('DOMContentLoaded', function() {	
   // bs_itempf 클릭 이벤트	
-  document.querySelectorAll('.bs_itempf').forEach(function(item) {	
+  document.querySelectorAll('.bs_itempf, .bs_item').forEach(function(item) {	
     item.addEventListener('click', function() {	
       const lat = parseFloat(this.getAttribute('data-lat'));	
       const lng = parseFloat(this.getAttribute('data-lng'));	
@@ -155,69 +152,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
   });	
 });	
-
-
-
-
-
-
-//   모달 
-$(document).ready(function() {
-  $('.bs_item').on('click', function() {
-    $('#storeDetailModal').css('display', 'block');
-    setTimeout(function() {
-      $('#storeDetailModal').css('transform', 'translateX(92%)');
-    }, 50);
-  });
-
-  $('.close-button').on('click', function() {
-    $('#storeDetailModal').css('transform', 'translateX(-40%)');
-  });
-});
-
-
-
-// 모달 클릭 시 정보 가져오기
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".bs_item").forEach(function (storeItem) {
-    storeItem.addEventListener("click", function () {
-      const storeId = this.getAttribute('data-store-id');
-
-    
-      fetch(`/get_store_details?id=${storeId}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Received data from server:", data); // 콘솔 로그를 통해 서버에서 받은 데이터 확인
-          console.log("Is Favorite: ", data.isFavorite);
-
-          // class를 사용하여 favoriteButton을 찾고,
-          // 동적으로 id와 data-store-id 값을 설정한다.
-          let favoriteButton = document.getElementById(`favoriteButton_${storeId}`);
-          if (!favoriteButton) {
-            favoriteButton = document.querySelector(".favoriteButton");
-            favoriteButton.setAttribute('id', `favoriteButton_${storeId}`);
-          }
-          favoriteButton.setAttribute('data-store-id', storeId);
-          favoriteButton.setAttribute('id', `favoriteButton_${storeId}`);
-
-          if (data.isFavorite) {  // 여기서 data.isFavorite는 서버에서 받은 Boolean 값입니다.
-            $(".favoriteButton").text("즐겨찾기 해제");  // 텍스트 설정
-        } else {
-            $(".favoriteButton").text("즐겨찾기 추가");  // 텍스트 설정
-        }
-
-          document.getElementById("storeImg").src = "/uploads/" + data.store_img;
-          document.getElementById("storeAddr").textContent = data.store_addr;
-          document.getElementById("storeName").textContent = data.store_name;
-          document.getElementById("storeDescription").textContent = data.store_description;
-          document.getElementById("storePhone").textContent = data.store_phone;
-          modal.style.display = "block";
-        })
-        .catch(error => {
-          console.log("Error fetching store details:", error); // 오류가 발생한 경우 콘솔 로그로 확인
-        });
-    });
-  });
-});
-
- 

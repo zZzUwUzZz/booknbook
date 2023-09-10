@@ -8,14 +8,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface FavoriteMapper {
     // Check if a store is favorited by a user
-    int isFavorite(@Param("userId") String userId, @Param("storeId") String storeId);
-    
-    // Add a store to favorites
+    Integer isFavorite(@Param("userId") String userId, @Param("storeId") String storeId);
+
     void addFavorite(@Param("userId") String userId, @Param("storeId") String storeId);
-    
-    // Remove a store from favorites
+
     void removeFavorite(@Param("userId") String userId, @Param("storeId") String storeId);
-    
-    // Toggle favorite status
+
     void toggleFavorite(@Param("userId") String userId, @Param("storeId") String storeId, @Param("state") int state);
 }

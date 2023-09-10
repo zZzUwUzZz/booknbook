@@ -13,39 +13,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cjcs.bnb.service.FavoriteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class FavoriteController {
-     @Autowired
+    @Autowired
     private FavoriteService favoriteService;
 
-//     @GetMapping("/getFavoriteStatus")
-//     @ResponseBody
-//     public Map<String, Object> getFavoriteStatus(@RequestParam String userId, @RequestParam String storeId) {
-//         int state = favoriteService.isFavorite(userId, storeId);
-//         Map<String, Object> result = new HashMap<>();
-//         result.put("isFavorite", state == 1);
-//         return result;
-//     }
+    @GetMapping("/isFavorite")
+    public ResponseEntity<?> isFavorite(@RequestParam String userId, @RequestParam String storeId) {
+        boolean isFavorite = favoriteService.isFavorite(userId, storeId);
+        return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
+    }
 
+    @PostMapping("/addFavorite")
+    public ResponseEntity<?> addFavorite(@RequestParam String userId, @RequestParam String storeId) {
+        boolean isSuccess = favoriteService.addFavorite(userId, storeId);
+        return new ResponseEntity<>(Map.of("isSuccess", isSuccess), HttpStatus.OK);
+    }
 
-// @PostMapping("/toggleFavorite")
-// public ResponseEntity<?> toggleFavorite(@RequestParam String userId, @RequestParam String storeId) {
-//     System.out.println("toggleFavorite called with userId: " + userId + ", storeId: " + storeId);  // 로그 추가
-//     boolean isFavorite = favoriteService.toggleFavorite(userId, storeId);
-//     return new ResponseEntity<>(Map.of("isFavorite", isFavorite), HttpStatus.OK);
-// }
- 
-@PostMapping("/addFavorite")
-public ResponseEntity<?> addFavorite(@RequestParam String userId, @RequestParam String storeId) {
-    boolean isSuccess = favoriteService.addFavorite(userId, storeId);
-    return new ResponseEntity<>(Map.of("isSuccess", isSuccess), HttpStatus.OK);
-}
+    @PostMapping("/removeFavorite")
+    public ResponseEntity<?> removeFavorite(@RequestParam String userId, @RequestParam String storeId) {
+        boolean isSuccess = favoriteService.removeFavorite(userId, storeId);
+        return new ResponseEntity<>(Map.of("isSuccess", isSuccess), HttpStatus.OK);
+    }
 
-@PostMapping("/removeFavorite")
-public ResponseEntity<?> removeFavorite(@RequestParam String userId, @RequestParam String storeId) {
-    boolean isSuccess = favoriteService.removeFavorite(userId, storeId);
-    return new ResponseEntity<>(Map.of("isSuccess", isSuccess), HttpStatus.OK);
-}
-    
 }

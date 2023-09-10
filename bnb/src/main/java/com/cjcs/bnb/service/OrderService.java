@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.OrderDao.CartItemDAO;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
@@ -30,6 +31,22 @@ public class OrderService {
     private RentalDao rDao;
     @Autowired
     private OrderDao oDao;
+
+    //유다
+    @Service
+public class CartService {
+
+    @Autowired
+    private CartItemDAO cartItemDAO;
+
+    // 상품 삭제 메서드
+    public void deleteCartItem(int itemId) {
+        cartItemDAO.deleteCartItem(itemId);
+    }
+
+    // 다른 메서드들...
+}
+
 
     // 수희
     @Transactional

@@ -142,20 +142,26 @@
         ORDER BY m_joindate DESC
     </select>
 
-    <!--검색조건에 맞는 구매자회원정보 가져오기-->
+    <!--검색조건에 맞는 구매자회원정보 & 총연체횟수 가져오기-->
     <select id="getCustomerListByKeyword" parameterType="SearchDto" resultType="MemberDto">
 		SELECT * FROM
 		<choose>
 		    <when test="colname != null and colname != ''">                
-		    	(SELECT rownum rn, CI.*
+		    	(SELECT rownum rn, CI.*, overdues
 		    	 FROM (SELECT * FROM CUSTOMER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		    	       ORDER BY m_joindate DESC) CI
+                       LEFT OUTER JOIN
+                      (SELECT r_c_id, COUNT(r_latefee_total) as overdues FROM R GROUP BY r_c_id)
+                       ON m_id = r_d_id
 		    	)
 		    </when>
 		    <otherwise>
-		    	(SELECT rownum rn, CI.*
+		    	(SELECT rownum rn, CI.*, overdues
 				 FROM CUSTOMER_INFO CI
+                      LEFT OUTER JOIN
+                     (SELECT r_c_id, COUNT(r_latefee_total) as overdues FROM R GROUP BY r_c_id)
+                      ON m_id = r_c_id
             	 ORDER BY m_joindate DESC)
 		    </otherwise>
 		</choose>

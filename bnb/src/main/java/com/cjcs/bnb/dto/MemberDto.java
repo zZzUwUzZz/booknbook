@@ -37,4 +37,7 @@ public class MemberDto {
     private int rental_amount;
     private int late_amount;
 
+    //수희
+    private int overdues;
+    
 }

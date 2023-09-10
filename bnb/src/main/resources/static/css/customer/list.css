@@ -5,7 +5,7 @@ table {
 }
 .tablebox {
     box-sizing: border-box;
-    border: 1px solid #ff9946;
+    border: 1px solid #4c4240;
     border-radius: 10px;
     max-height: 495px;
     width: 1040px;
@@ -32,7 +32,8 @@ tr {
     width: 1040px;
     padding: 5px;
     margin: auto;
-    margin-top: -25px;
+    margin-top: -27px;
+    margin-bottom: 5px;
 }
 .pagebox {
     box-sizing: border-box;
@@ -40,7 +41,7 @@ tr {
     width: 1040px;
     padding: 5px;
     margin: auto;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 .btnbox {
     display: flex;
@@ -53,4 +54,29 @@ tr {
 .rej_reason {
     text-align: right;
     font-size: 14px;
+}
+.pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    background-color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
+}
+.container-mypage a {
+    color: #fffbed;
+}
+.pno:hover {
+    background-color: #fffbed;
+    color: #4c4240;
+}
+.curr-pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
 }

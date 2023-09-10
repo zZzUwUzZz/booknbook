@@ -113,8 +113,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

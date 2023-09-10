@@ -5,11 +5,11 @@ table {
 }
 .tablebox {
     box-sizing: border-box;
-    border: 1px solid #ff9946;
-    border-radius: 10px;
+    border-top: 2px solid #4c4240;
+    border-bottom: 2px solid #4c4240;
     width: 700px;
     margin: auto;
-    padding: 10px;
+    padding: 8px;
 }
 .th {
     background: #4c4240;
@@ -19,7 +19,6 @@ tr {
     height: 40px;
 }
 .content_td {
-    background-color: white;
     border: 1px solid #4c4240;
     text-align: left;
     height: 150px;
@@ -30,8 +29,10 @@ tr {
     text-align: left;
     padding: 10px;
 }
-.td-linked {
+.td-linked:hover {
     cursor: pointer;
+    color: #ff9946;
+    text-decoration: underline;
 }
 .headrow {
     background: #4c4240;
@@ -44,7 +45,8 @@ tr {
     width: 700px;
     padding: 5px;
     margin: auto;
-    margin-top: -20px;
+    margin-top: -25px;
+    margin-bottom: 5px;
 }
 .pagebox {
     box-sizing: border-box;
@@ -52,7 +54,7 @@ tr {
     width: 700px;
     padding: 5px;
     margin: auto;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 .buttonbox {
     display: flex;
@@ -62,12 +64,32 @@ tr {
     padding-top: 10px;
     margin: auto;
 }
-
-.rej_reason {
-    text-align: right;
-    font-size: 14px;
-    
-}
 #board-area-flexible {
-    height: none;
+    height: fit-content;
+    padding-bottom: 45px;
+}
+.pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    background-color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
+}
+.container-mypage a {
+    color: #fffbed;
+}
+.pno:hover {
+    background-color: #fffbed;
+    color: #4c4240;
+}
+.curr-pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
 }

@@ -97,7 +97,7 @@
                                     <td>${customer.m_phone}</td>
                                     <td>${customer.m_email}</td>
                                     <td><fmt:formatDate value="${customer.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-                                    <td>총 ${customer.overdue}회</td>
+                                    <td>총 ${customer.overdues}회</td>
                                 </tr>
                                 </c:forEach>
                         </c:if>
@@ -113,8 +113,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

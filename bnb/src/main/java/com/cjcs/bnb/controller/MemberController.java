@@ -126,8 +126,8 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String joinProcess(MemberDto member, Model model) {
-
+    public String joinProcess(MemberDto member, Model model) {  
+        
         HashMap<String, Object> resultMap = new HashMap<>();
 
         try {
@@ -253,21 +253,21 @@ public class MemberController {
     }
 
     @PostMapping("/unregister")
-    public String unregister(@RequestParam String m_id, @RequestParam String
-    m_pw,
+    public String unregister(@RequestParam String m_id, @RequestParam String m_pw,
     HttpSession session, RedirectAttributes rttr) {
-    // 회원 탈퇴 로직을 위해 m_id와 m_pw 값을 직접 넘겨주면 됩니다.
-    boolean result = mSer.unregister(m_id, m_pw);
+        // 회원 탈퇴 로직을 위해 m_id와 m_pw 값을 직접 넘겨주면 됩니다.
+        Boolean result = mSer.unregister(m_id, m_pw);
+        log.info("result:{}", result);
 
-    if (result) {
-    // 탈퇴 성공 시 세션 정보도 삭제
-    session.removeAttribute("loggedInUser");
-    rttr.addFlashAttribute("msg", "회원 탈퇴가 성공적으로 이루어졌습니다.");
-    return "redirect:/";
-    } else {
-    rttr.addFlashAttribute("msg", "회원 탈퇴에 실패했습니다. 아이디와 비밀번호를 다시 확인해주세요.");
-    return "redirect:/member/unregister";
-    }
+        if (result) {
+            // 탈퇴 성공 시 세션 정보도 삭제
+            session.removeAttribute("loggedInUser");
+            rttr.addFlashAttribute("msg", "회원 탈퇴가 성공적으로 이루어졌습니다.");
+            return "redirect:/";
+        } else {
+            rttr.addFlashAttribute("msg", "회원 탈퇴에 실패했습니다. 아이디와 비밀번호를 다시 확인해주세요.");
+            return "redirect:/member/unregister";
+        }
     }
 
     // @PostMapping("/unregister")

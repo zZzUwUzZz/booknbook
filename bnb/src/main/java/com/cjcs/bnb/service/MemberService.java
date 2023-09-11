@@ -72,6 +72,13 @@ public class MemberService {
         return count > 0;
     }
 
+
+
+
+
+
+
+    
     // 비번 초기화
 
     // public Boolean resetPassword(Map<String, String> inputData) {
@@ -108,7 +115,7 @@ public class MemberService {
 private BCryptPasswordEncoder pwEncoder;
 
 @Transactional
-public boolean unregister(String m_id, String m_pw) {
+public Boolean unregister(String m_id, String m_pw) {
     try {
         // Get encoded password from the database for the user
         String encodedPwd = mDao.getEncodedPassword(m_id);
@@ -119,7 +126,7 @@ public boolean unregister(String m_id, String m_pw) {
             mDao.deleteCustomerById(m_id);
             
             // Then, delete the user data from the MEMBER table
-            return mDao.deleteMemberById(m_id) > 0;
+            return mDao.deleteMemberById(m_id);
         } else {
             return false;
         }

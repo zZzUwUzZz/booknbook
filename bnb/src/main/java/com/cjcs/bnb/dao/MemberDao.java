@@ -55,6 +55,13 @@ public interface MemberDao {
     @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
     MemberDto getMemberById(String m_id);
 
+  
+
+   
+
+
+
+
     // 로그인 중복확인
     int countById(String m_id);
 
@@ -78,9 +85,9 @@ public interface MemberDao {
     // 회원 탈퇴
     String getEncodedPassword(String m_id);
 
-    int deleteMemberById(String m_id);
+    Boolean deleteMemberById(String m_id);
 
-    int deleteCustomerById(String m_id);
+    Boolean deleteCustomerById(String m_id);
 
 
   

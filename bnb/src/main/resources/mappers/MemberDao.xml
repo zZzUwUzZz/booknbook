@@ -39,6 +39,19 @@ WHERE M.m_id = #{s_id}
     </select>
 
 
+    <!-- <mapper namespace="yourMapper">
+    <select id="getPassword" parameterType="string" resultType="string">
+        SELECT M_PW FROM MEMBER WHERE M_ID = #{username}
+    </select>
+</mapper> -->
+
+
+
+
+
+
+
+
     <!-- id찾기 -->
     <select id="findIdByEmail" resultType="String">
        SELECT M_ID
@@ -96,7 +109,7 @@ WHERE M.m_id = #{s_id}
 
 <!-- MEMBER 테이블에서 데이터 삭제 -->
 <delete id="deleteMemberById">
-    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}gi
+    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}
 </delete>
 
 

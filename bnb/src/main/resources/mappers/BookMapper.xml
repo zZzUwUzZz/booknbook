@@ -5,7 +5,7 @@
 
 <mapper namespace="com.cjcs.bnb.dao.BookMapper">
 
-
+    <!-- 킹효진 -->
     <select id="findAll" resultType="com.cjcs.bnb.dto.BookDto">
         SELECT * FROM BOOK
     </select>
@@ -28,7 +28,7 @@ WHERE rn BETWEEN #{start} AND #{end}
 
  
 <select id="countTotalBooks" resultType="int">
-  SELECT COUNT(*) FROM BOOK
+  SELECT COUNT(DISTINCT B_ISBN) FROM BOOK
 </select>
 
 <select id="findByIsbn" resultType="com.cjcs.bnb.dto.BookDto">
@@ -46,7 +46,7 @@ WHERE rn BETWEEN #{start} AND #{end}
 
 <!-- 키워드에 해당하는 책의 총 개수를 조회 -->
 <select id="countKeyword" resultType="int">
-    SELECT COUNT(*) FROM BOOK WHERE UPPER(B_TITLE) LIKE UPPER('%' || #{keyword} || '%')
+  SELECT COUNT(DISTINCT B_ISBN) FROM BOOK WHERE UPPER(B_TITLE) LIKE UPPER('%' || #{keyword} || '%')
 </select>
 
 <!-- 키워드에 해당하는 책들을 페이지네이션하여 조회 -->
@@ -89,12 +89,34 @@ SELECT * FROM (
   WHERE rn BETWEEN #{start} AND #{end}
 </select>
 
-
 <select id="countBooksByMediumCategory" resultType="int">
-  SELECT COUNT(*) FROM Book WHERE b_category_s_id IN (
+  SELECT COUNT(DISTINCT B_ISBN) FROM BOOK WHERE b_category_s_id IN (
     SELECT category_s_id FROM Category_S WHERE category_m_id = #{category_m_id}
   )
 </select>
+
+ <!-- 소분류 카테고리 -->
+<select id="findBooksBySmallCategory" resultType="com.cjcs.bnb.dto.BookDto">
+SELECT * FROM (
+    SELECT B.*, ROW_NUMBER() OVER (ORDER BY B.B_ISBN) AS rn
+    FROM (
+        SELECT DISTINCT B_ISBN FROM BOOK
+        WHERE b_category_s_id = #{category_s_id}
+    ) A
+    JOIN (
+        SELECT * FROM (
+            SELECT BOOK.*, ROW_NUMBER() OVER (PARTITION BY B_ISBN ORDER BY B_PRICE ASC) AS rnk
+            FROM BOOK
+        ) WHERE rnk = 1
+    ) B ON A.B_ISBN = B.B_ISBN
+  ) 
+  WHERE rn BETWEEN #{start} AND #{end}
+</select>
+
+<select id="countBooksBySmallCategory" resultType="int">
+  SELECT COUNT(DISTINCT B_ISBN) FROM BOOK WHERE b_category_s_id = #{category_s_id}
+</select>
+
 
 
 

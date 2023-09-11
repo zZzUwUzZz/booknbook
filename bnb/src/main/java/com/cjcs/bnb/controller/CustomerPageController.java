@@ -20,7 +20,6 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
-import com.cjcs.bnb.dto.FavDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RefExchDto;

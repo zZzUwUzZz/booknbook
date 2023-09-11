@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.BookDto;
-import com.cjcs.bnb.dto.FavDto;
+import com.cjcs.bnb.dto.FavoriteDTO;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;

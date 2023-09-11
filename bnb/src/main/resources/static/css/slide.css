@@ -1,18 +1,11 @@
+ 
 .slider {
     position: relative;
     max-width: 1220px;
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
-}
-
-.slider {
-    position: relative;
-    max-width: 1220px;
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-}
+ }
 
 .itemlist {
     position: relative;
@@ -31,6 +24,9 @@
 }
 
 /* 이미지 컨테이너 */
+
+
+
 .slide, .b_slide, .b_item {
     box-sizing: border-box;
     text-align: center;
@@ -41,16 +37,43 @@
     margin: 0 20px; /* 더 큰 간격을 주기 위해 수정 가능 */
 }
 
-.slide p, .b_slide p, .b_item p {
+.b_slide p, .b_item p {
     text-align: left;
     margin: 5px;
+}
+
+.slide p {
+    text-align: center;
+    margin: 5px;
+}
+
+
+/* 슬라이드 버튼 */
+
+.prntbtn  {
+    width: 1400px;
+    position: absolute;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
 
 /* 이미지 스타일 */
+.bs_infott {
+    margin-top: 24px;
+}
+.slide img {
+    max-width: 290px;
+    aspect-ratio: 1/1;
+    height: auto;
+    object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
+    border-radius: 50%;
+}
 
-.slide img, .b_slide img, .b_item img {
+.b_slide img, .b_item img {
     max-width: 290px;
     aspect-ratio: 1/1;
     height: auto;

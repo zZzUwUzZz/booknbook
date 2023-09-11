@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
-import com.cjcs.bnb.dto.BookDto;
-import com.cjcs.bnb.dto.FavDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.SellerDto;
 
 import lombok.extern.slf4j.Slf4j;
 

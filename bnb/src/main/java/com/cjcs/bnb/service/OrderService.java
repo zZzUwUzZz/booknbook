@@ -34,7 +34,7 @@ public class OrderService {
 
     //유다
     @Service
-public class CartService {
+    public class CartService {
 
     @Autowired
     private CartItemDAO cartItemDAO;
@@ -43,10 +43,7 @@ public class CartService {
     public void deleteCartItem(int itemId) {
         cartItemDAO.deleteCartItem(itemId);
     }
-
-    // 다른 메서드들...
 }
-
 
     // 수희
     @Transactional

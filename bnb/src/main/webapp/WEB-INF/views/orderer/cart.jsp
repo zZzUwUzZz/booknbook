@@ -28,8 +28,8 @@ div {
 }
 .all_check_input_div{
     border: 4px double #e3ec90;
-    width: 50px;
-    height: 50px;
+    width: 90px;
+    height: 30px;
     float: left;
 }
 .subject_table{
@@ -56,33 +56,17 @@ div {
 .content_total_section_second{
     border: 4px double #ec9e90;
 }
-.all_check_input_div_second{
-    width: 50px;
-    height:50px;
-    float: left;
-    border: 4px double #ecbc90;
-}
-.subject_table_second{
-    border: 4px double #ecbc90;
-}
-.content_subject{
-    border: 4px double #73a573;
-}
-.content_btn_section{
-    border: 4px double #0f0f18;
-}
-.order_btn {background-color: #ff9946;
-font-size:15px; 
-padding: 10px 32px;
-}
+
 .content_totalCount_section{
 	border: 4px double #73a573;
+}
+.content_middle_section{
+	border: 4px double #e3ec90;
 }
 
 </style>
 
 </head>
-
 <body>
 
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
@@ -92,7 +76,7 @@ padding: 10px 32px;
 		<div class="wrap">
 			<div class="content_area">
 
-				<div class="content_subject"><span>장바구니</span></div>
+				<div class="content_subject"><span>일반 장바구니</span></div>
 				<!-- 장바구니 리스트 -->
 				<div class="content_middle_section"></div>
 				<!-- 장바구니 가격 합계 -->
@@ -103,8 +87,6 @@ padding: 10px 32px;
 					<div class="all_check_input_div">
 						<input type="checkbox" class="all_check_input input_size_20" checked="checked"><span class="all_chcek_span">전체선택</span>
 					</div>				
-
-					<!--구매카트-->
 
 					<form action="/cart/update" method="post"><!-- 장바구니 수정을 위한 폼 추가 --> 
 					<table class="cart_table">
@@ -127,7 +109,7 @@ padding: 10px 32px;
 									<td>${cPItem.b_price}</td>
 									<td>
 										<input type="number" class="quantity_input" name="quantity" value="${cPItem.cart_amount}" min="1" max="${cPItem.b_salestock}">
-									</td>
+									</td> 
 									<td>${cPItem.b_price * cPItem.cart_amount}</td>
 									<td><a href="/cart/delete?cartId=${cPItem.cart_id}">삭제</a></td>
 								</tr>
@@ -136,95 +118,56 @@ padding: 10px 32px;
 					</table> 
 					<button type="submit">수정</button> <!-- 장바구니 수정 버튼 추가 -->
                 </form>
-				</div>
+				</div> 
+				<!-- content_totalCount_section 끝 -->
 
 			</div>
+			<!-- content_area 끝 -->
+
 		</div>
+		<!-- wrap 끝 -->
 		
-		<div class="wrap">
-        <!-- 여기는 대여 부분이야 -->
-        	<div class="content_area_second"><span>대여 카트</span></div>
-   <!-- 대여 카트 리스트 -->
-   <div class="content_middle_section"></div>
-   <!-- 대여 카트 가격 합계 -->
-   <!-- rentalCartInfo -->
-   <div class="content_totalCount_section">
-	   <!-- 체크박스 전체 여부 -->
-	   <div class="all_check_input_div">
-		   <input type="checkbox" class="all_check_input input_size_20" checked="checked"><span class="all_check_span">전체선택</span>
-	   </div>
-
-	   <!-- 대여 카트 -->
-	   <form action="/rentalCart/update" method="post"> <!-- 대여 카트 수정을 위한 폼 추가 -->
-		   <table class="cart_table">
-			   <tr>
-				   <th class="td_width_1"></th>
-				   <th class="td_width_2">서점명</th>
-				   <th class="td_width_3">도서명</th>
-				   <th class="td_width_4">대여료</th>
-				   <th class="td_width_5">수량</th>
-				   <th class="td_width_6">대여기간</th>
-				   <th class="td_width_7">합계</th>
-				   <th class="td_width_8">삭제</th>
-			   </tr>
-
-			   <c:forEach items="${cRList}" var="cRItem">
-				   <tr>
-					   <td><input type="checkbox" class="check_input" name="selectedItems" value="${cRItem.cart_id}"></td>
-					   <td>${cRItem.s_storename}</td>
-					   <td>${cRItem.b_title}</td>
-					   <td>${cRItem.b_rent}</td>
-					   <td>
-						   <input type="number" class="quantity_input" name="quantity" value="${cRItem.cart_amount}" min="1" max="1">
-					   </td>
-					   <td>${cRItem.cart_rentalperiod}일</td>
-					   <td>${cRItem.b_rent * cRItem.cart_amount}</td>
-					   <td><a href="/rentalCart/delete?cartId=${cRItem.cart_id}">삭제</a></td>
-				   </tr>
-			   </c:forEach>
-		   </table>
-		   <button type="submit">수정</button> <!-- 대여 카트 수정 버튼 추가 -->
-	   </form>
-
-   </div>
-</div>
-</div>
-</div>
-        	    <!-- 체크박스 전체 여부
-        	    <div class="all_check_input_div_second">
-        	    	<input type="checkbox" class="all_check_input input_size_20" checked="checked"><span class="all_chcek_span_second">전체선택</span>
-        	    </div>				
-
-				< 장바구니 담긴 상품 품목을 이미지로도 확인할 수 있도록 
-				<대여카트
-        	    <table class="cart_table">
-
-        	        <tr>
-        	            <th class="td_second_1"></th>
-						<th class="td_second_2">서점명</th>
-        	            <th class="td_second_3">도서명</th>
-        	            <th class="td_second_4">대여료</th>
-        	            <th class="td_second_5">수량</th>
-						<th class="td_second_6">대여기간</th>
-        	            <th class="td_second_7">합계</th>
-        	            <th class="td_second_8">삭제</th>
-        	        </tr>
-
-        	        <c:forEach items="${cRList}" var="cRItem">
-        	            <tr>
-							<td></td>
-							<td>${cRItem.s_storename}</td>
-							<td>${cRItem.b_title}</td>
-							<td>${cRItem.b_rent}</td>
-							<td>1</td>
-							<td>${cRItem.cart_rentalperiod}</td>
-							<td>${cRItem.b_rent}</td>
-							<td></td>
-						</tr>
-				    </c:forEach>
-
-	 			</table>
-	 		</div> -->
+		<div class="content_subject_second"><span>대여 장바구니</span></div>
+		<!-- 대여 카트 리스트 -->
+		<div class="content_middle_section_second">
+			<!-- 대여 카트 테이블 시작 -->
+			<table class="cart_table_second">
+				<tr>
+					<th class="td_width_1">
+						<!-- 대여 장바구니 전체 선택 체크박스 -->
+						<div class="all_check_input_div_second">
+							<input type="checkbox" class="all_check_input_second input_size_20" checked="checked">
+							<span class="all_check_span_second">전체선택</span>
+						</div>
+					</th>
+					<th class="td_width_2">서점명</th>
+					<th class="td_width_3">도서명</th>
+					<th class="td_width_4">대여료</th>
+					<th class="td_width_5">수량</th>
+					<th class="td_width_6">합계</th>
+					<th class="td_width_7">삭제</th>
+				</tr>
+		
+				<c:forEach items="${cRList}" var="cRItem">
+					<tr>
+						<td>
+							<!-- 대여 장바구니 개별 선택 체크박스 -->
+							<input type="checkbox" class="check_input" name="selectedItems" value="${cRItem.cart_id}">
+						</td>
+						<td>${cRItem.s_storename}</td>
+						<td>${cRItem.b_title}</td>
+						<td>${cRItem.b_rent}</td>
+						<td>
+							<!-- 수량 입력 필드를 1로 고정 -->
+							<input type="number" class="quantity_input" name="quantity" value="1" min="1" max="1" disabled>
+						</td> 
+						<td>${cRItem.b_rent * 1}</td> <!-- 수량을 1로 고정한 값으로 계산 -->
+						<td><a href="/rentalCart/delete?cartId=${cRItem.cart_id}">삭제</a></td>
+					</tr>
+				</c:forEach>
+			</table>
+			<!-- 대여 카트 테이블 종료 -->
+		</div>
                      
             <!-- 삭제 form -->
 			<!-- <form action="/cart/delete" method="post" class="quantity_delete_form_second">
@@ -236,7 +179,8 @@ padding: 10px 32px;
 
 			</form> -->
 
-		</div>	<!-- class="wrap" -->
+		<!-- </div>	 -->
+		<!-- class="wrap" -->
 <!-- 
  구매 버튼 영역 
 		<div class="content_btn_section">
@@ -246,124 +190,80 @@ padding: 10px 32px;
 	</div>	class="wrapper" -->
 
 	<jsp:include page="../../tiles/footer.jsp"></jsp:include>
-<!-- <script>
-// 장바구니 수량 조절
-function adjustQuantity(itemId, maxStock) {
-    // 해당 상품의 수량 입력 필드와 현재 수량 가져오기
-    var quantityInput = document.getElementById("quantity_" + itemId);
-    var currentQuantity = parseInt(quantityInput.value);
 
-    // 증가 또는 감소 버튼을 클릭한 경우
-    var action = event.target.dataset.action;
-    if (action === "increase" && currentQuantity < maxStock) {
-        currentQuantity++;
-    } else if (action === "decrease" && currentQuantity > 1) {
-        currentQuantity--;
-    }
-
-    // 수량 업데이트
-    quantityInput.value = currentQuantity;
-}
-
-// 장바구니에 상품을 추가할 때 재고량 체크
-function addToCart(itemId, maxStock) {
-    var quantityInput = document.getElementById("quantity_" + itemId);
-    var quantity = parseInt(quantityInput.value);
-
-    if (quantity > maxStock) {
-        alert("재고량을 초과할 수 없습니다.");
-        return;
-    }
-
-    // 서버에 장바구니 업데이트 요청 전송
-    // 여기에서 서버로 업데이트 요청을 보내야 합니다.
-}
-</script> -->
-
-<script>
-	// 장바구니 수량 조절
-function adjustQuantity(itemId, maxStock) {
-    // 해당 상품의 수량 입력 필드와 현재 수량 가져오기
-    var quantityInput = document.getElementById("quantity_" + itemId);
-    var currentQuantity = parseInt(quantityInput.value);
-
-    // 증가 또는 감소 버튼을 클릭한 경우
-    var action = event.target.dataset.action;
-    if (action === "increase" && currentQuantity < maxStock) {
-        currentQuantity++;
-    } else if (action === "decrease" && currentQuantity > 1) {
-        currentQuantity--;
-    }
-
-    // 수량 업데이트
-    quantityInput.value = currentQuantity;
-}
-// 장바구니에 상품을 추가할 때 재고량 체크
-function addToCart(itemId, maxStock) {
-    var quantityInput = document.getElementById("quantity_" + itemId);
-    var quantity = parseInt(quantityInput.value);
-
-    if (quantity > maxStock) {
-        alert("재고량을 초과할 수 없습니다.");
-        return;
-    }
-
-    // 여기에서 서버로 장바구니 업데이트 요청을 보내야 합니다.
-    // 요청을 보내고 서버에서 장바구니 업데이트를 처리하는 부분을 구현해야 합니다.
-    
-}
-
-	function updateCartItem(cartId) {
-        const quantityInput = document.querySelector(`input[name="quantity"][value="${cartId}"]`);
-        const newQuantity = quantityInput.value;
-
-        // 서버로 업데이트 요청을 보내는 Ajax 요청
-        $.ajax({
-            url: "/cart/update",
-            method: "POST",
-            data: {
-                cartId: cartId,
-                newQuantity: newQuantity
-            },
-            success: function(response) {
-                // 서버에서 업데이트된 장바구니 정보를 처리하는 로직을 추가할 수 있습니다.
-                // 예: 화면에서 업데이트된 내용을 반영하거나 메시지를 표시합니다.
-            },
-            error: function(error) {
-                // 오류 처리 로직을 추가할 수 있습니다.
-            }
-        });
-    }
-    $(document).ready(function() {
-        // 수량 입력 필드의 값이 변경될 때 이벤트 핸들러
-        $(".quantity_input").change(function() {
-            // 현재 수량 입력 필드
-            var inputElement = $(this);
-
-            // 현재 상품의 재고량
-            var maxStock = parseInt(inputElement.data("max-stock"));
-
-            // 현재 입력된 수량
-            var quantity = parseInt(inputElement.val());
-
-            // 최소값을 1로 설정
-            if (quantity < 1) {
-                quantity = 1;
-            }
-
-            // 최대값을 재고량으로 설정
-            if (quantity > maxStock) {
-                quantity = maxStock;
-
-                // 재고량을 초과하는 경우 경고 메시지 표시
-                alert("재고량을 초과할 수 없습니다.");
-            }
-
-            // 입력 필드에 변경된 수량 설정
-            inputElement.val(quantity);
-        });
+	<script>
+		// 장바구니 수량 조절
+		function adjustQuantity(itemId, maxStock, event) {
+			var quantityInput = document.getElementById("quantity_" + itemId);
+			var currentQuantity = parseInt(quantityInput.value);
+	
+			var action = event.target.dataset.action;
+			if (action === "increase" && currentQuantity < maxStock) {
+				currentQuantity++;
+			} else if (action === "decrease" && currentQuantity > 1) {
+				currentQuantity--;
+			}
+	
+			quantityInput.value = currentQuantity;
+		}
+	
+		// 장바구니에 상품을 추가할 때 재고량 체크
+		function addToCart(itemId, maxStock) {
+			var quantityInput = document.getElementById("quantity_" + itemId);
+			var quantity = parseInt(quantityInput.value);
+	
+			if (quantity > maxStock) {
+				alert("재고량을 초과할 수 없습니다.");
+				return;
+			}
+		}
+	
+		// 수량 입력 필드의 값이 변경될 때 이벤트 핸들러
+		$(".quantity_input").change(function () {
+			var inputElement = $(this);
+			var maxStock = parseInt(inputElement.data("max-stock"));
+			var quantity = parseInt(inputElement.val());
+	
+			if (quantity < 1) {
+				quantity = 1;
+			}
+	
+			if (quantity > 9) {
+				quantity = 9;
+				alert("최대 수량은 9개까지만 가능합니다.");
+			}
+	
+			if (quantity > maxStock) {
+				alert("재고량을 초과할 수 없습니다.");
+				quantity = maxStock;
+			}
+	
+			inputElement.val(quantity);
+		});
+	
+		  // 일반 장바구니 전체 선택/해제 체크박스 이벤트 핸들러
+		  $(".all_check_input").click(function() {
+        var isChecked = $(this).prop("checked");
+        var cartTable = $(this).closest(".content_totalCount_section").find(".cart_table");
+        cartTable.find(".check_input").prop("checked", isChecked);
     });
-</script>
+
+    // 대여 장바구니 전체 선택/해제 체크박스 이벤트 핸들러
+    $(".all_check_input_div_second .all_check_input").click(function() {
+        var isChecked = $(this).prop("checked");
+        var rentalCartTable = $(this).closest(".content_middle_section").find(".cart_table");
+        rentalCartTable.find(".check_input").prop("checked", isChecked);
+    });
+
+    // 대여 장바구니 개별 선택 체크박스 이벤트 핸들러
+    $(".content_area_second .cart_table .check_input").click(function() {
+        var totalCheckboxes = $(".content_area_second .cart_table .check_input").length;
+        var checkedCheckboxes = $(".content_area_second .cart_table .check_input:checked").length;
+        var allCheckbox = $(".all_check_input_div_second .all_check_input");
+
+        allCheckbox.prop("checked", totalCheckboxes === checkedCheckboxes);
+    });
+	</script>
 
 </body>
 </html>

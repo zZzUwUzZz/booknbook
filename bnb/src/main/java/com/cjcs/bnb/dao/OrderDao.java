@@ -15,7 +15,7 @@ public interface OrderDao {
     
     //유다
     public List<CartDto> getCartItemsByCId(String c_id, String cart_sort);
-   @Repository
+    @Repository
     public class CartItemDAO {
 
     @Autowired
@@ -26,8 +26,6 @@ public interface OrderDao {
         String sql = "DELETE FROM cart_items WHERE item_id = ?";
         jdbcTemplate.update(sql, itemId);
     }
-
-    // 다른 메서드들...
 }
     
     //수희

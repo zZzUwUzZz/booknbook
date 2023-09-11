@@ -1,10 +1,16 @@
 package com.cjcs.bnb.dao;
 
 import java.util.List;
+import java.util.Map;
+
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
@@ -46,24 +52,36 @@ public interface MemberDao {
 
     // 로그인 중복확인
     int countById(String m_id);
-    //아이디 찾기
+
+    // 아이디 찾기
     String findIdByEmailAndName(String email, String name);
 
-    
     String findIdByEmail(@Param("name") String name, @Param("email") String email);
-   
-    String findIdByEmailAndCode(@Param("name") String name, @Param("email") String email, @Param("verificationCode") String verificationCode);
 
-    
+    String findIdByEmailAndCode(@Param("name") String name, @Param("email") String email,
+                    @Param("verificationCode") String verificationCode);
+
     @Select("SELECT M_ID FROM CJCS.MEMBER WHERE M_EMAIL = #{email} AND M_NAME = #{name}")
-    
+
     String getIdByEmailAndName(@Param("email") String email, @Param("name") String name);
 
+    Integer verifyUser(Map<String, String> inputData);
 
-    // //비밀번호 초기화yo
+    // 비번 초기화
+    boolean resetPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
 
-    // boolean verifyUser(ResetPasswordDto resetPasswordDto); // 현재 비밀번호 확인
-    // int updatePassword(ResetPasswordDto resetPasswordDto);
+    // 회원 탈퇴
+    String getEncodedPassword(String m_id);
+
+    int deleteMemberById(String m_id);
+
+    int deleteCustomerById(String m_id);
+
+
+  
+    
+    
+   
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);

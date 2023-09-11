@@ -16,7 +16,7 @@
   
 
 <form action="/member/join2" method="post" id="registration-form" onsubmit="validateRegistrationForm(event);">
-  <input type="text" id="m_id" name="m_id" placeholder="아이디" required oninput="checkIdDuplication()">
+  <input type="text" id="m_id" name="m_id" placeholder="아이디(6자 이상의 영문/숫자)" required oninput="checkIdDuplication()">
       <!-- <button type="button" onclick="checkIdDuplication()">중복 확인</button> -->
       <span id="idCheckMessage"></span> <!-- 중복 확인 메시지를 표시할 요소 -->
       <input type="password" id="m_pw" name="m_pw" placeholder="비밀번호" required>
@@ -84,25 +84,28 @@
 
   function checkIdDuplication() {
     let username = document.getElementById("m_id").value;
+    let idCheckMessageElement = document.getElementById("idCheckMessage");
 
-    
+    // 아이디 길이 검사 추가
+    if (username.length < 6) {
+        idCheckMessageElement.innerText = "";
+        idCheckMessageElement.style.color = "red";
+        return; // 여기서 함수를 종료
+    }
+
     $.ajax({
-        url: "/member/checkId2",  // URL 변경
-        type: "GET",  // 요청 타입을 GET으로 변경
+        url: "/member/checkId2",
+        type: "GET",
         data: {
             m_id: username
         },
         success: function (response) {
-          
-          let idCheckMessageElement = document.getElementById("idCheckMessage");
-
-         if (response.isDuplicated) {
-              idCheckMessageElement.innerText = "이 아이디는 이미 사용 중입니다.";
-              idCheckMessageElement.style.color = "red"; // 빨간색 스타일 적용
-              isIdChecked = false;
+            if (response.isDuplicated) {
+                idCheckMessageElement.innerText = "이 아이디는 이미 사용 중입니다.";
+                idCheckMessageElement.style.color = "red"; // 빨간색 스타일 적용
             } else {
-              idCheckMessageElement.innerText = "사용 가능한 아이디입니다.";
-              idCheckMessageElement.style.color = "green"; 
+                idCheckMessageElement.innerText = "사용 가능한 아이디입니다.";
+                idCheckMessageElement.style.color = "green"; 
             }
         },
         error: function () {

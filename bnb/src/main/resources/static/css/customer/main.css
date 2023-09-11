@@ -18,6 +18,12 @@
     width: 530px;
     padding: 0 20px;
 }
+.container-4 {
+    box-sizing: border-box;
+    display: flex;
+    width: 520px;
+    margin: auto;
+}
 table {
     width: 100%;
     font-size: 15px;
@@ -37,6 +43,7 @@ tr {
     border-bottom: 1px solid #4c4240;
     border-right: none;
     height: 297px;
+    padding: 5px 0;
     margin-bottom: 15px;
 }
 .card-top {
@@ -71,6 +78,16 @@ h3 {
 }
 h3 a:hover {
     color: #ff9946;
+    font-weight: 600;
+}
+td a:hover {
+    color: #ff9946;
+    font-weight: 600;
+}
+
+h4 {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 7px 0 7px;
 }
 .labelbox {
     display: flex;
@@ -79,4 +96,20 @@ h3 a:hover {
 .more-btn {
     height: 25px;
     margin-top: 15px;
+}
+.store_img {
+    border: 1px dotted #4c4240;
+    width: 300px;
+    height: 205px;
+    margin: 0 5px 0 22px;
+}
+.book_img {
+    border: 1px dotted #4c4240;
+    text-align: center;
+    width: 170px;
+    height: 205px;
+    margin: 0 5px 0 10px;
+}
+.book_img a img {
+    height: 205px;
 }

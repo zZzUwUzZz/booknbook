@@ -1,10 +1,17 @@
 package com.cjcs.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
@@ -28,11 +35,15 @@ public interface MemberDao {
     List<SellerFileDto> getImagesBySellerId(String s_id);
 
     MemberDto getMemberInfo(String s_id);
+    
+    List<SellerDto> getAllBookstores();
+
+
 
     
     // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
-    // 재락
+    /// 재락
     public boolean joinMember(MemberDto mDto);
 
     public boolean joinSeller(MemberDto mDto);
@@ -46,6 +57,36 @@ public interface MemberDao {
 
     // 로그인 중복확인
     int countById(String m_id);
+
+    // 아이디 찾기
+    String findIdByEmailAndName(String email, String name);
+
+    String findIdByEmail(@Param("name") String name, @Param("email") String email);
+
+    String findIdByEmailAndCode(@Param("name") String name, @Param("email") String email,
+                    @Param("verificationCode") String verificationCode);
+
+    @Select("SELECT M_ID FROM CJCS.MEMBER WHERE M_EMAIL = #{email} AND M_NAME = #{name}")
+
+    String getIdByEmailAndName(@Param("email") String email, @Param("name") String name);
+
+    Integer verifyUser(Map<String, String> inputData);
+
+    // 비번 초기화
+    boolean resetPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
+
+    // 회원 탈퇴
+    String getEncodedPassword(String m_id);
+
+    int deleteMemberById(String m_id);
+
+    int deleteCustomerById(String m_id);
+
+
+  
+    
+    
+   
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);
@@ -82,5 +123,8 @@ public interface MemberDao {
 
     public Integer countFavBooks(String c_id);
     public List<BookDto> getFavBookList(String c_id, int start, int end);
+
+    public HashMap<String, String> getLatestFavStoreByCId(String c_id, int rownum);
+    public HashMap<String, String> getLatestFavBookByCId(String c_id, int rownum);
 
 }

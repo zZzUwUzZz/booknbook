@@ -45,7 +45,7 @@
         WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
               r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
               r_c_id = #{c_id}
-        ORDER BY o_date DESC
+        ORDER BY o_date DESC, s_storename, b_title
     </select>
 
     <select id="getCurrentRentalListByCId" parameterType="String" resultType="Map">
@@ -53,8 +53,9 @@
                b_title as "b_title",
                s_storename as "s_storename",
                r_duedate as "r_duedate",
-               rental_status as "rental_status"
-        FROM (SELECT b_title, s_storename, r_duedate, rental_status
+               rental_status as "rental_status",
+               r_latefee_total as "r_latefee_total"
+        FROM (SELECT b_title, s_storename, r_duedate, rental_status, r_latefee_total
             FROM R, S, B, STATUS_R
             WHERE r_s_id = s_id AND r_s_id = b_s_id AND r_b_isbn = b_isbn AND
                     r_rental_status_id = rental_status_id AND

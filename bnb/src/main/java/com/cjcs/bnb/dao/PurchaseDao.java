@@ -24,6 +24,7 @@ public interface PurchaseDao {
     public List<RefExchDto> getRefExchListByCId(String c_id);
     public List<RefExchDto> getCurrentRefExchListByCId(String c_id);
     public int countCurrentRefExchByCId(String c_id);
+    public Boolean deleteRefExchList(Integer re_id);
 
     public boolean cancelPurchaseByOId(Integer o_id);
 

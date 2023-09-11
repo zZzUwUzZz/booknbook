@@ -22,6 +22,7 @@ public interface RentalDao {
     public List<RentalDto> getLatest5RentalListByCId(String c_id);
 
     public int countCurrentRentalByCId(String c_id);
+    public int countLateReturnByCId(String c_id);
 
     public boolean cancelRentalByOId(Integer o_id);
 

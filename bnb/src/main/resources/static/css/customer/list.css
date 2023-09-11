@@ -5,9 +5,9 @@ table {
 }
 .tablebox {
     box-sizing: border-box;
-    border: 1px solid #ff9946;
+    border: 1px solid #4c4240;
     border-radius: 10px;
-
+    max-height: 495px;
     width: 1040px;
     margin: auto;
     padding: 10px;
@@ -15,8 +15,10 @@ table {
 tr {
     height: 40px;
 }
-.td-linked {
+.td-linked:hover {
     cursor: pointer;
+    color: #ff9946;
+    font-weight: 600;
 }
 .headrow {
     background: #4c4240;
@@ -24,17 +26,22 @@ tr {
 }
 
 .searchbox {
+    text-align: right;
     box-sizing: border-box;
-    border: 1px solid yellow;
+    text-align: right;
     width: 1040px;
+    padding: 5px;
     margin: auto;
+    margin-top: -27px;
+    margin-bottom: 5px;
 }
 .pagebox {
     box-sizing: border-box;
-    border: 1px solid yellow;
     text-align: center;
     width: 1040px;
+    padding: 5px;
     margin: auto;
+    margin-top: 12px;
 }
 .btnbox {
     display: flex;
@@ -47,5 +54,29 @@ tr {
 .rej_reason {
     text-align: right;
     font-size: 14px;
-    
+}
+.pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    background-color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
+}
+.container-mypage a {
+    color: #fffbed;
+}
+.pno:hover {
+    background-color: #fffbed;
+    color: #4c4240;
+}
+.curr-pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
 }

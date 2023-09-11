@@ -36,7 +36,6 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="/js/main.js"></script>
             <script src="/js/search.js"></script>
-             <script src="/js/books.js"></script>
         </head>
        
         
@@ -47,54 +46,78 @@
             <%@include file="/WEB-INF/tiles/header.jsp" %>
 
             <div class="bookListContainer">
+             
+              <div class="catetext">
+                <h4>${category_m_id}${category_s_id}</h4>
+              </div>
 
-            <div class="cateContain">
-            
-              <c:forEach var="mediumCategory" items="${mediumCategories}" varStatus="loop">
-                <div class="medium-category" id="medium-category-${loop.index}">
-                  <a href="/books/category/medium/${mediumCategory.category_m_id}">${mediumCategory.category_m}</a>
-                  <div class="small-categories" id="small-categories-${loop.index}">
-                    <c:forEach var="smallCategory" items="${smallCategories}">
-                      <c:if test="${smallCategory.category_m_id == mediumCategory.category_m_id}">
-                        <div>${smallCategory.category_s}</div>
-                      </c:if>
-                    </c:forEach>
-                  </div>
-                </div>
-              </c:forEach>
-
-              
+              <div class="cateContain">    
+                <c:forEach var="mediumCategory" items="${mediumCategories}" varStatus="loop">
+                    <div class="medium-category 
+                        <c:if test="${mediumCategory.category_m_id == category_m_id || mediumCategory.category_m_id == category_s_id}">selected</c:if>" 
+                        id="medium-category-${loop.index}">
+                        <a href="/books/category/medium/${mediumCategory.category_m_id}"
+                            class="<c:if test="${mediumCategory.category_m_id == category_m_id}">selected-link</c:if>">
+                            ${mediumCategory.category_m}
+                        </a>
+                        <div class="small-categories" id="small-categories-${loop.index}">
+                            <c:forEach var="smallCategory" items="${smallCategories}">
+                                <c:if test="${smallCategory.category_m_id == mediumCategory.category_m_id}">
+                                    <div class="<c:if test="${smallCategory.category_s_id == category_s_id}">selected</c:if>">
+                                        <a href="/books/category/small/${smallCategory.category_s_id}">
+                                            ${smallCategory.category_s}
+                                        </a>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </c:forEach>           
             </div>
+            
 
- 
+            
+
                 <div class="bk_tt">
-                  BOOKS
                   <p class="totalct">전체 ${totalItems}개</p>
-                </div>
+                </div>  
                 <ul class="bk_list">
                   <c:forEach var="book" items="${books}">
                     <li class="bk_item">
                       <div class="bk_area">
                         <a href="<c:url value='/books/detail/${book.b_isbn}/${book.b_s_id}'/>">
-                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg"
-                                alt="${book.b_title}">
-                            </a><br>
-                        <div><b>${book.b_title}</b></div>
-                        <div><b>${book.b_price}원</b></div>
+                          <div class="bkimgbox">
+                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/160x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
+                          </div>
+                        </a>
+                        <div class="bk_item_text"><b>${book.b_title}</b><br>
+                       <b>${book.b_price}원</b></div>
                       </div>
                     </li>
                   </c:forEach>
                 </ul>
               </div>
-           
 
-             
-                                  
-             
-              
+              <div class="pagination">
+                <c:choose>
+                  <c:when test="${not empty category_m_id}">
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                      <a href="<c:url value='/books/category/medium/${category_m_id}?page=${i}' />">${i}</a>
+                    </c:forEach>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                      <a href="<c:url value='/books?page=${i}' />">${i}</a>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </div>
+            
               
 
                 <%@include file="/WEB-INF/tiles/footer.jsp" %>
+                <script src="/js/books.js"></script>
+
         </body>
 
         </html>

@@ -29,6 +29,7 @@ public class BookDto {
     private String s_storename; // 서점명
     private String category_m_id; // 중분류기호
     private String category_s; // 소분류명
+    private String category_s_id;
     private String category_m; // 중분류명
 
 }

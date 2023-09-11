@@ -1,0 +1,83 @@
+/* 스타일을 적용할 버튼 클래스 선택자 */
+.btnSubmit {
+    display: inline-block;
+    padding: 10px 130px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #0e1a22;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* all로 변경하여 다른 속성에 대한 전환 효과도 포함 */
+}
+
+/* 버튼에 호버 효과 추가 */
+.btnSubmit:hover {
+    background-color: #2980b9;
+    transform: scale(1.05); /* 버튼의 크기를 약간 확대 */
+}
+
+/* 버튼이 가로로 꽉 차도록 설정 */
+.ec-base-button.gColumn {
+    text-align: center;
+}
+
+/* 전체 페이지의 배경색과 폰트 설정 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* 타이틀 영역 스타일링 */
+.titleArea {
+    background-color: #4d6b50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.titleArea ul {
+    padding: 0;
+    list-style-type: none;
+    line-height: 1.5; /* 항목 간의 라인 간격 조정 */
+}
+
+/* 폼 영역 스타일링 */
+.findId {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 430px;
+}
+
+.input-group {
+    margin-bottom: 15px; /* margin의 방향을 bottom만 적용 */
+}
+
+/* 입력창 스타일링 */
+.lostInput {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+    transition: border-color 0.3s ease;
+}
+
+.lostInput:focus {
+    border-color: #2980b9;
+}
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.lostInput::placeholder {
+    color: #f50101;
+}

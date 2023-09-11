@@ -1,26 +1,26 @@
-/* 스타일을 적용할 버튼 클래스 선택자 */
 .btnSubmit {
     display: inline-block;
-    padding: 10px 130px;
-    font-size: 15px;
+    padding: 12px 36px;
     font-weight: bold;
     color: white;
     background-color: #0e1a22;
+    background-image: linear-gradient(45deg, #0e1a22, #2980b9);
     border: none;
-    border-radius: 5px;
+    border-radius: 45px; /* 버튼 모서리 둥글게 */
     cursor: pointer;
-    transition: all 0.3s ease; /* all로 변경하여 다른 속성에 대한 전환 효과도 포함 */
+    transition: all 0.3s ease;
+    letter-spacing: 2px; /
 }
 
 /* 버튼에 호버 효과 추가 */
 .btnSubmit:hover {
     background-color: #2980b9;
-    transform: scale(1.05); /* 버튼의 크기를 약간 확대 */
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2); 
 }
 
-/* 버튼이 가로로 꽉 차도록 설정 */
-.ec-base-button.gColumn {
-    text-align: center;
+.btnSubmit:active {
+    transform: scale(0.95); /* 버튼을 클릭하면 약간 줄어들게 만들기 */
 }
 
 /* 전체 페이지의 배경색과 폰트 설정 */
@@ -42,11 +42,11 @@ body {
 .titleArea ul {
     padding: 0;
     list-style-type: none;
-    line-height: 1.5; /* 항목 간의 라인 간격 조정 */
+    line-height: 1.5;
 }
 
 /* 폼 영역 스타일링 */
-.findId {
+.deactivateArea {
     background-color: white;
     border: 1px solid #ccc;
     padding: 30px;
@@ -55,26 +55,39 @@ body {
 }
 
 .input-group {
-    margin-bottom: 15px; /* margin의 방향을 bottom만 적용 */
+    margin-bottom: 15px;
 }
 
 /* 입력창 스타일링 */
-.lostInput {
+.inputField {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+    box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
 
-.lostInput:focus {
+.inputField:focus {
     border-color: #2980b9;
 }
-input[type="radio"] {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    vertical-align: middle;
+
+.inputField::placeholder {
+    color: #ccc;
+}
+
+.reasonArea {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.confirmCheck {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
     cursor: pointer;
 }

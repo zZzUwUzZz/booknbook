@@ -4,15 +4,49 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cjcs.bnb.dao.CategoryDao">
 
-<select id="listMediumCategories" resultType="BookDto">
-    SELECT * FROM category_m
-</select>
+    <select id="listMediumCategories" resultType="BookDto">
+        SELECT * FROM category_m ORDER BY category_m
+    </select>
 
-<select id="listAllSmallCategories" resultType="BookDto">
-    SELECT * FROM category_s 
-</select>
+    <select id="listSmallCategories" resultType="BookDto">
+        SELECT * FROM category_s WHERE category_m_id = #{mediumCategoryId} ORDER BY category_s
+    </select>
+
+    <select id="listAllSmallCategories" resultType="BookDto">
+        SELECT * FROM category_s 
+    </select>
 
 
+<!--수희-->
 
+    <select id="listSmallCategoryNames" resultType="Map">
+        SELECT category_m_id as "category_m_id", category_s_id as "category_s_id", category_s as "category_s"
+        FROM CATEGORY_S WHERE category_m_id = #{category_m_id} ORDER BY category_s
+    </select>
+
+    <select id="getMediumCategoryIdByName">
+        SELECT category_m_id FROM CATEGORY_M
+        WHERE category_m = #{category_m}
+    </select>
+
+    <insert id="addMediumCategory">
+        INSERT INTO CATEGORY_M
+        VALUES(#{category_m_id}, #{category_m})
+    </insert>
+
+    <insert id="addSmallCategory">
+        INSERT INTO CATEGORY_S
+        VALUES(#{category_m_id}, #{category_s_id}, #{category_s})
+    </insert>
+
+    <delete id="deleteMediumCategory">
+        DELETE FROM CATEGORY_M
+        WHERE category_m_id = #{category_m_id}
+    </delete>
+
+    <delete id="deleteSmallCategory">
+        DELETE FROM CATEGORY_S
+        WHERE category_s_id = #{category_s_id}
+    </delete>
 
 </mapper>

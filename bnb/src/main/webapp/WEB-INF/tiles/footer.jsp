@@ -7,7 +7,6 @@
 
         <div class="sns_link">
             <a>INSTAGRAM</a><br>
-            <a>TWITTER</a>
         </div>
 
         <div>

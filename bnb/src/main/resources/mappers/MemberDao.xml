@@ -16,7 +16,8 @@ LEFT JOIN SF ON S.s_id = SF.sf_s_id
 WHERE M.m_id = #{s_id}
     </select>
 
-<!--재락-->
+<!--이재락-->
+
 
     <!--회원가입정보 DB에 넣기-->
     <insert id="joinMember" parameterType="MemberDto">
@@ -34,8 +35,81 @@ WHERE M.m_id = #{s_id}
         VALUES(#{m_id}, #{c_name})
     </insert>
 
-   
+    <select id="countById" resultType="int">
+    SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
+    </select>
 
+
+    <!-- id찾기 -->
+    <select id="findIdByEmail" resultType="String">
+       SELECT M_ID
+        FROM CUSTOMER_INFO
+       WHERE M_EMAIL = #{email} AND C_NAME = #{name}
+    </select>
+
+
+    <select id="verifyUser" resultType="Integer">
+        SELECT COUNT(*)
+        FROM CUSTOMER_INFO
+        WHERE C_NAME = #{name}
+        AND M_ID = #{userId}
+        AND M_EMAIL = #{email}
+    </select>
+
+ <update id="resetPassword" parameterType="Map">
+    UPDATE M
+    SET M_PW = #{newPassword}
+    WHERE M_ID = #{userId}
+</update>
+
+
+<!-- 회원탈퇴 -->
+ 
+<resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">
+    <result property="m_id" column="M_ID"/>
+    <result property="m_pw" column="M_PW"/>
+    <result property="c_name" column="C_NAME"/>
+    <result property="m_addr" column="M_ADDR"/>
+    <result property="m_phone" column="M_PHONE"/>
+    <result property="m_email" column="M_EMAIL"/>
+    <result property="m_joindate" column="M_JOINDATE"/>
+</resultMap>
+
+
+<select id="getEncodedPassword" resultType="String">
+    SELECT M_PW
+    FROM "CJCS"."CUSTOMER_INFO"
+    WHERE M_ID = #{m_id}
+</select>
+
+
+<select id="getMemberInfoById" resultMap="MemberResult">
+    SELECT * 
+    FROM "CJCS"."CUSTOMER_INFO"
+    WHERE M_ID = #{m_id}
+</select>
+
+
+<!-- CUSTOMER 테이블에서 데이터 삭제 -->
+<delete id="deleteCustomerById">
+    DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
+</delete>
+
+<!-- MEMBER 테이블에서 데이터 삭제 -->
+<delete id="deleteMemberById">
+    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}gi
+</delete>
+
+
+
+
+<!-- <delete id="deleteMemberById">
+    DELETE FROM "CJCS"."CUSTOMER_INFO" WHERE M_ID = #{m_id}
+</delete>
+
+<delete id="deleteCustomerById">
+    DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
+</delete> -->
 
 <!--예림-->
 
@@ -110,10 +184,6 @@ WHERE M.m_id = #{s_id}
         GROUP BY 
             o_c_id, c_name
     </select>
-    
-
-
-
 
 <!--수희-->
 
@@ -254,4 +324,24 @@ WHERE M.m_id = #{s_id}
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
+    <!--가장 최근에 등록한 즐찾서점의 서점아이디, 서점명 가져오기-->
+    <select id="getLatestFavStoreByCId" resultType="Map">
+        SELECT favs_s_id as "favs_s_id", s_storename as "favs_s_storename"
+        FROM (SELECT rownum rn, favs_s_id, s_storename
+                FROM (SELECT favs_s_id, s_storename FROM FAVSTORE, S
+                      WHERE favs_c_id = #{c_id} AND favs_s_id = s_id
+                      ORDER BY favs_date DESC)
+              )
+        WHERE rn = #{rownum}
+    </select>
+
+    <!--가장 최근에 등록한 찜도서의 판매서점아이디, 책isbn 가져오기-->
+    <select id="getLatestFavBookByCId" resultType="Map">
+        <!--결과를 Map에 넣을 땐 까먹지 말고 as "키이름" 해주기ㅅㅂ-->
+        SELECT favb_s_id as "favb_s_id", favb_b_isbn as "favb_b_isbn"
+        FROM (SELECT rownum rn, favb_s_id, favb_b_isbn
+              FROM (SELECT favb_s_id, favb_b_isbn FROM FAVBOOK WHERE favb_c_id = #{c_id} ORDER BY favb_date DESC))
+        WHERE rn = #{rownum}
+    </select>
+    
 </mapper>

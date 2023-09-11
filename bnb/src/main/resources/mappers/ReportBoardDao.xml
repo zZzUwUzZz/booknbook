@@ -31,12 +31,22 @@
 		]]>	
 	</select>
 
+	<select id="getReportByRId" parameterType="Integer" resultType="ReportBoardDto">
+		SELECT * FROM RB
+		WHERE report_id = #{report_id}
+	</select>
+
     <select id="countReports" parameterType="SearchDto" resultType="Integer">
 		SELECT COUNT(*) FROM RB
 		<if test="colname != null and colname != ''">
 		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		</if>	
 	</select>
+
+	<delete id="deleteReportByRId">
+		DELETE FROM RB
+		WHERE report_id = #{report_id}
+	</delete>
 
 
 

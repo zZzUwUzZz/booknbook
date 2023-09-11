@@ -1,89 +1,93 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/member/unregister.css">
-    <title>Password Confirmation</title>
-    <script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous"></script>
+    <title>회원 탈퇴</title>
 </head>
 <body>
     <div class="header"></div>
+    
     <div class="titleArea">
-        <h2>Find ID</h2>
+        <h2>회원 탈퇴</h2>
         <ul>
-            <li>아이디 찾기 페이지요.</li>
-            <li>법인사업자 회 법인명과 법인번호 또는 이름과 등록번호를 입력해 주세요.</li>
+            <li>탈퇴 전 모든 정보를 확인해주세요.</li>
+            <li>탈퇴 후 복구는 불가능합니다.</li>
         </ul>
     </div>
-     
-    <form id="findIdForm" name="findIdForm" action="/member/findId" method="post" target="_self" enctype="multipart/form-data">
-        <input id="returnUrl" name="returnUrl" value="/member/id/find_id_result.html" type="hidden">
-        <div class="findId">
-           
-            <fieldset>   <legend>아이디 찾기</legend>
-             
-                <p class="member"></p>
-                    <strong>회원유형</strong>
-                    <select id="searchType" name="searchType" fw-label="회원유형">
-                        <option value="indi" selected="selected">개인회원</option>
-                        <option value="indibuis">개인 사업자회원</option>
+
+    <form id="deactivateAccountForm" name="deactivateAccountForm" action="/member/unregister" method="post" target="_self">
+        <div class="deactivateArea">
+            <fieldset>   
+                <legend>탈퇴 확인</legend>
+                
+                <p class="input-group">
+                    <label for="input_field_id" class="input_label">아이디</label>
+                    <input id="input_field_id" name="m_id" class="inputField" type="text" placeholder="아이디를 입력하세요" autocomplete="off">
+                </p>
+                <p class="input-group">
+                    <label for="input_field_password" class="input_label">비밀번호</label>
+                    <input id="input_field_password" name="m_pw" class="inputField" type="password" placeholder="비밀번호를 입력하세요" autocomplete="off">
+                </p>
+                
+                <div class="reasonArea">
+                    <label for="deactivateReason"><strong>탈퇴 사유 선택 (선택 사항)</strong></label>
+                    <select id="deactivateReason" name="deactivateReason">
+                        <option value="">-- 선택하세요 --</option>
+                        <!-- 
+                        <option value="privacy">개인 정보 걱정</option>
+                        <option value="useless">더 이상 필요 없음</option> 
+                        -->
+                        <option value="hard">반수희 때문에</option>
+                        <option value="hard">이효진 떄문에</option>
+                        <option value="hard">배유다 때문에</option>
+                        <option value="hard">김예림 떄문에</option>
+                        <option value="hard">이수연 때문에</option>
+                        <option value="other">기타</option>
                     </select>
-                </p>
-            
-                <p class="check">
-                    <input id="check_method1" name="check_method" value="2" type="radio" checked="checked" onchange="toggleInput('email');">
-                    <label for="check_method1">이메일</label>
-                    <input id="check_method2" name="check_method" value="3" type="radio" onchange="toggleInput('mobile');">
-                    <label for="check_method2"><span id="search_type_mobile_label">휴대폰번호</span></label>
-                </p>
-                <p class="input-group" id="input_id">
-                    <strong class="input_label">사용자ID</strong>
-                    <input id="input_field_id" name="input_field_id" class="lostInput" placeholder="아이디를 입력하세요" value="" type="text">
-                </p>
-                <p class="input-group" id="input_email">
-                    <strong class="input_label">이메일 입력</strong>
-                    <input id="input_field_email" name="input_field_email" class="lostInput" placeholder="이메일을 입력하세요" value="" type="text">
-                </p>
-                <p class="input-group" id="input_mobile" style="display: none;">
-                    <strong class="input_label">휴대폰 입력</strong>
-                    <input id="input_field_mobile" name="input_field_mobile" class="lostInput" placeholder="휴대폰 번호를 입력하세요" value="" type="text">
-                </p>
-                <div class="ec-base-button gColumn" id="bu">
-                    <!-- <a href="#none" class="btnSubmit sizeM" onclick="findIdAction(); return false;">확인</a> -->
-                    <button type="button" onclick="location.href='/member/emailAuth'">이메일보내기</button>
                 </div>
+
+                <div class="confirmCheck">
+                    <input type="checkbox" id="confirmCheck" name="confirmCheck">
+                    <label for="confirmCheck">정보를 모두 확인하였으며, 이에 동의합니다.</label>
+                </div>
+
+                <div class="buttonGroup">
+                    <button type="button" class="btnSubmit" onclick="confirmDeactivation();">탈퇴하기</button>
+                </div>        
             </fieldset>
         </div>
     </form>
-    
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-        function toggleInput(inputType) {
-            const emailInput = document.getElementById('input_email');
-            const mobileInput = document.getElementById('input_mobile');
-            const nameInput = document.getElementById('input_name');
-    
-            // 모든 입력 필드를 기본적으로 숨깁니다.
-            emailInput.style.display = 'none';
-            mobileInput.style.display = 'none';
-            nameInput.style.display = 'block'; // 이름 입력 필드는 항상 보여줍니다.
-    
-            if (inputType === 'email') {
-                emailInput.style.display = 'block';
-            } else if (inputType === 'mobile') {
-                mobileInput.style.display = 'block';
+        function confirmDeactivation() {
+            var userId = $("#input_field_id").val();
+            var password = $("#input_field_password").val();
+            var reason = $("#deactivateReason option:selected").text();
+            
+            if (!userId || !password) {
+                alert('아이디와 비밀번호를 확인하세요.');
+                return;
+            }
+            
+            if (!$('#confirmCheck').prop('checked')) {
+                alert('탈퇴 전 모든 정보 확인에 동의해야 합니다.');
+                return;
+            }
+
+            var confirmMsg = "정말로 탈퇴하시겠습니까?";
+            if (reason && reason !== "-- 선택하세요 --") confirmMsg += "\n탈퇴 사유: " + reason;
+
+            if (window.confirm(confirmMsg)) {
+                $("#deactivateAccountForm").submit();
+               
             }
         }
-    
-        // 페이지 로딩 시 기본 설정: "이메일" 입력창이 선택되어 표시됩니다.
-        window.onload = function() {
-            toggleInput('email');
-        }
     </script>
+
+    <div class="footer"></div>
 </body>
 </html>

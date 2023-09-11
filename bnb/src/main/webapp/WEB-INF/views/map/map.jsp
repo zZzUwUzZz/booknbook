@@ -175,7 +175,12 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
             <c:if test="${!loop.last}">,</c:if>
         </c:forEach>
     ];
+ 
 </script>
+
+
+
+
 
   </body>
  

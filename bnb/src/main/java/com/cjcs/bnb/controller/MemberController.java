@@ -71,6 +71,24 @@ public class MemberController {
         }
     }
 
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpSession session, Model model) {
+        Object loggedInUser = session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            model.addAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/member/login";
+        }
+
+        // 로그아웃 로직 (세션 삭제 등)
+        session.invalidate();
+
+        return "redirect:/";
+    }
+
+
+
     @GetMapping("/findId")
     public String findId() {
 

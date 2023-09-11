@@ -24,10 +24,17 @@ WHERE M.m_id = #{s_id}
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
-  <insert id="joinSeller" parameterType="MemberDto">
+  <!-- <insert id="joinSeller" parameterType="MemberDto">
         INSERT INTO S(s_id, s_storename, s_crn )
         VALUES(#{m_id}, #{s_storename}, #{s_crn})
     </insert>
+     -->
+<select id="findSellerIdByStoreNameAndEmail" resultType="string">
+    SELECT S.S_ID
+    FROM SELLER S
+    JOIN MEMBER M ON S.S_ID = M.M_ID
+    WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
+</select>
 
     <insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 

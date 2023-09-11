@@ -22,8 +22,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400&family=Noto+Sans+KR:wght@400&family=Space+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/cardboard.css">
   
@@ -66,35 +68,39 @@
 
                 <form id="updateForm" action="/mypage/updateinfo" method="POST">    
 
+                    <div class="imgbox">
+                        <img src="https://e1.pxfuel.com/desktop-wallpaper/701/393/desktop-wallpaper-motivational-about-writing-handwriting.jpg"/>
+                    </div>
+
                     <div class="tablebox infotable">
                             
                         <table>
                             <tr>
-                                <td>아이디</td>
+                                <td class="label">아이디</td>
                                 <td>${mDto.m_id}</td>
                             </tr>
                             <tr>
-                                <td>기존비밀번호</td>
-                                <td><input type="password" id="pw_ori"></td>
+                                <td class="label">기존비밀번호</td>
+                                <td><input type="password" id="pw_ori" class="info"></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><span id="pw_check" class="red_msg" style="display: none">비밀번호가 일치하지 않습니다. 입력하신 내용을 확인해주세요.</span></td>
+                                <td colspan="2"><p id="pw_check" class="red_msg" style="display: none">비밀번호가 일치하지 않습니다. 입력하신 내용을 확인해주세요.</p></td>
                             </tr>
                             <tr>
-                                <td>이름</td>
-                                <td><input type="text" value="${mDto.c_name}" name="c_name" required></td>
+                                <td class="label">이름</td>
+                                <td><input type="text" value="${mDto.c_name}" name="c_name" class="info" required></td>
                             </tr>
                             <tr>
-                                <td>주소</td>
-                                <td><input type="text" value="${mDto.m_addr}" name="m_addr" required></td>
+                                <td class="label">주소</td>
+                                <td><input type="text" value="${mDto.m_addr}" name="m_addr" class="info" required></td>
                             </tr>
                             <tr>
-                                <td>휴대전화번호</td>
-                                <td><input type="text" value="${mDto.m_phone}" name="m_phone" required></td>
+                                <td class="label">휴대전화번호</td>
+                                <td><input type="text" value="${mDto.m_phone}" name="m_phone" class="info" required></td>
                             </tr>
                             <tr>
-                                <td>이메일</td>
-                                <td><input type="text" value="${mDto.m_email}" name="m_email" required></td>
+                                <td class="label">이메일</td>
+                                <td><input type="text" value="${mDto.m_email}" name="m_email" class="info" required></td>
                             </tr>
                         </table>
 

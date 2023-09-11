@@ -1,5 +1,6 @@
 package com.cjcs.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,5 +119,8 @@ public interface MemberDao {
 
     public Integer countFavBooks(String c_id);
     public List<BookDto> getFavBookList(String c_id, int start, int end);
+
+    public HashMap<String, String> getLatestFavStoreByCId(String c_id, int rownum);
+    public HashMap<String, String> getLatestFavBookByCId(String c_id, int rownum);
 
 }

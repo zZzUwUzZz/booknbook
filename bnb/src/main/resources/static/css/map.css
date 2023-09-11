@@ -244,7 +244,6 @@ span.material-symbols-outlined.close-button {
     opacity: 1;
     color: #ff7200;
     transition: all .8s;
-    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.527));
     font-variation-settings: 'FILL' 1, 'wght' 100,'GRAD' 0,'opsz' 48;
 }
 
@@ -253,7 +252,6 @@ span.material-symbols-outlined.close-button {
     font-size: 100px;
     opacity: 0.5;
     color: #ffffff;
-    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.527));
     transition: all .8s;
     font-variation-settings: 'FILL' 1, 'wght' 100,'GRAD' 0,'opsz' 48;
 }

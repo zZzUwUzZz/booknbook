@@ -56,9 +56,7 @@
  <main>
 
     <div class="bsContain">
-    
         <div id="bsSlider">
-
             <c:forEach var="entry" items="${allImageList}" varStatus="status">
                 <c:if test="${status.index < 3}">
                     <div class="bsSlide active">
@@ -76,13 +74,16 @@
         <div id="prev">
             <span class="material-symbols-outlined">
                 chevron_left
-                </span></div>
-
-
-        <div id="next"><span class="material-symbols-outlined">
-            chevron_right
             </span></div>
+        <div id="next"><span class="material-symbols-outlined">
+                chevron_right
+            </span></div>
+
     </div>
+
+
+
+
 
 
  </main>

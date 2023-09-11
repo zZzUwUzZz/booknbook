@@ -56,5 +56,8 @@ public class SearchService {
         return fileMapper.getImagesBySellerId(s_id);
     }
 
+    public List<SellerDto> getAllBookstores() {
+        return memberDao.getAllBookstores();
+    }
 
 }

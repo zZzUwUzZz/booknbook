@@ -76,8 +76,18 @@
 
 
 
+                <div class="bstext01">
+                    <div>전국의 다양한 독립 서점을 <br> 지금 만나보세요.</div>
+                </div>
+            
+
+
 
                 <div class="bnb_list">
+                    <div class="list_tt">
+                        <div class="lt_01">독립서점 둘러보기</div>
+                        <a href="/bookstore" class="listmore">더보기 +</a>
+                    </div>
                     <div class="prntbtn">
                         <span id="prev-btn" class="material-symbols-sharp">
                             chevron_left
@@ -87,10 +97,7 @@
                             navigate_next
                         </span>
                     </div>
-                    <div class="list_tt">
-                        <div class="lt_01">독립서점 둘러보기</div>
-                        <div class="listmore">더보기</div>
-                    </div>
+                   
                     <div class="slider">
 
                     
@@ -163,7 +170,10 @@
                 </div>
 
                 <div class="bnb_list">
-
+                    <div class="list_tt">
+                        <div class="lt_02">새로 나온 책</div>
+                        <div class="listmore">더보기+</div>
+                    </div>
                     <div class="prntbtn">
                     <span id="prev-btn_02" class="material-symbols-sharp">
                         chevron_left
@@ -172,10 +182,7 @@
                         navigate_next
                     </span>
                 </div>
-                    <div class="list_tt">
-                        <div class="lt_02">새로 나온 책</div>
-                        <div class="listmore">더보기</div>
-                    </div>
+                 
                     <div class="slider">
                         <div class="slide-container_02">
                             <div class="b_slide">
@@ -226,7 +233,7 @@
                 <div class="bnb_list">
                     <div class="list_tt">
                         <div class="lt_02">이런 책은 어때요?</div>
-                        <div class="listmore"><a href="/books">더보기</a></div>
+                        <div class="listmore"><a href="/books">더보기+</a></div>
                     </div>
 
                     <div class="itemlist">

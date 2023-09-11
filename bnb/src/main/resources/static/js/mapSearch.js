@@ -1,4 +1,3 @@
-
 var infoWindow;
 // 페이지가 로드되면 실행될 함수
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
   
+
+
+
 function initMap() {
   var center = {
       lat: 37.5665,
@@ -58,6 +60,10 @@ function initMap() {
       searchMarkers(keyword.toLowerCase());
   }
 }
+ 
+ 
+
+
 
 // 마커 추가 하기
 function addMarker(location, title, description, address) {
@@ -103,6 +109,7 @@ function searchMarkers(keyword) {
       //alert('No matching places found.');
   }
 }
+
 
 
 // 페이지 로드가 완료된 후
@@ -152,3 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
   });	
 });	
+
+
+
+ 

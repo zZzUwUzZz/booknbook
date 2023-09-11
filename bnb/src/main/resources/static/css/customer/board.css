@@ -1,24 +1,38 @@
 table {
-    width: 1020px;
+    width: 680px;
     text-align: center;
     margin: auto;
 }
 .tablebox {
     box-sizing: border-box;
-    border: 1px solid #4c4240;
-    border-radius: 10px;
-    max-height: 495px;
-    width: 1040px;
+    border-top: 2px solid #4c4240;
+    border-bottom: 2px solid #4c4240;
+    width: 700px;
     margin: auto;
-    padding: 10px;
+    padding: 8px;
+}
+.th {
+    background: #4c4240;
+    color:beige;
 }
 tr {
     height: 40px;
 }
+.content_td {
+    border: 1px solid #4c4240;
+    text-align: left;
+    height: 150px;
+    padding: 10px;
+}
+.info_td {
+    border: 1px solid #4c4240;
+    text-align: left;
+    padding: 10px;
+}
 .td-linked:hover {
     cursor: pointer;
     color: #ff9946;
-    font-weight: 600;
+    text-decoration: underline;
 }
 .headrow {
     background: #4c4240;
@@ -26,34 +40,33 @@ tr {
 }
 
 .searchbox {
-    text-align: right;
     box-sizing: border-box;
     text-align: right;
-    width: 1040px;
+    width: 700px;
     padding: 5px;
     margin: auto;
-    margin-top: -27px;
+    margin-top: -25px;
     margin-bottom: 5px;
 }
 .pagebox {
     box-sizing: border-box;
     text-align: center;
-    width: 1040px;
+    width: 700px;
     padding: 5px;
     margin: auto;
     margin-top: 12px;
 }
-.btnbox {
+.buttonbox {
     display: flex;
-    flex-direction: row-reverse;
-    width: 1040px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 700px;
+    padding-top: 10px;
     margin: auto;
-    padding: 15px;
 }
-
-.rej_reason {
-    text-align: right;
-    font-size: 14px;
+#board-area-flexible {
+    height: fit-content;
+    padding-bottom: 45px;
 }
 .pno {
     display: inline-block;

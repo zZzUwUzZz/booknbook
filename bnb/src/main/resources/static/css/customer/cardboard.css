@@ -1,5 +1,7 @@
 .counterbox {
     display: flex;
+    position: relative;
+    top: 1px;
     border: solid 1px #4c4240;
     border-radius: 3px;
     width: 84px;
@@ -38,47 +40,103 @@
     position: relative;
     margin: 1px 0px -1px 2px;
 }
+h2, .infotable td {
+    font-family: 'Noto Sans KR', sans-serif;
+}
 h4 {
     margin: 5px;
-}
-.red_msg {
-    font-size: 12px;
 }
 
 .formbox {
     box-sizing: border-box;
-    border: solid 1px red;
+    border: solid 1px #4c4240;
+    border-radius: 10px;
+    width: 530px;
+    margin: auto;
+    padding: 15px;
+}
+.imgbox {
     width: 500px;
-    margin-left: 45px;
+    height: 170px;
+    overflow: hidden;
+    margin-bottom: -2px;
+}
+.imgbox img {
+    width: 500px;
 }
 .tablebox {
     box-sizing: border-box;
-    border: solid 1px red;
+    border-bottom: solid 2px #4c4240;
     width: 500px;
     text-align: center;
     line-height: 25px;
+    padding: 10px;
 }
 table {
     width: 470px;
     margin: auto;
 }
-tr {
-    line-height: 25px;
-}
 .infotable {
     text-align: left;
+    padding-bottom: 20px;
 }
+.headrow {
+    background: #4c4240;
+    color:beige;
+}
+tr {
+    line-height: 30px;
+}
+.label {
+    width: 150px;
+}
+input.info {
+    border: 1px solid #a79f9e;
+    height: 24px;
+    width: 310px;
+}
+.red_msg {
+    font-size: 12px;
+    margin: -5px 0 5px;
+}
+
 .reasonbox {
     box-sizing: border-box;
-    border: solid 1px red;
+    display: flex;
+    border-bottom: solid 2px #4c4240;
+    font-family: 'Noto Sans KR', sans-serif;
     width: 500px;
-    padding: 15px;
+    padding: 20px 15px;
 }
 .buttonbox {
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
-    border: solid 1px red;
+
     width: 500px;
-    padding-top: 10px;
+    padding-top: 15px;
+}
+
+/* 교환반품신청페이지 */
+#formbox-refexch {
+    width: 640px;
+}
+.refexch {
+    width: 610px;
+}
+.refexch table {
+    width: 590px;
+}
+#imgbox-refexch {
+    width: 350px;
+    height: 250px;
+    overflow: hidden;
+    margin-right: 20px;
+}
+#imgbox-refexch img {
+    height: 250px;
+}
+#board-area-flexible {
+    height: fit-content;
+    padding-bottom: 50px;
 }

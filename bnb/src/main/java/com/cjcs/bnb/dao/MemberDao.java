@@ -1,5 +1,6 @@
 package com.cjcs.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,10 @@ public interface MemberDao {
     List<SellerFileDto> getImagesBySellerId(String s_id);
 
     MemberDto getMemberInfo(String s_id);
+    
+    List<SellerDto> getAllBookstores();
+
+
 
     
     // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
@@ -118,5 +123,8 @@ public interface MemberDao {
 
     public Integer countFavBooks(String c_id);
     public List<BookDto> getFavBookList(String c_id, int start, int end);
+
+    public HashMap<String, String> getLatestFavStoreByCId(String c_id, int rownum);
+    public HashMap<String, String> getLatestFavBookByCId(String c_id, int rownum);
 
 }

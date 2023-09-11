@@ -71,7 +71,7 @@
 
 .tablebox {
     box-sizing: border-box;
-    border: 1px solid #ff9946;
+    border: 1px solid #4c4240;
     border-radius: 10px;
     width: 1040px;
     margin: auto;
@@ -133,6 +133,7 @@ tr {
 h3 {
     margin: 10px 0 5px;
 }
-#board-area-orderdetail {
-    height: none;
+#board-area-flexible {
+    height: fit-content;
+    padding-bottom: 10px;
 }

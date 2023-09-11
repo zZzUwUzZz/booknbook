@@ -68,10 +68,13 @@ public class CustomerPageController {
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        model.addAttribute("c_id", c_id);
 
+        HashMap<String, String> latestFav = mSer.getLatestFavStoreAndBookByCId(c_id);
         int num_of_currRE = pDao.countCurrentRefExchByCId(c_id);
         int num_of_currR = rDao.countCurrentRentalByCId(c_id);
-        
+
+        model.addAttribute("latestFav", latestFav);
         model.addAttribute("num_of_currRE", num_of_currRE);
         model.addAttribute("num_of_currR", num_of_currR);
 
@@ -240,6 +243,13 @@ public class CustomerPageController {
         return "customer/mypageRefundExchangeList";
     }
 
+    @GetMapping("/refundexchangecancel/{re_id}")    // 교환반품신청취소처리
+    public String cancelRefExchRequest(@PathVariable("re_id") int re_id) {
+
+        pDao.deleteRefExchList(re_id);
+
+        return "redirect:/mypage/refundexchangelist";
+    }
 
     @GetMapping("/rentalreservationlist")    // 대여예약내역
     public String mypageRentalReservationList(Model model, HttpSession session) {

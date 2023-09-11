@@ -16,7 +16,7 @@ public class MemberDto {
     private Timestamp m_joindate; // 가입일자
     private String currentPassword;
     private String newPassword;
-
+	
     // 일반회원만 가지는 필드
     private String c_name; // 회원이름
 
@@ -35,4 +35,8 @@ public class MemberDto {
     private int sell_amount;
     private int rental_amount;
     private int late_amount;
+
+    //수희
+    private int overdues;
+    
 }

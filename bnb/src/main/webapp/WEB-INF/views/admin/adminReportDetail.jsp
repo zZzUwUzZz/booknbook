@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
-    <link rel="stylesheet" href="/css/customer/cardboard.css">
+    <link rel="stylesheet" href="/css/customer/board.css">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -52,7 +52,7 @@
             </ul>
         </div>
 
-        <div class="board-area">
+        <div class="board-area" id="board-area-flexible">
             
             <div>
                 <h2 class="pagename">REPORT DETAIL</h2>
@@ -61,25 +61,56 @@
             <div>
                 <div class="tablebox">
                 <table>
-                   
+                    <tr>
+                        <td class="th" width="100px">글번호</td>
+                        <td class="info_td" width="180px">${rbDto.report_id}</td>
+                        <td class="th" width="100px">작성일</td>
+                        <td class="info_td"><fmt:formatDate value="${rbDto.report_date}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate></td>
+                    </tr>
+                    <tr>
+                        <td class="th">글제목</td>
+                        <td colspan="3" class="info_td">${rbDto.report_title}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="content_td">${rbDto.report_content}</td>
+                    </tr>
                 </table>
                 </div>
+            </div>
+
+            <div class="buttonbox">
+                <button onclick="location.href='/admin/reportlist'">목록으로</button>
+                <button onclick="delete_post('${rbDto.report_id}')">삭제하기</button>
             </div>
 
         </div>
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+    function delete_post(report_id) {
+
+        let conf = confirm('글을 삭제할까요?');
+
+        if (conf == true) {
+            location.href = '/admin/reportdelete/' + report_id;
+        }
+
+    }
+
+    </script>
 
 </body>
 

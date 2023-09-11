@@ -24,8 +24,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400&family=Noto+Sans+KR:wght@400&family=Space+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/cardboard.css">
   
@@ -65,26 +67,30 @@
 
             <div class="formbox">
 
+                <div class="imgbox">
+                    <img src="https://e1.pxfuel.com/desktop-wallpaper/701/393/desktop-wallpaper-motivational-about-writing-handwriting.jpg"/>
+                </div>
+
                 <div class="tablebox infotable">
         
                     <table>
                         <tr>
-                            <td>아이디</td> <td>${mDto.m_id}</td>
+                            <td class="label">아이디</td> <td>${mDto.m_id}</td>
                         </tr>
                         <tr>
-                            <td>이름</td> <td>${mDto.c_name}</td>
+                            <td class="label">이름</td> <td>${mDto.c_name}</td>
                         </tr>
                         <tr>
-                            <td>주소</td> <td>${mDto.m_addr}</td>
+                            <td class="label">주소</td> <td>${mDto.m_addr}</td>
                         </tr>
                         <tr>
-                            <td>휴대전화번호</td> <td>${mDto.m_phone}</td>
+                            <td class="label">휴대전화번호</td> <td>${mDto.m_phone}</td>
                         </tr>
                         <tr>
-                            <td>이메일</td> <td>${mDto.m_email}</td>
+                            <td class="label">이메일</td> <td>${mDto.m_email}</td>
                         </tr>
                         <tr>
-                            <td>가입일자</td> <td>${mDto.m_joindate}</td>
+                            <td class="label">가입일자</td> <td><fmt:formatDate value="${mDto.m_joindate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                         </tr>
                     </table>
         

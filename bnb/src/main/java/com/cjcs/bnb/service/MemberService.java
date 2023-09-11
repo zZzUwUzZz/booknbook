@@ -36,30 +36,30 @@ public class MemberService {
         return false;
     }
 
-    public MemberDto login(HashMap<String, String> member) {
-        try {
-            MemberDto mb = mDao.getMemberById(member.get("m_id"));
-            if (mb != null && mb.getM_pw().equals(member.get("m_pw"))) {
-                return mb;
-            }
-        } catch (Exception e) {
-            log.error("Error occurred while trying to login: ", e);
-        }
-        return null;
-    }
+    // public MemberDto login(HashMap<String, String> member) {
+    //     try {
+    //         MemberDto mb = mDao.getMemberById(member.get("m_id"));
+    //         if (mb != null && mb.getM_pw().equals(member.get("m_pw"))) {
+    //             return mb;
+    //         }
+    //     } catch (Exception e) {
+    //         log.error("Error occurred while trying to login: ", e);
+    //     }
+    //     return null;
+    // }
 
     // 시큐리티 용 그러나 실행 안됨
-    // public MemberDto login(HashMap<String, String> member) {
-    // try {
-    // MemberDto mb = mDao.getMemberById(member.get("m_id"));
-    // if (mb != null && pwEncoder.matches(member.get("m_pw"), mb.getM_pw())) {
-    // return mb;
-    // }
-    // } catch (Exception e) {
-    // log.error("Error occurred while trying to login: ", e);
-    // }
-    // return null;
-    // }
+    public MemberDto login(HashMap<String, String> member) {
+    try {
+    MemberDto mb = mDao.getMemberById(member.get("m_id"));
+    if (mb != null && pwEncoder.matches(member.get("m_pw"), mb.getM_pw())) {
+    return mb;
+    }
+    } catch (Exception e) {
+    log.error("Error occurred while trying to login: ", e);
+    }
+    return null;
+    }
 
     public boolean isIdDuplicated(String m_id) {
         return mDao.countById(m_id) > 0;
@@ -104,6 +104,37 @@ public class MemberService {
         }
     }
 
+    
+
+    @Autowired
+private BCryptPasswordEncoder pwEncoder;
+
+@Transactional
+public boolean unregister(String m_id, String m_pw) {
+    try {
+        // Get encoded password from the database for the user
+        String encodedPwd = mDao.getEncodedPassword(m_id);
+
+        // Check if the entered password matches the encoded password
+        if (encodedPwd != null && pwEncoder.matches(m_pw, encodedPwd)) {
+            // First, delete the user data from the CUSTOMER table
+            mDao.deleteCustomerById(m_id);
+            
+            // Then, delete the user data from the MEMBER table
+            return mDao.deleteMemberById(m_id) > 0;
+        } else {
+            return false;
+        }
+    } catch (Exception e) {
+        log.error("Error during withdrawal: ", e);
+        return false;
+    }
+}
+   
+
+
+
+    //탈퇴1 일단 이거 
     // @Autowired
     // private BCryptPasswordEncoder pwEncoder;
 
@@ -125,25 +156,30 @@ public class MemberService {
     // }
     // }
 
-    public String getEncryptedPassword(String m_id) {
-        return mDao.getEncodedPassword(m_id);
-    }
 
-    @Autowired
-    private BCryptPasswordEncoder pwEncoder;
+        //탈퇴2
+    // public String getEncryptedPassword(String m_id) {
+    //     return mDao.getEncodedPassword(m_id);
+    // }
 
-    @Transactional
-    public boolean unregister(String m_id) {
-        try {
-            // Simply delete the member by ID, as password verification is done at the
-            // controller level
-            return mDao.deleteMemberById(m_id) > 0;
-        } catch (Exception e) {
-            log.error("Error during withdrawal: ", e);
-            return false;
-        }
-    }
+    // @Autowired
+    // private BCryptPasswordEncoder pwEncoder;
 
+    // @Transactional
+    // public boolean unregister(String m_id) {
+    //     try {
+    //         // Simply delete the member by ID, as password verification is done at the
+    //         // controller level
+    //         return mDao.deleteMemberById(m_id) > 0;
+    //     } catch (Exception e) {
+    //         log.error("Error during withdrawal: ", e);
+    //         return false;
+    //     }
+    // }
+
+
+
+    
     // 탈퇴
 
     // @Transactional

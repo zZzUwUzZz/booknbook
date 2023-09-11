@@ -22,7 +22,7 @@ public class MemberDto {
 
     // 서점회원만 가지는 필드
 
-    private String sf_sysname;
+    private String sf_sysname; // 서점 프로필 사진 파일명
     private String s_storename; // 서점명
     private String s_id; // 서점 아이디
     private String s_storedesc; // 서점소개

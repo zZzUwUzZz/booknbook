@@ -27,8 +27,12 @@ public interface BookMapper {
     // 중분류 카테고리 조회
     List<BookDto> findBooksByMediumCategory(@Param("category_m_id") String category_m_id, @Param("start") int start,
             @Param("end") int end);
-
     int countBooksByMediumCategory(String category_m_id);
+    // 소분류 카테고리 조회
+    List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end);
+    int countBooksBySmallCategory(String category_s_id);
+
+
 
     //예림
 

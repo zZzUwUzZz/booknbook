@@ -16,7 +16,7 @@ LEFT JOIN SF ON S.s_id = SF.sf_s_id
 WHERE M.m_id = #{s_id}
     </select>
 
-<!--재락-->
+<!--이재락-->
 
     <!--회원가입정보 DB에 넣기-->
     <insert id="joinMember" parameterType="MemberDto">
@@ -111,10 +111,6 @@ WHERE M.m_id = #{s_id}
 </delete> -->
 
 
-         
-
-
-
 
 <!--예림-->
 
@@ -189,10 +185,6 @@ WHERE M.m_id = #{s_id}
         GROUP BY 
             o_c_id, c_name
     </select>
-    
-
-
-
 
 <!--수희-->
 

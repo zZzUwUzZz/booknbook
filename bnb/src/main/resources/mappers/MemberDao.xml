@@ -325,4 +325,24 @@ WHERE M.m_id = #{s_id}
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
+    <!--가장 최근에 등록한 즐찾서점의 서점아이디, 서점명 가져오기-->
+    <select id="getLatestFavStoreByCId" resultType="Map">
+        SELECT favs_s_id as "favs_s_id", s_storename as "favs_s_storename"
+        FROM (SELECT rownum rn, favs_s_id, s_storename
+                FROM (SELECT favs_s_id, s_storename FROM FAVSTORE, S
+                      WHERE favs_c_id = #{c_id} AND favs_s_id = s_id
+                      ORDER BY favs_date DESC)
+              )
+        WHERE rn = #{rownum}
+    </select>
+
+    <!--가장 최근에 등록한 찜도서의 판매서점아이디, 책isbn 가져오기-->
+    <select id="getLatestFavBookByCId" resultType="Map">
+        <!--결과를 Map에 넣을 땐 까먹지 말고 as "키이름" 해주기ㅅㅂ-->
+        SELECT favb_s_id as "favb_s_id", favb_b_isbn as "favb_b_isbn"
+        FROM (SELECT rownum rn, favb_s_id, favb_b_isbn
+              FROM (SELECT favb_s_id, favb_b_isbn FROM FAVBOOK WHERE favb_c_id = #{c_id} ORDER BY favb_date DESC))
+        WHERE rn = #{rownum}
+    </select>
+    
 </mapper>

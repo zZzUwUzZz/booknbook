@@ -5,15 +5,15 @@
 
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
-<!--킹효진-->
+<!-- 킹효진 -->
 
-    <!-- 판매자 아이디 불러오기 -->
-    <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
-        SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname
-        FROM M
-        LEFT JOIN S ON M.m_id = S.s_id
-        LEFT JOIN SF ON S.s_id = SF.sf_s_id
-        WHERE M.m_id = #{s_id}
+<!-- 판매자 아이디 불러오기 -->
+   <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
+   SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname
+FROM M
+LEFT JOIN S ON M.m_id = S.s_id
+LEFT JOIN SF ON S.s_id = SF.sf_s_id
+WHERE M.m_id = #{s_id}
     </select>
 
 <!--이재락-->
@@ -25,7 +25,7 @@
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
-    <insert id="joinSeller" parameterType="MemberDto">
+  <insert id="joinSeller" parameterType="MemberDto">
         INSERT INTO S(s_id, s_storename, s_crn )
         VALUES(#{m_id}, #{s_storename}, #{s_crn})
     </insert>
@@ -36,24 +36,6 @@
     </insert>
 
     <select id="countById" resultType="int">
-      
-
-        SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
-    </select>
-
-    <select id="findIdByEmail" resultType="string">
-        SELECT M_ID
-        FROM CUSTOMER_INFO
-        WHERE M_EMAIL = #{email} AND C_NAME = #{name}
-    </select>
-
-    <!-- 사용자 확인 비번 변경
-    <select id="verifyUser" parameterType="your.package.domain.ResetPasswordDto" resultType="boolean">
-        SELECT COUNT(*) FROM "CJCS"."CUSTOMER_INFO"
-        WHERE "M_ID" = #{userId} AND "M_PW" = #{currentPassword}
-    </select>
-
-
     SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
     </select>
 
@@ -99,13 +81,6 @@
     FROM "CJCS"."CUSTOMER_INFO"
     WHERE M_ID = #{m_id}
 </select>
-
-    비밀번호 업데이트
-    <update id="updatePassword" parameterType="your.package.domain.ResetPasswordDto">
-        UPDATE "CJCS"."CUSTOMER_INFO"
-        SET "M_PW" = #{newPassword} 
-        WHERE "M_ID" = #{userId}
-    </update> -->
 
 
 <select id="getMemberInfoById" resultMap="MemberResult">
@@ -218,26 +193,20 @@
         ORDER BY m_joindate DESC
     </select>
 
-    <!--검색조건에 맞는 구매자회원정보 & 총연체횟수 가져오기-->
+    <!--검색조건에 맞는 구매자회원정보 가져오기-->
     <select id="getCustomerListByKeyword" parameterType="SearchDto" resultType="MemberDto">
 		SELECT * FROM
 		<choose>
-		    <when test="colname != null and colname != ''">                
-		    	(SELECT rownum rn, CI.*, overdues
+		    <when test="colname!=null and colname !=''">                
+		    	(SELECT rownum rn, CI.*
 		    	 FROM (SELECT * FROM CUSTOMER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		    	       ORDER BY m_joindate DESC) CI
-                       LEFT OUTER JOIN
-                      (SELECT r_c_id, COUNT(r_latefee_total) as overdues FROM R GROUP BY r_c_id)
-                       ON m_id = r_d_id
 		    	)
 		    </when>
 		    <otherwise>
-		    	(SELECT rownum rn, CI.*, overdues
+		    	(SELECT rownum rn, CI.*
 				 FROM CUSTOMER_INFO CI
-                      LEFT OUTER JOIN
-                     (SELECT r_c_id, COUNT(r_latefee_total) as overdues FROM R GROUP BY r_c_id)
-                      ON m_id = r_c_id
             	 ORDER BY m_joindate DESC)
 		    </otherwise>
 		</choose>
@@ -248,7 +217,7 @@
 
     <!--검색조건에 맞는 구매자회원 수 세기-->
     <select id="countCustomers" resultType="Integer">
-        SELECT COUNT(*) FROM CUSTOMER_INFO
+        SELECT COUNT(*) FROM C
         <if test="colname != null and colname != ''">
 		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		</if>
@@ -264,7 +233,7 @@
     <select id="getSellerListByKeyword" parameterType="SearchDto" resultType="MemberDto">
 		SELECT * FROM
 		<choose>
-		    <when test="colname != null and colname != ''">                
+		    <when test="colname!=null and colname !=''">                
 		    	(SELECT rownum rn, SI.*
 		    	 FROM (SELECT * FROM SELLER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
@@ -284,7 +253,7 @@
 
     <!--검색조건에 맞는 판매자회원 수 세기-->
     <select id="countSellers" resultType="Integer">
-        SELECT COUNT(*) FROM SELLER_INFO
+        SELECT COUNT(*) FROM S
         <if test="colname != null and colname != ''">
 		      WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		</if>
@@ -308,7 +277,6 @@
         </set>
         WHERE M_ID=#{m_id}
     </update> 예림이랑 중복-->
-
     <update id="updateCustomerInfo" parameterType="MemberDto">
         UPDATE C 
         <set>
@@ -317,6 +285,7 @@
         WHERE C_ID=#{m_id}
     </update>
 
+    
     <!--즐겨찾는서점 총 개수 세기-->
     <select id="countFavStores" parameterType="String" resultType="Integer">
         SELECT COUNT(*) FROM FAVSTORE
@@ -349,7 +318,8 @@
               FROM (SELECT b_s_id, b_isbn, b_title, b_author
                     FROM FAVBOOK, B
                     WHERE favb_s_id = b_s_id AND favb_b_isbn = b_isbn AND favb_c_id = #{c_id}
-                    ORDER BY favb_date DESC)
+                    ORDER BY favb_date DESC
+                   )
              )
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
@@ -373,5 +343,5 @@
               FROM (SELECT favb_s_id, favb_b_isbn FROM FAVBOOK WHERE favb_c_id = #{c_id} ORDER BY favb_date DESC))
         WHERE rn = #{rownum}
     </select>
-
+    
 </mapper>

@@ -84,7 +84,7 @@
                       <div class="bk_area">
                         <a href="<c:url value='/books/detail/${book.b_isbn}/${book.b_s_id}'/>">
                           <div class="bkimgbox">
-                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
+                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/160x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
                           </div>
                         </a>
                         <div class="bk_item_text"><b>${book.b_title}</b><br>

@@ -58,19 +58,30 @@
     <div class="bsContain">
     
         <div id="bsSlider">
-    
+
             <c:forEach var="entry" items="${allImageList}" varStatus="status">
                 <c:if test="${status.index < 3}">
                     <div class="bsSlide active">
-                        <h2>${entry.s_storename}</h2>
+                        <div class="bsInfo">
+                            <div class="bsInfoName">${entry.s_storename}</div>
+                            <div class="bsInfoDetail">${entry.s_storedesc}</div>
+                            <a href="">서점 방문하기 > </a>
+                        </div>
                         <img src="<c:url value='/uploads/${entry.sf_sysname}' />">
                     </div>
                 </c:if>
             </c:forEach>
         </div>
 
-        <button id="prev">Previous</button>
-        <button id="next">Next</button>
+        <div id="prev">
+            <span class="material-symbols-outlined">
+                chevron_left
+                </span></div>
+
+
+        <div id="next"><span class="material-symbols-outlined">
+            chevron_right
+            </span></div>
     </div>
 
 

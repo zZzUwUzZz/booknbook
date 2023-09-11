@@ -1,8 +1,7 @@
 
 
 .bsContain {
-    border: 1px solid #f00;
-    height: 500px;
+     height: 500px;
 }
 
 #bsSlider {
@@ -22,6 +21,17 @@
     opacity: 0;
     transition: opacity 0.5s;
   }
+
+  .bsSlide::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 50%);
+    z-index: 0;
+  }
   
   .bsSlide.active {
     opacity: 1;
@@ -33,11 +43,12 @@
     object-fit: cover;
   }
   
-  button {
+  #prev, #next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
+    cursor: pointer;
   }
   
   #prev {
@@ -48,3 +59,31 @@
     right: 10px;
   }
   
+#prev span, #next span {
+  font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' -25, 'opsz' 20;
+    font-size: 58px;
+    color: #FFF;
+    border-radius: 50%;
+    border: 1px solid #FFF;
+    margin: 0px 41px;
+}
+  .bsInfo {
+    width: 500px;
+    position: absolute;
+    bottom: 60px;
+    padding: 43px;
+    font-weight: bold;
+    left: 100px;
+    color: #FFF;
+    font-family: 'BookkGothic-Bd';
+}
+
+.bsInfoName {
+font-size: 45px;
+margin-bottom: 5px;
+}
+
+.bsInfoDetail{
+  font-size: 20px;
+  margin-bottom: 12px;
+}

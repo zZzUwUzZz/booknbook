@@ -45,6 +45,14 @@ public class BnbController {
         return "main";
     }
 
+
+
+
+    
+
+
+
+
     // 지도
     @RequestMapping(value = "/map", method = RequestMethod.GET)
     public String map() {

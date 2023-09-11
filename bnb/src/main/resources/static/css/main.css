@@ -24,7 +24,7 @@ header, footer {
 
  
 body {
-    background-color: #36593a;
+    background-color: #293630;
     margin: 0px;
     min-height: 100%;
 	position: relative;
@@ -391,3 +391,18 @@ input.scbook::placeholder {color:#4a584b;}
 }
 
  
+
+/* 메인 독립서점 부분 */
+
+.bstext01 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFF;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    font-family: 'BookkGothic-Bd';
+  }

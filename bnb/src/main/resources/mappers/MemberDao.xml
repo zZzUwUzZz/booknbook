@@ -18,6 +18,7 @@ WHERE M.m_id = #{s_id}
 
 <!--이재락-->
 
+
     <!--회원가입정보 DB에 넣기-->
     <insert id="joinMember" parameterType="MemberDto">
         INSERT INTO M
@@ -96,7 +97,7 @@ WHERE M.m_id = #{s_id}
 
 <!-- MEMBER 테이블에서 데이터 삭제 -->
 <delete id="deleteMemberById">
-    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}
+    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}gi
 </delete>
 
 
@@ -109,8 +110,6 @@ WHERE M.m_id = #{s_id}
 <delete id="deleteCustomerById">
     DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
 </delete> -->
-
-
 
 <!--예림-->
 

@@ -38,7 +38,10 @@
             <script src="/js/search.js"></script>
              <script src="/js/books.js"></script>
         </head>
-
+       
+        
+          
+        </script>
         <body>
 
             <%@include file="/WEB-INF/tiles/header.jsp" %>
@@ -83,22 +86,12 @@
                   </c:forEach>
                 </ul>
               </div>
+           
 
-              <div class="pagination">
-                <c:choose>
-                  <c:when test="${not empty category_m_id}">
-                    <c:forEach var="i" begin="1" end="${totalPages}">
-                      <a href="<c:url value='/books/category/medium/${category_m_id}?page=${i}' />">${i}</a>
-                    </c:forEach>
-                  </c:when>
-                  <c:otherwise>
-                    <c:forEach var="i" begin="1" end="${totalPages}">
-                      <a href="<c:url value='/books?page=${i}' />">${i}</a>
-                    </c:forEach>
-                  </c:otherwise>
-                </c:choose>
-              </div>
-            
+             
+                                  
+             
+              
               
 
                 <%@include file="/WEB-INF/tiles/footer.jsp" %>

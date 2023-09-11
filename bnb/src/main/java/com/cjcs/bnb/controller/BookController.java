@@ -17,7 +17,7 @@ import com.cjcs.bnb.service.CategoryService;
 @Controller
 public class BookController {
     @Autowired
-    private BookService bookService;
+    private BookService bookService; 
 
     @Autowired
     private CategoryService categoryService;

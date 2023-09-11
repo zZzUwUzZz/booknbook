@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>연체료 청구합니다ㅋ</title>
+    <title>연체료 청구합니다</title>
 </head>
 <body>
     <!-- 상단부분 -->

@@ -1,0 +1,281 @@
+.ft {
+    margin-top: 0px;
+}
+
+.bkIntoContain {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: calc((100vh) - 70px);
+    font-family: 'BookkGothic-Bd';
+}
+
+
+.bkImgBox {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+
+.bkInfoBox {
+    color: #203b23;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #203b23;
+}
+
+
+.bkPrice, .bkInfo_02 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 0px;
+    border-top: 1px solid;
+    padding: 28px 0;
+    font-size: 20px;
+}
+
+.bkInfo_02 {
+    border-bottom: 1px solid;
+}
+
+.bkInfo {
+    width: 400px;
+    font-size: 23px;
+}
+
+.bkName {
+    font-size: 17px;
+}
+
+p.bkTitle {
+    font-size: 32px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.smallPrice {
+    font-size: 17px;
+}
+p.bkAuthor {
+    margin: 0;
+    margin-bottom: 9px;
+}
+
+p.bkInfoText02 {
+    margin: 26px 0;
+    height: 170px;
+    overflow: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    font-size: 19px;
+    
+}
+
+p.bkInfoText02::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+/* 버튼 */
+
+.btnBox {
+    text-align: center;
+    font-size: 18px;
+}
+
+.bkCartBtn, .bkRentBtn {
+    cursor: pointer;
+    padding: 15px;
+    background: #203b23;
+    color: #dfdad5;
+    margin: 16px 0;
+
+}
+
+.likeNoti {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #dfdad5;
+    margin: 16px 0;
+    border: 1px solid #203b23;
+
+}
+
+.likeBtn, .notiBtn {
+    cursor: pointer;
+    background: #a2aba3;
+    width: 50%;
+    padding: 15px;
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48;
+    color: #203b23;
+}
+
+.likeBtn {
+    border-right: 1px solid #203b23;
+}
+
+
+
+/* 책 커버 사진  */
+
+.bkImgBox img {
+    width: 100%;
+    max-width: 400px;
+}
+
+
+
+/* 수량 버튼 */
+
+.CountMinus, .CountPlus {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+    color: #203b23;
+
+}
+
+
+input.countNum {
+    text-align: center;
+    font-size: 21px;
+     width: 67%;
+     border: none;
+     background: transparent;
+     color: #203b23;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox  */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+
+
+.bkCountBox {
+    width: 10%;
+}
+.calBtn {
+    width: 85%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+
+
+/* 같은 책 모두 보기 */
+
+.simliarBookContain {
+    transform: translateY(11%);
+}
+
+
+.bkIntoContain02 {
+    position: relative;
+    height: 800px;
+    background: #293630;
+}
+
+.scBktt {
+    color: #dfdad5;
+    width: 58.6%;
+    margin: auto;
+    padding: 44px 0;
+    font-size: 23px;
+    font-family: 'BookkGothic-Bd';
+}
+
+/* 책 모두 보기 슬라이더 */
+
+#prevBtn, #nextBtn{
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+    color: #dfdad5;
+    cursor: pointer;
+    transform: translateY(-60%);
+}
+
+#prevBtn span,
+#nextBtn span {
+font-size: 59px;
+font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' -25, 'opsz' 48;
+}
+
+.item img {
+    box-sizing: content-box;
+    width: 100%;
+}
+.slider001 {
+    width: 1200px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+  
+  .items001 {
+    transition: all 0.5s ease-in-out;
+    white-space: nowrap;
+    font-size: 0;
+  }
+  
+  .item {
+    position: relative;
+    display: inline-block;
+    width: 219px;
+    height: 200px;
+    background: lightgrey;
+    text-align: center;
+    line-height: 200px;
+    font-size: 24px;
+    margin: 0px;
+}
+  
+  .bkSliderContain {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.item-wrapper {
+    display: inline-block;
+    text-align: center;
+    width: 307px;  /* 이전에 계산한 이동 거리와 동일하게 설정 */
+  }
+  
+.item-info {
+    text-align: center;
+    color: #dfdad5;
+    margin: 22px 0;
+    position: relative;
+    line-height: 24px;
+
+  }
+  
+  .store-name {
+    font-size: 15px;
+    font-weight: bold;
+}
+.bktitle02 {
+    font-size: 17px;
+    font-weight: bold;
+  }
+ .price {
+    margin: 0;
+    font-size: 18px;
+  }
+

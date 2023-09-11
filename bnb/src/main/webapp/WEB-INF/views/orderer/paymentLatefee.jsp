@@ -91,88 +91,46 @@ tr {
 
     <div class="wrapper">
 
-        <h1>PAYMENT</h1>
+        <h1>PAYMENT - LATEFEE</h1>
 
-        <form action="/payment" method="POST">
+        <form action="/paymentlatefee" method="POST">
 
-        <c:if test="${!empty cPList}">
+        <div class="cart_area">
 
-            <div class="cart_area"> <!--구매주문-->
-
-                <div class="cart_subject">
-                    <h3>구매주문</h3>
-                </div>
-
-                <div class="cart_items">
-                    <table>
-
-                        <tr>
-                            <th></th>
-                            <th>서점명</th>
-                            <th>도서명</th>
-                            <th>판매가</th>
-                            <th>수량</th>
-                            <th>금액</th>
-                        </tr>
-                    
-                        <c:forEach items="${cPList}" var="cPItem">
-                            <tr>
-                                <td></td>
-                                <td>${cPItem.s_storename}</td>
-                                <td>${cPItem.b_title}</td>
-                                <td>${cPItem.b_price}원</td>
-                                <td>${cPItem.cart_amount}</td> 
-                                <td><fmt:formatNumber value="${cPItem.b_price * cPItem.cart_amount}" type="number" pattern="#,##0"/>원</td>
-                            </tr>
-                        </c:forEach>
-
-                    </table> 
-                </div> 
+            <div class="cart_subject">
+                <h3>연체료</h3>
             </div>
 
-        </c:if>
+            <div class="cart_items">
+                <table>
 
-        <c:if test="${!empty cRList}">
-
-            <div class="cart_area"> <!--대여주문-->
-
-                <div class="cart_subject">
-                    <h3>대여주문</h3>
-                </div>
-
-                <div class="cart_items">
-                    <table>
-
+                    <tr>
+                        <th></th>
+                        <th>서점명</th>
+                        <th>도서명</th>
+                        <th>판매가</th>
+                        <th>수량</th>
+                        <th>금액</th>
+                    </tr>
+                
+                    <c:forEach items="${cRList}" var="cRItem">
                         <tr>
-                            <th></th>
-                            <th>서점명</th>
-                            <th>도서명</th>
-                            <th>대여료</th>
-                            <th>수량</th>
-                            <th>대여기간</th>
-                            <th>금액</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
-                    
-                        <c:forEach items="${cRList}" var="cRItem">
-                            <tr>
-                                <td></td>
-                                <td>${cRItem.s_storename}</td>
-                                <td>${cRItem.b_title}</td>
-                                <td>${cRItem.b_rent}원</td>
-                                <td>1</td>
-                                <td>${cRItem.cart_rentalperiod}</td> 
-                                <td><fmt:formatNumber value="${cRItem.b_rent * cRItem.cart_rentalperiod / 7}" type="number" pattern="#,##0"/>원</td>
-                            </tr>
-                        </c:forEach>
-                        
-                    </table> 
-                </div> 
-            </div>
+                    </c:forEach>
 
-        </c:if>
+                </table> 
+            </div>
+            
+        </div>
 
         <div class="button_area">
-            <button type="button" onclick="location.href='/cart'">돌아가기</button>
+            <button type="button" onclick="location.href='/mypage/rentallist'">돌아가기</button>
             <button type="submit" id="pay">결제하기</button>
         </div>
 

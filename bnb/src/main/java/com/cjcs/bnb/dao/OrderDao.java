@@ -10,10 +10,13 @@ import com.cjcs.bnb.dto.CartDto;
 @Mapper
 public interface OrderDao {
     
-    //유다
+    //유다,수희
     public List<CartDto> getCartByCId(String c_id);
     public List<CartDto> getPurchaseCartByCId(String c_id);
     public List<CartDto> getRentalCartByCId(String c_id);
+    public int deleteCartItem(int cart_id);
+    public int updateCartAmount(int cart_id, int cart_amount);
+    public int updateCartRentalPeriod(int cart_id, int cart_rentalperiod);
 
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);

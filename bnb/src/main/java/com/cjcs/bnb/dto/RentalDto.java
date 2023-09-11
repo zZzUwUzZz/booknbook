@@ -52,8 +52,12 @@ public class RentalDto {
     private String rr_reqdateStr;      // 예약 신청일자 (날짜 데이터 형식 변환)
     private String res_status;         // 예약 상태
     private String new_res_status;     // 예약 상태 (DB 업데이트용)
-    private int overdue_days;          // 연체일
+    private Integer overdue_days;          // 연체일
     
     private String o_dateStr;         // 주문일시 (날짜 데이터 형식 변환)
+    private String rr_rejection_reason; //예약불가사유
+    private Timestamp returnexpect_days; // 반납 예정일
+    private String returnexpect_daysStr; // 반납 예정일 (날짜 데이터 형식 변환)
+    
 
 }

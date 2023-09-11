@@ -71,47 +71,31 @@
                 <div class="contain-3">
                     <div class="box-3">
                         <h1>대여 예약 신청 관리</h1>
-                        <button id="res_status_save" onclick="updateSelectedsSatus()">저장</button>
-                        <button id="res_refuse">거절</button><br><br>
                         <table class="seller-list">
                             <thead>
                                 <tr>
-                                    <th>
-                                        <!-- 공백 -->
-                                    </th>
                                     <th>예약번호</th>
                                     <th>아이디</th>
                                     <th>제목</th>
                                     <th>신청일자</th>
                                     <th>예약상태</th>
+                                    <th>예약수락</th>
+                                    <th>거절사유</th>
+                                    <th>예약거절</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach items="${RentResList}" var="rentres" varStatus="status">
                                     <tr>
-                                        <td><input type="checkbox" class="res_manage" name="res_manage"></td>
                                         <td>${rentres.rr_id}</td>
                                         <td>${rentres.rr_c_id}</td>
                                         <td>${rentres.b_title}</td>
                                         <td>${rentres.rr_reqdateStr}</td>
-                                        <td>
-                                            <select class="res_status" name="res_status_${status.index}">
-                                                <c:forEach items="${ResStatusList}" var="ResStatus">
-                                                    <c:choose>
-                                                        <c:when test="${ResStatus.res_status == '예약취소'}">
-                                                            <option value="${ResStatus.res_status}" disabled selected>
-                                                                ${ResStatus.res_status}
-                                                            </option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="${ResStatus.res_status}">
-                                                                ${ResStatus.res_status}
-                                                            </option>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </select>
-                                        </td>
+                                        <td id="res_status">${rentres.res_status}</td>
+                                        <td><button id="res_accept_btn">수락</button></td>
+                                        <td><input type="text" id="res_refuse_input" placeholder=""
+                                                data-rejection-reason="${rentres.rr_rejection_reason}"></td>
+                                        <td><button id="res_refuse_btn">거절</button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -126,73 +110,89 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var button = document.getElementById('res_status_save');
+        var rows = document.querySelectorAll('.seller-list tbody tr');
 
-        // 체크박스의 상태가 변경될 때마다 실행되는 함수
-        document.addEventListener('change', function (event) {
-            if (event.target.classList.contains('res_manage')) {
-                updateButtonState(); // 체크박스 상태에 따라 버튼 상태 업데이트
+        rows.forEach(function (row) {
+            var status_td = row.querySelector('#res_status');
+            var accept_btn = row.querySelector('#res_accept_btn');
+            var refuse_input = row.querySelector('#res_refuse_input');
+            var refuse_btn = row.querySelector('#res_refuse_btn');
+
+            if (status_td && accept_btn && refuse_input && refuse_btn) {
+                if (status_td.textContent === '승인대기') {
+                    accept_btn.style.display = 'block';
+                    refuse_input.style.display = 'block';
+                    refuse_btn.style.display = 'block';
+
+                    refuse_input.placeholder = '거절 사유를 입력하세요';
+                } else if (status_td.textContent === '예약불가') {
+                    var refusereason = refuse_input.getAttribute('data-rejection-reason');
+                    refuse_input.style.display = 'block';
+                    refuse_input.placeholder = refusereason;
+                } else {
+                    accept_btn.style.display = 'none';
+                    refuse_input.style.display = 'none';
+                    refuse_btn.style.display = 'none';
+                }
+
+                accept_btn.addEventListener('click', function () {
+                    var rr_id = row.querySelector('td:first-child').textContent;
+
+                    if (rr_id) {
+                        fetch('reserve/accept', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    rr_id: rr_id,
+                                }),
+                            })
+                            .then(function (response) {
+                                if (response.ok) {
+                                    alert('예약 신청을 수락하였습니다!');
+                                    status_td.textContent = '예약중';
+                                    accept_btn.style.display = 'none';
+                                    refuse_input.style.display = 'none';
+                                    refuse_btn.style.display = 'none';
+                                }
+                            });
+                    }
+                });
+
+                refuse_btn.addEventListener('click', function () {
+                    var rr_id = row.querySelector('td:first-child').textContent;
+                    var rr_rejection_reason = refuse_input.value;
+
+                    if (!rr_rejection_reason) {
+                        alert('거절 사유를 입력하세요');
+                        return;
+                    }
+
+                    if (rr_id) {
+                        fetch('reserve/refuse', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    rr_id: rr_id,
+                                    rr_rejection_reason: rr_rejection_reason,
+                                }),
+                            })
+                            .then(function (response) {
+                                if (response.ok) {
+                                    alert('예약 신청을 거절했습니다');
+                                    status_td.textContent = '예약불가';
+                                    accept_btn.style.display = 'none';
+                                    refuse_btn.style.display = 'none';
+                                }
+                            });
+                    }
+                });
             }
         });
     });
-
-    function updateButtonState() {
-        // 체크박스의 상태에 따라 버튼 활성화 또는 비활성화
-        var selectedCheckboxes = document.querySelectorAll('input.res_manage:checked');
-        var button = document.getElementById('res_status_save');
-
-        if (selectedCheckboxes.length > 0) {
-            button.disabled = false; // 체크된 경우 버튼 활성화
-        } else {
-            button.disabled = true; // 체크되지 않은 경우 버튼 비활성화
-        }
-    }
-
-    // 페이지 로드 시 초기 버튼 상태 설정
-    updateButtonState();
-
-    function updateSelectedsSatus() {
-        var selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
-        var dataToSend = [];
-
-        if (selectedRows.length > 0) {
-            selectedRows.forEach(function (checkbox) {
-                var row = checkbox.closest('tr'); // 체크박스가 속한 행 가져오기
-                var rr_idElement = row.querySelector('td:nth-child(2)'); // 두 번째 td 요소에서 rr_id 가져오기
-                var rr_id = rr_idElement.textContent.trim(); // rr_id 값 추출
-                var resStatusElement = row.querySelector('select[name^="res_status"]'); // 선택 상자 가져오기
-                var res_status = resStatusElement ? resStatusElement.value : null;
-
-                if (rr_id !== null) {
-                    dataToSend.push({
-                        rr_id: rr_id,
-                        res_status: res_status
-                    });
-                }
-            });
-
-            // 데이터를 서버로 보내고 업데이트 요청을 처리하는 부분 추가
-            $.ajax({
-                type: 'POST',
-                url: '/seller/rent/reserve', // 서버의 업데이트 URL 경로 설정
-                data: JSON.stringify(dataToSend),
-                contentType: 'application/json',
-                success: function (response) {
-                    alert("예약 상태를 변경했습니다!");
-                    // 성공 시 실행할 코드
-                },
-                error: function (error) {
-                    alert("예약 상태 변경 실패");
-                    // 실패 시 실행할 코드
-                }
-            });
-        } else {
-            alert("선택된 항목이 없습니다.");
-            return; // 선택된 항목이 없을 경우 함수 종료
-        }
-    }
 </script>
-
-
 
 </html>

@@ -230,25 +230,28 @@ public class SellerPageController {
         List<RentalDto> resultList = rSer.RentResList(s_id);
         model.addAttribute("RentResList", resultList);
 
-        // 예약상태
-        List<RentalDto> ResStatusList = rSer.ResStatusList();
-        model.addAttribute("ResStatusList", ResStatusList);
-
         return "seller/sellerRentReserve";
     }
 
-    @PostMapping("/rent/reserve")
-    public ResponseEntity<String> updateReserveStatus(@RequestBody List<RentalDto> requestData) {
-        try {
-            rSer.updateReserveStatus(requestData);
-            return ResponseEntity.ok("예약 상태를 변경했습니다!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예약 상태 변경 실패");
-        }
+    @PostMapping("/rent/reserve/accept")
+    public ResponseEntity<String> ReserveAccept(@RequestBody RentalDto requestData) {
+        rSer.ReserveAccept(requestData);
+        return ResponseEntity.ok("예약 신청을 승인했습니다");
+    }
+
+    @PostMapping("/rent/reserve/refuse")
+    public ResponseEntity<String> ReserveRefuse(@RequestBody RentalDto requestData) {
+        rSer.ReserveRefuse(requestData);
+        return ResponseEntity.ok("예약 신청을 거절했습니다");
     }
 
     @GetMapping("/rent/curr")
-    public String sellerrentcurr() {
+    public String sellerrentcurr(String s_id, Model model) {
+
+        // 대여 현황 리스트 불러오기
+        List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
+        model.addAttribute("RentCurrentList", RentCurrentList);
+
         return "seller/sellerRentCurr";
     }
 

@@ -50,7 +50,7 @@
 
           
             <div class="bkImgBox">
-                <img src="https://contents.kyobobook.co.kr/sih/fit-in/300x0/pdt/${bdInfo.b_isbn}.jpg">
+                <img src="https://contents.kyobobook.co.kr/sih/fit-in/500x0/pdt/${bdInfo.b_isbn}.jpg">
             </div>
 
             <div class="bkInfoBox">
@@ -76,8 +76,8 @@
                             <span class="unit">원</span>
                         </div>
                     </div>
-                    <form id="cartForm" action="/addtocart" method="post">
 
+                  
                     <div class="bkInfo_02">
                         <div class="bkCountBox">
                             <span>수량</span>
@@ -89,7 +89,7 @@
                                     remove
                                 </span></button>
 
-                            <input type="number" name="cart_amount" id="quantityInput" value="1" class="countNum">
+                            <input type="number" name="cart_amount" id="quantityInput" class="countNum" value="1" readonly/>
                             <button id="plusBtn" class="CountPlus"><span class="material-symbols-outlined">
                                     add
                                 </span> </button>
@@ -107,27 +107,14 @@
                                 </span> </div>
                         </div>
 
-                            <input type="hidden" name="cart_c_id" value="customer001">
-                            <input type="hidden" name="cart_s_id" id="cart_s_id" value="${bdInfo.b_s_id}">
-                            <input type="hidden" name="cart_b_isbn" id="cart_b_isbn" value="${bdInfo.b_isbn}">
-                            <input type="hidden" name="cart_sort" id="cart_sort" value="구매">
-                            <input type="hidden" name="cart_rentalperiod" id="cart_rentalperiod" value="7">
-                           
+                          
                         <div class="btnBox">
-                            <div type="submit" id="addToCartBtn" class="bkCartBtn">장바구니</div>
+                            <div id="addToCartBtn" class="bkCartBtn">장바구니</div>
                         </div>
-                    </form>
-
-
-                    <form id="cartRentalForm" action="/addtocart" method="post">
-                    <input type="hidden" name="cart_c_id" value="customer001">
-                    <input type="hidden" name="cart_s_id" id="cart_s_id" value="${bdInfo.b_s_id}">
-                    <input type="hidden" name="cart_b_isbn" id="cart_b_isbn" value="${bdInfo.b_isbn}">
-                    <input type="hidden" name="cart_sort" id="cart_sort" value="대여">
-                    <input type="hidden" name="cart_rentalperiod" id="cart_rentalperiod" value="7">
-                         <div type="submit" id="addToRentalCartBtn" class="bkRentBtn">대여하기</div>
+         
+                         <div id="addToRentalCartBtn" class="bkRentBtn">대여하기</div>
                     </div>
-                </form>
+        
 
                 </div>
 
@@ -156,7 +143,7 @@
                                     <div class="item-wrapper">
                                         <a href="/books/detail/${findBook.b_isbn}/${findBook.b_s_id}">
                                             <div class="item">
-                                                <img src="https://contents.kyobobook.co.kr/sih/fit-in/210x0/pdt/${bdInfo.b_isbn}.jpg"
+                                                <img src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/${bdInfo.b_isbn}.jpg"
                                                     alt="">
                                             </div>
                                             <div class="item-info">
@@ -212,31 +199,101 @@
         });
 
 
-
-        $(document).ready(function () {
-        $('#addToCartBtn').click(function (e) {
-        e.preventDefault(); // form의 기본 제출 동작을 막습니다.
-
-        const cart_amount = parseInt($('#quantityInput').val());
-        $('#cart_amount').val(cart_amount);
-
-        $('#cartForm').submit(); // form을 프로그래밍적으로 제출합니다.
-        });
-        });
-
-
-        $(document).ready(function () {
-        $('#addToRentalCartBtn').click(function (e) {
-        e.preventDefault(); // form의 기본 제출 동작을 막습니다.
-
-        const cart_amount = parseInt($('#quantityInput').val());
-        $('#cart_amount').val(1);
-
-        $('#cartRentalForm').submit(); // form을 프로그래밍적으로 제출합니다.
-        });
-        }); 
-
  
+            $(document).ready(function () {
+                 $('#addToRentalCartBtn').click(function (e) {
+                    e.preventDefault(); // form의 기본 제출 동작을 막습니다.
+                    const cart_amount = parseInt($('#quantityInput').val());
+                    $('#cart_amount').val(1);
+                });
+            });
+
+
+
+            $(document).ready(function () {
+                $('#addToCartBtn').click(function () {
+                    const cart_c_id = 'customer001';
+                    const cart_s_id = "${bdInfo.b_s_id}";
+                    const cart_b_isbn = "${bdInfo.b_isbn}";
+                    const cart_sort = '구매';
+                    const cart_amount = parseInt($('#quantityInput').val());
+                    const cart_rentalperiod = 0;
+
+                    // 서버에 보낼 데이터를 객체로 만듭니다.
+                    const cartData = {
+                        cart_c_id,
+                        cart_s_id,
+                        cart_b_isbn,
+                        cart_sort,
+                        cart_amount,
+                        cart_rentalperiod
+                    };
+
+                    $.ajax({
+                        url: "/addtocart",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(cartData),
+                        success: function (response) {
+                            if (response === "over") {
+                                alert("장바구니의 최대 수량을 초과했습니다.");
+                            } else if (response === "updated") {
+                                alert("이미 장바구니에 담긴 책입니다. 이미 담은 상품의 수량을 추가했습니다.");
+                            } else {
+                                alert("장바구니에 추가되었습니다.");
+                            }
+                        },
+                        error: function (err) {
+                            alert("장바구니에 추가하는 데 실패했습니다.");
+                        }
+                    });
+
+                });
+            });
+
+
+
+            $(document).ready(function () {
+                $('#addToRentalCartBtn').click(function () {
+                    const cart_c_id = 'customer001';
+                    const cart_s_id = "${bdInfo.b_s_id}";
+                    const cart_b_isbn = "${bdInfo.b_isbn}";
+                    const cart_sort = '대여';
+                    const cart_amount = 1;
+                    const cart_rentalperiod = 7;
+
+                    // 서버에 보낼 데이터를 객체로 만듭니다.
+                    const cartDataRent = {
+                        cart_c_id,
+                        cart_s_id,
+                        cart_b_isbn,
+                        cart_sort,
+                        cart_amount,
+                        cart_rentalperiod
+                    };
+
+                    $.ajax({
+                        url: "/addtocartrent",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(cartDataRent),
+                        success: function (response) {
+                            if (response === "added") {
+                                alert("장바구니에 추가되었습니다.");
+                            } else {
+                                alert("이미 대여 장바구니에 담긴 책입니다.");
+                            }
+                        },
+                        error: function (err) {
+                            alert("대여 장바구니에 추가하는 데 실패했습니다.");
+                        }
+                    });
+
+                });
+            });
+        
+
+            
     </script>
 </body>
 

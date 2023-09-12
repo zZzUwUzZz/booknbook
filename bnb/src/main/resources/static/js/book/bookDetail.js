@@ -1,5 +1,5 @@
 
-
+// 같은 책 다른 서점 슬라이더 관련
 $(document).ready(function() {
     let currentIndex = 0;
     const totalItems = $(".item").length;
@@ -39,9 +39,8 @@ $(document).ready(function() {
 
  
  
+  // 총 수량에 따른 금액 계산
   $(document).ready(function () {
- 
-  
       // 총 금액 업데이트 함수
       function updateTotalPrice() {
           const singlePrice = parseInt($('#singlePrice').val());  // 단일 상품 가격
@@ -53,7 +52,6 @@ $(document).ready(function() {
       }
   });
  
-
   document.addEventListener("DOMContentLoaded", function() {
     const minusBtn = document.getElementById("minusBtn");
     const plusBtn = document.getElementById("plusBtn");
@@ -78,16 +76,28 @@ $(document).ready(function() {
         }
     });
 
-    // '+' 버튼 클릭 시 수량 증가
-    plusBtn.addEventListener("click", function(event) {
-        event.preventDefault();
-        let currentQuantity = parseInt(quantityInput.value, 10);
-        quantityInput.value = currentQuantity + 1;
-        updateTotalPrice();
-    });
-    
-    // 수량 직접 입력 시 총 가격 업데이트
-    quantityInput.addEventListener("input", function(event) {
-        updateTotalPrice();
-    });
+// '+' 버튼 클릭 시 수량 증가
+plusBtn.addEventListener("click", function(event) {
+  event.preventDefault();
+  let currentQuantity = parseInt(quantityInput.value, 10);
+  if (currentQuantity < 9) {
+      quantityInput.value = currentQuantity + 1;
+      updateTotalPrice();
+  } else {
+      alert("구매할 수 있는 최대 수량은 9개입니다.");
+  }
 });
+
+// 수량 직접 입력 시 총 가격 업데이트
+quantityInput.addEventListener("input", function(event) {
+  let currentQuantity = parseInt(quantityInput.value, 10);
+  if (currentQuantity > 9) {
+      alert("구매할 수 있는 최대 수량은 9개입니다.");
+      quantityInput.value = 9;
+  }
+  updateTotalPrice();
+});
+
+});
+
+

@@ -18,17 +18,23 @@ WHERE M.m_id = #{s_id}
 
 <!--이재락-->
 
-
     <!--회원가입정보 DB에 넣기-->
     <insert id="joinMember" parameterType="MemberDto">
         INSERT INTO M
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
-  <insert id="joinSeller" parameterType="MemberDto">
+  <!-- <insert id="joinSeller" parameterType="MemberDto">
         INSERT INTO S(s_id, s_storename, s_crn )
         VALUES(#{m_id}, #{s_storename}, #{s_crn})
     </insert>
+     -->
+<select id="findSellerIdByStoreNameAndEmail" resultType="string">
+    SELECT S.S_ID
+    FROM SELLER S
+    JOIN MEMBER M ON S.S_ID = M.M_ID
+    WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
+</select>
 
     <insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 
@@ -38,6 +44,19 @@ WHERE M.m_id = #{s_id}
     <select id="countById" resultType="int">
     SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
     </select>
+
+
+    <!-- <mapper namespace="yourMapper">
+    <select id="getPassword" parameterType="string" resultType="string">
+        SELECT M_PW FROM MEMBER WHERE M_ID = #{username}
+    </select>
+</mapper> -->
+
+
+
+
+
+
 
 
     <!-- id찾기 -->
@@ -97,7 +116,7 @@ WHERE M.m_id = #{s_id}
 
 <!-- MEMBER 테이블에서 데이터 삭제 -->
 <delete id="deleteMemberById">
-    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}gi
+    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}
 </delete>
 
 
@@ -110,6 +129,8 @@ WHERE M.m_id = #{s_id}
 <delete id="deleteCustomerById">
     DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
 </delete> -->
+
+
 
 <!--예림-->
 

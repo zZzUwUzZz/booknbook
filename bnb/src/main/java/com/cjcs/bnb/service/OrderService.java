@@ -41,7 +41,7 @@ public class OrderService {
 
     // 상품 삭제 메서드
     public void deleteCartItem(int itemId) {
-        cartItemDAO.deleteCartItem(itemId);
+    cartItemDAO.deleteCartItem(itemId);
     }
 }
 

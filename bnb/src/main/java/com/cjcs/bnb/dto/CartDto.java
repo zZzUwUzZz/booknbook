@@ -24,12 +24,4 @@ public class CartDto {
     private int b_rent;             // 대여료(7일기준)
     private int b_rentalstock;      // 대여재고량
 
-    private Long id; // 장바구니 항목 식별자
-    private String storeName; // 서점명
-    private String bookTitle; // 도서명
-    private int price; // 가격
-    private int quantity; // 수량
-    private int total; // 합계
-    private boolean selected; // 선택 여부 (체크박스)
-
 }

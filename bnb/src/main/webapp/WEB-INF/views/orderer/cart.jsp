@@ -263,7 +263,7 @@ div {
         });
 
 	// 일반 장바구니 체크박스 이벤트 핸들러
-$("#all_check_normal").click(function() {
+	$("#all_check_normal").click(function() {
     var isChecked = $(this).prop("checked");
     var cartTable = $(this).closest(".content_totalCount_section").find(".cart_table");
     cartTable.find(".check_input").prop("checked", isChecked);

@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class OrderController {
 
-       @Autowired
+    @Autowired
     private OrderDao oDao;
 
     @Autowired

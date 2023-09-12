@@ -1,5 +1,4 @@
 
-
 // 알림 아이콘 버튼
 
 $(document).ready(function () {

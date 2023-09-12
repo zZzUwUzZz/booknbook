@@ -39,7 +39,7 @@
 
         <h1>PAYMENT</h1>
 
-        <form action="/payment" method="POST">
+        <form action="/payment" method="POST" id="payForm">
 
         <c:if test="${!empty cPList}">
 
@@ -142,15 +142,28 @@
                 <div>
                     <span class="label">총 상품금액</span>|&nbsp;&nbsp;
                     <span class="money"><fmt:formatNumber value="${total_b_price + total_b_rent}" type="number" pattern="#,##0"/>원 |</span>
+                    <input type="hidden" name="o_total_pricerent" value="${total_b_price + total_b_rent}">
                 </div>
                 <div>
                     <span class="label">총 배송비</span>|&nbsp;&nbsp;
-                    <span class="money"><fmt:formatNumber value="${total_delivery_fee}" type="number" pattern="#,##0"/>원 |</span>
+                    <input type="hidden" name="o_total_deliveryfee" value="${total_delivery_fee}">
+                    <span class="money fee_y">
+                        <fmt:formatNumber value="${total_delivery_fee}" type="number" pattern="#,##0"/>원 |
+                    </span>
+                    <span class="money fee_n" style="display: none">
+                        <fmt:formatNumber value="0" type="number" pattern="#,##0"/>원 |
+                    </span>
                 </div>
                 <hr>
                 <div>
                     <span class="label">총 주문금액</span>|&nbsp;&nbsp;
-                    <span class="money"><fmt:formatNumber value="${total_b_price + total_b_rent + total_delivery_fee}" type="number" pattern="#,##0"/>원 |</span>
+                    <input type="hidden" name="o_total_payment" value="${total_b_price + total_b_rent + total_delivery_fee}">
+                    <span class="money fee_y">
+                        <fmt:formatNumber value="${total_b_price + total_b_rent + total_delivery_fee}" type="number" pattern="#,##0"/>원 |
+                    </span>
+                    <span class="money fee_n" style="display: none">
+                        <fmt:formatNumber value="${total_b_price + total_b_rent}" type="number" pattern="#,##0"/>원 |
+                    </span>
                 </div>
             </div>
 
@@ -177,12 +190,30 @@
             $("#parcel").click(function () {
 
                 $('#delivery_info').show();
+                $('.fee_y').show();
+                $('.fee_n').hide();
             });
 
             $("#visit").click(function () {
 
                 $('#delivery_info').hide();
+                $('.fee_n').show();
+                $('.fee_y').hide();
             });
+
+            $('#payForm').submit(function(event) {
+
+                event.preventDefault();
+
+                let conf = confirm('주문을 계속할까요?')
+                
+                if (conf == true) {
+
+                    alert('결제를 진행합니다...')
+                    this.submit();
+                }
+
+            })
 
         })
 

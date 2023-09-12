@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
@@ -34,6 +35,8 @@ public class OrderService {
     private RentalDao rDao;
     @Autowired
     private OrderDao oDao;
+    @Autowired
+    private BookMapper bDao;
 
 
     // 수희
@@ -102,11 +105,10 @@ public class OrderService {
             storenames.add(cartDto.getS_storename());
         }
 
-        HashSet<String> set = new HashSet<>(storenames);
+        HashSet<String> set = new HashSet<>(storenames);  // 중복제거스킬..-_-
         storenames = new ArrayList<>(set);
 
         for (String storename : storenames) {
-
             total_delivery_fee += mDao.getDeliveryFeeByStorename(storename);
         }
 
@@ -115,40 +117,57 @@ public class OrderService {
 
     @Transactional
     public Boolean addOrder(String c_id, ArrayList<Integer> pcart_idList, ArrayList<Integer> rcart_idList,
-                            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone) {
+                            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
+                            Integer o_total_pricerent, Integer o_total_deliveryfee, Integer o_total_payment) {
 
-        HashMap<String, Object> orderMap = new HashMap<>();
-        orderMap.put("c_id", c_id);
-        orderMap.put("o_delivery_sort", o_delivery_sort);
-        orderMap.put("o_recip_addr", o_recip_addr);
-        orderMap.put("o_recip_name", o_recip_name);
-        orderMap.put("o_recip_phone", o_recip_phone);
-        
-        log.info("orderMap:{}", orderMap);
-        
-        oDao.addOrderSelectKey(orderMap);
-        Integer o_id = (Integer)orderMap.get("o_id");
-
-        log.info("o_id:{}", o_id);
-
-        if (pcart_idList != null) {
-
-            for (Integer cart_id : pcart_idList) {
-
-                CartDto cDto = oDao.getCartByCartId(cart_id);
-                pDao.addPurchaseList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_amount());
-                oDao.deleteCartItem(cart_id);
+        try {
+            
+            HashMap<String, Object> orderMap = new HashMap<>();
+            orderMap.put("c_id", c_id);
+            orderMap.put("o_delivery_sort", o_delivery_sort);
+            orderMap.put("o_recip_addr", o_recip_addr);
+            orderMap.put("o_recip_name", o_recip_name);
+            orderMap.put("o_recip_phone", o_recip_phone);
+            orderMap.put("o_total_pricerent", o_total_pricerent);
+            if (o_delivery_sort.equals("택배")) {
+                orderMap.put("o_total_deliveryfee", o_total_deliveryfee);
+                orderMap.put("o_total_payment", o_total_payment);
+            } else if (o_delivery_sort.equals("방문수령")) {
+                orderMap.put("o_total_deliveryfee", 0);
+                orderMap.put("o_total_payment", o_total_pricerent);
             }
-        }
-
-        if (rcart_idList != null) {
-
-            for (Integer cart_id : rcart_idList) {
-                
-                CartDto cDto = oDao.getCartByCartId(cart_id);
-                rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_rentalperiod());
-                oDao.deleteCartItem(cart_id);
+            log.info("orderMap:{}", orderMap);
+               
+            oDao.addOrderSelectKey(orderMap);
+            Integer o_id = (Integer)orderMap.get("o_id");
+               
+            log.info("o_id:{}", o_id);
+               
+            if (pcart_idList != null) {
+               
+                for (Integer cart_id : pcart_idList) {
+                   
+                    CartDto cDto = oDao.getCartByCartId(cart_id);
+                    pDao.addPurchaseList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_amount());
+                    bDao.updateSaleStock(cDto.getCart_s_id(), cDto.getCart_b_isbn(), cDto.getCart_amount());
+                    oDao.deleteCartItem(cart_id);
+                }
             }
+           
+            if (rcart_idList != null) {
+               
+                for (Integer cart_id : rcart_idList) {
+                    
+                    CartDto cDto = oDao.getCartByCartId(cart_id);
+                    rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_rentalperiod());
+                    bDao.updateRentalStock(cDto.getCart_s_id(), cDto.getCart_b_isbn());
+                    oDao.deleteCartItem(cart_id);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR: "+e.getStackTrace());
+            return false;
         }
 
         return true;
@@ -157,8 +176,15 @@ public class OrderService {
     @Transactional
     public void cancelOrderByOId(Integer o_id) {
 
-        pDao.cancelPurchaseByOId(o_id);
-        rDao.cancelRentalByOId(o_id);
+        try {
+
+            pDao.cancelPurchaseByOId(o_id);
+            rDao.cancelRentalByOId(o_id);
+
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+
     }
 
     // 예림

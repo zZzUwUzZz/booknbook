@@ -43,4 +43,11 @@ public interface BookMapper {
     public List<BookDto> searchSellerBookList(@Param("s_id") String s_id, @Param("filter") String filter, @Param("keyword") String keyword);
 
 
+
+    //수희
+
+    public int updateSaleStock(String cart_s_id, String cart_b_isbn, int cart_amount);
+    public int updateRentalStock(String cart_s_id, String cart_b_isbn);
+
+
 }

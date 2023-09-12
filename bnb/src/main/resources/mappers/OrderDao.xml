@@ -41,8 +41,8 @@
 		<selectKey keyProperty="o_id" resultType="Integer" order="BEFORE">
 			SELECT O_SEQ.NEXTVAL FROM DUAL 
 		</selectKey>
-        INSERT INTO O(o_id, o_c_id, o_date, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone)
-        VALUES(#{o_id}, #{c_id}, DEFAULT, #{o_delivery_sort}, #{o_recip_addr}, #{o_recip_name}, #{o_recip_phone})
+        INSERT INTO O(o_id, o_c_id, o_date, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone, o_total_pricerent, o_total_deliveryfee, o_total_payment)
+        VALUES(#{o_id}, #{c_id}, DEFAULT, #{o_delivery_sort}, #{o_recip_addr}, #{o_recip_name}, #{o_recip_phone}, #{o_total_pricerent}, #{o_total_deliveryfee}, #{o_total_payment})
     </insert>
 
 
@@ -63,7 +63,7 @@
               FROM order_list
               WHERE o_c_id = #{c_id})
         GROUP BY o_id, o_date, first_title, order_status, o_delivery_sort
-        ORDER BY o_id DESC
+        ORDER BY o_date DESC
     </select>
 
     <select id="getOrderInfoByOId" parameterType="Integer" resultType="Map">
@@ -72,9 +72,12 @@
                o_delivery_sort as "o_delivery_sort",
                o_recip_addr as "o_recip_addr",
                o_recip_name as "o_recip_name",
-               o_recip_phone as "o_recip_phone"
+               o_recip_phone as "o_recip_phone",
+               o_total_pricerent as "o_total_pricerent",
+               o_total_deliveryfee as "o_total_deliveryfee",
+               o_total_payment as "o_total_payment"
         FROM O
-        WHERE o_id=#{o_id}
+        WHERE o_id = #{o_id}
     </select>
 
 <!--예림-->

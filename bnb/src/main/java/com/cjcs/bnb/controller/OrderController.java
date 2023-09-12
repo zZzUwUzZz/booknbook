@@ -16,7 +16,6 @@ import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dto.CartDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
@@ -37,8 +36,6 @@ public class OrderController {
 
     @Autowired
     private OrderService oSer;
-    @Autowired
-    private PurchaseService pSer;
     @Autowired
     private RentalService rSer;
 
@@ -133,14 +130,17 @@ public class OrderController {
     @PostMapping("/payment")    // 결제처리
     public String pay(@RequestParam(required = false) ArrayList<Integer> pcart_idList,
                       @RequestParam(required = false) ArrayList<Integer> rcart_idList, 
-                      @RequestParam String o_delivery_sort, RedirectAttributes rttr,
-                      @RequestParam String o_recip_addr, @RequestParam String o_recip_name, @RequestParam String o_recip_phone) {
+                      @RequestParam String o_delivery_sort,
+                      @RequestParam String o_recip_addr, @RequestParam String o_recip_name, @RequestParam String o_recip_phone,
+                      @RequestParam Integer o_total_pricerent, @RequestParam Integer o_total_deliveryfee, @RequestParam Integer o_total_payment,
+                      RedirectAttributes rttr) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        Boolean result = oSer.addOrder(c_id, pcart_idList, rcart_idList, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone);
+        Boolean result = oSer.addOrder(c_id, pcart_idList, rcart_idList, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone,
+                                       o_total_pricerent, o_total_deliveryfee, o_total_payment);
 
         if (result) {
             return "redirect:/payment/success";

@@ -71,9 +71,10 @@
 					    		<td><input type="checkbox" class="check_p check" name="pcart_idList" id="p-${cPItem.cart_id}" value="${cPItem.cart_id}"></td>
 					    		<td>${cPItem.s_storename}</td>
 					    		<td>${cPItem.b_title}</td>
-					    		<td>${cPItem.b_price}원</td>
+					    		<td><fmt:formatNumber value="${cPItem.b_price}" type="number" pattern="#,##0"/>원</td>
 					    		<td>
-					    			<input type="number" class="qty_input" id="q-${cPItem.cart_id}" name="cart_amount" value="${cPItem.cart_amount}" min="1" max="9" pattern="[0-9]">
+                                    <input type="hidden" id="stock-${cPItem.cart_id}" value="${cPItem.b_salestock}">
+					    			<input type="number" class="qty_input" id="q-${cPItem.cart_id}" name="cart_amount" value="${cPItem.cart_amount}" min="1" max="9" data-stock-id="stock-${cPItem.cart_id}">
                                     <button type="button" data-q-id="q-${cPItem.cart_id}" data-p-id="p-${cPItem.cart_id}" class="save-btn-p">변경</button>
                                 </td> 
 					    		<td><fmt:formatNumber value="${cPItem.b_price * cPItem.cart_amount}" type="number" pattern="#,##0"/>원</td>
@@ -116,7 +117,7 @@
 					    		<td><input type="checkbox" class="check_r check" name="rcart_idList" id="r-${cRItem.cart_id}" value="${cRItem.cart_id}"></td>
 					    		<td>${cRItem.s_storename}</td>
 					    		<td>${cRItem.b_title}</td>
-					    		<td>${cRItem.b_rent}원</td>
+					    		<td><fmt:formatNumber value="${cRItem.b_rent}" type="number" pattern="#,##0"/>원</td>
                                 <td>1</td>
 					    		<td>
                                     <select name="cart_rentalperiod" id="rp-${cRItem.cart_id}">
@@ -162,109 +163,38 @@
 
 	<script>
 
-		// // 장바구니 수량 조절
-		// function adjustQuantity(itemId, maxStock, event) {
-		// 	var quantityInput = document.getElementById("quantity_" + itemId);
-		// 	var currentQuantity = parseInt(quantityInput.value);
-	
-		// 	var action = event.target.dataset.action;
-		// 	if (action === "increase" && currentQuantity < maxStock) {
-		// 		currentQuantity++;
-		// 	} else if (action === "decrease" && currentQuantity > 1) {
-		// 		currentQuantity--;
-		// 	}
-	
-		// 	quantityInput.value = currentQuantity;
-		// }
-	
-		// // 장바구니에 상품을 추가할 때 재고량 체크
-		// function addToCart(itemId, maxStock) {
-		// 	var quantityInput = document.getElementById("quantity_" + itemId);
-		// 	var quantity = parseInt(quantityInput.value);
-	
-		// 	if (quantity > maxStock) {
-		// 		alert("재고량을 초과할 수 없습니다.");
-		// 		return;
-		// 	}
-		// }
-	
-        // // ${cPItem.b_salestock}
+        let m = '${msg}'
+		if (m != '') { alert(m) }
 
-		// // 수량 입력 필드의 값이 변경될 때 이벤트 핸들러
-		// $(".quantity_input").change(function () {
-		// 	var inputElement = $(this);
-		// 	var maxStock = parseInt(inputElement.data("max-stock"));
-		// 	var quantity = parseInt(inputElement.val());
-	
-		// 	if (quantity < 1) {
-		// 		quantity = 1;
-		// 	}
-	
-		// 	if (quantity > 9) {
-		// 		quantity = 9;
-		// 		alert("최대 수량은 9개까지만 가능합니다.");
-		// 	}
-	
-		// 	if (quantity > maxStock) {
-		// 		alert("재고량을 초과할 수 없습니다.");
-		// 		quantity = maxStock;
-		// 	}
-	
-		// 	inputElement.val(quantity);
-		// });
-
-
+        // 1~9이외의 숫자나 문자 입력 제한
         $('.qty_input').on('focusout', function () {
 
             let qty = $(this).val()
             let qty_format = /^[0-9]$/
 
             if (!qty.match(qty_format)) {
-                alert('숫자를 입력해주세요.')
+                alert('1~9 사이의 숫자를 입력해주세요.')
                 $(this).val(1)
             }
 
         })
 
-        $('.plus').on('click', function () {
-            
-            // 버튼의 data-데이터명 속성에 input폼id 저장해놓은거 꺼내오기 (input태그의 id만 저장가능한듯.. 다른태그의 id 저장해놓고 value꺼내기 해보니 안 됨)
-            let q_id = $(this).data('q-id')
-            console.log(q_id)
-            let max_q_id = $(this).data('max-q-id')
-            console.log(max_q_id)
-            
-            let q = parseInt($('#'+q_id).val())
-            console.log(q)
-            let max_q = parseInt($('#'+max_q_id).val())
-            console.log(max_q)
-            
-            
-            if (q === max_q) {
-                alert('신청가능수량 초과입니다.');
-            } else {
-                $('#'+q_id).val(q+1);
+        // 판매재고수량 이하만 입력 허용
+        $('.qty_input').change(function () {
+
+            let qty = $(this).val()
+            let stock_id = $(this).data('stock-id')
+            let stock = parseInt($('#'+stock_id).val())
+            console.log(qty)
+            console.log(stock)
+
+            if (qty > stock) {
+                alert('재고가 부족합니다.')
+                $(this).val(stock)
             }
 
-        });
+        })
 
-        $('.minus').on('click', function () {
-            
-            let q_id = $(this).data('q-id')
-            console.log(q_id)
-            let q = parseInt($('#'+q_id).val())
-            console.log(q)
-            
-            
-            if (q === 1) {
-                alert('최소 신청수량은 1권입니다.');
-            } else {
-                $('#'+q_id).val(q-1);
-            }
-
-        });
-
-	
         // 전체체크박스-개별체크박스 동작
         $(document).ready(function () {
 

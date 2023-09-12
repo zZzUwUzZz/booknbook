@@ -8,7 +8,7 @@
 
 .side-menu {
     position: relative;
-    left: 200px;
+    left: 120px;
     top: 50px;
     width: 200px;
     margin: 15px;
@@ -149,11 +149,10 @@
 
 .contain-3 {
     position: relative;
-    left: 350px;
-    width: 718px;
-    top: -300px;
+    left: 150px;
+    width: 1018px;
+    top: -800px;
     display: inline-block;
-    overflow: scroll;
     max-height: 900px;
     margin-bottom: 20px;
 }
@@ -167,6 +166,12 @@
     background-color: #fffbed;
     margin-right: 0px;
     display: block;
+}
+
+#res_accept_btn,
+#res_refuse_input,
+#res_refuse_btn {
+    display: none;
 }
 
 .seller-list {
@@ -369,7 +374,7 @@ select::-ms-expand {
     border: 2px solid lightsalmon;
     border-radius: 4px;
     background-color: #fff;
-    color: #000 ;
+    color: #000;
 }
 
 .contain-Calc {
@@ -389,6 +394,7 @@ select::-ms-expand {
     display: inline-block;
     width: 800px;
 }
+
 .Calc-list {
     border: 1px #a39485 solid;
     font-size: .9em;
@@ -411,6 +417,7 @@ select::-ms-expand {
     vertical-align: middle;
     text-align: center;
 }
+
 .Calc-list .right {
     padding: 1em 2em;
 }

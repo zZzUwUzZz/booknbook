@@ -10,7 +10,8 @@ import java.util.Map;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,6 +36,8 @@ import com.cjcs.bnb.service.OrderService;
 
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/seller")
@@ -222,19 +226,32 @@ public class SellerPageController {
     @GetMapping("/rent/reserve")
     public String sellerrentreserve(String s_id, Model model) {
 
-        //예약 신청 리스트 불러오기
+        // 예약 신청 리스트 불러오기
         List<RentalDto> resultList = rSer.RentResList(s_id);
         model.addAttribute("RentResList", resultList);
 
-        //예약상태
-        List<RentalDto> ResStatusList = rSer.ResStatusList();
-        model.addAttribute("ResStatusList", ResStatusList);
-        
         return "seller/sellerRentReserve";
     }
 
+    @PostMapping("/rent/reserve/accept")
+    public ResponseEntity<String> ReserveAccept(@RequestBody RentalDto requestData) {
+        rSer.ReserveAccept(requestData);
+        return ResponseEntity.ok("예약 신청을 승인했습니다");
+    }
+
+    @PostMapping("/rent/reserve/refuse")
+    public ResponseEntity<String> ReserveRefuse(@RequestBody RentalDto requestData) {
+        rSer.ReserveRefuse(requestData);
+        return ResponseEntity.ok("예약 신청을 거절했습니다");
+    }
+
     @GetMapping("/rent/curr")
-    public String sellerrentcurr() {
+    public String sellerrentcurr(String s_id, Model model) {
+
+        // 대여 현황 리스트 불러오기
+        List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
+        model.addAttribute("RentCurrentList", RentCurrentList);
+
         return "seller/sellerRentCurr";
     }
 

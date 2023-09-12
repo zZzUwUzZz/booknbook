@@ -71,48 +71,31 @@
                 <div class="contain-3">
                     <div class="box-3">
                         <h1>대여 예약 신청 관리</h1>
-                        <button id="res_status_save">저장</button>
-                        <button id="res_refuse">거절</button><br><br>
                         <table class="seller-list">
                             <thead>
                                 <tr>
-                                    <th>
-                                        <!-- 공백 -->
-                                    </th>
                                     <th>예약번호</th>
                                     <th>아이디</th>
                                     <th>제목</th>
                                     <th>신청일자</th>
                                     <th>예약상태</th>
+                                    <th>예약수락</th>
+                                    <th>거절사유</th>
+                                    <th>예약거절</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${RentResList}" var="rentres">
+                                <c:forEach items="${RentResList}" var="rentres" varStatus="status">
                                     <tr>
-                                        <td><input type="checkbox" id="res_manage" name="res_manage"></td>
                                         <td>${rentres.rr_id}</td>
                                         <td>${rentres.rr_c_id}</td>
                                         <td>${rentres.b_title}</td>
                                         <td>${rentres.rr_reqdateStr}</td>
-                                        <td>
-                                            <select id="res_status" name="res_status">
-                                                <option value="">죽음</option>
-                                                <c:forEach items="${ResStatusList}" var="ResStatus">
-                                                    <c:choose>
-                                                        <c:when test="${ResStatus.res_status == '예약취소'}">
-                                                            <option value="${ResStatus.res_status}" selected disabled>
-                                                                ${ResStatus.res_status}
-                                                            </option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="${ResStatus.res_status}">
-                                                                ${ResStatus.res_status}
-                                                            </option>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </select>
-                                        </td>
+                                        <td id="res_status">${rentres.res_status}</td>
+                                        <td><button id="res_accept_btn">수락</button></td>
+                                        <td><input type="text" id="res_refuse_input" placeholder=""
+                                                data-rejection-reason="${rentres.rr_rejection_reason}"></td>
+                                        <td><button id="res_refuse_btn">거절</button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -126,21 +109,89 @@
 </body>
 
 <script>
-    document.getElementById('res_status_save').addEventListener('click', function () {
-        var selectedOptions = [];
-        var checkboxes = document.querySelectorAll('.res_manage:checked');
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('.seller-list tbody tr');
 
-        checkboxes.forEach(function (checkbox) {
-            var select = checkbox.closest('tr').querySelector('.res_status');
-            var selectedValue = select.value;
+        rows.forEach(function (row) {
+            var status_td = row.querySelector('#res_status');
+            var accept_btn = row.querySelector('#res_accept_btn');
+            var refuse_input = row.querySelector('#res_refuse_input');
+            var refuse_btn = row.querySelector('#res_refuse_btn');
 
-            // selectedOptions 배열에 선택된 값 저장함
-            selectedOptions.push({
-                rr_id: checkbox.value,
-                res_status: selectedValue
-            });
+            if (status_td && accept_btn && refuse_input && refuse_btn) {
+                if (status_td.textContent === '승인대기') {
+                    accept_btn.style.display = 'block';
+                    refuse_input.style.display = 'block';
+                    refuse_btn.style.display = 'block';
+
+                    refuse_input.placeholder = '거절 사유를 입력하세요';
+                } else if (status_td.textContent === '예약불가') {
+                    var refusereason = refuse_input.getAttribute('data-rejection-reason');
+                    refuse_input.style.display = 'block';
+                    refuse_input.placeholder = refusereason;
+                } else {
+                    accept_btn.style.display = 'none';
+                    refuse_input.style.display = 'none';
+                    refuse_btn.style.display = 'none';
+                }
+
+                accept_btn.addEventListener('click', function () {
+                    var rr_id = row.querySelector('td:first-child').textContent;
+
+                    if (rr_id) {
+                        fetch('reserve/accept', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    rr_id: rr_id,
+                                }),
+                            })
+                            .then(function (response) {
+                                if (response.ok) {
+                                    alert('예약 신청을 수락하였습니다!');
+                                    status_td.textContent = '예약중';
+                                    accept_btn.style.display = 'none';
+                                    refuse_input.style.display = 'none';
+                                    refuse_btn.style.display = 'none';
+                                }
+                            });
+                    }
+                });
+
+                refuse_btn.addEventListener('click', function () {
+                    var rr_id = row.querySelector('td:first-child').textContent;
+                    var rr_rejection_reason = refuse_input.value;
+
+                    if (!rr_rejection_reason) {
+                        alert('거절 사유를 입력하세요');
+                        return;
+                    }
+
+                    if (rr_id) {
+                        fetch('reserve/refuse', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    rr_id: rr_id,
+                                    rr_rejection_reason: rr_rejection_reason,
+                                }),
+                            })
+                            .then(function (response) {
+                                if (response.ok) {
+                                    alert('예약 신청을 거절했습니다');
+                                    status_td.textContent = '예약불가';
+                                    accept_btn.style.display = 'none';
+                                    refuse_btn.style.display = 'none';
+                                }
+                            });
+                    }
+                });
+            }
         });
-
     });
 </script>
 

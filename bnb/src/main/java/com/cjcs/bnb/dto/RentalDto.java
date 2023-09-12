@@ -45,7 +45,7 @@ public class RentalDto {
     private String delivery_status;    // 배송상태(결제완료/상품준비중/상품준비완료/수령완료/배송준비중/배송중/배송완료)
     private String rental_status;      // 대여상태(대여중/연체/반납완료)
 
-    //
+    
     private int rr_id;                 // 대여 예약번호
     private String rr_c_id;            // 대여자 아이디
     private Timestamp rr_reqdate;      // 예약 신청일자

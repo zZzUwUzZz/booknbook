@@ -39,5 +39,4 @@ public interface OrderDao {
     public List<Integer> CalculateSell(String Start_Date, String End_Date);
     public List<Integer> CalculateReturn(String Start_Date, String End_Date);
     
-
 }

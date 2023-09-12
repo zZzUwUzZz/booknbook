@@ -2,6 +2,7 @@ package com.cjcs.bnb.service;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -106,5 +107,45 @@ public class RentalService {
         }
         return resultList;
     }
+    //유다
+    // 대여 항목 가져오기
+    public List<RentalDto> getRentalList() {
+    return rDao.getRentalList();
+    }
 
+    // 연체료 정보 가져오기
+    public RentalDto getLateFeeInfo(int r_id) {
+    return rDao.getLateFeeInfo(r_id);
+    }
+
+    // 모든 책의 총 연체료 합 계산
+    public int calculateTotalLateFees() {
+    List<RentalDto> rentalList = getRentalList();
+    int totalLateFees = 0;
+
+    for (RentalDto rental : rentalList) {
+        RentalDto lateFeeInfo = getLateFeeInfo(rental.getR_id());
+        if (lateFeeInfo != null) {
+            int lateFeeAmount = lateFeeInfo.getR_latefee_total();
+            totalLateFees += lateFeeAmount;
+        }
+    }
+
+    return totalLateFees;
+}
+
+    // 각 책의 연체료 정보 가져오기
+    public List<RentalDto> getLateFeeList() {
+    List<RentalDto> rentalList = getRentalList();
+    List<RentalDto> lateFeeList = new ArrayList<>();
+
+    for (RentalDto rental : rentalList) {
+        RentalDto lateFeeInfo = getLateFeeInfo(rental.getR_id());
+        if (lateFeeInfo != null) {
+            lateFeeList.add(lateFeeInfo);
+        }
+    }
+
+    return lateFeeList;
+}
 }

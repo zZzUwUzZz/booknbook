@@ -11,9 +11,6 @@ import com.cjcs.bnb.dto.RentalReservationDto;
 
 @Mapper
 public interface RentalDao {
-    
-
-    
 
     //수희    
     public List<HashMap<String, String>> getRentalListByOId(Integer o_id);
@@ -35,7 +32,7 @@ public interface RentalDao {
     public void ReserveRefuse(@Param("rr_id") int rr_id, @Param("rr_rejection_reason") String rr_rejection_reason); // 예약 거절
     public List<RentalDto> RentCurrentList(String s_id); // 대여현황
     public List<RentalDto> RentReturnList(String s_id); // 반납현황
+    public List<RentalDto> getRentalList();             // 대여 항목 가져오기
+    public RentalDto getLateFeeInfo(int r_id);          // 연체료 정보 가져오기
     
-    
-
 }

@@ -46,20 +46,11 @@ public class BnbController {
     }
 
 
-
-
-    
-
-
-
-
     // 지도
     @RequestMapping(value = "/map", method = RequestMethod.GET)
     public String map() {
         return "/map/map";
     }
-
-
 
 
     // 여기부터 관리자페이지

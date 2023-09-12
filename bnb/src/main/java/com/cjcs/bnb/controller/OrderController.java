@@ -101,14 +101,24 @@ public class OrderController {
     }
 
     @GetMapping("/paymentlatefee")    // 연체료결제페이지
-    public String paymentLatefee() {
-       
-        return "orderer/paymentLatefee";
+    public String paymentLatefee(Model model) {
+        // 각 책의 연체료 정보 가져오기
+        List<RentalDto> lateFeeList = rSer.getLateFeeList();
+
+        // 총 연체료 합 계산
+        int totalLateFees = rSer.calculateTotalLateFees();
+
+        // 모델에 연체료 정보와 총 연체료 추가
+        model.addAttribute("lateFeeList", lateFeeList); //lateFeesForBooks
+        model.addAttribute("totalLateFees", totalLateFees);
+
+        return "orderer/paymentlatefee";
     }
 
     @PostMapping("/payLatefee")    // 연체료결제처리
     public String payLatefee() {
-
+         // 연체료 결제 처리 로직 추가하기
+        // rSer.processLateFeePayment();
         return "redirect:/payment/success";
     }
     

@@ -49,6 +49,8 @@ public interface MemberDao {
     @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
     MemberDto getMemberById(String m_id);
 
+    
+
     // 아이디 중복확인
     int countById(String m_id);
 
@@ -78,6 +80,8 @@ public interface MemberDao {
     Boolean deleteMemberById(String m_id);
 
     Boolean deleteCustomerById(String m_id);
+
+    boolean unregister(String s_id);
 
     // 예림
     public MemberDto getSellerInfoById(String m_id);

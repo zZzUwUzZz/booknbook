@@ -24,11 +24,26 @@ WHERE M.m_id = #{s_id}
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
-  <!-- <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO S(s_id, s_storename, s_crn )
-        VALUES(#{m_id}, #{s_storename}, #{s_crn})
+ 
+ <!-- <insert id="joinSeller" parameterType="MemberDto">
+    
+    INSERT INTO S(s_id, s_storename, s_crn)
+    VALUES(#{m_id}, #{s_storename}, #{s_crn})
+</insert> -->
+
+     <!-- <insert id="joinSeller" parameterType="MemberDto">
+        INSERT INTO CJCS.SELLER (S_ID, S_STORENAME, S_CRN, M_ADDR)
+        VALUES (#{m_id}, #{s_storename}, #{s_crn}, #{m_addr})
+    </insert> -->
+
+<insert id="joinSeller" parameterType="MemberDto">
+        INSERT INTO CJCS.SELLER (S_ID, S_STORENAME, S_CRN, S_STOREDESC)
+        SELECT #{m_id}, #{s_storename}, #{s_crn}, M_ADDR
+        FROM CJCS.MEMBER
+        WHERE M_ID = #{m_id}
     </insert>
-     -->
+
+
 <select id="findSellerIdByStoreNameAndEmail" resultType="string">
     SELECT S.S_ID
     FROM SELLER S
@@ -107,6 +122,11 @@ WHERE M.m_id = #{s_id}
     FROM "CJCS"."CUSTOMER_INFO"
     WHERE M_ID = #{m_id}
 </select>
+
+
+
+
+
 
 
 <!-- CUSTOMER 테이블에서 데이터 삭제 -->

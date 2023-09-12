@@ -131,6 +131,15 @@ public class MemberService {
         }
     }
 
+    // @Autowired
+    // private SqlSession sqlSession;
+
+    // public boolean unregister(String m_id) {
+    //     // DAO 로직을 여기서 처리
+    //     int result = sqlSession.delete("unregister", m_id);
+    //     return result > 0;
+    // }
+
     // 탈퇴1 일단 이거
     // @Autowired
     // private BCryptPasswordEncoder pwEncoder;

@@ -10,6 +10,11 @@
         SELECT * FROM CART_ITEMS
         WHERE cart_c_id = #{c_id}
     </select>
+    <select id="getCartByCartId" parameterType="Integer" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_id = #{cart_id}
+    </select>
     <select id="getPurchaseCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
         SELECT * FROM CART_ITEMS
@@ -32,6 +37,13 @@
         UPDATE CART SET cart_rentalperiod = #{cart_rentalperiod} WHERE cart_id = #{cart_id}
     </update>
 
+    <insert id="addOrderSelectKey" parameterType="Map" useGeneratedKeys="true" keyProperty="o_id">
+		<selectKey keyProperty="o_id" resultType="Integer" order="BEFORE">
+			SELECT O_SEQ.NEXTVAL FROM DUAL 
+		</selectKey>
+        INSERT INTO O(o_id, o_c_id, o_date, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone)
+        VALUES(#{o_id}, #{c_id}, DEFAULT, #{o_delivery_sort}, #{o_recip_addr}, #{o_recip_name}, #{o_recip_phone})
+    </insert>
 
 
 <!--수희-->

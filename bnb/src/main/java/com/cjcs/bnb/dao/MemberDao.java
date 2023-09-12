@@ -105,6 +105,8 @@ public interface MemberDao {
 
     public List<MemberDto> getSellerListByKeyword(SearchDto sDto);
 
+    public Integer getDeliveryFeeByStorename(String storename);
+
     public Integer countSellers(SearchDto sDto);
 
     public MemberDto getCustomerInfoById(String m_id);

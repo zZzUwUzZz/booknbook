@@ -272,6 +272,11 @@ WHERE M.m_id = #{s_id}
 		]]>	
 	</select>
 
+    <select id="getDeliveryFeeByStorename" resultType="Integer">
+        SELECT s_deliveryfee FROM S
+        WHERE s_storename = #{s_storename}
+    </select>
+
     <!--검색조건에 맞는 판매자회원 수 세기-->
     <select id="countSellers" resultType="Integer">
         SELECT COUNT(*) FROM S

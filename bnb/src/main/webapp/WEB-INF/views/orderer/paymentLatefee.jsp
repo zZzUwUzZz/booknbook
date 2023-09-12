@@ -103,7 +103,7 @@ tr {
                         <tr>
                             <td>${lateFee.s_storename}</td>
                             <td>${lateFee.b_title}</td>
-                            <td>${lateFee.}</td>
+                            <td></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -113,6 +113,7 @@ tr {
                 <table>
                     <tr>
                         <th>결제수단</th>
+
                         <th>연체료 납부일</th> 
                         <th>연체료 총액</th> <!--모든 도서들의 연체료 총금액-->
                     <tr>

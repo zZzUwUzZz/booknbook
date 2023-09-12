@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
 
@@ -89,7 +89,7 @@
                         <c:forEach var="pItem" items="${pList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${pItem.o_id}'" class="td-linked">${pItem.o_id}</td>
-                                <td>${pItem.o_date}</td>
+                                <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                                 <td>${pItem.b_title}</td>
                                 <td>${pItem.p_amount}</td>
                                 <td>${pItem.s_storename}</td>
@@ -99,7 +99,7 @@
 
                                 <c:choose>
                                     <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
-                                                    && ((pItem.p_amount > pItem.re_amount) || empty pItem.re_amount)}">
+                                                    && (empty pItem.re_amount)}">
                                         <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
                                     </c:when>
                                     <c:otherwise>
@@ -111,10 +111,6 @@
                     </c:if>
                 </table>
                 </div>
-            </div>
-         
-            <div>
-                <div class="pagebox">${pageHtml}</div>
             </div>
 
             <div class="btnbox">

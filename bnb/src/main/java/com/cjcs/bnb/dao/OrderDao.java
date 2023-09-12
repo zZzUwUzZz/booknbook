@@ -13,21 +13,14 @@ import com.cjcs.bnb.dto.CartDto;
 @Mapper
 public interface OrderDao {
     
-    //유다
-    public List<CartDto> getCartItemsByCId(String c_id, String cart_sort);
-    @Repository
-    public class CartItemDAO {
+    //유다,수희
+    public List<CartDto> getCartByCId(String c_id);
+    public List<CartDto> getPurchaseCartByCId(String c_id);
+    public List<CartDto> getRentalCartByCId(String c_id);
+    public int deleteCartItem(int cart_id);
+    public int updateCartAmount(int cart_id, int cart_amount);
+    public int updateCartRentalPeriod(int cart_id, int cart_rentalperiod);
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    // 상품 삭제 메서드
-    public void deleteCartItem(int itemId) {
-        String sql = "DELETE FROM cart_items WHERE item_id = ?";
-        jdbcTemplate.update(sql, itemId);
-    }
-}
-    
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
     public HashMap<String, String> getOrderInfoByOId(int o_id);

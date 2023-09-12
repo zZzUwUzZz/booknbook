@@ -26,6 +26,9 @@
     OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')
 </select>
 
+ <select id="getAllBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
+    SELECT * FROM SELLER
+</select>
 </mapper>
 
 

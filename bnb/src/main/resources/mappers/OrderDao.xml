@@ -4,12 +4,34 @@
 
 <mapper namespace="com.cjcs.bnb.dao.OrderDao">
 
-<!-- 유다 -->
-    <select id="getCartItemsByCId" resultType="CartDto">
+<!--유다,수희-->
+    <select id="getCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
         SELECT * FROM CART_ITEMS
-        WHERE cart_c_id = #{c_id} AND cart_sort = #{cart_sort}
+        WHERE cart_c_id = #{c_id}
     </select>
+    <select id="getPurchaseCartByCId" parameterType="String" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_c_id = #{c_id} AND cart_sort ='구매'
+    </select>
+        <select id="getRentalCartByCId" parameterType="String" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_c_id = #{c_id} AND cart_sort ='대여'
+    </select>
+
+    <delete id="deleteCartItem">
+        DELETE FROM CART WHERE cart_id = #{cart_id}
+    </delete>
+
+    <update id="updateCartAmount">
+        UPDATE CART SET cart_amount = #{cart_amount} WHERE cart_id = #{cart_id}
+    </update>
+    <update id="updateCartRentalPeriod">
+        UPDATE CART SET cart_rentalperiod = #{cart_rentalperiod} WHERE cart_id = #{cart_id}
+    </update>
+
 
 
 <!--수희-->

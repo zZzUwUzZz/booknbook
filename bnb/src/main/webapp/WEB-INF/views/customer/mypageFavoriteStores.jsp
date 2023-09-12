@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/fav.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="/js/slide.js"></script>
 
     <title>즐겨찾는 서점</title>
@@ -69,8 +69,8 @@
 
                         <div class="favstore">
                             <a href="/storedetail?s_id=${favStore.m_id}">
+                                <br>
                                 여기에 서점사진 들어가야됨!<br>
-                                (서버파일명 = 서점회원ID.jpg)<br>
                                 -<br>
                                 ${favStore.m_id}<br>
                                 ${favStore.s_storename}

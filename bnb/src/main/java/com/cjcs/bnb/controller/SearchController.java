@@ -13,10 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +28,10 @@ import jakarta.servlet.http.HttpSession;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
-import com.cjcs.bnb.dto.FavDto;
+import com.cjcs.bnb.dto.FavoriteDTO;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookService;
+import com.cjcs.bnb.service.FavoriteService;
 import com.cjcs.bnb.service.SearchService;
 
 @Controller
@@ -37,7 +41,7 @@ public class SearchController {
     private SearchService searchService;
 
     @Autowired
-    private BookService bookService;
+    private FavoriteService favoriteService;
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String searchBooks(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1") int page,
@@ -63,9 +67,10 @@ public class SearchController {
         return "/search/search";
     }
 
-    // 지도에서 서점 검색
 
-    @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
+
+    // 지도에서 서점 검색
+@RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
     public String search(
             @RequestParam String keyword,
             @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
@@ -95,6 +100,7 @@ public class SearchController {
                 memberInfos.add(member); // 회원 정보를 리스트에 추가
             }
         }
+ 
 
         // 위도와 경도 정보도 추가 (이 가정에서는 SellerDto가 s_latitude와 s_longitude를 가진다)
         List<Double> latitudes = results.stream().map(SellerDto::getS_latitude).collect(Collectors.toList());
@@ -113,6 +119,42 @@ public class SearchController {
 
         return "/map/map";
     }
+
+
+// @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
+// public String search(
+//         @RequestParam(name = "keyword", required = false) String keyword,
+//         @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+//         Model model) {
+
+//     List<SellerDto> results;
+//     int totalItems;
+
+//     if (keyword == null || keyword.trim().isEmpty()) {
+//         // 키워드가 없거나 빈 문자열인 경우 모든 서점 정보를 불러옴
+//         results = searchService.getAllBookstores();
+//         totalItems = results.size();
+//     } else {
+//         // 키워드가 있는 경우 해당 키워드로 검색
+//         int pageSize = 5;
+//         int startIdx = (pageNum - 1) * pageSize;
+
+//         results = searchService.searchBookstores(keyword, startIdx, pageSize);
+//         totalItems = searchService.countBookstores(keyword);
+        
+//         // 기타 로직 (이미지 정보, 회원 정보 등)
+//         // ... (이미지 정보와 회원 정보를 불러오는 로직을 여기에 넣을 수 있습니다.)
+//     }
+
+//     // 공통 로직 (모델에 결과 추가)
+//     model.addAttribute("results", results);
+//     model.addAttribute("totalItems", totalItems);
+
+//     return "/map/map";
+// }
+
+
+
 
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId,
@@ -136,5 +178,18 @@ public class SearchController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PostMapping("/toggleFavorite")
+    public ResponseEntity<?> toggleFavorite(@RequestParam String userId, @RequestParam String storeId,
+            @RequestParam int state) {
+
+        favoriteService.toggleFavorite(userId, storeId, state);
+        return new ResponseEntity<>(Map.of("isSuccess", true), HttpStatus.OK);
+
+    }
+
+
+
+
 
 }

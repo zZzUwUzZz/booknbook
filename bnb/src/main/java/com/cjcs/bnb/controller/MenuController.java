@@ -11,9 +11,4 @@ public class MenuController {
         return "/books/books";
     }
 
-    @RequestMapping("/bookstore")
-    public String bookstore() {
-        return "/bookstore/bookstore";
-    }
-
 }

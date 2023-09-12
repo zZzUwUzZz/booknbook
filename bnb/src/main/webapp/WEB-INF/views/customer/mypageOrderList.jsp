@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
 
@@ -85,7 +85,7 @@
                         <c:forEach var="oItem" items="${oList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">${oItem.o_id}</td>
-                                <td>${oItem.o_date}</td>
+                                <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                                 <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
                                 <td>${oItem.order_status}</td>
                                 <td>${oItem.o_delivery_sort}</td>

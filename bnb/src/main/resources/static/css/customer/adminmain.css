@@ -1,0 +1,134 @@
+.container-1 {
+    /* border: 1px solid red; */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: -20px;
+}
+.container-2 {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid orange; */
+    width: 510px;
+    margin-top: 20px;
+}
+.container-3 {
+    box-sizing: border-box;
+    width: 510px;
+    padding: 0 20px;
+}
+table {
+    width: 100%;
+    font-size: 15px;
+    text-align: center;
+}
+tr {
+    height: 24px;
+}
+.cards {
+    border: 1px solid #4c4240;
+    border-radius: 10px;
+}
+.card-main {
+    border-radius: 10px;
+    border: 1px solid #4c4240;
+    height: fit-content;
+    padding-bottom: 25px;
+    margin-bottom: 15px;
+}
+.category_add_box {
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    padding: 5px;
+    margin: 5px 0;
+}
+.category_delete_box {
+    padding: 5px;
+    color: #4c4240;
+}
+.categories_s {
+    display: inline-block;
+    border-left: 1px solid #4c4240;
+    white-space: nowrap;
+    line-height: 15px;
+    height: 17px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+.categories:hover {
+    cursor: pointer;
+    color: #ff9946;
+    font-weight: 600;
+}
+span {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+}
+.card-top {
+    height:fit-content;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+.card-bottom {
+    height: fit-content;
+    padding-bottom: 25px;
+}
+.card-button {
+    height: 45px;
+    border-radius: 2px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #4c4240;
+    color: #fffbed;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+}
+.card-button:hover {
+    cursor: pointer;
+    border: 2px solid #ff9946;
+    background: #ff9946;
+    color:#fffbed;
+}
+h3 {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #4c4240;
+    padding: 0;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+h4.stats {
+    width: 220px;
+    margin: 5px 0;
+}
+h3 a:hover, h4 a:hover {
+    color: #ff9946;
+}
+h4 {
+    display: inline-block;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #4c4240;
+    margin: 5px 0;
+}
+form {
+    display: inline-block;
+}
+.labelbox {
+    display: flex;
+    justify-content: space-between;
+}
+.more-btn {
+    height: 25px;
+    margin-top: 15px;
+}
+p {
+    margin-bottom: 5px;
+}
+#board-area-flexible {
+    height: fit-content;
+    padding-bottom: 20px;
+}

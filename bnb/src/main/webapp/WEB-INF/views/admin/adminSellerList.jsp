@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>SELLER LIST</title>
 
@@ -75,11 +75,11 @@
                         <tr class="headrow">
                             <th>ID</th>
                             <th>서점명</th>
-                            <th>사업자번호</th>
+                            <th width="100px">사업자번호</th>
                             <th>주소</th>
-                            <th>전화번호</th>
-                            <th>이메일</th>
-                            <th>입점일자</th>
+                            <th width="120px">전화번호</th>
+                            <th width="230px">이메일</th>
+                            <th width="110px">입점일자</th>
                         </tr>
 
                         <c:if test="${empty sellerList}">
@@ -91,13 +91,13 @@
                         <c:if test="${!empty sellerList}">
                             <c:forEach var="seller" items="${sellerList}">
                                 <tr>
-                                    <td>${seller.m_id}</td>
-                                    <td onclick="location.href='/bookstore/${seller.m_id}'" class="td-linked">${seller.s_storename}</td>
+                                    <td><span>${seller.m_id}</span></td>
+                                    <td onclick="location.href='/bookstore/${seller.m_id}'" class="td-linked"><span>${seller.s_storename}</span></td>
                                     <td>${seller.s_crn}</td>
-                                    <td>${seller.m_addr}</td>
+                                    <td><span>${seller.m_addr}</span></td>
                                     <td>${seller.m_phone}</td>
                                     <td>${seller.m_email}</td>
-                                    <td>${seller.m_joindate}</td>
+                                    <td><fmt:formatDate value="${seller.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                 </tr>
                                 </c:forEach>
                         </c:if>
@@ -113,8 +113,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

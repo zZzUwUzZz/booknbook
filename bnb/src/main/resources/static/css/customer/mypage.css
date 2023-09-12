@@ -5,6 +5,7 @@
     width: 1400px;
     height: 650px;
     margin: auto;
+    margin-top: 40px;
     padding: 15px;
 }
 .board-area {
@@ -59,7 +60,7 @@
     text-decoration: none;
     color: #fffbed; 
     padding: 10.5px 11px;
-    background-color: #4c4240;
+    background-color: #5f5350;
     display:block;
 }
 
@@ -75,4 +76,11 @@
 .menu_simple ul li a:hover, .menu_simple ul li .current {
     color: #fffbed;
     background-color: #ff9946;
+}
+td span {
+    width: 120px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

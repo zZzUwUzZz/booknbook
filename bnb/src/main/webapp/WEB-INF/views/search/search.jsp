@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/books.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/search.js"></script>
 </head>
@@ -43,18 +43,24 @@
     
     <div class="bookListContainer">
         <div class="bk_tt">
-            <b>'${keyword}' 검색 결과  ${totalItems}개 </b>
+            <p class="result_tt"><b>'${keyword}'에 대한 ${totalItems}개의 검색 결과</b></p>
         </div>
+        <div class="no-results" style="display:none;">
+          <p class="randomemoji"></p><br>
+       <div><p>저런, 검색 결과가 없네요..</p></div> 
+        </div>
+
         <ul class="bk_list">
           <c:forEach var="book" items="${books}">
             <li class="bk_item">
               <div class="bk_area">
                 <a href="<c:url value='/books/detail/${book.b_isbn}/${book.b_s_id}'/>">
-                <img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg"
-                        alt="${book.b_title}">
-                    </a><br>
-                <div><b>${book.b_title}</b></div>
-                <div><b>${book.b_price}원</b></div>
+                  <div class="bkimgbox">
+                    <img src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
+                  </div>
+                </a>
+                <div class="bk_item_text"><b>${book.b_title}</b><br>
+               <b>${book.b_price}원</b></div>
               </div>
             </li>
           </c:forEach>
@@ -63,12 +69,17 @@
 
       <div class="pagination">
         <c:forEach var="i" begin="1" end="${totalPages}">
-            <a href="<c:url value='/search?keyword=${keyword}&page=${i}' />">${i}</a>
+            <a href="<c:url value='/search?keyword=${keyword}&page=${i}' />" 
+               class="${i == currentPage ? 'active' : ''}">${i}</a>
         </c:forEach>
-      </div>
+    </div>
+  </div>
 
 
 <%@include file="/WEB-INF/tiles/footer.jsp" %>
 
+<script>
+  var totalItems = ${totalItems}; // JSP 변수를 JavaScript 변수에 할당
+</script>
 </body>
 </html>

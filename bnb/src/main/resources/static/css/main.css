@@ -2,7 +2,7 @@
  
 
 a {
-    color: #FFF;
+    color: #dfdad5;
     text-decoration-line: none;
 
 }
@@ -22,8 +22,9 @@ header, footer {
     font-family: 'Montserrat', sans-serif;
 }
 
+ 
 body {
-    background-color: #4d6b50;
+    background-color: #293630;
     margin: 0px;
     min-height: 100%;
 	position: relative;
@@ -34,10 +35,46 @@ body {
 /* header */
 
 
+#login-logout-button-login {
+    margin-left: 15px;
+cursor: pointer;
+}
+
+#small-menu {
+    display: none;
+    font-family: 'BookkGothic-Bd';
+    width: 115px;
+    height: 132px;
+    background: rgb(255, 255, 255);
+    position: absolute;
+    z-index: 1;
+    right: 71px;
+    top: 57px;
+    padding: 18px;
+    border: 1px solid #36593a;
+    text-align: left;
+}
+
+p.smallmenuId {
+    margin: 7px 0;
+    margin-top: 0px;
+    font-weight: bold;
+    color: #4c4240;
+}
+.smMenuList{
+    line-height: 28px;
+}
+.smMenuList a {
+    color: #4c4240;
+}
+
 .hd {
     padding: 43px;
-    padding-top: 25px;
-    color: #FFF;
+    text-align: center;
+    padding-top: 14px;
+    padding-bottom: 15px;
+    color: #dfdad5;
+    border-bottom: 1px solid #203b23;
 }
 
 .hd_01 {
@@ -49,14 +86,15 @@ body {
     justify-content: space-between;
     display: flex;
     width: 100%;
-    margin-top: 21px;
+    margin-top: 0px;
     font-size: 20px;
-
+    align-items: center;
 }
 
 .logo {
     font-weight: bold;
-    font-size: 30px;
+    font-size: 28px;
+    margin-left: -14px;
 }
 
 .logo_btn {
@@ -65,9 +103,9 @@ body {
 }
 
 .login_bell {
+    margin-left: 15px;
     display: flex;
     align-items: center;
-    font-size: 17px;
 }
 
 .login_bell a {
@@ -76,14 +114,21 @@ body {
 
 .noti_btn {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
+
+#login-logout-button {
+    margin-left: 15px;
+    cursor: pointer;
+}
 
 .menu_01 {    
 }
 
 .menu_01 a{
-    margin-right: 20px;    
+    margin-right: 14px;    
 }
 
 
@@ -101,21 +146,40 @@ body {
 
 
 footer {
-    bottom: 0px;
     width: 100%;
-    height: 100px;
+    height: 70px;
+
+    width: 100%;
+    height: 0;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+     -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -moz-box-orient: horizontal;
+    -moz-box-direction: normal;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    margin-top: auto;
+    box-sizing: border-box;
+
 }
 
 .ft {
-    margin-top: 50px;
+    margin-top: 44px;
+    margin-bottom: 0;
     padding: 43px;
-    padding-bottom: 4px;
-    padding-top: 18px;
-    height: 80px;
-    color: #FFF;
+    padding-bottom: 0px;
+    padding-top: 15px;
+    height: 30px;
+    color: #203b23;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-top: 1px solid #203b23;
 }
 
 .sns_link {
@@ -135,6 +199,34 @@ footer {
 
 }
 
+
+/* 메인 사진 */
+
+.maintt {
+    position: absolute;
+    z-index: 1;
+    color: #FFF;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+
+
+.maintt {
+     white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-size: 2em;
+    animation: blink .5s step-end infinite alternate;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+ 
+
 /* main - search */
 
 form#mapSearchForm {
@@ -152,28 +244,41 @@ form#searchForm {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 800px;
-     margin: auto;
-      filter: grayscale(1);
+    height: 100vh;
+    margin: auto;
  }
 
  
+
  .scbox_bg {
     width: 100%;
-    height: 800px;
+    height: 100vh;
     position: absolute;
     background-image: url(/images/main_001.jpg);
      background-size: cover;
     background-position: center;
    }
  
+.scbox_bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 50%);
+    z-index: 0;
+}
+
+
 .scbox_01 {
-    width: 550px;
+    width: 497px;
     display: flex;
     justify-content: center;
     align-items: center;
-     background: #000;
-     z-index: 1;
+    border-bottom: 3px solid #FFF;
+    z-index: 1;
+    margin-top: 12%;
 }
 
 .scstore {
@@ -186,7 +291,7 @@ form#searchForm {
     padding: 13px;
     border: 0px;
     background: none;
-    color: #FFF;
+    color: #dfdad5;
     margin-top: -10px;
 }
 
@@ -203,10 +308,10 @@ input.scstore::placeholder {color:#FFF;}
 
 .bnb_list {
     height: auto;
-    width: 1230px;
-     margin: auto;
+    width: 1400px;
+    margin: auto;
     padding: 25px;
-    color: #FFF;
+    color: #dfdad5;
     margin-top: 50px;
 }
 
@@ -251,13 +356,15 @@ font-weight: bold;
     padding: 18px;
     border: none;
     background: none;
+    color: #203b23;
 
 }
-input.scbook::placeholder {color:#000000;}
+input.scbook::placeholder {color:#4a584b;}
 
 .scmd_input_box span{
     font-size: 42px;
     margin-right: 10px;
+    color: #203b23;
 }
 
 
@@ -267,7 +374,7 @@ input.scbook::placeholder {color:#000000;}
 .scip_box {
     display: flex;
     align-items: center;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid #203b23;
 }
 
 
@@ -280,6 +387,22 @@ input.scbook::placeholder {color:#000000;}
 .sc_cls span {
     font-size: 56px;
     cursor: pointer;
+    color: #203b23;
 }
 
  
+
+/* 메인 독립서점 부분 */
+
+.bstext01 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFF;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    font-family: 'BookkGothic-Bd';
+  }

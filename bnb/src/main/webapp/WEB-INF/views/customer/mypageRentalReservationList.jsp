@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
 
@@ -85,10 +85,18 @@
                         <c:forEach var="rrItem" items="${rrList}">
                             <tr>
                                 <td>${rrItem.rr_id}</td>
-                                <td>${rrItem.rr_reqdate}</td>
+                                <td><fmt:formatDate value="${rrItem.rr_reqdate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                                 <td>${rrItem.b_title}</td>
                                 <td>${rrItem.s_storename}</td>
-                                <td class="status_code">${rrItem.res_status}</td>
+
+                                <c:choose>
+                                    <c:when test="${rrItem.rr_res_status_id eq 2}">
+                                        <td class="status_code">${rrItem.res_status}<br>${rrItem.rr_rejection_reason}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${rrItem.res_status}</td>
+                                    </c:otherwise>
+                                </c:choose>
                             
                                 <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 1 || rrItem.rr_res_status_id eq 3}">
@@ -99,13 +107,12 @@
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
-
                             <c:if test="${!empty rrItem.rr_rejection_reason}">
                                 <tr>
                                     <td class="rej_reason" colspan="6">${rrItem.rr_rejection_reason}</td>
                                 </tr>
                             </c:if>
-                         </c:forEach>
+                        </c:forEach>
                     </c:if>
                 </table>
                 </div>

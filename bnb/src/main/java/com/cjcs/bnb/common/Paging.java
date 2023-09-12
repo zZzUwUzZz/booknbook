@@ -56,15 +56,15 @@ public class Paging {
 		for (int i = start; i <= end; i++) {
 			if (pageNum != i) {    //현재 페이지가 아닌 경우 링크처리
 				sb.append("<a class='pno' href='"+listUrl+"pageNum=" + i + "'>");
-				sb.append(" [ ");
+				// sb.append(" [ ");
 				sb.append(i);
-				sb.append(" ] ");
+				// sb.append(" ] ");
 				sb.append("</a>");
 			} else {               //현재 페이지인 경우 링크 해제
-				sb.append("<font style='color:red;'>");
-				sb.append(" [ ");
+				sb.append("<font class='curr-pno'>");
+				// sb.append(" [ ");
 				sb.append(i);
-				sb.append(" ] ");
+				// sb.append(" ] ");
 				sb.append("</font>");
 			}
 		}

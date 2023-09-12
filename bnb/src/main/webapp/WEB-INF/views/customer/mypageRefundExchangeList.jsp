@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
 
@@ -73,6 +73,7 @@
                         <th>신청품목</th>
                         <th>금액/수량</th>
                         <th>처리상태</th>
+                        <th></th>
                     </tr>
 
                     <c:if test="${empty reList}">
@@ -85,12 +86,20 @@
                         <c:forEach var="reItem" items="${reList}">
                             <tr>
                                 <td>${reItem.re_sort}</td>
-                                <td>${reItem.re_reqdate}</td>
-                                <td>${reItem.re_o_id}</td>
+                                <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                <td onclick="location.href='/mypage/purchaselist'" class="td-linked">${reItem.re_o_id}</td>
                                 <td>${reItem.s_storename}</td>
                                 <td>${reItem.b_title}</td>
                                 <td>${reItem.re_amount}</td>
                                 <td>${reItem.process_status}</td>
+                                <c:choose>
+                                    <c:when test="${reItem.re_process_status_id eq 1}">
+                                        <td><button onclick="cancel('${reItem.re_id}')" class="cancel_btn">요청취소</button></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td width="80px"></td>
+                                    </c:otherwise>
+                                </c:choose>
                             </tr>
                             <c:if test="${!empty reItem.re_rejection_reason}">
                                 <tr>
@@ -115,8 +124,22 @@
     </div>
 
 
-
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
+
+
+    <script>
+
+    function cancel(re_id) {
+
+        let conf = confirm('교환/반품 신청을 취소할까요?');
+        
+        if (conf == true) {
+            location.href="/mypage/refundexchangecancel/" + re_id;
+        }
+        
+    }
+
+    </script>
 
 </body>
 

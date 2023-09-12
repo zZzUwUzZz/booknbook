@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -22,7 +23,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="/js/slide.js"></script>
 </head>
 
@@ -70,7 +71,7 @@
                 <div class="contain-3">
                     <div class="box-3">
                         <h1>대여 현황</h1>
-                        <table class="Rent-Curr-list">
+                        <table class="seller-list">
                             <thead>
                                 <tr>
                                     <th>주문번호</th>
@@ -78,22 +79,27 @@
                                     <th>제목</th>
                                     <th>대여일자</th>
                                     <th>반납예정일</th>
+                                    <th>수령방법</th>
+                                    <th colspan="4">현재상태</th>
                                     <th>연체일</th>
-                                    <th>연체료</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <c:forEach items="" var=""> -->
+                                <c:forEach items="${RentCurrentList}" var="rentcurrent">
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>${rentcurrent.o_id}</td>
+                                        <td>${rentcurrent.o_c_id}</td>
+                                        <td>${rentcurrent.b_title}</td>
+                                        <td>${rentcurrent.o_dateStr}</td>
+                                        <td>${rentcurrent.returnexpect_daysStr}</td>
+                                        <td>${rentcurrent.o_delivery_sort}</td>
+                                        <td>${rentcurrent.delivery_status}</td>
+                                        <td>.</td>
+                                        <td>${rentcurrent.rental_status}</td>
+                                        <td>.</td>
+                                        <td>${rentcurrent.overdue_days}</td>
                                     </tr>
-                                <!-- </c:forEach> -->
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>

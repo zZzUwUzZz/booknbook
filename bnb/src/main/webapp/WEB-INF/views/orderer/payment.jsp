@@ -100,9 +100,9 @@
             <button type="button" class="choice">결제</button>
         </div>
         <script>
-            const payButton = document.getElementById("pay-button");
+            const payButton = document.getElementById("choice");
             payButton.addEventListener('click', () => {
-                document.getElementById("pay-button").onclick = function () {
+                document.getElementById("choice").onclick = function () {
                     alert("결제되셨습니다.");
                 };
             });
@@ -114,5 +114,4 @@
         <jsp:include page="../../tiles/footer.jsp"></jsp:include>
         <!-- end하단 부분 -->
 </body>
-
 </html>

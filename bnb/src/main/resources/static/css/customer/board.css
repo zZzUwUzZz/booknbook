@@ -1,0 +1,95 @@
+table {
+    width: 680px;
+    text-align: center;
+    margin: auto;
+}
+.tablebox {
+    box-sizing: border-box;
+    border-top: 2px solid #4c4240;
+    border-bottom: 2px solid #4c4240;
+    width: 700px;
+    margin: auto;
+    padding: 8px;
+}
+.th {
+    background: #4c4240;
+    color:beige;
+}
+tr {
+    height: 40px;
+}
+.content_td {
+    border: 1px solid #4c4240;
+    text-align: left;
+    height: 150px;
+    padding: 10px;
+}
+.info_td {
+    border: 1px solid #4c4240;
+    text-align: left;
+    padding: 10px;
+}
+.td-linked:hover {
+    cursor: pointer;
+    color: #ff9946;
+    text-decoration: underline;
+}
+.headrow {
+    background: #4c4240;
+    color:beige;
+}
+
+.searchbox {
+    box-sizing: border-box;
+    text-align: right;
+    width: 700px;
+    padding: 5px;
+    margin: auto;
+    margin-top: -25px;
+    margin-bottom: 5px;
+}
+.pagebox {
+    box-sizing: border-box;
+    text-align: center;
+    width: 700px;
+    padding: 5px;
+    margin: auto;
+    margin-top: 12px;
+}
+.buttonbox {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 700px;
+    padding-top: 10px;
+    margin: auto;
+}
+#board-area-flexible {
+    height: fit-content;
+    padding-bottom: 45px;
+}
+.pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    background-color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
+}
+.container-mypage a {
+    color: #fffbed;
+}
+.pno:hover {
+    background-color: #fffbed;
+    color: #4c4240;
+}
+.curr-pno {
+    display: inline-block;
+    border-top: 1px solid #4c4240;
+    border-bottom: 1px solid #4c4240;
+    color: #4c4240;
+    width: 25px;
+    height: 22px;
+    margin: 1px;
+}

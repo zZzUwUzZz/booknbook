@@ -2,15 +2,18 @@ package com.cjcs.bnb.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.javassist.compiler.ast.Member;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
-import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.SellerDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,10 +34,23 @@ public class MemberService {
         return false;
     }
 
+    // public MemberDto login(HashMap<String, String> member) {
+    // try {
+    // MemberDto mb = mDao.getMemberById(member.get("m_id"));
+    // if (mb != null && mb.getM_pw().equals(member.get("m_pw"))) {
+    // return mb;
+    // }
+    // } catch (Exception e) {
+    // log.error("Error occurred while trying to login: ", e);
+    // }
+    // return null;
+    // }
+
+    // 시큐리티 로그인
     public MemberDto login(HashMap<String, String> member) {
         try {
             MemberDto mb = mDao.getMemberById(member.get("m_id"));
-            if (mb != null && mb.getM_pw().equals(member.get("m_pw"))) {
+            if (mb != null && pwEncoder.matches(member.get("m_pw"), mb.getM_pw())) {
                 return mb;
             }
         } catch (Exception e) {
@@ -47,32 +63,107 @@ public class MemberService {
         return mDao.countById(m_id) > 0;
     }
 
-    public String findIdByEmail(String name,String email) {
-        return mDao.findIdByEmail(name,email);
+    public String findIdByEmail(String name, String email) {
+        return mDao.findIdByEmail(name, email);
     }
-    
-    
 
+    public String findSellerIdByStoreNameAndEmail(String storeName, String email) {
+        return mDao.findSellerIdByStoreNameAndEmail(storeName, email);
+    }
 
+    public Boolean verifyUser(Map<String, String> inputData) {
+        Integer count = mDao.verifyUser(inputData);
+        return count > 0;
+    }
 
+    // 비번 초기화
 
-       //탈퇴
-    //    @Transactional
-    //    public boolean withdraw(String m_id) {
-    //        try {
-    //            return mDao.delete(m_id) > 0;
-    //        } catch(Exception e) {
-    //            log.error("Error during withdrawal: ", e);
-    //            return false;
-    //        }
-    //    }
+    // public Boolean resetPassword(Map<String, String> inputData) {
+    // try {
+    // String userId = inputData.get("userId");
+    // String newPassword = inputData.get("newPassword");
 
+    // return mDao.resetPassword(userId, newPassword);
+    // } catch (Exception e) {
+    // // 로그 출력
+    // log.error("Error in resetting password in service layer: ", e);
+    // return false;
+    // }
+    // }
 
+    // // 비번 초기화
+    public Boolean resetPassword(Map<String, String> inputData) {
+        try {
+            String userId = inputData.get("userId");
+            String rawPassword = inputData.get("newPassword");
+            String encryptedPassword = pwEncoder.encode(rawPassword); // BCrypt로 비밀번호 암호화
 
+            return mDao.resetPassword(userId, encryptedPassword);
+        } catch (Exception e) {
+            // 로그 출력
+            log.error("Error in resetting password in service layer: ", e);
+            return false;
+        }
+    }
 
+    @Autowired
+    private BCryptPasswordEncoder pwEncoder;
 
+    @Transactional
+    public Boolean unregister(String m_id, String m_pw) {
+        try {
+            // Get encoded password from the database for the user
+            String encodedPwd = mDao.getEncodedPassword(m_id);
 
+            // Check if the entered password matches the encoded password
+            if (encodedPwd != null && pwEncoder.matches(m_pw, encodedPwd)) {
+                // First, delete the user data from the CUSTOMER table
+                mDao.deleteCustomerById(m_id);
 
+                // Then, delete the user data from the MEMBER table
+                return mDao.deleteMemberById(m_id);
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error during withdrawal: ", e);
+            return false;
+        }
+    }
+
+    // 탈퇴1 일단 이거
+    // @Autowired
+    // private BCryptPasswordEncoder pwEncoder;
+
+    // @Transactional
+    // public boolean unregister(String m_id, String m_pw) {
+    // try {
+    // // Get encoded password from the database for the user
+    // String encodedPwd = mDao.getEncodedPassword(m_id);
+
+    // // Check if the entered password matches the encoded password
+    // if (encodedPwd != null && pwEncoder.matches(m_pw, encodedPwd)) {
+    // return mDao.deleteMemberById(m_id) > 0;
+    // } else {
+    // return false;
+    // }
+    // } catch (Exception e) {
+    // log.error("Error during withdrawal: ", e);
+    // return false;
+    // }
+    // }
+
+    // 탈퇴
+
+    // @Transactional
+    // public boolean withdraw(String m_id) {
+    // try {
+    // return mDao.delete(m_id) > 0;
+    // } catch(Exception e) {
+    // log.error("Error during withdrawal: ", e);
+    // return false;
+    // }
+    // }
 
     // public MemberDto login(HashMap<String, String> member) {
 
@@ -126,11 +217,13 @@ public class MemberService {
     // }
 
     // 수희
+
     public MemberDto getCustomerInfoById(String c_id) {
 
         return mDao.getCustomerInfoById(c_id);
     }
 
+    // 일반회원 회원정보수정
     @Transactional
     public void updateCustomerInfo(String c_id, MemberDto updatedMDto) {
 
@@ -141,27 +234,41 @@ public class MemberService {
         mDao.updateCustomerInfo(updatedMDto);
     }
 
+    // 가장최근 즐겨찾기한 서점정보와 가장최근 찜한 도서정보 가져오기
+    public HashMap<String, String> getLatestFavStoreAndBookByCId(String c_id) {
 
+        HashMap<String, String> latestFav = new HashMap<>();
 
-    //예림
-    
-    //오늘 즐겨찾기한 회원 수 카운트
-    public int getTodayBookmarkCnt(String s_id){
+        HashMap<String, String> favs = mDao.getLatestFavStoreByCId(c_id, 1);
+        HashMap<String, String> favb = mDao.getLatestFavBookByCId(c_id, 1);
+
+        latestFav.put("favs_s_id", favs.get("favs_s_id"));
+        latestFav.put("favs_s_storename", favs.get("favs_s_storename"));
+        latestFav.put("favb_s_id", favb.get("favb_s_id"));
+        latestFav.put("favb_b_isbn", favb.get("favb_b_isbn"));
+        log.info("latestFav:{}", latestFav);
+
+        return latestFav;
+    }
+
+    // 예림
+    // 오늘 즐겨찾기한 회원 수 카운트
+    public int getTodayBookmarkCnt(String s_id) {
         return mDao.getTodayBookmarkCnt(s_id);
     }
 
-    //이번 주 즐겨찾기한 회원 수 카운트
-    public int getWeekBookmarkCnt(String s_id){
+    // 이번 주 즐겨찾기한 회원 수 카운트
+    public int getWeekBookmarkCnt(String s_id) {
         return mDao.getWeekBookmarkCnt(s_id);
     }
 
-    //이번 달 즐겨찾기한 회원 수 카운트
-    public int getMonthBookmarkCnt(String s_id){
+    // 이번 달 즐겨찾기한 회원 수 카운트
+    public int getMonthBookmarkCnt(String s_id) {
         return mDao.getMonthBookmarkCnt(s_id);
     }
 
-    //서점 이용 기록 있는 회원들 리스트 불러오기
-    public List<MemberDto> getCsMemberList(String s_id){
+    // 서점 이용 기록 있는 회원들 리스트 불러오기
+    public List<MemberDto> getCsMemberList(String s_id) {
         return mDao.getCsMemberList(s_id);
     }
 

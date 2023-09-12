@@ -129,7 +129,7 @@
 
     <script>
 
-    function cancel(re_id) {   // 비동기통신
+    function cancel(re_id) {
 
         let conf = confirm('교환/반품 신청을 취소할까요?');
         

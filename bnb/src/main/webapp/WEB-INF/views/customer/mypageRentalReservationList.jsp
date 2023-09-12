@@ -107,6 +107,11 @@
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
+                            <c:if test="${!empty rrItem.rr_rejection_reason}">
+                                <tr>
+                                    <td class="rej_reason" colspan="6">${rrItem.rr_rejection_reason}</td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                     </c:if>
                 </table>

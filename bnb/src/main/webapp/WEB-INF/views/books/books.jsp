@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.cjcs.bnb.dto.BookDto" %>
 
@@ -88,7 +89,7 @@
                           </div>
                         </a>
                         <div class="bk_item_text"><b>${book.b_title}</b><br>
-                       <b>${book.b_price}원</b></div>
+                       <b>  <fmt:formatNumber value="${book.b_price}" type="number" pattern="#,###" /></b><span>원</span></div>
                       </div>
                     </li>
                   </c:forEach>

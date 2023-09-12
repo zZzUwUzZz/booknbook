@@ -10,6 +10,10 @@ import com.cjcs.bnb.dto.CartDto;
 @Mapper
 public interface OrderDao {
     
+    // 킹효진
+    int addToCart(CartDto cartDto);
+   
+
     //유다,수희
     public List<CartDto> getCartByCId(String c_id);
     public List<CartDto> getPurchaseCartByCId(String c_id);

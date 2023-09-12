@@ -119,6 +119,24 @@ SELECT * FROM (
 
 
 
+<!-- 도서 상세 페이지 정보  -->
+<select id="bookDetail" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT B.*, S.s_storename
+    FROM B, S
+    WHERE B.b_s_id = S.s_id AND B.b_isbn = #{isbn} AND B.b_s_id = #{sellerId}
+</select>
+
+
+<select id="findBooksByIsbn" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT B.*, S.s_storename 
+    FROM B, S 
+    WHERE B.b_s_id = S.s_id AND B.b_isbn = #{isbn}
+    ORDER BY B.b_price ASC
+</select>
+
+
+
+
 
 <!-- 예림 -->
     <!-- 판매자 페이지 - 등록된 도서 리스트 조회 -->

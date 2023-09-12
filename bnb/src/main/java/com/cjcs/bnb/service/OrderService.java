@@ -13,6 +13,7 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.CartDto;
 import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalDto;
 
@@ -30,6 +31,16 @@ public class OrderService {
     private RentalDao rDao;
     @Autowired
     private OrderDao oDao;
+
+    // 킹효진
+    public void addToCart(CartDto cartDto) {
+    oDao.addToCart(cartDto);
+  
+}
+
+
+
+
 
     // 수희
     @Transactional

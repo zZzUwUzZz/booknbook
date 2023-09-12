@@ -4,6 +4,15 @@
 
 <mapper namespace="com.cjcs.bnb.dao.OrderDao">
 
+<!-- 킹효진 -->
+<insert id="addToCart" parameterType="CartDto">
+    INSERT INTO Cart (cart_c_id, cart_s_id, cart_b_isbn, cart_sort, cart_amount, cart_rentalperiod, cart_id)
+    VALUES (#{cart_c_id}, #{cart_s_id}, #{cart_b_isbn}, #{cart_sort}, #{cart_amount}, #{cart_rentalperiod}, CART_SEQ.NEXTVAL)
+</insert>
+
+ 
+
+
 <!--유다,수희-->
     <select id="getCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->

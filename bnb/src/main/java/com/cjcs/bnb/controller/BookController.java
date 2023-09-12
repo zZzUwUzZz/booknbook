@@ -51,14 +51,6 @@ public class BookController {
         return "/books/books";
     }
 
-    @GetMapping("/books/detail/{isbn}/{sellerId}")
-    public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId, Model model) {
-        // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
-        BookDto book = bookService.findBookByIsbnAndSellerId(isbn, sellerId);
-        model.addAttribute("book", book);
-        return "/books/detail";
-    }
-
     @RequestMapping("/books/category/medium/{category_m_id}")
     public String listBooksByCategory(
             @PathVariable String category_m_id,

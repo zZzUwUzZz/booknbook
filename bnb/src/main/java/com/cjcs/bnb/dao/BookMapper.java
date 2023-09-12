@@ -32,6 +32,12 @@ public interface BookMapper {
     List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end);
     int countBooksBySmallCategory(String category_s_id);
 
+    //책 상세 페이지 조회
+    BookDto bookDetail(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
+
+    // ISBN 조회
+    List<BookDto> findBooksByIsbn(@Param("isbn") String isbn);
+
 
 
     //예림

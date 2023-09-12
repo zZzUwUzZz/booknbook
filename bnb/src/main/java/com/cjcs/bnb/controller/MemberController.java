@@ -280,7 +280,5 @@ public class MemberController {
             return "redirect:/member/unregister";
         }
     }
-    
-    
-    
+
 }

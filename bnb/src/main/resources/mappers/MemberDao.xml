@@ -24,24 +24,25 @@ WHERE M.m_id = #{s_id}
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
- 
+ <insert id="joinCustomer" parameterType="MemberDto">
+        INSERT INTO C(c_id, c_name) 
+        VALUES(#{m_id}, #{c_name})
+    </insert>
+
  <!-- <insert id="joinSeller" parameterType="MemberDto">
     
     INSERT INTO S(s_id, s_storename, s_crn)
     VALUES(#{m_id}, #{s_storename}, #{s_crn})
 </insert> -->
 
-     <!-- <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO CJCS.SELLER (S_ID, S_STORENAME, S_CRN, M_ADDR)
-        VALUES (#{m_id}, #{s_storename}, #{s_crn}, #{m_addr})
-    </insert> -->
-
+ 
 <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO CJCS.SELLER (S_ID, S_STORENAME, S_CRN, S_STOREDESC)
-        SELECT #{m_id}, #{s_storename}, #{s_crn}, M_ADDR
-        FROM CJCS.MEMBER
-        WHERE M_ID = #{m_id}
-    </insert>
+        INSERT INTO CJCS.SELLER (S_ID,s_storename,S_CRN, S_DELIVERYFEE, S_LATEFEE)
+        VALUES(#{m_id},#{s_storename}, #{s_crn}, DEFAULT, DEFAULT)
+</insert>
+
+
+    
 
 
 <select id="findSellerIdByStoreNameAndEmail" resultType="string">
@@ -51,11 +52,7 @@ WHERE M.m_id = #{s_id}
     WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
 </select>
 
-    <insert id="joinCustomer" parameterType="MemberDto">
-        INSERT INTO C(c_id, c_name) 
-        VALUES(#{m_id}, #{c_name})
-    </insert>
-
+    
     <select id="countById" resultType="int">
     SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
     </select>

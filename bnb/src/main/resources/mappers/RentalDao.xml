@@ -83,6 +83,11 @@
         WHERE (r_rental_status_id IN (2, 3)) AND r_c_id = #{c_id}
     </select>
 
+    <insert id="addRentalList" parameterType="Map">
+        INSERT INTO R(r_o_id, r_s_id, r_b_isbn, r_c_id, r_order_status_id, r_ordercancel_rejection_reason, r_delivery_status_id, r_deliverydate, r_rentalperiod, r_duedate, r_rental_status_id, r_returndate, r_latefee_total, r_latefee_paid, r_latefee_paydate, r_id)
+        VALUES(#{o_id}, #{cart_s_id}, #{cart_b_isbn}, #{c_id}, 1, NULL, 1, NULL, #{cart_rentalperiod}, NULL, 1, NULL, NULL, NULL, NULL, R_SEQ.NEXTVAL)
+    </insert>
+
     <update id="cancelRentalByOId" parameterType="Integer">
         UPDATE R
         SET r_order_status_id = 2

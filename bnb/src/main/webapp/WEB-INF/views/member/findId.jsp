@@ -16,11 +16,11 @@
             <li>법인사업자 회 법인명과 법인번호 또는 이름과 등록번호를 입력해 주세요.</li>
         </ul>
     </div>
-     
+
     <form id="findIdForm" name="findIdForm" action="/exec/front/Member/findId/" method="post" target="_self" enctype="multipart/form-data">
         <input id="returnUrl" name="returnUrl" value="/member/id/find_id_result.html" type="hidden">
         <div class="findId">
-            <fieldset>   
+            <fieldset>
                 <legend>아이디 찾기</legend>
                 <p>
                     <strong>회원유형</strong>
@@ -37,21 +37,26 @@
                     <strong class="input_label">이름 </strong>
                     <input id="input_field_name" name="name" class="lostInput" placeholder="이름을 입력하세요" value="" type="text">
                 </p>
+                <!-- 서점명 입력 필드 추가 -->
+                <p class="input-group" id="input_storename" style="display:none;">
+                    <strong class="input_label">서점명 </strong>
+                    <input id="input_field_storename" name="storename" class="lostInput" placeholder="서점명을 입력하세요" type="text">
+                </p>
                 <p class="input-group" id="input_email">
                     <strong class="input_label">이메일 입력</strong>
                     <input id="input_field_email" name="email" class="lostInput" placeholder="이메일을 입력하세요" value="" type="text">
                 </p>
-                    <!-- 결과를 표시할 부분을 추가 -->
-                    <span id="idResult" style="display:none;">
-                        회원님의 아이디: <span id="userId"></span>
-                    </span>                 
-                </p>
-          
+
+                <!-- 결과를 표시할 부분을 추가 -->
+                <span id="idResult" style="display:none;">
+                    회원님의 아이디: <span id="userId"></span>
+                </span>
+
                 <div class="ec-base-button gColumn" id="button_group">
                     <button type="submit" id="submit_button" class="btnSubmit sizeM" onclick="findIdAction(); return false;">확인</button>
                     <!-- 로그인 버튼을 추가 (기본 상태는 숨김) -->
                     <a href="/member/login" id="login_button" style="display:none;" class="btnSubmit sizeM">로그인페이지로</a>
-                </div>        
+                </div>
             </fieldset>
         </div>
     </form>
@@ -65,27 +70,52 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
     <script>
-        function findIdAction() {
-    var inputData = {
-        name: $("#input_field_name").val(),
-        email: $("#input_field_email").val()
-    };
+        $(document).ready(function() {
+            // 회원 유형 선택 상자 값 변경 감지
+            $("#searchType").change(function() {
+                var selectedType = $(this).val();
 
-    // 간단한 유효성 검사
-    if (!inputData.name || !inputData.email) {
-        alert('이름과 이메일을 모두 입력하세요.');
-        return;
+                if (selectedType === "indibuis") { // 개인 사업자 회원 선택 시
+                    $("#input_name").hide();
+                    $("#input_storename").show();
+                    $("#input_email").show();
+                } else { // 개인회원 선택 시
+                    $("#input_name").show();
+                    $("#input_storename").hide();
+                    $("#input_email").show();
+                }
+            });
+        });
+
+        function findIdAction() {
+    var selectedType = $("#searchType").val();
+    var name = $("#input_field_name").val();
+    var storename = $("#input_field_storename").val();
+    var email = $("#input_field_email").val();
+
+    var url = "/member/findId"; // 기본값을 개인회원으로 설정
+    var inputData = {};
+
+    if (selectedType === "indibuis") { // 개인 사업자 회원 선택 시
+        if (!storename || !email) {
+            alert('서점명과 이메일을 모두 입력하세요.');
+            return;
+        }
+        url = "/member/findSellerId"; // 개인 사업자회원용 URL로 변경
+        inputData = { storeName: storename, email: email };
+    } else { // 개인회원 선택 시
+        if (!name || !email) {
+            alert('이름과 이메일을 모두 입력하세요.');
+            return;
+        }
+        inputData = { name: name, email: email };
     }
 
     $.ajax({
         type: "POST",
-        url: "/member/findId",
+        url: url,
         data: inputData,
         success: function(response) {
-            // 여기서 response는 서버로부터 받은 응답입니다.
-            // 일반적으로, 데이터베이스의 값과 일치하는 경우 서버에서는 아이디 값을 반환하며,
-            // 일치하지 않는 경우 null 또는 비어있는 값을 반환할 것입니다.
-            // 이를 기반으로 아래의 로직을 작성하였습니다.
             if (response && response !== 'not found') {
                 $("#userId").text(response);
                 $("#idResult").show();

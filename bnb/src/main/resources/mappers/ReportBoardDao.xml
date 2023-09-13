@@ -22,8 +22,9 @@
 		    </when>
 		    <otherwise>
 		    	(SELECT rownum rn, RB.*
-				 FROM RB
-            	 ORDER BY report_date DESC)
+				 FROM (SELECT * FROM RB
+		    	       ORDER BY report_date DESC) RB
+				)
 		    </otherwise>
 		</choose>
 		<![CDATA[

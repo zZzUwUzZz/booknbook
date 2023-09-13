@@ -36,6 +36,10 @@ public class BookService {
         return bookMapper.findBookByIsbnAndSellerId(isbn, sellerId);
     }
 
+    public BookDto findBookStock(String isbn, String sellerId) {
+        return bookMapper.findBookStock(isbn, sellerId);
+    }
+
     // 중분류 카테고리 조회
     public List<BookDto> findBooksByMediumCategory(String category_m_id, int start, int end) {
         return bookMapper.findBooksByMediumCategory(category_m_id, start, end);

@@ -69,9 +69,11 @@
 
                         <div class="favstore">
                             <a href="/storedetail?s_id=${favStore.m_id}">
+                              
                                 <br>
                                 여기에 서점사진 들어가야됨!<br>
                                 -<br>
+                                
                                 ${favStore.m_id}<br>
                                 ${favStore.s_storename}
                             </a>

@@ -95,7 +95,14 @@ p.bkInfoText02::-webkit-scrollbar {
     background: #203b23;
     color: #dfdad5;
     margin: 16px 0;
+}
 
+.RentsoldOutBtn {
+    cursor: pointer;
+    padding: 15px;
+    background: rgb(204 112 37);
+    color: #dfdad5;
+    margin: 16px 0;
 }
 
 .likeNoti {

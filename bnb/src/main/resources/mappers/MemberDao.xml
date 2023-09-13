@@ -86,11 +86,6 @@
     </update>
 
 
-<!-- CUSTOMER 테이블에서 데이터 삭제 -->
-<delete id="deleteCustomerById">
-    DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
-</delete>
-
     <!-- 회원탈퇴 -->
     
     <resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">

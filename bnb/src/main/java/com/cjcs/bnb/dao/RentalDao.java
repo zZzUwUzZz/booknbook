@@ -12,7 +12,10 @@ import com.cjcs.bnb.dto.RentalReservationDto;
 @Mapper
 public interface RentalDao {
     
+    // 킹효진
+    RentalReservationDto findRentalByCriteria(RentalReservationDto rrDto);
 
+    int insertRental(RentalReservationDto rrDto);
     
 
     //수희    

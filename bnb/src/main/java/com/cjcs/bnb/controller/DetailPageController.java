@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.CartDto;
+import com.cjcs.bnb.dto.RentalDto;
+import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
+import com.cjcs.bnb.service.RentalService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -39,11 +43,19 @@ public class DetailPageController {
     private BookService bSer;
     @Autowired
     private OrderService oSer;
+    @Autowired
+    private RentalService rSer;
+    @Autowired
+    private RentalDao rDao;
+
+
+    private static final Logger logger = LoggerFactory.getLogger(DetailPageController.class);
 
     @GetMapping("/books/detail/{isbn}/{sellerId}")
     public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId, Model model) {
         // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
         BookDto book = bSer.findBookByIsbnAndSellerId(isbn, sellerId);
+        BookDto bkStock = bSer.findBookStock(isbn, sellerId);
         BookDto bdInfo = bSer.bookDetail(isbn, sellerId);
         List<BookDto> bkISBN = bSer.findBooksByIsbn(isbn);
 
@@ -52,12 +64,23 @@ public class DetailPageController {
         model.addAttribute("bdInfo", bdInfo);
         model.addAttribute("sellerId", sellerId);
         model.addAttribute("isbn", isbn);
+        model.addAttribute("salestock", bkStock.getB_salestock());
+        model.addAttribute("rentalstock", bkStock.getB_rentalstock());
 
         return "/books/detail";
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(DetailPageController.class);
+    @ResponseBody
+    @PostMapping("/rental/request")
+    public ResponseEntity<String> requestRental(@RequestBody RentalReservationDto rrDto) {
+        logger.info("시발:{}", rrDto);
+        String result = rSer.requestRental(rrDto);
+                logger.info("ㅋㅋ:{}", result);
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
+ 
     @PostMapping("/addtocart")
     public ResponseEntity<String> addToCart(@RequestBody CartDto cartDto) {
         String c_id = "customer001"; // 로그인 정보에서 가져올 것

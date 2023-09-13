@@ -25,11 +25,15 @@ import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RefExchDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
+import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.SellerFileDto;
+import com.cjcs.bnb.mappers.FileMapper;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
+import com.cjcs.bnb.service.SearchService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +64,10 @@ public class CustomerPageController {
     private PurchaseDao pDao;
     @Autowired
     private RentalDao rDao;
+    @Autowired
+    private SearchService searchService;
+    @Autowired
+    private FileMapper fileMapper;
 
 
     @GetMapping    // 일반회원 마이페이지홈
@@ -281,12 +289,13 @@ public class CustomerPageController {
     }
 
 
-    @GetMapping("/favoritestores")   // 즐겨찾는서점
+    @GetMapping("/favoritestores") // 즐겨찾는서점
     public String mypageFavoriteStores(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
 
-        //일단 하드코딩함.
+        // 일단 하드코딩함.
         String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+
+        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
         log.info("page:{}", page);
 
@@ -299,8 +308,8 @@ public class CustomerPageController {
         List<MemberDto> favStores = mDao.getFavStoreList(c_id, start, end);
 
         log.info("favStores:{}", favStores);
-
-        model.addAttribute("currentPage", page);
+  
+         model.addAttribute("currentPage", page);
         model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("favStores", favStores);
 

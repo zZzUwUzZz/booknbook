@@ -109,14 +109,20 @@
 
                           
                         <div class="btnBox">
+                            <!-- <h1>재고 ${salestock} 대여 가능 ${rentalstock}</h1> -->
                             <div id="addToCartBtn" class="bkCartBtn">장바구니</div>
                         </div>
          
                          <div id="addToRentalCartBtn" class="bkRentBtn">대여하기</div>
-                    </div>
+                         <input type="hidden" id="salestock" value="${bkStock.salestock}">
+                         <input type="hidden" id="rentalstock" value="${bkStock.rentalstock}">
+                         
+                         
+                        </div>
         
 
                 </div>
+
 
             </div>
         </section>
@@ -182,6 +188,73 @@
 
     <script>
         $(document).ready(function () {
+            var B_SALESTOCK = parseInt($("#soldOutBtn").val());
+            var B_RENTALSTOCK = parseInt($("#rentalstock").val());
+
+            if (B_SALESTOCK === 0) {
+                alert("판매할게없음요..");
+            }
+
+            if (B_RENTALSTOCK === 0) {
+                alert("대여할게없음요..");
+            }
+        });
+
+
+        $(document).ready(function () {
+            const saleStock = parseInt("${salestock}");
+            const rentalStock = parseInt("${rentalstock}");
+            if (saleStock <= 0) {
+                $('#addToCartBtn').text('품절').css("background", "#909090");
+                $('.bkInfo_02').css("display", "none");
+                $('.bkPrice').css("border-top", "none");
+                $('#addToCartBtn').prop('id', 'soldOutBtn');
+                $('#soldOutBtn').off("click"); // 기존에 있던 click 이벤트 제거
+                $('.notiBtn').prop('disabled', false);
+            }
+
+            if (rentalStock <= 0) {
+                $('.bkRentBtn').text('대여 예약하기').css("background", "rgb(204 112 37)");
+                $('.bkRentBtn').prop('class', 'RentsoldOutBtn');
+                $('#addToRentalCartBtn').prop('id', 'RentsoldOutBtn');
+                $('.notiBtn').prop('disabled', false);
+            }
+        });
+
+        // 대여 예약
+        $(document).ready(function () {
+            $('#RentsoldOutBtn').click(function () {
+                const rentalData = {
+                    rr_c_id: 'customer001',
+                    rr_s_id: '${bdInfo.b_s_id}',
+                    rr_b_isbn: '${bdInfo.b_isbn}',
+                    rr_res_status_id: 1
+                };
+
+                console.log("Sending data to server: ", rentalData); // 데이터를 보내기 전에 로그를 찍습니다.
+
+                $.ajax({
+                    url: '/rental/request',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(rentalData),
+                    success: function (response) {
+
+                        if (response === 'already') {
+                            alert('이미 예약신청이 되었습니다.');
+                        } else if (response === 'success') {
+                            alert('대여 예약 신청이 완료되었습니다.');
+                        }
+                    },
+                    error: function (err) {
+                        alert('대여 예약 신청에 실패했습니다.');
+                    }
+                });
+            });
+        });
+
+
+        $(document).ready(function () {
             // 먼저 .item-wrapper 요소를 배열로 가져옵니다.
             var items = $('.items001 .item-wrapper').get();
 
@@ -199,101 +272,98 @@
         });
 
 
- 
-            $(document).ready(function () {
-                 $('#addToRentalCartBtn').click(function (e) {
-                    e.preventDefault(); // form의 기본 제출 동작을 막습니다.
-                    const cart_amount = parseInt($('#quantityInput').val());
-                    $('#cart_amount').val(1);
-                });
+
+        $(document).ready(function () {
+            $('#addToRentalCartBtn').click(function (e) {
+                e.preventDefault(); // form의 기본 제출 동작을 막습니다.
+                const cart_amount = parseInt($('#quantityInput').val());
+                $('#cart_amount').val(1);
             });
+        });
 
 
 
-            $(document).ready(function () {
-                $('#addToCartBtn').click(function () {
-                    const cart_c_id = 'customer001';
-                    const cart_s_id = "${bdInfo.b_s_id}";
-                    const cart_b_isbn = "${bdInfo.b_isbn}";
-                    const cart_sort = '구매';
-                    const cart_amount = parseInt($('#quantityInput').val());
-                    const cart_rentalperiod = 0;
+        $(document).ready(function () {
+            $('#addToCartBtn').click(function () {
+                const cart_c_id = 'customer001';
+                const cart_s_id = "${bdInfo.b_s_id}";
+                const cart_b_isbn = "${bdInfo.b_isbn}";
+                const cart_sort = '구매';
+                const cart_amount = parseInt($('#quantityInput').val());
+                const cart_rentalperiod = 0;
 
-                    // 서버에 보낼 데이터를 객체로 만듭니다.
-                    const cartData = {
-                        cart_c_id,
-                        cart_s_id,
-                        cart_b_isbn,
-                        cart_sort,
-                        cart_amount,
-                        cart_rentalperiod
-                    };
+                // 서버에 보낼 데이터를 객체로 만듭니다.
+                const cartData = {
+                    cart_c_id,
+                    cart_s_id,
+                    cart_b_isbn,
+                    cart_sort,
+                    cart_amount,
+                    cart_rentalperiod
+                };
 
-                    $.ajax({
-                        url: "/addtocart",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(cartData),
-                        success: function (response) {
-                            if (response === "over") {
-                                alert("장바구니의 최대 수량을 초과했습니다.");
-                            } else if (response === "updated") {
-                                alert("이미 장바구니에 담긴 책입니다. 이미 담은 상품의 수량을 추가했습니다.");
-                            } else {
-                                alert("장바구니에 추가되었습니다.");
-                            }
-                        },
-                        error: function (err) {
-                            alert("장바구니에 추가하는 데 실패했습니다.");
+                $.ajax({
+                    url: "/addtocart",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(cartData),
+                    success: function (response) {
+                        if (response === "over") {
+                            alert("장바구니의 최대 수량을 초과했습니다.");
+                        } else if (response === "updated") {
+                            alert("이미 장바구니에 담긴 책입니다. 이미 담은 상품의 수량을 추가했습니다.");
+                        } else {
+                            alert("장바구니에 추가되었습니다.");
                         }
-                    });
-
+                    },
+                    error: function (err) {
+                        alert("장바구니에 추가하는 데 실패했습니다.");
+                    }
                 });
+
             });
+        });
 
 
 
-            $(document).ready(function () {
-                $('#addToRentalCartBtn').click(function () {
-                    const cart_c_id = 'customer001';
-                    const cart_s_id = "${bdInfo.b_s_id}";
-                    const cart_b_isbn = "${bdInfo.b_isbn}";
-                    const cart_sort = '대여';
-                    const cart_amount = 1;
-                    const cart_rentalperiod = 7;
+        $(document).ready(function () {
+            $('#addToRentalCartBtn').click(function () {
+                const cart_c_id = 'customer001';
+                const cart_s_id = "${bdInfo.b_s_id}";
+                const cart_b_isbn = "${bdInfo.b_isbn}";
+                const cart_sort = '대여';
+                const cart_amount = 1;
+                const cart_rentalperiod = 7;
 
-                    // 서버에 보낼 데이터를 객체로 만듭니다.
-                    const cartDataRent = {
-                        cart_c_id,
-                        cart_s_id,
-                        cart_b_isbn,
-                        cart_sort,
-                        cart_amount,
-                        cart_rentalperiod
-                    };
+                // 서버에 보낼 데이터를 객체로 만듭니다.
+                const cartDataRent = {
+                    cart_c_id,
+                    cart_s_id,
+                    cart_b_isbn,
+                    cart_sort,
+                    cart_amount,
+                    cart_rentalperiod
+                };
 
-                    $.ajax({
-                        url: "/addtocartrent",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(cartDataRent),
-                        success: function (response) {
-                            if (response === "added") {
-                                alert("장바구니에 추가되었습니다.");
-                            } else {
-                                alert("이미 대여 장바구니에 담긴 책입니다.");
-                            }
-                        },
-                        error: function (err) {
-                            alert("대여 장바구니에 추가하는 데 실패했습니다.");
+                $.ajax({
+                    url: "/addtocartrent",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(cartDataRent),
+                    success: function (response) {
+                        if (response === "added") {
+                            alert("장바구니에 추가되었습니다.");
+                        } else {
+                            alert("이미 대여 장바구니에 담긴 책입니다.");
                         }
-                    });
-
+                    },
+                    error: function (err) {
+                        alert("대여 장바구니에 추가하는 데 실패했습니다.");
+                    }
                 });
-            });
-        
 
-            
+            });
+        });
     </script>
 </body>
 

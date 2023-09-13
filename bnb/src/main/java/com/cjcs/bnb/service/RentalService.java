@@ -34,6 +34,17 @@ public class RentalService {
 
     @Autowired
     private SqlSession sqlSession;
+ 
+    // 킹효진
+
+    public String requestRental(RentalReservationDto rrDto) {
+        RentalReservationDto existingRental = rDao.findRentalByCriteria(rrDto);
+        if (existingRental != null) {
+            return "already";
+        }
+        rDao.insertRental(rrDto);
+        return "success";
+    }
 
     // 수희
     public List<RentalReservationDto> getReservationListByCId(String c_id) {

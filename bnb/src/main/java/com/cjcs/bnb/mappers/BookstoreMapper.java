@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 
 @Mapper
 public interface BookstoreMapper {
     List<MemberDto> getAllImageList(); // List로 반환
+
 }

@@ -4,6 +4,35 @@
 
 <mapper namespace="com.cjcs.bnb.dao.OrderDao">
 
+<!-- 킹효진 -->
+<insert id="addToCart" parameterType="CartDto">
+    INSERT INTO Cart (cart_c_id, cart_s_id, cart_b_isbn, cart_sort, cart_amount, cart_rentalperiod, cart_id)
+    VALUES (#{cart_c_id}, #{cart_s_id}, #{cart_b_isbn}, #{cart_sort}, #{cart_amount}, #{cart_rentalperiod}, CART_SEQ.NEXTVAL)
+</insert>
+ 
+  <!-- 장바구니 구매 아이템 검색 -->
+<select id="findPurCartItem" resultType="CartDto">
+    SELECT * FROM cart 
+    WHERE cart_c_id=#{cart_c_id} AND cart_b_isbn=#{cart_b_isbn} AND cart_s_id=#{cart_s_id} AND cart_sort='구매'
+</select>
+
+ <!-- 장바구니 구매 아이템 업데이트 -->
+<update id="updateCartItem">
+    UPDATE cart 
+    SET cart_amount=#{cart_amount} 
+    WHERE cart_c_id=#{cart_c_id} AND cart_b_isbn=#{cart_b_isbn} AND cart_s_id=#{cart_s_id} AND cart_sort='구매'
+</update>
+
+
+  <!-- 장바구니 대여 아이템 검색 -->
+<select id="findRentCartItem" resultType="CartDto">
+    SELECT * FROM cart 
+    WHERE cart_c_id=#{cart_c_id} AND cart_b_isbn=#{cart_b_isbn} AND cart_s_id=#{cart_s_id} AND cart_sort='대여'
+</select>
+
+ 
+
+
 <!--유다,수희-->
     <select id="getCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->

@@ -54,6 +54,12 @@ public class BookService {
         return bookMapper.countBooksBySmallCategory(category_s_id);
     }
 
+    // ISBN 조회
+        public List<BookDto> findBooksByIsbn(String isbn) {
+            return bookMapper.findBooksByIsbn(isbn);
+        }
+
+
 
 
     // public static List<BookDto> getSellerBookList(String b_s_id){
@@ -69,5 +75,11 @@ public class BookService {
     public List<BookDto> searchSellerBookList(String s_id, String filter, String keyword) {
         return bookMapper.searchSellerBookList(s_id, filter, keyword);
     }
+
+    // 책 상세페이지 데이터 조회
+    public BookDto bookDetail(String isbn, String sellerId) {
+        return bookMapper.bookDetail(isbn, sellerId);
+      }
+
 
 }

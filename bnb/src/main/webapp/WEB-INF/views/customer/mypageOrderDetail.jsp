@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/detail.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
 
@@ -140,7 +140,11 @@
             <div>
                 <div class="infobox">
                     <div class="order-info"><span class="boldtext">| 배송방법 |</span> ${oInfo.o_delivery_sort}</div>
-                    <div class="order-info"><span class="boldtext">| 총결제금액 |</span> 25,000원</div>
+                    <div class="order-info">
+                        <span class="boldtext">&nbsp;| 총 상품금액 |&nbsp;</span> <fmt:formatNumber value="${oInfo.o_total_pricerent}" type="number" pattern="#,##0"/>원
+                        <span class="boldtext">&nbsp;| 총 배송비 |&nbsp;</span> <fmt:formatNumber value="${oInfo.o_total_deliveryfee}" type="number" pattern="#,##0"/>원
+                        <span class="boldtext">&nbsp;| 총 결제금액 |&nbsp;</span> <fmt:formatNumber value="${oInfo.o_total_payment}" type="number" pattern="#,##0"/>원
+                    </div>
                 </div>
 
                 <c:choose>

@@ -5,6 +5,7 @@
     width: 1400px;
     height: 650px;
     margin: auto;
+    margin-top: 40px;
     padding: 15px;
 }
 .board-area {
@@ -59,7 +60,7 @@
     text-decoration: none;
     color: #fffbed; 
     padding: 10.5px 11px;
-    background-color: #4c4240;
+    background-color: #5f5350;
     display:block;
 }
 

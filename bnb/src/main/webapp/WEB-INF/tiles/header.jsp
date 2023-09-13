@@ -78,7 +78,7 @@
 
             <div class="menu_02">
                 <div class="bk_sc">SEARCH</div>
-                <a>CART</a>
+                <a href="<%=request.getContextPath()%>/cart">CART</a>
                 <a>WISH</a>
 
                 <div id="login-logout-button">

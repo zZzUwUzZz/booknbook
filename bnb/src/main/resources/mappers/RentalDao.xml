@@ -83,6 +83,11 @@
         WHERE (r_rental_status_id IN (2, 3)) AND r_c_id = #{c_id}
     </select>
 
+    <insert id="addRentalList" parameterType="Map">
+        INSERT INTO R(r_o_id, r_s_id, r_b_isbn, r_c_id, r_order_status_id, r_ordercancel_rejection_reason, r_delivery_status_id, r_deliverydate, r_rentalperiod, r_duedate, r_rental_status_id, r_returndate, r_latefee_total, r_latefee_paid, r_latefee_paydate, r_id)
+        VALUES(#{o_id}, #{cart_s_id}, #{cart_b_isbn}, #{c_id}, 1, NULL, 1, NULL, #{cart_rentalperiod}, NULL, 1, NULL, NULL, NULL, NULL, R_SEQ.NEXTVAL)
+    </insert>
+
     <update id="cancelRentalByOId" parameterType="Integer">
         UPDATE R
         SET r_order_status_id = 2
@@ -105,21 +110,54 @@
     </update>
 
 <!-- 예림 -->
-    <!-- 판매자 페이지 - 예약신청리스트 -->
+    <!-- 예약 신청 리스트 불러오기 -->
     <select id="RentResList" resultType="RentalDto">
-        select rr_id, rr_c_id, b_title, rr_reqdate, res_status
+        select rr_id, rr_c_id, b_title, rr_reqdate, res_status, rr_rejection_reason
         from Rental_Res
         inner join Book on Rental_Res.rr_b_isbn = Book.b_isbn
         inner join Status_RR on Rental_Res.rr_res_status_id = Status_RR.res_status_id
-        where rr_s_id = 'seller001'
+        where rr_s_id = 'seller001' and not res_status = '대여가능'
     </select>
 
-    <!-- 판매자 페이지 - 예약신청리스트 - 대여예약상태 -->
-    <select id="ResStatusList" resultType="RentalDto">
-        select res_status from Status_RR
+    <!-- 예약 수락 -->
+    <update id="ReserveAccept">
+        UPDATE Rental_Res
+        SET rr_res_status_id = (
+            SELECT res_status_id
+            FROM Status_RR
+            WHERE res_status = '예약중'
+        )
+        WHERE rr_id = #{rr_id}
+    </update>
+
+    <!-- 예약 거절 -->
+    <update id="ReserveRefuse">
+        UPDATE Rental_Res
+        SET rr_res_status_id = (
+            SELECT res_status_id
+            FROM Status_RR
+            WHERE res_status = '예약불가'
+            ),
+            RR_REJECTION_REASON = #{rr_rejection_reason}
+        WHERE rr_id = #{rr_id}
+    </update>
+
+    <!-- 대여 현황 -->
+    <select id="RentCurrentList" resultType="RentalDto">
+        select o_id, o_c_id, b_title, o_date, o_date + r_rentalperiod as returnexpect_days, o_delivery_sort, delivery_status, rental_status,
+            CASE
+                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
+                ELSE 0
+            END AS overdue_days
+        FROM
+            order_list
+        WHERE
+            order_sort = '대여'
+            AND
+            S_ID = 'seller001'
     </select>
 
-    <!-- 판매자 페이지 - 반납 현황 -->
+    <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">
         select o_id, o_c_id, b_title, o_date, r_returndate,
             CASE
@@ -136,6 +174,8 @@
             and
             r_returndate is not null
     </select>
+
+    
     
 
 

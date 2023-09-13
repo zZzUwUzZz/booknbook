@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 
 import lombok.Data;
 
+
+
+
+
 @Data
 public class MemberDto {
 
@@ -16,7 +20,15 @@ public class MemberDto {
     private Timestamp m_joindate; // 가입일자
     private String currentPassword;
     private String newPassword;
-	
+   
+    // 새롭게 추가된 코드들 
+    private String zipcode; //우편번호
+    private String streetadr; //(지번주소) 
+    private String detailadr ;  //(상세주소)
+
+	//회원 구분
+    private Integer userType;  
+   
     // 일반회원만 가지는 필드
     private String c_name; // 회원이름
 

@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/member/join2.css">
   <title>사업자 회원가입</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
     <div class="header"></div>
@@ -17,18 +18,28 @@
 
 <form action="/member/join2" method="post" id="registration-form" onsubmit="validateRegistrationForm(event);">
   <input type="text" id="m_id" name="m_id" placeholder="아이디(6자 이상의 영문/숫자)" required oninput="checkIdDuplication()">
-      <!-- <button type="button" onclick="checkIdDuplication()">중복 확인</button> -->
       <span id="idCheckMessage"></span> <!-- 중복 확인 메시지를 표시할 요소 -->
       <input type="password" id="m_pw" name="m_pw" placeholder="비밀번호" required>
       <!-- <input type="password" id="confirm-password" name="m_password" placeholder="비밀번호 확인" required> -->
       <input type="text" id="business-number" name="s_crn" placeholder="사업자번호" required>
       <input type="text" id="s_storename" name="s_storename" placeholder="서점명" required>
-      <input type="text" id="m_addr" name="m_addr" placeholder="주소" required>
+      <!-- <input type="text" id="m_addr" name="m_addr" placeholder="주소" required> -->
       <input type="tel" id="m_phone" name="m_phone" placeholder="연락처" required>
       <input type="email" id="m_email" name="m_email" placeholder="이메일" required>
+      <div class="form-group">                                               
+        <div class="form-group address-group">                   
+          <input class="form-control" placeholder="우편번호" name="m_addr" id="m_addr" type="text" readonly="readonly">
+          <button type="button" class="btn btn-default postcode-btn" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>                               
+      </div>
+      <div class="form-group">
+          <input class="form-control" placeholder="도로명 주소" name="m_addr2" id="m_addr2" type="text" readonly="readonly">
+      </div>
+      <div class="form-group">
+          <input class="form-control" placeholder="상세주소" name="m_addr3" id="m_addr3" type="text">
+      </div>
       <button type="submit">회원가입</button>
     </form>
-    <p>이미 계정이 있으신가요? <a href="/css/member/login.html">로그인</a></p>
+    <p>이미 계정이 있으신가요? <a href="/css/member/login">로그인</a></p>
 
     <script>
   function validateRegistrationForm(event) {
@@ -37,9 +48,14 @@
     // let confirmPassword = document.getElementById("confirm-password").value;
     let businessNumber = document.getElementById("business-number").value;
     let storeName = document.getElementById("s_storename").value;
-    let address = document.getElementById("m_addr").value;
+    // let address = document.getElementById("m_addr").value;
     let contact = document.getElementById("m_phone").value;
     let email = document.getElementById("m_email").value;
+   
+    let m_addr = document.getElementById("m_addr").value;
+      let m_addr2 = document.getElementById("m_addr2").value;
+      let m_addr3 = document.getElementById("m_addr3").value
+
 
     // Username validation (6자 이상의 영문/숫자)
     if (!/^[a-zA-Z0-9]{6,}$/.test(username)) {
@@ -69,7 +85,7 @@
     }
 
     // Contact validation (연락처 형식)
-    if (!/^\d{3}-\d{3,4}-\d{4}$/.test(contact)) {
+    if (!/^\d{3}\d{3,4}\d{4}$/.test(contact)) {
       alert("올바른 연락처 형식을 입력해주세요 (XXX-XXX-XXXX 또는 XXX-XXXX-XXXX).");
       event.preventDefault();
       return;
@@ -113,6 +129,46 @@
         }
     });
 }
+
+function execPostCode() {
+         new daum.Postcode({
+             oncomplete: function(data) {
+               
+                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+ 
+              
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                if(fullRoadAddr !== ''){
+                    fullRoadAddr += extraRoadAddr;
+                }
+ 
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                console.log(data.zonecode);
+                console.log(fullRoadAddr);
+                
+                
+                $("[name=m_addr2]").val(data.zonecode);
+                $("[name=m_addr]").val(fullRoadAddr);
+                
+                /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;
+                document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress; */
+            }
+         }).open();
+     }
+
 </script>
 </body>
 </html>

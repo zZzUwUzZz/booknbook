@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
 
@@ -107,6 +107,11 @@
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
+                            <c:if test="${!empty rrItem.rr_rejection_reason}">
+                                <tr>
+                                    <td class="rej_reason" colspan="6">${rrItem.rr_rejection_reason}</td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                     </c:if>
                 </table>

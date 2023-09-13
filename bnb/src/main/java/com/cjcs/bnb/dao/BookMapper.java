@@ -32,6 +32,12 @@ public interface BookMapper {
     List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end);
     int countBooksBySmallCategory(String category_s_id);
 
+    //책 상세 페이지 조회
+    BookDto bookDetail(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
+
+    // ISBN 조회
+    List<BookDto> findBooksByIsbn(@Param("isbn") String isbn);
+
 
 
     //예림
@@ -41,6 +47,13 @@ public interface BookMapper {
 
     //판매자 페이지 - 등록된 도서 검색
     public List<BookDto> searchSellerBookList(@Param("s_id") String s_id, @Param("filter") String filter, @Param("keyword") String keyword);
+
+
+
+    //수희
+
+    public int updateSaleStock(String cart_s_id, String cart_b_isbn, int cart_amount);
+    public int updateRentalStock(String cart_s_id, String cart_b_isbn);
 
 
 }

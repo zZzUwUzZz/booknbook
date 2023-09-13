@@ -7,13 +7,13 @@
 
 <!-- 킹효진 -->
 
-<!-- 판매자 아이디 불러오기 -->
-   <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
-   SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname
-FROM M
-LEFT JOIN S ON M.m_id = S.s_id
-LEFT JOIN SF ON S.s_id = SF.sf_s_id
-WHERE M.m_id = #{s_id}
+    <!-- 판매자 아이디 불러오기 -->
+    <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
+        SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname
+        FROM M
+        LEFT JOIN S ON M.m_id = S.s_id
+        LEFT JOIN SF ON S.s_id = SF.sf_s_id
+        WHERE M.m_id = #{s_id}
     </select>
 
 <!--이재락-->
@@ -24,17 +24,17 @@ WHERE M.m_id = #{s_id}
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
-  <!-- <insert id="joinSeller" parameterType="MemberDto">
+    <!-- <insert id="joinSeller" parameterType="MemberDto">
         INSERT INTO S(s_id, s_storename, s_crn )
         VALUES(#{m_id}, #{s_storename}, #{s_crn})
-    </insert>
-     -->
-<select id="findSellerIdByStoreNameAndEmail" resultType="string">
-    SELECT S.S_ID
-    FROM SELLER S
-    JOIN MEMBER M ON S.S_ID = M.M_ID
-    WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
-</select>
+    </insert> -->
+    
+    <select id="findSellerIdByStoreNameAndEmail" resultType="string">
+        SELECT S.S_ID
+        FROM SELLER S
+        JOIN MEMBER M ON S.S_ID = M.M_ID
+        WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
+    </select>
 
     <insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 
@@ -50,13 +50,7 @@ WHERE M.m_id = #{s_id}
     <select id="getPassword" parameterType="string" resultType="string">
         SELECT M_PW FROM MEMBER WHERE M_ID = #{username}
     </select>
-</mapper> -->
-
-
-
-
-
-
+    </mapper> -->
 
 
     <!-- id찾기 -->
@@ -75,60 +69,49 @@ WHERE M.m_id = #{s_id}
         AND M_EMAIL = #{email}
     </select>
 
- <update id="resetPassword" parameterType="Map">
-    UPDATE M
-    SET M_PW = #{newPassword}
-    WHERE M_ID = #{userId}
-</update>
+    <update id="resetPassword" parameterType="Map">
+        UPDATE M
+        SET M_PW = #{newPassword}
+        WHERE M_ID = #{userId}
+    </update>
 
 
-<!-- 회원탈퇴 -->
- 
-<resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">
-    <result property="m_id" column="M_ID"/>
-    <result property="m_pw" column="M_PW"/>
-    <result property="c_name" column="C_NAME"/>
-    <result property="m_addr" column="M_ADDR"/>
-    <result property="m_phone" column="M_PHONE"/>
-    <result property="m_email" column="M_EMAIL"/>
-    <result property="m_joindate" column="M_JOINDATE"/>
-</resultMap>
+    <!-- 회원탈퇴 -->
+    
+    <resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">
+        <result property="m_id" column="M_ID"/>
+        <result property="m_pw" column="M_PW"/>
+        <result property="c_name" column="C_NAME"/>
+        <result property="m_addr" column="M_ADDR"/>
+        <result property="m_phone" column="M_PHONE"/>
+        <result property="m_email" column="M_EMAIL"/>
+        <result property="m_joindate" column="M_JOINDATE"/>
+    </resultMap>
 
 
-<select id="getEncodedPassword" resultType="String">
-    SELECT M_PW
-    FROM "CJCS"."CUSTOMER_INFO"
-    WHERE M_ID = #{m_id}
-</select>
+    <select id="getEncodedPassword" resultType="String">
+        SELECT M_PW
+        FROM "CJCS"."CUSTOMER_INFO"
+        WHERE M_ID = #{m_id}
+    </select>
 
 
-<select id="getMemberInfoById" resultMap="MemberResult">
-    SELECT * 
-    FROM "CJCS"."CUSTOMER_INFO"
-    WHERE M_ID = #{m_id}
-</select>
+    <select id="getMemberInfoById" resultMap="MemberResult">
+        SELECT * 
+        FROM "CJCS"."CUSTOMER_INFO"
+        WHERE M_ID = #{m_id}
+    </select>
 
 
-<!-- CUSTOMER 테이블에서 데이터 삭제 -->
-<delete id="deleteCustomerById">
-    DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
-</delete>
+    <!-- CUSTOMER 테이블에서 데이터 삭제 -->
+    <delete id="deleteCustomerById">
+        DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
+    </delete>
 
-<!-- MEMBER 테이블에서 데이터 삭제 -->
-<delete id="deleteMemberById">
-    DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}
-</delete>
-
-
-
-
-<!-- <delete id="deleteMemberById">
-    DELETE FROM "CJCS"."CUSTOMER_INFO" WHERE M_ID = #{m_id}
-</delete>
-
-<delete id="deleteCustomerById">
-    DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
-</delete> -->
+    <!-- MEMBER 테이블에서 데이터 삭제 -->
+    <delete id="deleteMemberById">
+        DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}
+    </delete>
 
 
 
@@ -271,6 +254,11 @@ WHERE M.m_id = #{s_id}
 		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
 		]]>	
 	</select>
+
+    <select id="getDeliveryFeeByStorename" resultType="Integer">
+        SELECT s_deliveryfee FROM S
+        WHERE s_storename = #{s_storename}
+    </select>
 
     <!--검색조건에 맞는 판매자회원 수 세기-->
     <select id="countSellers" resultType="Integer">

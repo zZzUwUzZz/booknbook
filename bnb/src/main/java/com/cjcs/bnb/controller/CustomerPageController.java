@@ -146,7 +146,7 @@ public class CustomerPageController {
     @GetMapping("/orderdetail/{o_id}")    // 주문상세
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
-        HashMap<String, String> oInfo = oDao.getOrderInfoByOId(o_id);
+        HashMap<String, Object> oInfo = oDao.getOrderInfoByOId(o_id);
         List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
         List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
 

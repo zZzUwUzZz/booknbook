@@ -39,6 +39,11 @@
         SELECT * FROM CART_ITEMS
         WHERE cart_c_id = #{c_id}
     </select>
+    <select id="getCartByCartId" parameterType="Integer" resultType="CartDto">
+        <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
+        SELECT * FROM CART_ITEMS
+        WHERE cart_id = #{cart_id}
+    </select>
     <select id="getPurchaseCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
         SELECT * FROM CART_ITEMS
@@ -61,6 +66,13 @@
         UPDATE CART SET cart_rentalperiod = #{cart_rentalperiod} WHERE cart_id = #{cart_id}
     </update>
 
+    <insert id="addOrderSelectKey" parameterType="Map" useGeneratedKeys="true" keyProperty="o_id">
+		<selectKey keyProperty="o_id" resultType="Integer" order="BEFORE">
+			SELECT O_SEQ.NEXTVAL FROM DUAL 
+		</selectKey>
+        INSERT INTO O(o_id, o_c_id, o_date, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone, o_total_pricerent, o_total_deliveryfee, o_total_payment)
+        VALUES(#{o_id}, #{c_id}, DEFAULT, #{o_delivery_sort}, #{o_recip_addr}, #{o_recip_name}, #{o_recip_phone}, #{o_total_pricerent}, #{o_total_deliveryfee}, #{o_total_payment})
+    </insert>
 
 
 <!--수희-->
@@ -80,7 +92,7 @@
               FROM order_list
               WHERE o_c_id = #{c_id})
         GROUP BY o_id, o_date, first_title, order_status, o_delivery_sort
-        ORDER BY o_id DESC
+        ORDER BY o_date DESC
     </select>
 
     <select id="getOrderInfoByOId" parameterType="Integer" resultType="Map">
@@ -89,9 +101,12 @@
                o_delivery_sort as "o_delivery_sort",
                o_recip_addr as "o_recip_addr",
                o_recip_name as "o_recip_name",
-               o_recip_phone as "o_recip_phone"
+               o_recip_phone as "o_recip_phone",
+               o_total_pricerent as "o_total_pricerent",
+               o_total_deliveryfee as "o_total_deliveryfee",
+               o_total_payment as "o_total_payment"
         FROM O
-        WHERE o_id=#{o_id}
+        WHERE o_id = #{o_id}
     </select>
 
 <!--예림-->

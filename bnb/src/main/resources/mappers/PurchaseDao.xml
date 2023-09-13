@@ -80,6 +80,11 @@
         ]]>
     </select>
 
+    <insert id="addPurchaseList" parameterType="Map">
+        INSERT INTO P(p_o_id, p_s_id, p_b_isbn, p_c_id, p_amount, p_order_status_id, p_ordercancel_rejection_reason, p_delivery_status_id, p_deliverydate, p_id)
+        VALUES(#{o_id}, #{cart_s_id}, #{cart_b_isbn}, #{c_id}, #{cart_amount}, 1, NULL, 1, NULL, P_SEQ.NEXTVAL)
+    </insert>
+
     <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="RefExchDto">
         SELECT p_o_id as "re_o_id",
                p_c_id as "re_c_id",

@@ -25,6 +25,8 @@ public interface OrderDao {
     // 유다,수희
     public List<CartDto> getCartByCId(String c_id);
 
+    public CartDto getCartByCartId(Integer cart_id);
+
     public List<CartDto> getPurchaseCartByCId(String c_id);
 
     public List<CartDto> getRentalCartByCId(String c_id);
@@ -35,10 +37,12 @@ public interface OrderDao {
 
     public int updateCartRentalPeriod(int cart_id, int cart_rentalperiod);
 
-    // 수희
-    public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
 
-    public HashMap<String, String> getOrderInfoByOId(int o_id);
+    public int addOrderSelectKey(HashMap<String, Object> orderMap);
+
+    //수희
+    public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
+    public HashMap<String, Object> getOrderInfoByOId(int o_id);
 
     // 예림
     public int getTodaySellCnt(String s_id);

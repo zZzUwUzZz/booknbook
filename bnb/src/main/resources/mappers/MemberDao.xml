@@ -24,23 +24,33 @@
         VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
     </insert>
     
-    <!-- <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO S(s_id, s_storename, s_crn )
-        VALUES(#{m_id}, #{s_storename}, #{s_crn})
-    </insert> -->
-    
-    <select id="findSellerIdByStoreNameAndEmail" resultType="string">
-        SELECT S.S_ID
-        FROM SELLER S
-        JOIN MEMBER M ON S.S_ID = M.M_ID
-        WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
-    </select>
 
-    <insert id="joinCustomer" parameterType="MemberDto">
+ <insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 
         VALUES(#{m_id}, #{c_name})
     </insert>
 
+ <!-- <insert id="joinSeller" parameterType="MemberDto">
+    
+    INSERT INTO S(s_id, s_storename, s_crn)
+    VALUES(#{m_id}, #{s_storename}, #{s_crn})
+</insert> -->
+
+ 
+<insert id="joinSeller" parameterType="MemberDto">
+        INSERT INTO CJCS.SELLER (S_ID,s_storename,S_CRN, S_DELIVERYFEE, S_LATEFEE)
+        VALUES(#{m_id},#{s_storename}, #{s_crn}, DEFAULT, DEFAULT)
+</insert>
+
+<select id="findSellerIdByStoreNameAndEmail" resultType="string">
+    SELECT S.S_ID
+    FROM SELLER S
+    JOIN MEMBER M ON S.S_ID = M.M_ID
+    WHERE S.S_STORENAME = #{storeName} AND M.M_EMAIL = #{email}
+</select>
+
+
+    
     <select id="countById" resultType="int">
     SELECT COUNT(*) FROM "CJCS"."MEMBER" WHERE "M_ID" = #{m_id}
     </select>
@@ -75,6 +85,11 @@
         WHERE M_ID = #{userId}
     </update>
 
+
+<!-- CUSTOMER 테이블에서 데이터 삭제 -->
+<delete id="deleteCustomerById">
+    DELETE FROM "CJCS"."CUSTOMER" WHERE C_ID = #{m_id}
+</delete>
 
     <!-- 회원탈퇴 -->
     

@@ -2,8 +2,8 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: auto;  /* 수정한 부분 */
-  min-height: 100vh;  /* 추가한 부분 */
+  height: auto;
+  min-height: 100vh;
   margin: 0;
   background-color: #f5f7fa;
   font-family: 'Noto Sans', sans-serif;
@@ -27,7 +27,7 @@ body {
   max-width: 450px;
   width: 100%;
   margin-top: 2rem;
-  margin: auto;  /* 추가한 부분 */
+  margin: auto;
 }
 
 form {
@@ -83,4 +83,33 @@ a:hover {
   color: #3f5870;
 }
 
+/* 주소 부분 CSS */
+.form-group.address-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
 
+.form-group.address-group input,
+.form-group.address-group button {
+  flex: 1;
+  margin: 10px;
+}
+
+.form-group input {
+  margin: 10px 0;
+}
+
+.btn {
+  padding: 10px;
+  margin-left: 5px;
+  background-color: #506c7f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #3f5870;
+}

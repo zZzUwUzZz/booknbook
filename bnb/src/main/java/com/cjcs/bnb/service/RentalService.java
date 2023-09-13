@@ -63,12 +63,12 @@ public class RentalService {
         return resultList;
     }
 
-    // 예약 상태 수락
+    // 예약 신청 수락
     public void ReserveAccept(RentalDto requestData) {
         rDao.ReserveAccept(requestData.getRr_id());
     }
 
-    // 예약 상태 거절
+    // 예약 신청 거절
     public void ReserveRefuse(RentalDto requestData) {
         rDao.ReserveRefuse(requestData.getRr_id(), requestData.getRr_rejection_reason());
     }
@@ -84,12 +84,29 @@ public class RentalService {
             if (o_date != null) {
                 dto.setO_dateStr(sdf.format(o_date));
             }
-            if(returnexpect_days!=null){
+            if (returnexpect_days != null) {
                 dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
             }
         }
 
         return resultList;
+    }
+
+    // 배송 상태명
+    public List<RentalDto> DeliveryStatusList() {
+        return rDao.DeliveryStatusList();
+    }
+
+    // 대여 상태명
+    public List<RentalDto> RentalSstatusList() {
+        return rDao.RentalSstatusList();
+    }
+
+    // 배송상태, 대여상태 업데이트
+    public void UpdateCurrStatus(List<RentalDto> requestData) {
+        for (RentalDto request : requestData) {
+            rDao.UpdateCurrStatus(request.getO_id(), request.getDelivery_status(), request.getRental_status());
+        }
     }
 
     // 반납 현황 리스트

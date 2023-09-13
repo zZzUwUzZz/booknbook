@@ -153,9 +153,34 @@
             order_list
         WHERE
             order_sort = '대여'
-            AND
-            S_ID = 'seller001'
+            <!-- AND
+            S_ID = 'seller001' -->
     </select>
+
+    <!-- 배송 상태명 -->
+    <select id="DeliveryStatusList" resultType="RentalDto">
+        select delivery_status from Status_D
+    </select>
+
+    <!-- 대여 상태명 -->
+    <select id="RentalSstatusList" resultType="RentalDto">
+        select rental_status from Status_R
+    </select>
+
+    <!-- 배송상태, 대여상태 업데이트 -->
+    <update id="UpdateCurrStatus">
+        UPDATE Rental
+        SET R_DELIVERY_STATUS_ID = (
+            SELECT DELIVERY_STATUS_ID
+            FROM Status_D
+            WHERE DELIVERY_STATUS = #{delivery_status}
+        ), R_RENTAL_STATUS_ID = (
+            SELECT RENTAL_STATUS_ID
+            FROM Status_R
+            WHERE RENTAL_STATUS = #{rental_status}
+        )
+        WHERE r_o_id = #{o_id}
+    </update>
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">

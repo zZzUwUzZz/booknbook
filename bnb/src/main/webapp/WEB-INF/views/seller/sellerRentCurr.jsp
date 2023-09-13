@@ -31,83 +31,167 @@
     <%@include file="/WEB-INF/tiles/header.jsp" %>
     <section>
         <div class="wrap">
-            <div class="content">
-                <div class="side-menu">
-                    <div class="bsname">
-                        <h1><a href="/seller/main">서점 이름</a></h1>
+            <div class="side-menu">
+                <div class="bsname">
+                    <h1><a href="/seller/main">서점 이름</a></h1>
+                </div>
+                <div class="menu-title">
+                    MENU
+                </div>
+                <div class="menu">
+                    <div class="menu-group">
+                        <div class="bigmenu"><span>서점 정보</span></div>
+                        <div class="submenu"><a href="/seller/infoupdate">서점 정보 관리</a></div>
+                        <div class="submenu"><a href="/seller/csmember">고객 정보 보기</a></div>
                     </div>
-                    <div class="menu-title">
-                        MENU
+                    <div class="menu-group">
+                        <div class="bigmenu"><span>도서 관리</span></div>
+                        <div class="submenu"><a href="/seller/book/list">등록된 도서 리스트</a></div>
+                        <div class="submenu"><a href="/seller/book/add">도서 추가 등록</a></div>
                     </div>
-                    <div class="menu">
-                        <div class="menu-group">
-                            <div class="bigmenu"><span>서점 정보</span></div>
-                            <div class="submenu"><a href="/seller/infoupdate">서점 정보 관리</a></div>
-                            <div class="submenu"><a href="/seller/csmember">고객 정보 보기</a></div>
-                        </div>
-                        <div class="menu-group">
-                            <div class="bigmenu"><span>도서 관리</span></div>
-                            <div class="submenu"><a href="/seller/book/list">등록된 도서 리스트</a></div>
-                            <div class="submenu"><a href="/seller/book/add">도서 추가 등록</a></div>
-                        </div>
-                        <div class="menu-group">
-                            <div class="bigmenu"><span>대여 관리</span></div>
-                            <div class="submenu"><a href="/seller/rent/reserve">예약 신청 내역</a></div>
-                            <div class="submenu"><a href="/seller/rent/curr">대여 내역</a></div>
-                            <div class="submenu"><a href="/seller/rent/return">반납 내역</a></div>
-                        </div>
-                        <div class="menu-group">
-                            <div class="bigmenu"><span>판매 관리</span></div>
-                            <div class="submenu"><a href="/seller/sell/history">판매 내역</a></div>
-                            <div class="submenu"><a href="/seller/sell/cancel">주문 취소 관리</a></div>
-                            <div class="submenu"><a href="/seller/return/manage">반품/교환 관리</a></div>
-                        </div>
-                        <div class="menu-group">
-                            <div class="bigmenu"><span>정산</span></div>
-                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
-                        </div>
+                    <div class="menu-group">
+                        <div class="bigmenu"><span>대여 관리</span></div>
+                        <div class="submenu"><a href="/seller/rent/reserve">예약 신청 내역</a></div>
+                        <div class="submenu"><a href="/seller/rent/curr">대여 내역</a></div>
+                        <div class="submenu"><a href="/seller/rent/return">반납 내역</a></div>
+                    </div>
+                    <div class="menu-group">
+                        <div class="bigmenu"><span>판매 관리</span></div>
+                        <div class="submenu"><a href="/seller/sell/history">판매 내역</a></div>
+                        <div class="submenu"><a href="/seller/sell/cancel">주문 취소 관리</a></div>
+                        <div class="submenu"><a href="/seller/return/manage">반품/교환 관리</a></div>
+                    </div>
+                    <div class="menu-group">
+                        <div class="bigmenu"><span>정산</span></div>
+                        <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
                     </div>
                 </div>
-                <div class="contain-3">
-                    <div class="box-3">
-                        <h1>대여 현황</h1>
-                        <table class="seller-list">
-                            <thead>
+            </div>
+            <div class="contain-3">
+                <div class="box-3">
+                    <h1>대여 현황</h1>
+                    <button id="status_save" onclick="updateSelectedsSatus()">저장</button><br><br>
+                    <table class="seller-list">
+                        <thead>
+                            <tr>
+                                <th>주문번호</th>
+                                <th>아이디</th>
+                                <th>제목</th>
+                                <th>대여일자</th>
+                                <th>반납예정일</th>
+                                <th>수령방법</th>
+                                <th colspan="2">주문상태</th>
+                                <th colspan="2">대여상태</th>
+                                <th>연체일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${RentCurrentList}" var="rentcurrent" varStatus="status">
                                 <tr>
-                                    <th>주문번호</th>
-                                    <th>아이디</th>
-                                    <th>제목</th>
-                                    <th>대여일자</th>
-                                    <th>반납예정일</th>
-                                    <th>수령방법</th>
-                                    <th colspan="4">현재상태</th>
-                                    <th>연체일</th>
+                                    <td>${rentcurrent.o_id}</td>
+                                    <td>${rentcurrent.o_c_id}</td>
+                                    <td>${rentcurrent.b_title}</td>
+                                    <td>${rentcurrent.o_dateStr}</td>
+                                    <td>${rentcurrent.returnexpect_daysStr}</td>
+                                    <td>${rentcurrent.o_delivery_sort}</td>
+                                    <td>${rentcurrent.delivery_status}</td>
+                                    <td>
+                                        <select class="del_status" name="del_status_${status.index}">
+                                            <c:forEach items="${DeliveryStatusList}" var="DelStatus">
+                                                <option value="${DelStatus.delivery_status}">
+                                                    ${DelStatus.delivery_status}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+
+                                    </td>
+                                    <td>${rentcurrent.rental_status}</td>
+                                    <td>
+                                        <select class="rent_status" name="rent_status_${ststus_index}">
+                                            <c:forEach items="${RentalSstatusList}" var="RentStatus">
+                                                <option value="${RentStatus.rental_status}">
+                                                    ${RentStatus.rental_status}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                    <td>${rentcurrent.overdue_days}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${RentCurrentList}" var="rentcurrent">
-                                    <tr>
-                                        <td>${rentcurrent.o_id}</td>
-                                        <td>${rentcurrent.o_c_id}</td>
-                                        <td>${rentcurrent.b_title}</td>
-                                        <td>${rentcurrent.o_dateStr}</td>
-                                        <td>${rentcurrent.returnexpect_daysStr}</td>
-                                        <td>${rentcurrent.o_delivery_sort}</td>
-                                        <td>${rentcurrent.delivery_status}</td>
-                                        <td>.</td>
-                                        <td>${rentcurrent.rental_status}</td>
-                                        <td>.</td>
-                                        <td>${rentcurrent.overdue_days}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
 </body>
+<script>
+    function updateSelectedsSatus() {
+        var data = [];
+        var rows = document.querySelectorAll('.seller-list tbody tr');
+
+        rows.forEach(function (row) {
+            var o_id = row.querySelector('td:first-child').textContent;
+            var delivery_status = row.querySelector('.del_status').value;
+            var rental_status = row.querySelector('.rent_status').value;
+
+            data.push({
+                o_id: o_id,
+                delivery_status: delivery_status,
+                rental_status: rental_status,
+            });
+        });
+
+        console.log(data);
+
+        $.ajax({
+            url: '/seller/rent/curr/save',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function () {
+                $.ajax({
+                    url: '/seller/rent/curr',
+                    method: 'GET',
+                    success: function (responseData) {
+                        console.log('데이터가 업데이트되었습니다.', responseData);
+                        alert('현재 상태가 저장되었습니다!');
+                    },
+                    error: function () {
+                        console.error('데이터를 가져오는 데 실패했습니다.');
+                        alert('현재 상태 저장 실패');
+                    },
+                });
+            },
+            error: function () {
+                console.error('현재 상태 저장 실패');
+                alert('현재 상태 저장 실패');
+            },
+        });
+    }
+
+    // fetch('curr/save', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    // })
+    // alert('현재 상태가 저장되었습니다!');
+
+
+    // .then(function (response) {
+    //     console.log(response);
+    //     if (response.ok) {
+    //         alert('현재 상태가 저장되었습니다!');
+    //     } else {
+    //         alert('현재 상태 저장 실패');
+    //     }
+    // })
+    // .catch(function (error) {
+    //     console.error('에러 : ', error);
+    // });
+</script>
 
 </html>

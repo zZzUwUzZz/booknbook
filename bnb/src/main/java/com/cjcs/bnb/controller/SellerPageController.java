@@ -252,7 +252,21 @@ public class SellerPageController {
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
 
+        // 배송 상태명
+        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
+        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
+
+        // 대여 상태명
+        List<RentalDto> RentalSstatusList = rSer.RentalSstatusList();
+        model.addAttribute("RentalSstatusList", RentalSstatusList);
+
         return "seller/sellerRentCurr";
+    }
+
+    @PostMapping("/rent/curr/save")
+    public ResponseEntity<String> UpdateCurrStatus(@RequestBody List<RentalDto> requestData) {
+        rSer.UpdateCurrStatus(requestData);
+        return ResponseEntity.ok("현재 상태가 변경되었습니다!");
     }
 
     @GetMapping("/rent/return")

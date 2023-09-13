@@ -6,8 +6,6 @@
 <mapper namespace="com.cjcs.bnb.dao.RentalDao">
 
 
-
-
 <!--수희-->
     <select id="getRentalListByOId" parameterType="Integer" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
@@ -170,8 +168,15 @@
             r_returndate is not null
     </select>
 
-    
-    
+    <!-- 대여 항목 -->
+    <select id="getRentalList" resultType="RentalDto">
+      
+    </select>
+
+    <!-- 연채료 -->
+    <select id="getLateFeeInfo" resultType="RentalDto">
+        
+    </select>
 
 
 </mapper>

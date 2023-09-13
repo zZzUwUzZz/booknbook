@@ -35,4 +35,5 @@ public interface RentalDao {
     public List<RentalDto> getRentalList();             // 대여 항목 가져오기
     public RentalDto getLateFeeInfo(int r_id);          // 연체료 정보 가져오기
     
+
 }

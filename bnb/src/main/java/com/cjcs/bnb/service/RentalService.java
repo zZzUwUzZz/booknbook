@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.RentalDao;
+import com.cjcs.bnb.dto.CartDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 
@@ -107,7 +108,9 @@ public class RentalService {
         }
         return resultList;
     }
+
     //유다
+
     // 대여 항목 가져오기
     public List<RentalDto> getRentalList() {
     return rDao.getRentalList();
@@ -118,7 +121,7 @@ public class RentalService {
     return rDao.getLateFeeInfo(r_id);
     }
 
-    // 모든 책의 총 연체료 합 계산
+    // 모든 책의 연체료 합 계산
     public int calculateTotalLateFees() {
     List<RentalDto> rentalList = getRentalList();
     int totalLateFees = 0;
@@ -132,8 +135,8 @@ public class RentalService {
     }
 
     return totalLateFees;
-}
-
+    }
+ 
     // 각 책의 연체료 정보 가져오기
     public List<RentalDto> getLateFeeList() {
     List<RentalDto> rentalList = getRentalList();
@@ -147,5 +150,6 @@ public class RentalService {
     }
 
     return lateFeeList;
-}
+    }
+  
 }

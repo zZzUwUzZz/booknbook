@@ -109,12 +109,12 @@ tr {
                 </table>
             </div>
             
-            <div class="show_all_list">
+            <div class="show_all">
                 <table>
                     <tr>
                         <th>결제수단</th>
 
-                        <th>연체료 납부일</th> 
+                        <th>연체일</th> 
                         <th>연체료 총액</th> <!--모든 도서들의 연체료 총금액-->
                     <tr>
                         <td>카드 결제</td>
@@ -125,7 +125,7 @@ tr {
                         <tr>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <td>${lateFee.r_latefee_total}</td>
                         </tr>
                     </c:forEach>
                 </table>

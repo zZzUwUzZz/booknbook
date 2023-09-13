@@ -100,7 +100,7 @@ public class OrderController {
         return "redirect:/payment/success";
     }
 
-    @GetMapping("/paymentlatefee")    // 연체료결제페이지
+    @GetMapping("/paymentlatefee")    // 연체료결제페이지 
     public String paymentLatefee(Model model) {
         // 각 책의 연체료 정보 가져오기
         List<RentalDto> lateFeeList = rSer.getLateFeeList();

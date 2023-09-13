@@ -11,4 +11,7 @@ public class BnbApplication {
 		SpringApplication.run(BnbApplication.class, args);
 	}
 
+
+
+	
 }

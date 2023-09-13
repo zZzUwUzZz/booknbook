@@ -53,23 +53,51 @@ public class MemberController {
 
     }
 
+    // @PostMapping("/login")
+    // public String login(@RequestParam String m_id, @RequestParam String m_pw,
+    //         RedirectAttributes rttr, HttpSession session) {
+    //     HashMap<String, String> memberData = new HashMap<>();
+    //     memberData.put("m_id", m_id);
+    //     memberData.put("m_pw", m_pw);
+
+    //     MemberDto mb = mSer.login(memberData);
+
+    //     if (mb != null) {
+    //         session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
+    //         return "redirect:/";
+    //     } else {
+    //         rttr.addFlashAttribute("msg", "로그인 실패");
+    //         return "redirect:/member/login";
+    //     }
+    // }
+
+
     @PostMapping("/login")
     public String login(@RequestParam String m_id, @RequestParam String m_pw,
             RedirectAttributes rttr, HttpSession session) {
         HashMap<String, String> memberData = new HashMap<>();
         memberData.put("m_id", m_id);
         memberData.put("m_pw", m_pw);
-
+    
         MemberDto mb = mSer.login(memberData);
-
+    
         if (mb != null) {
-            session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
+            session.setAttribute("loggedInUser", mb.getM_id());  // 사용자 아이디를 세션에 저장
+            session.setAttribute("userType", mb.getUserType()); // 사용자 유형을 세션에 저장
+    
+             // 로그 출력
+        System.out.println("User ID: " + mb.getM_id());
+        System.out.println("User Type: " + mb.getUserType());    
+
+
             return "redirect:/";
         } else {
             rttr.addFlashAttribute("msg", "로그인 실패");
             return "redirect:/member/login";
         }
     }
+
+
 
     // 로그아웃
     @GetMapping("/logout")
@@ -138,9 +166,12 @@ public class MemberController {
             // 비밀번호 해싱
             member.setM_pw(passwordEncoder.encode(member.getM_pw()));
 
+            member.setUserType(1);
+
             mDao.joinMember(member);
             mDao.joinCustomer(member);
 
+            
             resultMap.put("success", true);
             resultMap.put("message", "회원가입 성공");
         } catch (Exception e) {

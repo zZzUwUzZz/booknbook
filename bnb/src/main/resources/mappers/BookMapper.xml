@@ -119,6 +119,24 @@ SELECT * FROM (
 
 
 
+<!-- 도서 상세 페이지 정보  -->
+<select id="bookDetail" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT B.*, S.s_storename
+    FROM B, S
+    WHERE B.b_s_id = S.s_id AND B.b_isbn = #{isbn} AND B.b_s_id = #{sellerId}
+</select>
+
+
+<select id="findBooksByIsbn" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT B.*, S.s_storename 
+    FROM B, S 
+    WHERE B.b_s_id = S.s_id AND B.b_isbn = #{isbn}
+    ORDER BY B.b_price ASC
+</select>
+
+
+
+
 
 <!-- 예림 -->
     <!-- 판매자 페이지 - 등록된 도서 리스트 조회 -->
@@ -141,6 +159,20 @@ SELECT * FROM (
         </choose>
     </select>
 
+
+<!-- 수희 -->
+
+    <!-- 결제완료된 구매항목 구매수량만큼 판매재고에서 차감-->
+    <update id="updateSaleStock">
+        UPDATE B SET b_salestock = b_salestock - #{cart_amount}
+        WHERE b_s_id = #{cart_s_id} AND b_isbn = #{cart_b_isbn}
+    </update>
+
+    <!-- 결제완료된 대여항목 수량 1만큼 대여재고에서 차감-->
+    <update id="updateRentalStock">
+        UPDATE B SET b_rentalstock = b_rentalstock - 1
+        WHERE b_s_id = #{cart_s_id} AND b_isbn = #{cart_b_isbn}
+    </update>
     
 </mapper>
 

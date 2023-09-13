@@ -25,63 +25,9 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/order.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
-<style>
-
-.wrapper {
-    margin-top: 40px;
-}
-h1 {
-    border-bottom: 1px solid #36593a;
-}
-h1, h3 {
-    box-sizing: border-box;
-    background-color: rgb(150, 150, 150);
-    width: 900px;
-    margin: auto;
-    padding: 10px;
-}
-.cart_area {
-    background-color: rgb(150, 150, 150);
-    width: 900px;
-    margin: auto;
-}
-table {
-    background-color: white;
-    width: 880px;
-    margin: auto;
-    text-align: center;
-    padding: 5px;
-}
-tr {
-    height: 30px;
-}
-.qty_input {
-    width: 35px;
-}
-.button_area {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    background-color: rgb(150, 150, 150);
-    width: 900px;
-    margin: auto;
-    padding: 20px 10px;
-}
-#success {
-    background-color: rgb(150, 150, 150);
-    width: 900px;
-    height: 400px;
-    font-size: xx-large;
-    text-align: center;
-    line-height: 400px;
-    border-bottom: 1px solid #36593a;
-    margin: auto;
-}
-
-</style>
 
 </head>
 <body>

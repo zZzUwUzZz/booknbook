@@ -24,6 +24,8 @@ public interface RentalDao {
     public int countCurrentRentalByCId(String c_id);
     public int countLateReturnByCId(String c_id);
 
+    public int addRentalList(Integer o_id,  String cart_s_id, String cart_b_isbn, String c_id, Integer cart_rentalperiod);
+
     public boolean cancelRentalByOId(Integer o_id);
 
     public List<RentalReservationDto> getReservationListByCId(String c_id);

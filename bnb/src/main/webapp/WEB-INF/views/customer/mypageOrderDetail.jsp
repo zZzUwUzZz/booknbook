@@ -60,7 +60,7 @@
             
             <div>
                 <h2 class="pagename">MY ORDER DETAILS</h2>
-                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> ${oInfo.o_date}</p>
+                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> <fmt:formatDate value="${oInfo.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></p>
             </div>
 
             <div>
@@ -88,7 +88,7 @@
                             <tr>
                                 <td>${oPItem.s_storename}</td>
                                 <td>${oPItem.b_title}</td>
-                                <td>${oPItem.b_price}</td>
+                                <td><fmt:formatNumber value="${oPItem.b_price}" type="number" pattern="#,##0"/>원</td>
                                 <td>${oPItem.p_amount}</td>
                                 <td>${oPItem.order_status}</td>
                                 <td>${oPItem.delivery_status}</td>
@@ -125,7 +125,7 @@
                             <tr>
                                 <td>${oRItem.s_storename}</td>
                                 <td>${oRItem.b_title}</td>
-                                <td>${oRItem.b_rent}</td>
+                                <td><fmt:formatNumber value="${oRItem.b_rent}" type="number" pattern="#,##0"/>원</td>
                                 <td>${oRItem.r_rentalperiod}</td>
                                 <td>${oRItem.order_status}</td>
                                 <td>${oRItem.delivery_status}</td>

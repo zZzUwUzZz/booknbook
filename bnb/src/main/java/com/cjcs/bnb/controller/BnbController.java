@@ -182,7 +182,8 @@ public class BnbController {
     public String adminReportList(SearchDto sDto, Model model, HttpSession session) {
 
         List<ReportBoardDto> reportList = rbDao.getReportListByKeyword(sDto);
-		log.info("reportList:{}", reportList.size());
+		log.info("reportList:{}", reportList);
+		log.info("reportList size:{}", reportList.size());
 
 		String pageHtml = bSer.getPageboxHtml(sDto, "/admin/reportlist");
 

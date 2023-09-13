@@ -58,18 +58,30 @@
         </div>
 
         <div class="board-area">
-            
-            <form action="/mypage/refundexchange" method="GET">
 
             <div>
                 <h2 class="pagename">PURCHASE LIST</h2>
             </div>
 
+            <div class="datebox">
+                <div>
+                <form action="/mypage/orderlist" method="POST">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
+            <form action="/mypage/refundexchange" method="GET">
+
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>주문번호</th>
+                        <th width="100px">주문번호</th>
                         <th>주문일자</th>
                         <th>도서명</th>
                         <th>수량</th>

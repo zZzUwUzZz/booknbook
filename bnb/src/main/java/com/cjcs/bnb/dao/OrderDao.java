@@ -1,9 +1,11 @@
 package com.cjcs.bnb.dao;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cjcs.bnb.dto.CartDto;
 
@@ -42,6 +44,7 @@ public interface OrderDao {
 
     //수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
+    public List<HashMap<String, String>> getOrderListByDateRange(String c_id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
     public HashMap<String, Object> getOrderInfoByOId(int o_id);
 
     // 예림

@@ -63,16 +63,28 @@
                 <h2 class="pagename">MY ORDER LIST</h2>
             </div>
 
+            <div class="datebox">
+                <div>
+                <form action="/mypage/orderlist" method="POST">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>주문번호</th>
+                        <th width="100px">주문번호</th>
                         <th>주문일자</th>
                         <th>주문품목</th>
                         <th>주문상태</th>
                         <th>수령방법</th>
-                        <th> </th>
+                        <th width="100px"> </th>
                     </tr>
 
                     <c:if test="${empty oList}">

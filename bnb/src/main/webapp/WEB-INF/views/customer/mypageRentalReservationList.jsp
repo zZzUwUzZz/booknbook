@@ -63,16 +63,28 @@
                 <h2 class="pagename">RENTAL RESERVATION LIST</h2>
             </div>
 
+            <div class="datebox">
+                <div>
+                <form action="/mypage/orderlist" method="POST">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
             <div>
                 <div class="tablebox">
                 <table id="async_table">
                     <tr class="headrow">
-                        <th>예약번호</th>
+                        <th width="100px">예약번호</th>
                         <th>요청일자</th>
                         <th>도서명</th>
                         <th>서점명</th>
                         <th>예약상태</th>
-                        <th> </th>
+                        <th width="100px"> </th>
                     </tr>
 
                     <c:if test="${empty rrList}">
@@ -88,15 +100,16 @@
                                 <td><fmt:formatDate value="${rrItem.rr_reqdate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
                                 <td>${rrItem.b_title}</td>
                                 <td>${rrItem.s_storename}</td>
+                                <td>${rrItem.res_status}</td>
 
-                                <c:choose>
+                                <!-- <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 2}">
                                         <td class="status_code">${rrItem.res_status}<br>${rrItem.rr_rejection_reason}</td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>${rrItem.res_status}</td>
                                     </c:otherwise>
-                                </c:choose>
+                                </c:choose> -->
                             
                                 <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 1 || rrItem.rr_res_status_id eq 3}">

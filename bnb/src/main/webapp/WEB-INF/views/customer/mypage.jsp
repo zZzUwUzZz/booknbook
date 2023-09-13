@@ -115,7 +115,7 @@
                                     <tr>
                                         <td>${reItem.re_sort}</td>
                                         <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-                                        <td>${reItem.b_title}</td>
+                                        <td><span>${reItem.b_title}</span></td>
                                         <td>${reItem.s_storename}</td>
                                         <td>${reItem.process_status}</td>
                                     </tr>
@@ -147,7 +147,7 @@
                             <c:if test="${!empty curr_rList}">
                                 <c:forEach var="rItem" items="${curr_rList}">
                                     <tr>
-                                        <td>${rItem.b_title}</td>
+                                        <td><span>${rItem.b_title}</span></td>
                                         <td>${rItem.s_storename}</td>
                                         <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                         <td>${rItem.rental_status}</td>
@@ -172,10 +172,10 @@
                     </div>
                     <table>
                         <tr>
-                            <th>주문번호</th>
-                            <th>주문일자</th>
+                            <th width="70px">주문번호</th>
+                            <th width="170px">주문일자</th>
                             <th>도서명</th>
-                            <th>배송현황</th>
+                            <th width="70px">배송현황</th>
                         </tr>
 
                         <c:if test="${empty pList}">
@@ -189,7 +189,7 @@
                                 <tr>
                                     <td>${pItem.o_id}</td>
                                     <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                    <td>${pItem.b_title}</td>
+                                    <td><span>${pItem.b_title}</span></td>
                                     <td><a href="/mypage/orderdetail/${pItem.o_id}">${pItem.delivery_status}</a></td>
                                 </tr>
                                 </c:forEach>
@@ -203,10 +203,10 @@
                     </div>
                     <table>
                         <tr>
-                            <th>주문번호</th>
-                            <th>주문일자</th>
+                            <th width="70px">주문번호</th>
+                            <th width="170px">주문일자</th>
                             <th>도서명</th>
-                            <th>배송현황</th>
+                            <th width="70px">배송현황</th>
                         </tr>
 
                         <c:if test="${empty rList}">
@@ -220,7 +220,7 @@
                                 <tr>
                                     <td>${rItem.o_id}</td>
                                     <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                    <td>${rItem.b_title}</td>
+                                    <td><span>${rItem.b_title}</span></td>
                                     <td><a href="/mypage/orderdetail/${rItem.o_id}">${rItem.delivery_status}</a></td>
                                 </tr>
                                 </c:forEach>

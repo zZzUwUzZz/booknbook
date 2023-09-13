@@ -1,5 +1,6 @@
 package com.cjcs.bnb.dao;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface RentalDao {
     //수희    
     public List<HashMap<String, String>> getRentalListByOId(Integer o_id);
     public List<HashMap<String, String>> getRentalListByCId(String c_id);
+    public List<HashMap<String, String>> getRentalListByDateRange(String c_id, LocalDate startDate, LocalDate endDate);
     public List<HashMap<String, String>> getCurrentRentalListByCId(String c_id);
     public List<RentalDto> getLatest5RentalListByCId(String c_id);
 
@@ -29,6 +31,7 @@ public interface RentalDao {
     public boolean cancelRentalByOId(Integer o_id);
 
     public List<RentalReservationDto> getReservationListByCId(String c_id);
+    public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate starDate, LocalDate endDate);
     public void updateReservationByRRId(int rr_id);
 
     //예림

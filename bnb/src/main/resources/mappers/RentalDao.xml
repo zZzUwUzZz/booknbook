@@ -48,6 +48,22 @@
         ORDER BY o_date DESC, s_storename, b_title
     </select>
 
+    <select id="getRentalListByDateRange" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               b_title as "b_title",
+               s_storename as "s_storename",
+               rental_status as "rental_status",
+               r_duedate as "r_duedate",
+               r_latefee_total as "r_latefee_total"
+        FROM O, R, B, S, STATUS_R
+        WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
+              r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
+              r_c_id = #{c_id} AND o_date BETWEEN #{startDate} AND #{endDate}+1
+        ORDER BY o_date DESC, s_storename, b_title
+    </select>
+
     <select id="getCurrentRentalListByCId" parameterType="String" resultType="Map">
         SELECT rownum,
                b_title as "b_title",
@@ -100,6 +116,15 @@
         WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
               rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
               rr_c_id = #{c_id}
+        ORDER BY rr_id DESC
+    </select>
+
+    <select id="getReservationListByDateRange" resultType="RentalReservationDto">
+        SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+        FROM RR, S, B, STATUS_RR
+        WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
+              rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
+              rr_c_id = #{c_id} AND o_date BETWEEN #{startDate} AND #{endDate}+1
         ORDER BY rr_id DESC
     </select>
 

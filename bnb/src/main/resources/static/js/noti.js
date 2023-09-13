@@ -23,7 +23,7 @@ $(document).ready(function () {
    
   
   
-  var isLoggedIn = true; // 로그인 상태
+  var isLoggedIn = false; // 로그인 상태
   var notifications = []; // 알림 목록
   
   // 초기 메시지 설정

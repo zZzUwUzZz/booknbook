@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.mappers.StockNotifMapper">
+
+
+<select id="findStockNotif" resultType="com.cjcs.bnb.dto.StockNotifDto">
+    SELECT * FROM stock_notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn} AND c_id = #{c_id}
+</select>
+
+<insert id="insertStockNotif">
+    INSERT INTO stock_notif (b_s_id, b_isbn, c_id) VALUES (#{b_s_id}, #{b_isbn}, #{c_id})
+</insert>
+
+   <!-- 알림을 보낼 사용자 찾기 -->
+    <select id="findUsersToNotify" resultType="StockNotifDto">
+        SELECT * FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn}
+    </select>
+    
+    <!-- 알림 추가 -->
+    <insert id="insertNotification">
+        INSERT INTO NotifBoard (nb_m_id, nb_msg, nb_date, nb_read) VALUES (#{nb_m_id}, #{nb_msg}, CURRENT_DATE, 'N')
+    </insert>
+
+    <!-- 신청자 정보 삭제 -->
+    <delete id="deleteStockNotif">
+        DELETE FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn} AND c_id = #{c_id}
+    </delete>
+
+
+</mapper>

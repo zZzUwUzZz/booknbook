@@ -34,7 +34,6 @@
 
     <script src="/js/main.js"></script>
     <script src="/js/search.js"></script>
-    <script src="/js/book/bookDetail.js"></script>
 
 
 </head>
@@ -57,13 +56,30 @@
                 <div class="bkInfo">
 
                     <div class="bkInfoText">
+                        <p class="status"></p>
                         <div class="bkName">${bdInfo.s_storename}</div>
                         <p class="bkTitle">${bdInfo.b_title}</p>
-                        <p class="bkAuthor">${bdInfo.b_author}</p>
-                        <div class="smallPrice">
-                            <span class="val">
-                                <fmt:formatNumber value="${bdInfo.b_price}" type="number" pattern="#,###" /></span>
-                            <span>원</span>
+                  
+                        <div class="TextBox01">
+                            <div class="TextBox02">
+                                <p class="bkAuthor">${bdInfo.b_author}</p>
+                                <div class="smallPrice">
+                                    <span class="val">
+                                        <fmt:formatNumber value="${bdInfo.b_price}" type="number" pattern="#,###" />
+                                    </span>
+                                    <span>원</span>
+                                </div>
+                            </div>
+
+                            <div class="TextBox03">
+                                <div class="btnBox">
+                                    <div class="likeNoti">
+                                        <div class="likeBtn"> <span class="material-symbols-outlined">
+                                                favorite
+                                            </span> </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <p class="bkInfoText02">${bdInfo.b_bookdesc}</p>
                     </div>
@@ -96,29 +112,25 @@
                         </div>
                     </div>
 
-                    <div class="btnBox">
-                        <div class="likeNoti">
-                            <div class="likeBtn"> <span class="material-symbols-outlined">
-                                    favorite
-                                </span> </div>
-
-                            <div class="notiBtn"><span class="material-symbols-outlined">
-                                    notifications
-                                </span> </div>
-                        </div>
+                   
 
                           
                         <div class="btnBox">
                             <!-- <h1>재고 ${salestock} 대여 가능 ${rentalstock}</h1> -->
+                      
                             <div id="addToCartBtn" class="bkCartBtn">장바구니</div>
+                            <div id="RestockBtn">
+                                <span class="material-symbols-outlined">notifications</span> 
+                                재입고 알림 신청
                         </div>
-         
+
                          <div id="addToRentalCartBtn" class="bkRentBtn">대여하기</div>
                          <input type="hidden" id="salestock" value="${bkStock.salestock}">
                          <input type="hidden" id="rentalstock" value="${bkStock.rentalstock}">
-                         
-                         
+                        
                         </div>
+                       
+                    </div>
         
 
                 </div>
@@ -185,8 +197,11 @@
 
 
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+    <script src="/js/book/bookDetail.js"></script>
 
     <script>
+
+
         $(document).ready(function () {
             var B_SALESTOCK = parseInt($("#soldOutBtn").val());
             var B_RENTALSTOCK = parseInt($("#rentalstock").val());
@@ -205,16 +220,19 @@
             const saleStock = parseInt("${salestock}");
             const rentalStock = parseInt("${rentalstock}");
             if (saleStock <= 0) {
-                $('#addToCartBtn').text('품절').css("background", "#909090");
-                $('.bkInfo_02').css("display", "none");
-                $('.bkPrice').css("border-top", "none");
+                $('#addToCartBtn').text('품절되었습니다.').css("background", "#909090");
+                $('.status').text('품절').css("display", "block");
+                $('#RestockBtn').css("display", "flex");
+                $('.bkInfo_02, .bkPrice').css("display", "none");
                 $('#addToCartBtn').prop('id', 'soldOutBtn');
                 $('#soldOutBtn').off("click"); // 기존에 있던 click 이벤트 제거
-                $('.notiBtn').prop('disabled', false);
+                $('.notiBtn, #soldOutBtn, .bkCartBtn').prop('disabled', false);
+                $('.bkCartBtn').css('pointer-events', 'none');
+
             }
 
             if (rentalStock <= 0) {
-                $('.bkRentBtn').text('대여 예약하기').css("background", "rgb(204 112 37)");
+                $('.bkRentBtn').text('대여 예약하기').css("background", "#203b23");
                 $('.bkRentBtn').prop('class', 'RentsoldOutBtn');
                 $('#addToRentalCartBtn').prop('id', 'RentsoldOutBtn');
                 $('.notiBtn').prop('disabled', false);
@@ -364,6 +382,34 @@
 
             });
         });
+
+
+            $("#RestockBtn").click(function () {
+                const sellerId = "${sellerId}";  // Controller에서 설정한 변수
+                const isbn = "${bdInfo.b_isbn}";  // Controller에서 설정한 변수
+                const cId = "customer001";  // 실제로는 로그인 사용자의 ID를 가져와야 함
+
+                $.ajax({
+                    url: '/api/stockNotif',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ b_s_id: sellerId, b_isbn: isbn, c_id: cId }),
+
+                    success: function (response) {
+                        console.log("Success response: ", response);
+                        alert(response);
+                    },
+                    error: function (error) {
+                        console.log("에러: ", error);
+                        alert(error.responseText);
+                    }
+                });
+            });
+        
+
+
+
+
     </script>
 </body>
 

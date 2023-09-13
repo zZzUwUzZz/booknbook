@@ -48,7 +48,6 @@ public class DetailPageController {
     @Autowired
     private RentalDao rDao;
 
-
     private static final Logger logger = LoggerFactory.getLogger(DetailPageController.class);
 
     @GetMapping("/books/detail/{isbn}/{sellerId}")
@@ -73,14 +72,10 @@ public class DetailPageController {
     @ResponseBody
     @PostMapping("/rental/request")
     public ResponseEntity<String> requestRental(@RequestBody RentalReservationDto rrDto) {
-        logger.info("시발:{}", rrDto);
         String result = rSer.requestRental(rrDto);
-                logger.info("ㅋㅋ:{}", result);
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    
- 
+
     @PostMapping("/addtocart")
     public ResponseEntity<String> addToCart(@RequestBody CartDto cartDto) {
         String c_id = "customer001"; // 로그인 정보에서 가져올 것

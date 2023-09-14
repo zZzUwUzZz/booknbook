@@ -1,32 +1,5 @@
 
 $(document).ready(function() {
-  $(".statusText").each(function() {
-      const saleStock = parseInt($(this).data('salestock'));
-      const rentalStock = parseInt($(this).data('rentalstock'));
-
-      if (saleStock <= 0) {
-          $(this).find('.statusText_2').text('품절');
-      } else if (saleStock >= 1) {
-        $(this).find('.statusText_2').css('display', 'none');
-    }
-
-      if (rentalStock >= 1) {
-          $(this).find('.statusText_3').text('대여가능');
-      }
-      if (rentalStock <= 0) {
-        $(this).find('.statusText_3').css('display', 'none');
-    }
-      if (saleStock >= 1 && rentalStock >= 1) {
-        $(this).find('.statusText_3').text('대여가능');
-        $(this).find('.statusText_3').css('top','-137px');
-        $(this).find('.statusText_3').css('background','#4a754e');
-        $(this).find('.statusText_2').css('display', 'none');
-    }
-
-  });
-});
-
-$(document).ready(function() {
     $("#mediumCategory").change(function() {
         var selectedMediumCategoryId = $(this).val();
         

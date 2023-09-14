@@ -210,11 +210,11 @@ p.result_tt {
 
 .statusText_3 {
   position: absolute;
-  width: 47px;
-  top: -113px;
+  width: 36px;
+  top: -137px;
   left: 14px;
   padding: 2px 4px;
-  background: #4a754e;
-  color: #FFF;
+   color: #FFF;
   font-size: 12px;
+  background-color: rgb(231, 86, 2);
 }

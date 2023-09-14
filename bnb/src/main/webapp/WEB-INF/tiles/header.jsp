@@ -12,14 +12,19 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
     <link rel="stylesheet" href="/css/noti.css">
+
+    <!-- SockJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<!-- STOMP.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
     <script src="/js/noti.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/main.js"></script>
 </head>
      <!-- modal -->
-
+ 
      <div id="small-menu">
         <p class="smallmenuId">${sessionScope.loggedInUser}</p>
         <div class="smMenuList">
@@ -106,6 +111,35 @@
 
  
  <script>
+$(document).ready(function() {
+  var socket = new SockJS('/websocket-endpoint'); // 웹소켓 엔드포인트
+  var stompClient = Stomp.over(socket);
+
+  stompClient.connect({}, 
+    function(frame) { // 연결 성공
+      console.log('Connected: ' + frame);
+    
+      // '/topic/notifications/' + user_id 형식으로 subscribe. user_id는 실제 사용자 ID로 대체
+      stompClient.subscribe('/topic/notifications/customer001', function(message) {
+        if (message.body === "Your book with ISBN: b_isbn is now available.") {
+          // HTML 문서의 .WStest 클래스를 가진 요소에 "입고 완" 텍스트 삽입
+          $('.WStest').text("책 입고 완료요ㅋㅋ");
+          alert("책 입고 완료요ㅋㅋ");
+        }
+      });
+    }, 
+    function(error) { // 연결 실패
+      console.log('STOMP: ' + error);
+      setTimeout(connect, 5000);
+      console.log('STOMP: Reconnecting in 5 seconds');
+    }
+  );
+});
+
+
+
+
+
 
 window.onload = function() {
     var msg = "${msg}";

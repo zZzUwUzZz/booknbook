@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cjcs.bnb.dao.BookDao;
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.NotifBoardDto;
 
 @Service
 public class BookService {
@@ -63,8 +64,7 @@ public class BookService {
             return bookMapper.findBooksByIsbn(isbn);
         }
 
-
-
+ 
 
     // public static List<BookDto> getSellerBookList(String b_s_id){
     // return bDao.getSellerBookList(b_s_id);

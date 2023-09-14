@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.NotifBoardDto;
 import com.cjcs.bnb.dto.StockNotifDto;
 
@@ -22,4 +23,8 @@ public interface StockNotifMapper {
 
     // 신청자 정보 삭제
     void deleteStockNotif(StockNotifDto stockNotif);
+
+    void updateStock(BookDto bDto);
+    void deleteAndNotify(BookDto bDto);
+
 }

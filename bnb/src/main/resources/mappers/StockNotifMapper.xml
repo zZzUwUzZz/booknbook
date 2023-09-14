@@ -13,11 +13,6 @@
     INSERT INTO stock_notif (b_s_id, b_isbn, c_id) VALUES (#{b_s_id}, #{b_isbn}, #{c_id})
 </insert>
 
-   <!-- 알림을 보낼 사용자 찾기 -->
-    <select id="findUsersToNotify" resultType="StockNotifDto">
-        SELECT * FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn}
-    </select>
-    
     <!-- 알림 추가 -->
     <insert id="insertNotification">
         INSERT INTO NotifBoard (nb_m_id, nb_msg, nb_date, nb_read) VALUES (#{nb_m_id}, #{nb_msg}, CURRENT_DATE, 'N')
@@ -27,6 +22,14 @@
     <delete id="deleteStockNotif">
         DELETE FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn} AND c_id = #{c_id}
     </delete>
+
+   <select id="findUsersToNotify" resultType="com.cjcs.bnb.dto.StockNotifDto">
+        SELECT sn.* FROM stock_notif sn
+        INNER JOIN Book b ON sn.b_s_id = b.b_s_id AND sn.b_isbn = b.b_isbn
+        WHERE b.b_salestock > 0
+    </select>
+
+ 
 
 
 </mapper>

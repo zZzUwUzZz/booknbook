@@ -175,7 +175,7 @@
                             <th width="70px">주문번호</th>
                             <th width="170px">주문일자</th>
                             <th>도서명</th>
-                            <th width="70px">배송현황</th>
+                            <th width="80px">배송현황</th>
                         </tr>
 
                         <c:if test="${empty pList}">
@@ -206,7 +206,7 @@
                             <th width="70px">주문번호</th>
                             <th width="170px">주문일자</th>
                             <th>도서명</th>
-                            <th width="70px">배송현황</th>
+                            <th width="80px">배송현황</th>
                         </tr>
 
                         <c:if test="${empty rList}">

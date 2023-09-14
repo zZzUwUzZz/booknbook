@@ -65,7 +65,7 @@
 
             <div class="datebox">
                 <div>
-                <form action="/mypage/orderlist" method="POST">
+                <form action="/mypage/purchaselist">
                     <input type="date" id="startDate" name="startDate" required>
                     <label for="startDate">부터</label>
                     <input type="date" id="endDate" name="endDate" required>
@@ -125,9 +125,15 @@
                 </div>
             </div>
 
-            <div class="btnbox">
-                <button type="submit" id="submit" disabled>교환/반품신청</button>
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
+
+            <c:if test="${!empty pList}">
+                <div class="btnbox">
+                    <button type="submit" id="submit" disabled>교환/반품신청</button>
+                </div>
+            </c:if>
 
             </form>
 

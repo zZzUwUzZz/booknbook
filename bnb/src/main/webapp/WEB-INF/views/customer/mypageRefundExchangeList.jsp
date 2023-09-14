@@ -64,7 +64,7 @@
 
             <div class="datebox">
                 <div>
-                <form action="/mypage/orderlist" method="POST">
+                <form action="/mypage/refundexchangelist">
                     <input type="date" id="startDate" name="startDate" required>
                     <label for="startDate">부터</label>
                     <input type="date" id="endDate" name="endDate" required>
@@ -90,7 +90,7 @@
 
                     <c:if test="${empty reList}">
                         <tr>
-                            <td colspan="7">교환/반품내역이 없습니다.</td>
+                            <td colspan="8">교환/반품내역이 없습니다.</td>
                         </tr>
                     </c:if>
         
@@ -122,6 +122,10 @@
                     </c:if>
                 </table>
                 </div>
+            </div>
+
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
 
         </div>

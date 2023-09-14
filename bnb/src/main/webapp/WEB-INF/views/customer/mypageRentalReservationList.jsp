@@ -65,7 +65,7 @@
 
             <div class="datebox">
                 <div>
-                <form action="/mypage/orderlist" method="POST">
+                <form action="/mypage/rentalreservationlist">
                     <input type="date" id="startDate" name="startDate" required>
                     <label for="startDate">부터</label>
                     <input type="date" id="endDate" name="endDate" required>
@@ -129,6 +129,10 @@
                     </c:if>
                 </table>
                 </div>
+            </div>
+
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
 
         </div>

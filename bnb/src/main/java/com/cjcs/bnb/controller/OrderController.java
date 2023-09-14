@@ -139,13 +139,21 @@ public class OrderController {
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
+        Boolean stockCheck = oSer.stockCheck(pcart_idList, rcart_idList);
+        log.info("stockCheck:{}", stockCheck);
+        
+        if (!stockCheck) {
+            rttr.addFlashAttribute("msg", "결제 실패! 재고가 부족합니다.");
+            return "redirect:/cart";
+        }
+
         Boolean result = oSer.addOrder(c_id, pcart_idList, rcart_idList, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone,
                                        o_total_pricerent, o_total_deliveryfee, o_total_payment);
 
         if (result) {
             return "redirect:/payment/success";
         } else {
-            rttr.addFlashAttribute("msg", "결제 실패");
+            rttr.addFlashAttribute("msg", "결제 실패!");
             return "redirect:/cart";
         }
     }

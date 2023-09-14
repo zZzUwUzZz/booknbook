@@ -1,6 +1,9 @@
 package com.cjcs.bnb.controller;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +29,8 @@ import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RefExchDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
+import com.cjcs.bnb.dto.SearchDto;
+import com.cjcs.bnb.service.BoardService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
@@ -53,6 +58,8 @@ public class CustomerPageController {
     private PurchaseService pSer;
     @Autowired
     private RentalService rSer;
+    @Autowired
+    private BoardService bSer;
 
     @Autowired
     private MemberDao mDao;
@@ -133,31 +140,22 @@ public class CustomerPageController {
 
 
     @GetMapping("/orderlist")    // 주문내역
-    public String mypageOrderList(Model model, HttpSession session) {
+    public String mypageOrderList(SearchDto sDto, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> oList = oDao.getOrderListGroupByOId(c_id);
-        model.addAttribute("oList", oList);
+        List<HashMap<String, String>> oList = oDao.getOrderListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/orderlist");
         
-        return "customer/mypageOrderList";
-    }
+        if (oList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("oList", oList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
-    @PostMapping("/orderlist")    // 주문내역(기간별)
-    public String mypageOrderListByDateRange(Model model, HttpServletRequest request, HttpSession session) {
-
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
-
-        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-
-        List<HashMap<String, String>> oList = oDao.getOrderListByDateRange(c_id, startDate, endDate);
-        model.addAttribute("oList", oList);
-        
         return "customer/mypageOrderList";
     }
 
@@ -187,64 +185,44 @@ public class CustomerPageController {
 
 
     @GetMapping("/purchaselist")    // 구매내역
-    public String mypagePurchaseList(Model model, HttpSession session) {
+    public String mypagePurchaseList(SearchDto sDto, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> pList = pDao.getPurchaseListByCId(c_id);
-        model.addAttribute("pList", pList);
+        List<HashMap<String, String>> pList = pDao.getPurchaseListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/purchaselist");
 
-        return "customer/mypagePurchaseList";
-    }
+        if (pList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("pList", pList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
-    @PostMapping("/purchaselist")    // 구매내역(기간별)
-    public String mypagePurchaseListByDateRange(Model model, HttpServletRequest request, HttpSession session) {
-
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
-
-        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-
-        List<HashMap<String, String>> pList = pDao.getPurchaseListByDateRange(c_id, startDate, endDate);
-        model.addAttribute("pList", pList);
-        
         return "customer/mypagePurchaseList";
     }
 
     @GetMapping("/rentallist")    // 대여내역
-    public String mypageRentalList(Model model, HttpSession session) {
+    public String mypageRentalList(SearchDto sDto, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> rList = rDao.getRentalListByCId(c_id);
-        log.info("rList:{}", rList);
-        model.addAttribute("rList", rList);
+        List<HashMap<String, String>> rList = rDao.getRentalListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/rentallist");
+
+        if (rList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("rList", rList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageRentalList";
     }
-
-    @PostMapping("/rentallist")    // 대여내역(기간별)
-    public String mypageRentalListByDateRange(Model model, HttpServletRequest request, HttpSession session) {
-
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
-
-        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-
-        List<HashMap<String, String>> rList = rDao.getRentalListByDateRange(c_id, startDate, endDate);
-        model.addAttribute("rList", rList);
-        
-        return "customer/mypageRentalList";
-    }
-
 
     @GetMapping("/refundexchange")     // 교환반품신청폼
     public String mypageRefundExchangeFrm(@RequestParam ArrayList<Integer> p_idList, Model model) {
@@ -281,30 +259,23 @@ public class CustomerPageController {
     }
 
     @GetMapping("/refundexchangelist")    // 교환반품내역
-    public String mypageRefundExchangeList(Model model, HttpSession session) {
+    public String mypageRefundExchangeList(SearchDto sDto, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
+        log.info("re_id:{}", sDto);
 
-        List<RefExchDto> reList = pDao.getRefExchListByCId(c_id); 
-        model.addAttribute("reList", reList);
+        List<RefExchDto> reList = pDao.getRefExchListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/refundexchangelist");
+        log.info("reList:{}", reList);
 
-        return "customer/mypageRefundExchangeList";
-    }
-
-    @PostMapping("/refundexchangelist")    // 교환반품내역(기간별)
-    public String mypageRefundExchangeListByDateRange(Model model, HttpServletRequest request, HttpSession session) {
-
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
-
-        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-
-        List<RefExchDto> reList = pDao.getRefExchListByDateRange(c_id, startDate, endDate);
-        model.addAttribute("reList", reList);
+        if (reList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("reList", reList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageRefundExchangeList";
     }
@@ -318,30 +289,21 @@ public class CustomerPageController {
     }
 
     @GetMapping("/rentalreservationlist")    // 대여예약내역
-    public String mypageRentalReservationList(Model model, HttpSession session) {
+    public String mypageRentalReservationList(SearchDto sDto, Model model, HttpSession session) {
 
         //일단 하드코딩함.
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<RentalReservationDto> rrList = rDao.getReservationListByCId(c_id);
-        log.info("rrList:{}", rrList);
-        model.addAttribute("rrList", rrList);
+        List<RentalReservationDto> rrList = rDao.getReservationListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/rentalreservationlist");
 
-        return "customer/mypageRentalReservationList";
-    }
-    @PostMapping("/rentalreservationlist")    // 대여예약내역(기간별)
-    public String mypageRentalReservationListByDateRange(Model model, HttpServletRequest request, HttpSession session) {
-
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
-
-        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-
-        List<RentalReservationDto> rrList = rDao.getReservationListByDateRange(c_id, startDate, endDate);
-        model.addAttribute("rrList", rrList);
+        if (rrList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("rrList", rrList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageRentalReservationList";
     }

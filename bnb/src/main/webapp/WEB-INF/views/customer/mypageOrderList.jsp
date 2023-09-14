@@ -65,7 +65,7 @@
 
             <div class="datebox">
                 <div>
-                <form action="/mypage/orderlist" method="POST">
+                <form action="/mypage/orderlist">
                     <input type="date" id="startDate" name="startDate" required>
                     <label for="startDate">부터</label>
                     <input type="date" id="endDate" name="endDate" required>

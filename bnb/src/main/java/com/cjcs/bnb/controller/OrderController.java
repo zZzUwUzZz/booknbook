@@ -99,19 +99,23 @@ public class OrderController {
     }
 
     @PostMapping("/cartamountupdate")    // 구매카트항목 수량변경
-    public ResponseEntity<Void> updateCartAmount(@RequestParam int cart_id, @RequestParam int cart_amount) {
+    public ResponseEntity<Integer> updateCartAmount(@RequestParam int cart_id, @RequestParam int cart_amount) {
 
         oDao.updateCartAmount(cart_id, cart_amount);
+        CartDto cDto = oDao.getCartByCartId(cart_id);
+        Integer updated_payment = cDto.getB_price() * cDto.getCart_amount();
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(updated_payment);
     }
 
     @PostMapping("/cartrentalperiodupdate")    // 대여카트항목 대여기간변경
-    public ResponseEntity<Void> updateCartRentalPeriod(@RequestParam int cart_id, @RequestParam int cart_rentalperiod) {
+    public ResponseEntity<Integer> updateCartRentalPeriod(@RequestParam int cart_id, @RequestParam int cart_rentalperiod) {
 
         oDao.updateCartRentalPeriod(cart_id, cart_rentalperiod);
+        CartDto cDto = oDao.getCartByCartId(cart_id);
+        Integer updated_payment = (Integer)(cDto.getB_rent() * cDto.getCart_rentalperiod() / 7);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(updated_payment);
     }
 
     @PostMapping("/cartitemdelete")    // 카트에서 개별항목 삭제

@@ -87,9 +87,9 @@
                                         <td>
                                             <input type="hidden" id="stock-${cPItem.cart_id}" value="${cPItem.b_salestock}">
                                             <input type="number" class="qty_input" id="q-${cPItem.cart_id}" name="cart_amount" value="${cPItem.cart_amount}" min="0" max="9" data-stock-id="stock-${cPItem.cart_id}">
-                                            <button type="button" data-q-id="q-${cPItem.cart_id}" data-p-id="p-${cPItem.cart_id}" class="save-btn-p">변경</button>
+                                            <button type="button" data-q-id="q-${cPItem.cart_id}" data-p-id="p-${cPItem.cart_id}" data-pay-id="pay-${cPItem.cart_id}" class="save-btn-p">변경</button>
                                         </td> 
-                                        <td><fmt:formatNumber value="${cPItem.b_price * cPItem.cart_amount}" type="number" pattern="#,##0"/>원</td>
+                                        <td id="pay-${cPItem.cart_id}"><fmt:formatNumber value="${cPItem.b_price * cPItem.cart_amount}" type="number" pattern="#,##0"/>원</td>
                                     </c:otherwise>
                                 </c:choose>
 					    		<td><button type="button" class="delete" data-p-id="p-${cPItem.cart_id}">삭제</button></td>
@@ -158,12 +158,12 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </select>
-                                            <button type="button" data-rp-id="rp-${cRItem.cart_id}" data-r-id="r-${cRItem.cart_id}" class="save-btn-r">변경</button>
+                                            <button type="button" data-rp-id="rp-${cRItem.cart_id}" data-r-id="r-${cRItem.cart_id}" data-pay-id="pay-${cRItem.cart_id}" class="save-btn-r">변경</button>
                                         </td> 
                                         <td>
                                             <div class="qty_1">${cRItem.cart_amount}</div>
                                         </td>
-                                        <td><fmt:formatNumber value="${cRItem.b_rent * cRItem.cart_rentalperiod / 7}" type="number" pattern="#,##0"/>원</td>
+                                        <td id="pay-${cRItem.cart_id}"><fmt:formatNumber value="${cRItem.b_rent * cRItem.cart_rentalperiod / 7}" type="number" pattern="#,##0"/>원</td>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -268,6 +268,7 @@
                 let cart_id = parseInt($('#'+p_id).val())
                 let q_id = $(this).data('q-id')
                 let cart_amount = parseInt($('#'+q_id).val())
+                let pay_id = $(this).data('pay-id')
 
                 $.ajax({
                     
@@ -275,9 +276,10 @@
                     url: "/cartamountupdate",
                     data: { cart_id: cart_id, cart_amount: cart_amount },
                 
-                    success: function(response) {
+                    success: function(updated_payment) {
                         $('#'+q_id).val(cart_amount);
-                        alert("수량이 변경되었습니다.");
+                        let formatted = updated_payment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        $('#'+pay_id).text(formatted+'원');
                     },
                 
                     error: function() {
@@ -295,6 +297,7 @@
                 let cart_id = parseInt($('#'+r_id).val())
                 let rp_id = $(this).data('rp-id')
                 let cart_rentalperiod = parseInt($('#'+rp_id).val())
+                let pay_id = $(this).data('pay-id')
 
                 $.ajax({
                     
@@ -302,9 +305,10 @@
                     url: "/cartrentalperiodupdate",
                     data: { cart_id: cart_id, cart_rentalperiod: cart_rentalperiod },
                 
-                    success: function(response) {
+                    success: function(updated_payment) {
                         $('#'+rp_id).val(cart_rentalperiod);
-                        alert("대여기간이 변경되었습니다.");
+                        let formatted = updated_payment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        $('#'+pay_id).text(formatted+'원');
                     },
                 
                     error: function() {
@@ -314,7 +318,6 @@
                 })
 
             })
-
 
             // 카트내 개별항목 삭제
             $(".delete").click(function () {

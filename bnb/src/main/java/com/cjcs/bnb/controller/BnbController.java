@@ -221,5 +221,6 @@ public class BnbController {
         
         return "redirect:/admin/reportlist";
     }
+
     
 }

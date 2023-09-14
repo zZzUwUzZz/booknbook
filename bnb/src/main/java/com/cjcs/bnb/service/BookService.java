@@ -50,7 +50,6 @@ public class BookService {
         return bookMapper.countBooksByMediumCategory(category_m_id);
     }
 
-
     public List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end) {
         return bookMapper.findBooksBySmallCategory(category_s_id, start, end);
     }
@@ -60,11 +59,9 @@ public class BookService {
     }
 
     // ISBN 조회
-        public List<BookDto> findBooksByIsbn(String isbn) {
-            return bookMapper.findBooksByIsbn(isbn);
-        }
-
- 
+    public List<BookDto> findBooksByIsbn(String isbn) {
+        return bookMapper.findBooksByIsbn(isbn);
+    }
 
     // public static List<BookDto> getSellerBookList(String b_s_id){
     // return bDao.getSellerBookList(b_s_id);
@@ -83,7 +80,6 @@ public class BookService {
     // 책 상세페이지 데이터 조회
     public BookDto bookDetail(String isbn, String sellerId) {
         return bookMapper.bookDetail(isbn, sellerId);
-      }
-
+    }
 
 }

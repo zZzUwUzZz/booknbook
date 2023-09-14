@@ -1,6 +1,7 @@
 package com.cjcs.bnb.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +37,8 @@ import com.cjcs.bnb.service.OrderService;
 
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
+import com.cjcs.bnb.service.StockService;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializer;
 
 import oracle.jdbc.proxy.annotation.Post;
 
@@ -60,6 +63,9 @@ public class SellerPageController {
 
     @Autowired
     private FileService fileService; // MyBatis mapper
+
+    @Autowired
+    private StockService stSer;
 
     // 서점 정보 페이지
     @GetMapping
@@ -194,21 +200,25 @@ public class SellerPageController {
     }
 
     @GetMapping("/book/list")
-    public String sellerbooklist(String s_id, @RequestParam(required = false) String filter,
-            @RequestParam(required = false) String keyword, Model model) {
+    public String sellerbooklist(String s_id,
+            @RequestParam(required = false) String filter,
+            @RequestParam(required = false) String keyword,
+            Model model) {
 
-        // 등록한 도서 리스트 조회
-        List<BookDto> getSellerBookList;
+        List<BookDto> bookList = stSer.SellerBookListDT(s_id, filter, keyword);
+        model.addAttribute("SellerBookList", bookList);
 
-        if (filter != null && keyword != null) {
-            // 검색을 위한 파라미터가 전달된 경우 실행
-            getSellerBookList = bSer.searchSellerBookList(s_id, filter, keyword);
-        } else {
-            // 도서 전체 리스트 조회
-            getSellerBookList = bSer.getSellerBookList(s_id);
+        // 모든 도서의 상세 정보를 저장할 리스트
+        List<BookDto> allBookDetails = new ArrayList<>();
+
+        // 목록에 있는 모든 도서의 상세 정보를 가져옵니다.
+        for (BookDto book : bookList) {
+            BookDto bookDetail = stSer.BookInfoDt(book.getB_isbn(), book.getB_s_id());
+            allBookDetails.add(bookDetail);
         }
 
-        model.addAttribute("SellerBookList", getSellerBookList);
+        // 모델에 모든 도서의 상세 정보를 저장합니다.
+        model.addAttribute("AllBookDetails", allBookDetails);
 
         return "seller/sellerBookList";
     }

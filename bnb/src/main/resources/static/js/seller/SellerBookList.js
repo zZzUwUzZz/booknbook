@@ -1,8 +1,6 @@
 
-$(".stockNum, .wareNum").attr({
-    "max" : 999,
-    "min" : 1
-});
+// $(document).ready(function() {
+//     $('.bkwareBtn').trigger('click');
 
 $('.bkwareBtn').click(function() {
     $('.saletext').text('판매입고');
@@ -10,9 +8,7 @@ $('.bkwareBtn').click(function() {
     $('.bkstBtn').text('입고 처리').addClass('ware');
    $('.editBtn').text('입고 처리').addClass('ware').css('background','#9aa0a6');
   
-  
     $('.allbkstatusBtn').text('전체 입고 처리').addClass('ware');
-
     $('tr').each(function(index, element) {
         if(index !== 0) {  // skip the header row
             $(element).find('.stockNum').attr('id', `stockNum-${index}`).attr('name', `stockNumSt-${index}`);
@@ -22,24 +18,23 @@ $('.bkwareBtn').click(function() {
     });
 });
 
-$(document).ready(function() {
-    $('.bkwareBtn').trigger('click');
-});
+$('body').on('click', '.editBtn', function() {
+    const row = $(this).closest('tr');
+    const b_s_id = row.data('seller-id');
+    const b_isbn = row.data('isbn');
+    const b_salestock = row.find('.stockNum').val();
+    
+    const stockUpdate = {
+        b_s_id: b_s_id,
+        b_isbn: b_isbn,
+        b_salestock: parseInt(b_salestock)  // 문자열을 정수로 변환
+    };
 
- 
-// existing jQuery code
-$(`editBtn-${index}`).click(function() {
-    var stockNum = $(this).closest('tr').find('.stockNum').val();
-    var wareNum = $(this).closest('tr').find('.wareNum').val();
-    // assuming you have other fields like category, title, etc.
-
-    $.post("/updateStock", {
-        saleStock: stockNum,    
-        rentalStock: wareNum,
-        // other fields
-    }, function(data) {
-        alert("입고 처리 되었습니다");
+    $.post("/updateStock", stockUpdate)
+    .done(function(response) {
+        alert("재고가 업데이트되었습니다.");
+    })
+    .fail(function() {
+        alert("재고 업데이트에 실패했습니다.");
     });
 });
- 
-

@@ -103,7 +103,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${SellerBookList}" var="Books">
-                                    <tr>
+                                    <tr data-seller-id="${Books.b_s_id}" data-isbn="${Books.b_isbn}">
                                         <td>${Books.category_s}</td>
                                         <td>${Books.b_title}</td>
                                         <td>${Books.b_author}</td>
@@ -128,7 +128,8 @@
 
     <script src="/js/seller/SellerBookList.js"></script>
 
-
+<script>
+</script>
 </body>
 
 </html>

@@ -22,11 +22,9 @@ public class StockNotifController {
 
     @Autowired
     private SimpMessagingTemplate template;
-  
+
     @Autowired
     private BookService bSer;
-
-    
 
     @PostMapping("/api/stockNotif")
     public ResponseEntity<String> addStockNotification(@RequestBody StockNotifDto stockNotif) {
@@ -41,11 +39,13 @@ public class StockNotifController {
     }
 
     // 재입고 알림 처리
-    @PostMapping("/api/processStock")
-    public ResponseEntity<String> processStock(@RequestBody String isbn, String sellerId) {
-        ResponseEntity<String> result = stockNotifService.processStock(isbn, sellerId);
-        template.convertAndSend("/topic/stockUpdate", "재고 업데이트");
-        return result;
-    }
+    // @PostMapping("/api/processStock")
+    // public ResponseEntity<String> processStock(@RequestBody String isbn, String
+    // sellerId) {
+    // ResponseEntity<String> result = stockNotifService.processStock(isbn,
+    // sellerId);
+    // template.convertAndSend("/topic/stockUpdate", "재고 업데이트");
+    // return result;
+    // }
 
 }

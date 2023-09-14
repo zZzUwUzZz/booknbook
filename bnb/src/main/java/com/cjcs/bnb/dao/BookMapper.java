@@ -10,55 +10,53 @@ import com.cjcs.bnb.dto.BookDto;
 
 @Mapper
 public interface BookMapper {
-    List<BookDto> findAll();
 
-    List<BookDto> bookAllList(@Param("start") int start, @Param("end") int end);
+        List<BookDto> findAll();
 
-    int countTotalBooks();
+        List<BookDto> bookAllList(@Param("start") int start, @Param("end") int end);
 
-    BookDto findByIsbn(String bIsbn);
+        int countTotalBooks();
 
-    BookDto findBookByIsbnAndSellerId(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
+        BookDto findByIsbn(String bIsbn);
 
-    BookDto findBookStock(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
+        BookDto findBookByIsbnAndSellerId(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
 
-    List<BookDto> findByKwPg(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
+        BookDto findBookStock(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
 
-    int countKeyword(String keyword);
+        List<BookDto> findByKwPg(@Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
 
-    // 중분류 카테고리 조회
-    List<BookDto> findBooksByMediumCategory(@Param("category_m_id") String category_m_id, @Param("start") int start,
-            @Param("end") int end);
+        int countKeyword(String keyword);
 
-    int countBooksByMediumCategory(String category_m_id);
+        // 중분류 카테고리 조회
+        List<BookDto> findBooksByMediumCategory(@Param("category_m_id") String category_m_id, @Param("start") int start,
+                        @Param("end") int end);
 
-    // 소분류 카테고리 조회
-    List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end);
+        int countBooksByMediumCategory(String category_m_id);
 
-    int countBooksBySmallCategory(String category_s_id);
+        // 소분류 카테고리 조회
+        List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end);
 
-    // 책 상세 페이지 조회
-    BookDto bookDetail(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
+        int countBooksBySmallCategory(String category_s_id);
 
-    // ISBN 조회
-    List<BookDto> findBooksByIsbn(@Param("isbn") String isbn);
- 
+        // 책 상세 페이지 조회
+        BookDto bookDetail(@Param("isbn") String isbn, @Param("sellerId") String sellerId);
 
+        // ISBN 조회
+        List<BookDto> findBooksByIsbn(@Param("isbn") String isbn);
 
+        // 예림
 
-    // 예림
+        // 판매자 페이지 - 등록한 도서 리스트 조회
+        public List<BookDto> searchSellerBookList(String s_id);
 
-    // 판매자 페이지 - 등록한 도서 리스트 조회
-    public List<BookDto> searchSellerBookList(String s_id);
+        // 판매자 페이지 - 등록된 도서 검색
+        public List<BookDto> searchSellerBookList(@Param("s_id") String s_id, @Param("filter") String filter,
+                        @Param("keyword") String keyword);
 
-    // 판매자 페이지 - 등록된 도서 검색
-    public List<BookDto> searchSellerBookList(@Param("s_id") String s_id, @Param("filter") String filter,
-            @Param("keyword") String keyword);
+        // 수희
 
-    // 수희
+        public int updateSaleStock(String cart_s_id, String cart_b_isbn, int cart_amount);
 
-    public int updateSaleStock(String cart_s_id, String cart_b_isbn, int cart_amount);
-
-    public int updateRentalStock(String cart_s_id, String cart_b_isbn);
+        public int updateRentalStock(String cart_s_id, String cart_b_isbn);
 
 }

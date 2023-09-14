@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.mappers.StockMapper">
+
+<update id="updateStock">
+    UPDATE Book SET b_salestock = #{b_salestock} WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn}
+</update>
+
+<!-- Get notification list -->
+<select id="getNotifList" resultType="StockNotifDto">
+    SELECT * FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn}
+</select>
+
+
+<!-- Add notification to board -->
+<insert id="addNotifToBoard">
+    INSERT INTO NotifBoard (nb_m_id, nb_msg, nb_date, nb_read)
+    VALUES (#{nb_m_id}, #{nb_msg}, #{nb_date}, #{nb_read})
+</insert>
+
+<!-- Remove notification -->
+<delete id="removeNotif">
+    DELETE FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn} AND c_id = #{c_id}
+</delete>
+
+<!-- 도서 목록 쿼리 -->
+<select id="SellerBookListDT" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT * FROM Book WHERE b_s_id = 'seller001'
+    <!-- 필터와 키워드를 이용한 추가적인 WHERE 절을 여기에 삽입할 수 있습니다. -->
+</select>
+
+<!-- 도서 상세 정보 쿼리 -->
+<select id="BookInfoDt" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT * FROM Book WHERE b_isbn = #{isbn} AND b_s_id = 'seller001'
+</select>
+
+
+
+</mapper>

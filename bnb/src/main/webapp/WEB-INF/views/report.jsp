@@ -115,7 +115,7 @@ String formattedDate = dateFormat.format(currentDate);
         <div class="title-box">
 
             <h1>제보하기</h1>
-
+            
         </div>
 
         <form action="submit.php" method="post" enctype="multipart/form-data">

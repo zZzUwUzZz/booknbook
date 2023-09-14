@@ -168,30 +168,4 @@
             r_returndate is not null
     </select>
 
-    <!-- 유다 -->
-
-    <resultMap id="RentalDtoResultMap" type="RentalDto">
-    <id property="r_id" column="r_id" />
-    <result property="r_latefee_total" column="r_latefee_total" />
-    <result property="r_latefee_paid" column="r_latefee_paid" />
-    <result property="r_latefee_paydate" column="r_latefee_paydate" />
-    <!-- RentalDto 클래스의 다른 필드에 대한 설정 -->
-    </resultMap>
-
-    <!-- 대여 항목 -->
-    <select id="getRentalList" resultType="RentalDto">
-        SELECT r_id, r_latefee_total, overdue_days, r_latefee_paydate
-        FROM rental
-    </select>
-
-    <!-- 연채료 -->
-    <select id="getLateFeeInfo" resultType="RentalDto">
-        SELECT r_id, r_latefee_total, r_latefee_paid, r_latefee_paydate
-    FROM
-        rental
-    WHERE
-        r_id = #{r_id}
-    </select>
-
-
 </mapper>

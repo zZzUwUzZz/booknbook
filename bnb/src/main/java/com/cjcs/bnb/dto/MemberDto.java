@@ -20,6 +20,7 @@ public class MemberDto {
     private Timestamp m_joindate; // 가입일자
     private String currentPassword;
     private String newPassword;
+    private String m_role;
    
     // 새롭게 추가된 코드들 
     private String zipcode; //우편번호

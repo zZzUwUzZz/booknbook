@@ -2,35 +2,23 @@ package com.cjcs.bnb.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cjcs.bnb.service.CustomUserDetailsService2;
 
 @Configuration
-public class SecurityConfig {
+public class SecurityConfig  {
     
-   @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        var manager = new InMemoryUserDetailsManager();
-        var user = User.withUsername("admin2")
-                .password(passwordEncoder.encode("fkrwo123!!"))
-                .roles("ADMIN")
-                .build();
-        manager.createUser(user);
-        return manager;
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -39,22 +27,40 @@ public class SecurityConfig {
             @Override
             public void configure(HttpSecurity http) throws Exception {
                 http
-                    .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
+                    .authorizeHttpRequests(authorizeHttpRequests -> 
+                        authorizeHttpRequests
                             .requestMatchers("/admin/**").hasRole("ADMIN")
-                            .anyRequest().authenticated()
+                            .requestMatchers("/**").authenticated()
                     )
-                    .formLogin(formLogin ->
+                    .formLogin(formLogin -> 
                         formLogin
-                            .loginPage("/member/login")  // 추가
-                            .defaultSuccessUrl("/loginSuccess", true)
+                            .loginPage("/member/login")
+                            .defaultSuccessUrl("/", true)
                             .failureForwardUrl("/login?error=true")
                     )
-                    .logout(logout ->
+                    .logout(logout -> 
                         logout
-                            .logoutSuccessUrl("/login?logout=true")
+                            .logoutSuccessUrl("/member/login")
                     );
             }
-        };
+            };
+        }
+    
+
+    
+
+    @Bean
+    public UserDetailsService customUserDetailsService2() {
+        return new CustomUserDetailsService2();
     }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customUserDetailsService2()); // 명시적으로 CustomUserDetailsService2 빈을 사용합니다.
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        return authProvider;
+    }
+    
+    
 }

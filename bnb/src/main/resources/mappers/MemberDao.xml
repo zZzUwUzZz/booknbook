@@ -18,12 +18,17 @@
 
 <!--이재락-->
 
-    <!--회원가입정보 DB에 넣기-->
-    <insert id="joinMember" parameterType="MemberDto">
-        INSERT INTO M
-        VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}, DEFAULT)
-    </insert>
-    
+   <!-- <insert id="joinMember" parameterType="MemberDto">
+    INSERT INTO CJCS.MEMBER ("M_ID", "M_PW", "M_ADDR", "M_PHONE", "M_EMAIL")
+    VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email})
+</insert> -->
+<insert id="joinMember" parameterType="MemberDto">
+    INSERT INTO CJCS.MEMBER ("M_ID", "M_PW", "M_ADDR", "M_PHONE", "M_EMAIL"
+    <if test="m_role != null">, "M_ROLE"</if>)
+    VALUES(#{m_id}, #{m_pw}, #{m_addr}, #{m_phone}, #{m_email}
+    <if test="m_role != null">, #{m_role}</if>)
+</insert>
+
 
  <insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 

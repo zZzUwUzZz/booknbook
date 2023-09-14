@@ -101,7 +101,7 @@ public class OrderController {
     }
 
     @GetMapping("/paymentlatefee")    // 연체료결제페이지 
-    public String paymentLatefee(Model model) {
+    public String paymentLatefee() {
                                                      //음 damit... 
         return "orderer/paymentlatefee";
     }

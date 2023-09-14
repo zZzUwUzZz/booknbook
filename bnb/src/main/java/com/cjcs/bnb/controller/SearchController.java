@@ -67,8 +67,6 @@ public class SearchController {
         return "/search/search";
     }
 
-
-
     // 지도에서 서점 검색
 @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
     public String search(
@@ -100,7 +98,6 @@ public class SearchController {
                 memberInfos.add(member); // 회원 정보를 리스트에 추가
             }
         }
- 
 
         // 위도와 경도 정보도 추가 (이 가정에서는 SellerDto가 s_latitude와 s_longitude를 가진다)
         List<Double> latitudes = results.stream().map(SellerDto::getS_latitude).collect(Collectors.toList());
@@ -152,9 +149,6 @@ public class SearchController {
 
 //     return "/map/map";
 // }
-
-
-
 
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId,

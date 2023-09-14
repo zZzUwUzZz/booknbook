@@ -27,9 +27,6 @@ public class PurchaseService {
     @Autowired
     private PurchaseDao pDao;
     
-    
-    
-
 
     //수희
     @Transactional

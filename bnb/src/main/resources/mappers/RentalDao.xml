@@ -180,24 +180,13 @@
 
     <!-- 대여 항목 -->
     <select id="getRentalList" resultType="RentalDto">
-          SELECT
-        r_id,
-        r_latefee_total,
-        overdue_days,
-        r_latefee_paydate
-        <!-- RentalDto 클래스의 다른 필드를 가져올 쿼리 부분 -->
-    FROM
-        rental
+        SELECT r_id, r_latefee_total, overdue_days, r_latefee_paydate
+        FROM rental
     </select>
 
     <!-- 연채료 -->
     <select id="getLateFeeInfo" resultType="RentalDto">
-          SELECT
-        r_id,
-        r_latefee_total,
-        r_latefee_paid,
-        r_latefee_paydate
-        <!-- RentalDto 클래스의 다른 필드를 가져올 쿼리 부분 -->
+        SELECT r_id, r_latefee_total, r_latefee_paid, r_latefee_paydate
     FROM
         rental
     WHERE

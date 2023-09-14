@@ -81,12 +81,12 @@
                 <table>
                     <tr class="headrow">
                         <th width="100px">주문번호</th>
-                        <th>주문일자</th>
+                        <th width="160px">주문일자</th>
                         <th>도서명</th>
                         <th>서점명</th>
                         <th width="100px">대여상태</th>
                         <th width="100px">반납기한</th>
-                        <th>총 연체료</th>
+                        <th width="90px">총 연체료</th>
                         <th width="100px">납부일자</th>
                         <th width="40px"></th>
                     </tr>
@@ -102,7 +102,7 @@
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
                                 <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                <td><span>${rItem.b_title}</span></td>
+                                <td>${rItem.b_title}</td>
                                 <td>${rItem.s_storename}</td>
                                 <td>${rItem.rental_status}</td>
                                 <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
@@ -139,8 +139,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

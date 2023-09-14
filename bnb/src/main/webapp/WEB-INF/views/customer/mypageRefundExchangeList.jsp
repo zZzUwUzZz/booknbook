@@ -79,12 +79,12 @@
                 <table>
                     <tr class="headrow">
                         <th width="60px">구분</th>
-                        <th>신청일자</th>
-                        <th width="100px">주문번호</th>
+                        <th width="155px">신청일자</th>
+                        <th width="90px">주문번호</th>
                         <th>서점명</th>
                         <th>신청품목</th>
-                        <th>금액/수량</th>
-                        <th>처리상태</th>
+                        <th width="50px">수량</th>
+                        <th width="100px">처리상태</th>
                         <th width="100px"></th>
                     </tr>
 
@@ -132,8 +132,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

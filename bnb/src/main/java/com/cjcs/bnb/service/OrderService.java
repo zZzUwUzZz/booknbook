@@ -80,6 +80,57 @@ public class OrderService {
 
     // 수희
 
+    // 구매카트 로딩 시 판매재고체크 및 카트수량 변경
+    public List<CartDto> getPurchaseCartAndStockCheck(String c_id) {
+
+        List<CartDto> cPList = oDao.getPurchaseCartByCId(c_id);
+
+        for (CartDto cPItem : cPList) {
+
+            int saleStock = cPItem.getB_salestock();
+            int qty = cPItem.getCart_amount();
+            
+            if (saleStock == 0) {
+                oDao.updateCartAmount(cPItem.getCart_id(), saleStock);
+                cPItem.setCart_amount(saleStock);
+
+            } else if (saleStock < qty) {
+                oDao.updateCartAmount(cPItem.getCart_id(), saleStock);
+                cPItem.setCart_amount(saleStock);
+
+            } else if (qty == 0 && saleStock > qty) {
+                oDao.updateCartAmount(cPItem.getCart_id(), 1);
+                cPItem.setCart_amount(1);
+            }
+        }
+        return cPList;
+    }
+
+
+    // 대여카트 로딩 시 대여재고체크 및 카트수량 변경
+    public List<CartDto> getRentalCartAndStockCheck(String c_id) {
+
+        List<CartDto> cRList = oDao.getRentalCartByCId(c_id);
+                
+        for (CartDto cRItem : cRList) {
+
+            int rentalStock = cRItem.getB_rentalstock();
+            int qty = cRItem.getCart_amount();
+            
+            if (rentalStock == 0) {
+                oDao.updateCartAmount(cRItem.getCart_id(), rentalStock);
+                cRItem.setCart_amount(rentalStock);
+
+            } else if (qty == 0 && rentalStock > qty) {
+
+                oDao.updateCartAmount(cRItem.getCart_id(), 1);
+                cRItem.setCart_amount(1);
+            }
+        }
+        return cRList;
+    }
+
+
     // 구매카트에서 선택한 항목을 결제페이지로 넘기기
     public List<CartDto> purchaseCartToPayment(ArrayList<Integer> pcart_idList) {
 

@@ -80,10 +80,10 @@
                 <table>
                     <tr class="headrow">
                         <th width="100px">주문번호</th>
-                        <th>주문일자</th>
+                        <th width="160px">주문일자</th>
                         <th>주문품목</th>
-                        <th>주문상태</th>
-                        <th>수령방법</th>
+                        <th width="100px">주문상태</th>
+                        <th width="100px">수령방법</th>
                         <th width="100px"> </th>
                     </tr>
 
@@ -117,8 +117,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

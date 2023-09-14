@@ -80,10 +80,10 @@
                 <table id="async_table">
                     <tr class="headrow">
                         <th width="100px">예약번호</th>
-                        <th>요청일자</th>
+                        <th width="160px">요청일자</th>
                         <th>도서명</th>
                         <th>서점명</th>
-                        <th>예약상태</th>
+                        <th width="100px">예약상태</th>
                         <th width="100px"> </th>
                     </tr>
 
@@ -139,8 +139,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

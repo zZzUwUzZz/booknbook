@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,7 +19,6 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dto.CartDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.service.OrderService;
-import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
 import jakarta.servlet.http.HttpSession;
@@ -47,8 +48,8 @@ public class OrderController {
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<CartDto> cPList = oDao.getPurchaseCartByCId(c_id);
-        List<CartDto> cRList = oDao.getRentalCartByCId(c_id);
+        List<CartDto> cPList = oSer.getPurchaseCartAndStockCheck(c_id);
+        List<CartDto> cRList = oSer.getRentalCartAndStockCheck(c_id);
 
         model.addAttribute("cPList", cPList);
         model.addAttribute("cRList", cRList);
@@ -97,28 +98,28 @@ public class OrderController {
         return "orderer/payment";
     }
 
-    @GetMapping("/cartamountupdate/{cart_id}/{cart_amount}")    // 구매카트항목 수량변경
-    public String updateCartAmount(@PathVariable int cart_id, @PathVariable int cart_amount) {
+    @PostMapping("/cartamountupdate")    // 구매카트항목 수량변경
+    public ResponseEntity<Void> updateCartAmount(@RequestParam int cart_id, @RequestParam int cart_amount) {
 
         oDao.updateCartAmount(cart_id, cart_amount);
 
-        return "redirect:/cart";
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/cartrentalperiodupdate/{cart_id}/{cart_rentalperiod}")    // 대여카트항목 대여기간변경
-    public String updateCartRentalPeriod(@PathVariable int cart_id, @PathVariable int cart_rentalperiod) {
+    @PostMapping("/cartrentalperiodupdate")    // 대여카트항목 대여기간변경
+    public ResponseEntity<Void> updateCartRentalPeriod(@RequestParam int cart_id, @RequestParam int cart_rentalperiod) {
 
         oDao.updateCartRentalPeriod(cart_id, cart_rentalperiod);
 
-        return "redirect:/cart";
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/cartitemdelete/{cart_id}")    // 카트에서 개별항목 삭제
-    public String deleteCartItem(@PathVariable int cart_id) {
+    @PostMapping("/cartitemdelete")    // 카트에서 개별항목 삭제
+    public ResponseEntity<Void> deleteCartItem(@RequestParam int cart_id) {
 
         oDao.deleteCartItem(cart_id);
 
-        return "redirect:/cart";
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/payment")    // 결제페이지

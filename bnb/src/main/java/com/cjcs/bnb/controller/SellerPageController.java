@@ -256,16 +256,12 @@ public class SellerPageController {
         List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
         model.addAttribute("DeliveryStatusList", DeliveryStatusList);
 
-        // 대여 상태명
-        List<RentalDto> RentalSstatusList = rSer.RentalSstatusList();
-        model.addAttribute("RentalSstatusList", RentalSstatusList);
-
         return "seller/sellerRentCurr";
     }
 
     @PostMapping("/rent/curr/save")
-    public ResponseEntity<String> UpdateCurrStatus(@RequestBody List<RentalDto> requestData) {
-        rSer.UpdateCurrStatus(requestData);
+    public ResponseEntity<String> UpdateDeliStatus(@RequestBody List<RentalDto> requestData) {
+        rSer.UpdateDeliStatus(requestData);
         return ResponseEntity.ok("현재 상태가 변경되었습니다!");
     }
 

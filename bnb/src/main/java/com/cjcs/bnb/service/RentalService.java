@@ -97,15 +97,10 @@ public class RentalService {
         return rDao.DeliveryStatusList();
     }
 
-    // 대여 상태명
-    public List<RentalDto> RentalSstatusList() {
-        return rDao.RentalSstatusList();
-    }
-
     // 배송상태, 대여상태 업데이트
-    public void UpdateCurrStatus(List<RentalDto> requestData) {
+    public void UpdateDeliStatus(List<RentalDto> requestData) {
         for (RentalDto request : requestData) {
-            rDao.UpdateCurrStatus(request.getO_id(), request.getDelivery_status(), request.getRental_status());
+            rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status());
         }
     }
 

@@ -38,8 +38,7 @@ public interface RentalDao {
 
     public List<RentalDto> RentCurrentList(String s_id); // 대여현황
     public List<RentalDto> DeliveryStatusList(); // 배송 상태명
-    public List<RentalDto> RentalSstatusList(); // 대여 상태명
-    public void UpdateCurrStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status, @Param("rental_status") String rental_status);
+    public void UpdateDeliStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status); // 배송 상태 업데이트
     
 
 

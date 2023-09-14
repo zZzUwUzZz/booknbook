@@ -14,6 +14,8 @@ public class MenuController {
 
     @GetMapping("/report")
     public String report(){
-        return "report";
+        
+        return "redirect:admin/report"; 
     }
+    
 }

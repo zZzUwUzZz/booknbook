@@ -95,38 +95,10 @@ tr {
             <div class="cart_items">
                 <table>
                     <tr>
-                        <th>서점명</th>   <!--s_storename-->
-                        <th>도서명</th>   <!--b_title-->
-                        <th>연체료</th>   <!--r_late_total-->
+                        <th>연체료</th>   
                     </tr>
-                    <c:forEach items="${lateFeeList}" var="lateFee">
-                        <tr>
-                            <td>${lateFee.s_storename}</td>
-                            <td>${lateFee.b_title}</td>
-                            <td>${lateFee.r_late_total}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </div>
-            
-            <div class="show_all">
-                <table>
-                    <tr>
-                        <th>결제수단</th>
-
-                        <th>연체일</th> 
-                        <th>연체료 총액</th> <!--모든 도서들의 연체료 총금액-->
-                    <tr>
-                        <td>카드 결제</td>
-                        <td>권</td> <!--연체된 책들 모두 -->
-                        <td>원</td> <!--연체된 모든 책들의 연체료총액-->
+                        <td>${lateFee}</td> 
                     </tr>
-                    <c:forEach items="${lateFeeList}" var="lateFee">
-                        <tr>
-                            <td>${lateFee.overdue_days}</td>
-                            <td>${lateFee.}</td>
-                        </tr>
-                    </c:forEach>
                 </table>
             </div>
 

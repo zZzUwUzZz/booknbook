@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+
 <%
 // 현재 날짜와 시간을 가져옵니다.
 Date currentDate = new Date();
@@ -12,6 +13,7 @@ String formattedDate = dateFormat.format(currentDate);
 <!DOCTYPE html>
 <html>
 <head>
+
 <!-- 수연 -->
 
     <meta charset="UTF-8">
@@ -19,7 +21,6 @@ String formattedDate = dateFormat.format(currentDate);
     <title>제보하기</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
-
     <style>
         body {
             background-color: #4d6b50;
@@ -128,7 +129,7 @@ String formattedDate = dateFormat.format(currentDate);
                 <label for="content">소개</label>
                 <textarea id="content" name="content" rows="5" style="resize: none;" oninput="checkCharCount()" maxlength="200" required></textarea>
             </div>
-            <span id="charCount">0/200 글자</span> <!-- 글자 수 카운트 한국어로 변경 -->
+            <span id="charCount">0/5000 글자</span> <!-- 글자 수 카운트 한국어로 변경 -->
             
             <div class="input-field">
                 <label for="storeAddress">서점 주소</label>
@@ -153,22 +154,21 @@ String formattedDate = dateFormat.format(currentDate);
     </div>
 
     <script>
-
-        function checkCharCount() {
-            const content = document.getElementById("content").value;
-            const charCount = content.length;
-            const charLimit = 200; // 최대 글자 수 제한
-
-            document.getElementById("charCount").textContent = `${charCount}/${charLimit} 글자`;
-
-            if (charCount > charLimit) {
-                document.getElementById("charCount").style.color = "red";
-            } else {
-                document.getElementById("charCount").style.color = "gray"; 
-            }
-
-        }
     
+    function checkCharCount() {
+        const content = document.getElementById("content").value;
+        const charCount = content.length;
+        const charLimit = 5000; // 최대 글자 수 제한
+
+        document.getElementById("charCount").textContent = `${charCount}/${charLimit} 0/5000`;
+
+        if (charCount > charLimit) {
+            document.getElementById("charCount").style.color = "red";
+        } else {
+            document.getElementById("charCount").style.color = "gray"; 
+        }
+    }
+
     </script>
 
 </body>

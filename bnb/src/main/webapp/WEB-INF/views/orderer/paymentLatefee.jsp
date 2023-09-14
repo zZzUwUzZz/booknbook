@@ -95,15 +95,15 @@ tr {
             <div class="cart_items">
                 <table>
                     <tr>
-                        <th>서점명</th>
-                        <th>도서명</th>
-                        <th>연체료</th>
+                        <th>서점명</th>   <!--s_storename-->
+                        <th>도서명</th>   <!--b_title-->
+                        <th>연체료</th>   <!--r_late_total-->
                     </tr>
                     <c:forEach items="${lateFeeList}" var="lateFee">
                         <tr>
                             <td>${lateFee.s_storename}</td>
                             <td>${lateFee.b_title}</td>
-                            <td></td>
+                            <td>${lateFee.r_late_total}</td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -123,9 +123,8 @@ tr {
                     </tr>
                     <c:forEach items="${lateFeeList}" var="lateFee">
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td>${lateFee.r_latefee_total}</td>
+                            <td>${lateFee.overdue_days}</td>
+                            <td>${lateFee.}</td>
                         </tr>
                     </c:forEach>
                 </table>

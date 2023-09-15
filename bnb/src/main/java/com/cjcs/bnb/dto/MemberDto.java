@@ -8,6 +8,7 @@ import lombok.Data;
 
 
 
+
 @Data
 public class MemberDto {
 
@@ -51,5 +52,9 @@ public class MemberDto {
 
     //수희
     private int overdues;
+
+    public String getPassword() {
+        return null;
+    }
     
 }

@@ -49,7 +49,14 @@ public interface MemberDao {
     @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
     MemberDto getMemberById(String m_id);
 
-    
+       
+    //퍽큐리티 퍽dmin
+        @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
+        MemberDto getMemberByUsername(String m_id);
+
+
+
+
 
     // 아이디 중복확인
     int countById(String m_id);

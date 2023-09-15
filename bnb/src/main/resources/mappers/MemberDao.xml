@@ -15,6 +15,7 @@
         LEFT JOIN SF ON S.s_id = SF.sf_s_id
         WHERE M.m_id = #{s_id}
     </select>
+    
 
 <!--이재락-->
 
@@ -30,7 +31,7 @@
 </insert>
 
 
- <insert id="joinCustomer" parameterType="MemberDto">
+<insert id="joinCustomer" parameterType="MemberDto">
         INSERT INTO C(c_id, c_name) 
         VALUES(#{m_id}, #{c_name})
     </insert>
@@ -127,6 +128,7 @@
     <delete id="deleteMemberById">
         DELETE FROM "CJCS"."MEMBER" WHERE M_ID = #{m_id}
     </delete>
+
 
 
 

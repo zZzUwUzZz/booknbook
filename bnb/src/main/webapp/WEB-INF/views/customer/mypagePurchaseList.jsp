@@ -101,7 +101,7 @@
                         <c:forEach var="pItem" items="${pList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${pItem.o_id}'" class="td-linked">${pItem.o_id}</td>
-                                <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                 <td>${pItem.b_title}</td>
                                 <td>${pItem.p_amount}</td>
                                 <td>${pItem.s_storename}</td>
@@ -110,8 +110,8 @@
                                 <td width="45px">${pItem.re_amount}</td>
 
                                 <c:choose>
-                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
-                                                    && (empty pItem.re_amount)}">
+                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 7)
+                                                    && (empty pItem.re_amount) && (pItem.after_a_week eq 'false')}">
                                         <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
                                     </c:when>
                                     <c:otherwise>

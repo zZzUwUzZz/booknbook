@@ -98,7 +98,7 @@
                         <c:forEach var="reItem" items="${reList}">
                             <tr>
                                 <td>${reItem.re_sort}</td>
-                                <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                 <td onclick="location.href='/mypage/purchaselist'" class="td-linked">${reItem.re_o_id}</td>
                                 <td>${reItem.s_storename}</td>
                                 <td>${reItem.b_title}</td>

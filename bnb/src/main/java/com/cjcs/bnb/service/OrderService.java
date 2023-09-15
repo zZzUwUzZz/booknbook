@@ -1,6 +1,9 @@
 package com.cjcs.bnb.service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -307,6 +310,35 @@ public class OrderService {
         }
 
     }
+
+    // 주문1건 내에서 하나라도 배송완료된 항목이 있는지 체크
+    public Boolean hasAtLeastOneDelivered(List<HashMap<String, Object>> oPList, List<HashMap<String, Object>> oRList) {
+
+        if (oPList != null) {
+
+            for (HashMap<String, Object> oPItem : oPList) {
+
+                Timestamp d_date = (Timestamp) oPItem.get("p_deliverydate");
+                log.info("p_d_date:{}", d_date);
+                if (d_date == null) continue;
+                else return true;
+            }
+        }
+
+        if (oRList != null) {
+
+            for (HashMap<String, Object> oRItem : oRList) {
+
+                Timestamp d_date = (Timestamp) oRItem.get("r_deliverydate");
+                log.info("r_d_date:{}", d_date);
+                if (d_date == null) continue;
+                else return true;
+            }
+        }
+
+        return false;
+    }
+
 
     // 예림
     // 오늘 판매 건수 카운트

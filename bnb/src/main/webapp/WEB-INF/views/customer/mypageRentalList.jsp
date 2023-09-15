@@ -101,7 +101,7 @@
                         <c:forEach var="rItem" items="${rList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
-                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                 <td>${rItem.b_title}</td>
                                 <td>${rItem.s_storename}</td>
                                 <td>${rItem.rental_status}</td>

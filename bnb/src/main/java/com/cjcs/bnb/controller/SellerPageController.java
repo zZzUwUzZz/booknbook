@@ -266,6 +266,12 @@ public class SellerPageController {
         return ResponseEntity.ok(requestData);
     }
 
+    @PostMapping("/rent/curr/return")
+    public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData) {
+        rSer.UpdateRentStatus_Return(requestData);
+        return ResponseEntity.ok("반납 처리");
+    }
+
 
 
     @GetMapping("/rent/return")

@@ -144,13 +144,12 @@
 
     <!-- 대여 현황 -->
     <select id="RentCurrentList" resultType="RentalDto">
-        select o_id, o_c_id, b_title, o_date, o_date + r_rentalperiod as returnexpect_days, o_delivery_sort, delivery_status, rental_status,
+        select o_id, o_c_id, b_title, o_date, o_date + r_rentalperiod as returnexpect_days, o_delivery_sort, delivery_status, rental_status, 
             CASE
-                WHEN r_returndate IS NOT NULL AND (r_returndate - o_date) <![CDATA[<=]]> r_rentalperiod THEN
+                WHEN sysdate <![CDATA[>]]> o_date + r_rentalperiod THEN
+                    TRUNC(sysdate) - TRUNC(o_date + r_rentalperiod)
+                ELSE
                     0
-                WHEN r_returndate IS NOT NULL THEN
-                    r_returndate - o_date - r_rentalperiod
-                ELSE 0
             END AS overdue_days
         FROM
             order_list
@@ -196,6 +195,9 @@
             FROM Status_D
             WHERE DELIVERY_STATUS IN ('배송완료', '수령완료')
         )
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+        )
     </update>
 
     <!-- 대여 상태 업데이트 [대여중] -->
@@ -223,6 +225,9 @@
                 AND ROWNUM = 1
             )
         )
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+        )
     </update>
 
     <!-- 대여 상태 업데이트 [연체] -->
@@ -234,14 +239,12 @@
             WHERE RENTAL_STATUS = '연체'
         )
         WHERE r_o_id = #{o_id}
-            AND (
-                    (
-                    SELECT MAX(o_date + r_rentalperiod) FROM order_list WHERE o_id = #{o_id} AND b_title = #{b_title}
-                    ) <![CDATA[<]]> sysdate
-            )
-    </update>
-
-    
+        AND (
+                (
+                SELECT MAX(o_date + r_rentalperiod) FROM order_list WHERE o_id = #{o_id} AND b_title = #{b_title}
+                ) <![CDATA[<]]> sysdate
+        )
+    </update>    
 
     <!-- 대여 상태 업데이트 [반납 완료] -->
     <update id="UpdateRentStatus_Return">
@@ -252,6 +255,9 @@
             WHERE RENTAL_STATUS = '반납완료'
         )
         WHERE r_o_id = #{o_id}
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+        )
     </update>
 
     <!-- 예약 1순위 예약 상태 변경 -->

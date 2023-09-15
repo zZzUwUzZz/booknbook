@@ -110,7 +110,10 @@
                                     </td>
                                     <td id="rent_status_text_${status.index}">${rentcurrent.rental_status}</td>
                                     <td>
-                                        <button id="Rent_Return" onclick="Rent_Return()">반납 완료</button>
+                                        <c:if test="${rentcurrent.rental_status == '대여중' || rentcurrent.rental_status == '연체'}">
+                                            <button id="UpdateRentStatus_Return_${status.index}"
+                                                class="rent-return-button" data-index="${status.index}">반납 완료</button>
+                                        </c:if>
                                     </td>
                                     <td>${rentcurrent.overdue_days}</td>
                                 </tr>
@@ -125,46 +128,88 @@
 </body>
 <script>
     function updateSelectedStatus() {
-    var data = [];
-    var rows = document.querySelectorAll('.seller-list tbody tr');
+        var data = [];
+        var rows = document.querySelectorAll('.seller-list tbody tr');
 
-    rows.forEach(function (row, index) {
-        var o_id = row.querySelector('td:first-child').textContent;
-        var b_title = row.querySelector('td:nth-child(3)').textContent;
-        var select = row.querySelector('.del_status');
-        var delivery_status = select.options[select.selectedIndex].value;
+        rows.forEach(function (row, index) {
+            var o_id = row.querySelector('td:first-child').textContent;
+            var b_title = row.querySelector('td:nth-child(3)').textContent;
+            var select = row.querySelector('.del_status');
+            var delivery_status = select.options[select.selectedIndex].value;
 
-        data.push({
-            o_id: o_id,
-            b_title: b_title,
-            delivery_status: delivery_status,
+            data.push({
+                o_id: o_id,
+                b_title: b_title,
+                delivery_status: delivery_status,
+            });
+        });
+
+        console.log(data);
+
+        $.ajax({
+            url: '/seller/rent/curr/save',
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log('서버 응답:', response);
+                alert('상태가 저장되었습니다!');
+
+                response.forEach(function (item, index) {
+                    var del_status_before = $('#del_status_text_' + index).text();
+                    var del_status_text = $('#del_status_text_' + index);
+                    if (del_status_before != item.delivery_status) {
+                        del_status_text.text(item.delivery_status);
+                        if (item.delivery_status == '배송완료' || item.delivery_status == '수령완료') {
+                            $('#rent_status_text_' + index).text('대여중');
+                            $('#UpdateRentStatus_Return_' + index).show();
+                        } else {
+                            $('#rent_status_text_' + index).text('대여시작전');
+                            $('#UpdateRentStatus_Return_' + index).hide();
+                        }
+                    }
+                });
+            },
+            error: function (error) {
+                console.error('오류 발생:', error);
+                alert('상태 저장 실패');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $(document).on('click', '.rent-return-button', function () {
+            var index = $(this).data('index');
+            UpdateRentStatus_Return(index);
         });
     });
 
-    console.log(data);
+    function UpdateRentStatus_Return(index) {
+        var row = document.getElementById('row_' + index);
 
-    $.ajax({
-        url: '/seller/rent/curr/save',
-        method: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function (response) {
-            console.log('서버 응답:', response);
-            alert('상태가 저장되었습니다!');
+        if (row) {
+            var o_id = row.querySelector('td:first-child').textContent;
+            var b_title = row.querySelector('td:nth-child(3)').textContent;
 
-            var rows = document.querySelectorAll('.seller-list tbody tr');
-            rows.forEach(function (row, index) {
-                var del_status_text = $('#del_status_text_' + index);
-                del_status_text.text(response[index].delivery_status);
+            $.ajax({
+                url: '/seller/rent/curr/return',
+                method: 'POST',
+                data: JSON.stringify({
+                    o_id: o_id,
+                    b_title: b_title
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log('처리 성공 : ', response);
+                    alert('반납 완료 처리되었습니다!');
+                },
+                error: function (error) {
+                    console.log('오류 발생 : ', error);
+                    alert('반납 처리 중 오류가 발생하였습니다');
+                }
             });
-        },
-        error: function (error) {
-            console.error('오류 발생:', error);
-            alert('상태 저장 실패');
         }
-    });
-}
-
+    }
 </script>
 
 </html>

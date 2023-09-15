@@ -111,12 +111,12 @@ public class RentalService {
 
     // 대여 상태 업데이트 [대여시작전]
     public void UpdateRentStatus_Wait(RentalDto requestData){
-        rDao.UpdateRentStatus_Wait(requestData.getO_id());
+        rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title());
     }
 
     // 대여 상태 업데이트 [대여중]
     public void UpdateRentStatus_Curr(RentalDto requestData) {
-        rDao.UpdateRentStatus_Curr(requestData.getO_id());
+        rDao.UpdateRentStatus_Curr(requestData.getO_id(), requestData.getB_title());
     }
 
     // 대여 상태 업데이트 [연체]
@@ -126,7 +126,7 @@ public class RentalService {
 
     // 대여 상태 업데이트 [반납 완료]
     public void UpdateRentStatus_Return(RentalDto requestData) {
-        rDao.UpdateRentStatus_Return(requestData.getO_id());
+        rDao.UpdateRentStatus_Return(requestData.getO_id(), requestData.getB_title());
     }
 
     // 예약 1순위 예약 상태 변경

@@ -76,6 +76,7 @@
 
 
 <!--수희-->
+
     <select id="getOrderListGroupByOId" parameterType="String" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
         SELECT o_id as "o_id",
@@ -95,6 +96,54 @@
         ORDER BY o_date DESC
     </select>
 
+    <!-- 구매자별 조회기간 내의 주문내역-->
+    <select id="getOrderListByDateRange" resultType="Map">
+		SELECT * FROM
+		<choose>
+		    <when test="startDate != null and endDate != null">                
+		    	(SELECT rownum rn, OL.*      
+		    	 FROM (SELECT o_id as "o_id",
+                              o_date as "o_date",
+                              first_title as "first_title",
+                              COUNT(*)-1 as "book_sorts_minus_one",
+                              order_status as "order_status",
+                              o_delivery_sort as "o_delivery_sort"
+                       FROM (SELECT o_id,
+                                   o_date,
+                                   FIRST_VALUE(b_title) OVER(PARTITION BY o_id) AS first_title,
+                                   order_status,
+                                   o_delivery_sort
+                             FROM order_list
+                             WHERE o_c_id = #{c_id} AND o_date BETWEEN #{startDate} AND #{endDate}+1)
+                       GROUP BY o_id, o_date, first_title, order_status, o_delivery_sort
+                       ORDER BY o_date DESC) OL
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, OL.*
+				 FROM (SELECT o_id as "o_id",
+                              o_date as "o_date",
+                              first_title as "first_title",
+                              COUNT(*)-1 as "book_sorts_minus_one",
+                              order_status as "order_status",
+                              o_delivery_sort as "o_delivery_sort"
+                       FROM (SELECT o_id,
+                                   o_date,
+                                   FIRST_VALUE(b_title) OVER(PARTITION BY o_id) AS first_title,
+                                   order_status,
+                                   o_delivery_sort
+                             FROM order_list
+                             WHERE o_c_id = #{c_id})
+                       GROUP BY o_id, o_date, first_title, order_status, o_delivery_sort
+                       ORDER BY o_date DESC) OL
+				)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>
+    </select>
+
     <select id="getOrderInfoByOId" parameterType="Integer" resultType="Map">
         SELECT o_id as "o_id",
                o_date as "o_date",
@@ -108,6 +157,16 @@
         FROM O
         WHERE o_id = #{o_id}
     </select>
+
+    <!-- 구매자별 조회기간 내의 총 주문수 세기-->
+    <select id="countOrdersByDateRange" resultType="Integer">
+        SELECT COUNT(*) FROM O
+        WHERE o_c_id = #{c_id}
+        <if test="startDate != null and endDate != null">
+		      AND o_date BETWEEN #{startDate} AND #{endDate}+1
+		</if>
+    </select>
+
 
 <!--예림-->
     <!-- 오늘 판매 수 카운트 -->

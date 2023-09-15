@@ -54,6 +54,66 @@
         ORDER BY o_date DESC, s_storename, b_title
     </select>
 
+    <!-- 구매자별 조회기간 내의 구매항목-->
+    <select id="getPurchaseListByDateRange" resultType="Map">
+		SELECT * FROM
+		<choose>
+		    <when test="startDate != null and endDate != null">                
+		    	(SELECT rownum rn, PL.*      
+		    	 FROM (SELECT p_id as "p_id",
+                              o_id as "o_id",
+                              o_date as "o_date",
+                              b_title as "b_title",
+                              p_amount as "p_amount",
+                              s_storename as "s_storename",
+                              re_sort as "re_sort",
+                              re_amount as "re_amount",
+                              re_process_status_id as "re_process_status_id",
+                              delivery_status as "delivery_status",
+                              p_delivery_status_id as "p_delivery_status_id"
+                       FROM (SELECT p_id, o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn, delivery_status, p_delivery_status_id
+                             FROM O, P, B, S, STATUS_D
+                             WHERE o_id = p_o_id AND p_s_id = s_id AND
+                                   p_s_id = b_s_id AND p_b_isbn = b_isbn AND
+                                   p_delivery_status_id = delivery_status_id AND
+                                   p_c_id = #{c_id} AND o_date BETWEEN #{startDate} AND #{endDate}+1)
+                             LEFT OUTER JOIN
+                             RE
+                             ON o_id = re_o_id AND p_s_id = re_s_id AND p_b_isbn = re_b_isbn
+                       ORDER BY o_date DESC, s_storename, b_title) PL
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, PL.*
+				 FROM (SELECT p_id as "p_id",
+                              o_id as "o_id",
+                              o_date as "o_date",
+                              b_title as "b_title",
+                              p_amount as "p_amount",
+                              s_storename as "s_storename",
+                              re_sort as "re_sort",
+                              re_amount as "re_amount",
+                              re_process_status_id as "re_process_status_id",
+                              delivery_status as "delivery_status",
+                              p_delivery_status_id as "p_delivery_status_id"
+                       FROM (SELECT p_id, o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn, delivery_status, p_delivery_status_id
+                             FROM O, P, B, S, STATUS_D
+                             WHERE o_id = p_o_id AND p_s_id = s_id AND
+                                   p_s_id = b_s_id AND p_b_isbn = b_isbn AND
+                                   p_delivery_status_id = delivery_status_id AND
+                                   p_c_id = #{c_id})
+                             LEFT OUTER JOIN
+                             RE
+                             ON o_id = re_o_id AND p_s_id = re_s_id AND p_b_isbn = re_b_isbn
+                       ORDER BY o_date DESC, s_storename, b_title) PL
+				)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>
+    </select>
+
     <select id="getPurchaseItemByPId" parameterType="Integer" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
         SELECT p_id as "p_id",
@@ -80,10 +140,25 @@
         ]]>
     </select>
 
+    <!-- 구매자별 조회기간 내의 총 구매항목수 세기-->
+    <select id="countPurchasesByDateRange" resultType="Integer">
+        SELECT COUNT(*) FROM P, O
+        WHERE p_c_id = #{c_id} AND p_o_id = o_id
+        <if test="startDate != null and endDate != null">
+		      AND o_date BETWEEN #{startDate} AND #{endDate}+1
+		</if>
+    </select>
+
     <insert id="addPurchaseList" parameterType="Map">
         INSERT INTO P(p_o_id, p_s_id, p_b_isbn, p_c_id, p_amount, p_order_status_id, p_ordercancel_rejection_reason, p_delivery_status_id, p_deliverydate, p_id)
         VALUES(#{o_id}, #{cart_s_id}, #{cart_b_isbn}, #{c_id}, #{cart_amount}, 1, NULL, 1, NULL, P_SEQ.NEXTVAL)
     </insert>
+
+    <update id="cancelPurchaseByOId" parameterType="Integer">
+        UPDATE P
+        SET p_order_status_id = 2
+        WHERE p_o_id = #{o_id}
+    </update>
 
     <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="RefExchDto">
         SELECT p_o_id as "re_o_id",
@@ -109,6 +184,38 @@
         ORDER BY re_reqdate DESC
     </select>
 
+    <!-- 구매자별 조회기간 내의 교환반품항목-->
+    <select id="getRefExchListByDateRange" resultType="RefExchDto">
+		SELECT * FROM
+		<choose>
+		    <when test="startDate != null and endDate != null">                
+		    	(SELECT rownum rn, REL.*      
+		    	 FROM (SELECT RE.*, s_storename, b_title, b_price, process_status
+                       FROM RE, S, B, STATUS_RE
+                       WHERE re_s_id = s_id AND
+                             re_s_id = b_s_id AND re_b_isbn = b_isbn AND
+                             re_process_status_id = process_status_id AND
+                             re_c_id = #{c_id} AND re_reqdate BETWEEN #{startDate} AND #{endDate}+1
+                       ORDER BY re_reqdate DESC) REL
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, REL.*
+				 FROM (SELECT RE.*, s_storename, b_title, b_price, process_status
+                       FROM RE, S, B, STATUS_RE
+                       WHERE re_s_id = s_id AND
+                             re_s_id = b_s_id AND re_b_isbn = b_isbn AND
+                             re_process_status_id = process_status_id AND
+                             re_c_id = #{c_id}
+                       ORDER BY re_reqdate DESC) REL
+				)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>
+    </select>
+
     <select id="getCurrentRefExchListByCId" parameterType="String" resultType="RefExchDto">
         SELECT rownum, re_sort, re_reqdate, b_title, s_storename, process_status
         FROM (SELECT re_sort, re_reqdate, b_title, s_storename, process_status
@@ -125,6 +232,15 @@
         ]]>
     </select>
 
+    <!-- 구매자별 조회기간 내의 총 교환반품신청건수 세기-->
+    <select id="countRefExchsByDateRange" resultType="Integer">
+        SELECT COUNT(*) FROM RE
+        WHERE re_c_id = #{c_id}
+        <if test="startDate != null and endDate != null">
+		      AND re_reqdate BETWEEN #{startDate} AND #{endDate}+1
+		</if>
+    </select>
+
     <select id="countCurrentRefExchByCId" parameterType="String" resultType="Integer">
         SELECT count(*)
         FROM RE, O
@@ -135,11 +251,5 @@
         DELETE FROM RE
         WHERE re_id = #{re_id}
     </delete>
-
-    <update id="cancelPurchaseByOId" parameterType="Integer">
-        UPDATE P
-        SET p_order_status_id = 2
-        WHERE p_o_id = #{o_id}
-    </update>
 
 </mapper>

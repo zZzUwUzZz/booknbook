@@ -173,6 +173,13 @@ SELECT * FROM (
         UPDATE B SET b_rentalstock = b_rentalstock - 1
         WHERE b_s_id = #{cart_s_id} AND b_isbn = #{cart_b_isbn}
     </update>
+
+    <!-- 카트내항목번호(cart_id)로 해당항목 판매재고,대여재고 조회 -->
+    <select id="getStockInfo" parameterType="Integer" resultType="Map">
+        SELECT b_salestock as "b_salestock", b_rentalstock as "b_rentalstock"
+        FROM B, CART
+        WHERE cart_id = #{cart_id} AND cart_s_id = b_s_id AND cart_b_isbn = b_isbn
+    </select>
     
 </mapper>
 

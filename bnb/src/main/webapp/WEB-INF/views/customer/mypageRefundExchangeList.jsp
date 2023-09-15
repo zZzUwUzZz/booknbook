@@ -62,23 +62,35 @@
                 <h2 class="pagename">EXCHANGE/RETURN LIST</h2>
             </div>
 
+            <div class="datebox">
+                <div>
+                <form action="/mypage/refundexchangelist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>구분</th>
-                        <th>신청일자</th>
-                        <th>주문번호</th>
+                        <th width="60px">구분</th>
+                        <th width="155px">신청일자</th>
+                        <th width="90px">주문번호</th>
                         <th>서점명</th>
                         <th>신청품목</th>
-                        <th>금액/수량</th>
-                        <th>처리상태</th>
-                        <th></th>
+                        <th width="50px">수량</th>
+                        <th width="100px">처리상태</th>
+                        <th width="100px"></th>
                     </tr>
 
                     <c:if test="${empty reList}">
                         <tr>
-                            <td colspan="7">교환/반품내역이 없습니다.</td>
+                            <td colspan="8">교환/반품내역이 없습니다.</td>
                         </tr>
                     </c:if>
         
@@ -112,12 +124,16 @@
                 </div>
             </div>
 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
+            </div>
+
         </div>
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

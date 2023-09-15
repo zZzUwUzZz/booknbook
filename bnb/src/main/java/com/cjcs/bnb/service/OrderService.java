@@ -1,5 +1,6 @@
 package com.cjcs.bnb.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,6 +79,59 @@ public class OrderService {
     }
 
     // 수희
+
+    // 구매카트 로딩 시 판매재고체크 및 카트수량 변경
+    public List<CartDto> getPurchaseCartAndStockCheck(String c_id) {
+
+        List<CartDto> cPList = oDao.getPurchaseCartByCId(c_id);
+
+        for (CartDto cPItem : cPList) {
+
+            int saleStock = cPItem.getB_salestock();
+            int qty = cPItem.getCart_amount();
+            
+            if (saleStock == 0) {
+                oDao.updateCartAmount(cPItem.getCart_id(), saleStock);
+                cPItem.setCart_amount(saleStock);
+
+            } else if (saleStock < qty) {
+                oDao.updateCartAmount(cPItem.getCart_id(), saleStock);
+                cPItem.setCart_amount(saleStock);
+
+            } else if (qty == 0 && saleStock > qty) {
+                oDao.updateCartAmount(cPItem.getCart_id(), 1);
+                cPItem.setCart_amount(1);
+            }
+        }
+        return cPList;
+    }
+
+
+    // 대여카트 로딩 시 대여재고체크 및 카트수량 변경
+    public List<CartDto> getRentalCartAndStockCheck(String c_id) {
+
+        List<CartDto> cRList = oDao.getRentalCartByCId(c_id);
+                
+        for (CartDto cRItem : cRList) {
+
+            int rentalStock = cRItem.getB_rentalstock();
+            int qty = cRItem.getCart_amount();
+            
+            if (rentalStock == 0) {
+                oDao.updateCartAmount(cRItem.getCart_id(), rentalStock);
+                cRItem.setCart_amount(rentalStock);
+
+            } else if (qty == 0 && rentalStock > qty) {
+
+                oDao.updateCartAmount(cRItem.getCart_id(), 1);
+                cRItem.setCart_amount(1);
+            }
+        }
+        return cRList;
+    }
+
+
+    // 구매카트에서 선택한 항목을 결제페이지로 넘기기
     public List<CartDto> purchaseCartToPayment(ArrayList<Integer> pcart_idList) {
 
         List<CartDto> cPList = new ArrayList<>();
@@ -94,6 +148,7 @@ public class OrderService {
         return cPList;
     }
         
+    // 대여카트에서 선택한 항목을 결제페이지로 넘기기
     public List<CartDto> rentalCartToPayment(ArrayList<Integer> rcart_idList) {
 
         List<CartDto> cRList = new ArrayList<>();
@@ -110,6 +165,7 @@ public class OrderService {
         return cRList;
     }
 
+    // 결제페이지로 넘긴 구매항목의 대여료 총합
     public int getPriceSum(List<CartDto> cPList) {
 
         int total_b_price = 0;
@@ -121,6 +177,7 @@ public class OrderService {
         return total_b_price;
     }
 
+    // 결제페이지로 넘긴 대여항목들의 대여료 총합
     public int getRentSum(List<CartDto> cRList) {
 
         int total_b_rent = 0;
@@ -132,6 +189,7 @@ public class OrderService {
         return total_b_rent;
     }
 
+    // 결제페이지로 넘긴 모든항목들의 배송비 총합
     public int getDeliveryFeeSum(List<CartDto> cList) {
 
         // HashMap<String, Integer> delivery_fee_map = new HashMap<>();
@@ -153,6 +211,30 @@ public class OrderService {
         return total_delivery_fee;
     }
 
+    // 결제직전 재고수량 다시 체크
+    public Boolean stockCheck(ArrayList<Integer> pcart_idList, ArrayList<Integer> rcart_idList) {
+
+        if (pcart_idList != null) {
+            
+            for (Integer cart_id : pcart_idList) {
+                int qty = oDao.getCartByCartId(cart_id).getCart_amount();
+                log.info("qtyyy:{}", qty);
+                int stock = ((BigDecimal) bDao.getStockInfo(cart_id).get("b_salestock")).intValue();
+                log.info("stockkkk:{}", stock);
+                if (stock < qty ) { return false; }
+            }
+        }
+        if (rcart_idList != null) {
+            
+            for (Integer cart_id : rcart_idList) {
+                int stock = ((BigDecimal) bDao.getStockInfo(cart_id).get("b_rentalstock")).intValue();
+                if (stock < 1 ) { return false; }
+            }
+        }
+        return true;
+    }
+
+    // 결제처리 - 트랜잭션
     @Transactional
     public Boolean addOrder(String c_id, ArrayList<Integer> pcart_idList, ArrayList<Integer> rcart_idList,
                             String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
@@ -211,6 +293,7 @@ public class OrderService {
         return true;
     }
 
+    // 마이페이지에서 주문취소
     @Transactional
     public void cancelOrderByOId(Integer o_id) {
 

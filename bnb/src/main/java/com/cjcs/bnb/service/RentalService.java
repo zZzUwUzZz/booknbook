@@ -2,6 +2,7 @@ package com.cjcs.bnb.service;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,16 +37,13 @@ public class RentalService {
     private SqlSession sqlSession;
 
     // 수희
-    public List<RentalReservationDto> getReservationListByCId(String c_id) {
-
-        return rDao.getReservationListByCId(c_id);
-    }
 
     public void cancelReservationByRRId(int rr_id) {
 
         rDao.updateReservationByRRId(rr_id);
     }
 
+    
     // 예림
 
     // 예약 신청 리스트 불러오기
@@ -105,6 +103,11 @@ public class RentalService {
             }
         }
         return resultList;
+    }
+
+    public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate startDate,
+            LocalDate endDate) {
+        return null;
     }
 
 }

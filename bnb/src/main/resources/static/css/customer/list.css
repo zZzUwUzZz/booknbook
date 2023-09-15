@@ -1,3 +1,11 @@
+.datebox {
+    width: 1020px;
+    display: flex;
+    flex-direction: row-reverse;
+    margin: auto;
+    padding-bottom: 10px;
+    margin-top: -25px;
+}
 table {
     width: 1020px;
     text-align: center;
@@ -46,8 +54,9 @@ tr {
 .btnbox {
     display: flex;
     flex-direction: row-reverse;
-    width: 1040px;
+    width: 1020px;
     margin: auto;
+    margin-top: -45px;
     padding: 15px;
 }
 

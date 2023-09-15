@@ -58,23 +58,35 @@
         </div>
 
         <div class="board-area">
-            
-            <form action="/mypage/refundexchange" method="GET">
 
             <div>
                 <h2 class="pagename">PURCHASE LIST</h2>
             </div>
 
+            <div class="datebox">
+                <div>
+                <form action="/mypage/purchaselist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
+            <form action="/mypage/refundexchange" method="GET">
+
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>주문번호</th>
-                        <th>주문일자</th>
+                        <th width="100px">주문번호</th>
+                        <th width="160px">주문일자</th>
                         <th>도서명</th>
-                        <th>수량</th>
+                        <th width="50px">수량</th>
                         <th>서점명</th>
-                        <th>배송상태</th>
+                        <th width="100px">배송상태</th>
                         <th colspan="2">교환/반품이력</th>
                         <th width="40px"></th>
                     </tr>
@@ -94,8 +106,8 @@
                                 <td>${pItem.p_amount}</td>
                                 <td>${pItem.s_storename}</td>
                                 <td>${pItem.delivery_status}</td>
-                                <td>${pItem.re_sort}</td>
-                                <td>${pItem.re_amount}</td>
+                                <td width="75px">${pItem.re_sort}</td>
+                                <td width="45px">${pItem.re_amount}</td>
 
                                 <c:choose>
                                     <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
@@ -113,9 +125,15 @@
                 </div>
             </div>
 
-            <div class="btnbox">
-                <button type="submit" id="submit" disabled>교환/반품신청</button>
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
+
+            <c:if test="${!empty pList}">
+                <div class="btnbox">
+                    <button type="submit" id="submit" disabled>교환/반품신청</button>
+                </div>
+            </c:if>
 
             </form>
 
@@ -123,8 +141,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

@@ -58,24 +58,36 @@
 
         <div class="board-area">
 
-            <form action="/payment" method="post">
-
             <div>
                 <h2 class="pagename">RENTAL LIST</h2>
             </div>
+
+            <div class="datebox">
+                <div>
+                <form action="/mypage/rentallist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
+            <form action="/payment" method="post">
 
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>주문번호</th>
-                        <th>주문일자</th>
+                        <th width="100px">주문번호</th>
+                        <th width="160px">주문일자</th>
                         <th>도서명</th>
                         <th>서점명</th>
-                        <th>대여상태</th>
-                        <th>반납기한</th>
-                        <th>총 연체료</th>
-                        <th width="60px">납부일자</th>
+                        <th width="100px">대여상태</th>
+                        <th width="100px">반납기한</th>
+                        <th width="90px">총 연체료</th>
+                        <th width="100px">납부일자</th>
                         <th width="40px"></th>
                     </tr>
 
@@ -111,9 +123,15 @@
                 </div>
             </div>
 
-            <div class="btnbox">
-                <button type="submit" id="submit" disabled>연체료납부</button>
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
+
+            <c:if test="${!empty rList}">
+                <div class="btnbox">
+                    <button type="submit" id="submit" disabled>연체료납부</button>
+                </div>
+            </c:if>
 
             </form>
 
@@ -121,8 +139,8 @@
 
         <div class="button-area">
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
+            <!-- <div class="buttons"></div>
+            <div class="buttons"></div> -->
 
         </div>
 

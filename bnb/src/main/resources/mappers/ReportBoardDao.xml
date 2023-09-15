@@ -14,16 +14,17 @@
 		SELECT * FROM
 		<choose>
 		    <when test="colname!=null and colname !=''">                
-		    	(SELECT rownum rn, RB.*      
+		    	(SELECT rownum rn, RBD.*      
 		    	 FROM (SELECT * FROM RB
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
-		    	       ORDER BY report_date DESC) RB
+		    	       ORDER BY report_date DESC) RBD
 		    	)
 		    </when>
 		    <otherwise>
-		    	(SELECT rownum rn, RB.*
-				 FROM RB
-            	 ORDER BY report_date DESC)
+		    	(SELECT rownum rn, RBD.*
+				 FROM (SELECT * FROM RB
+		    	       ORDER BY report_date DESC) RBD
+				)
 		    </otherwise>
 		</choose>
 		<![CDATA[

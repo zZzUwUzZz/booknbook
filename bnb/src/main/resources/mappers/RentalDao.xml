@@ -48,6 +48,48 @@
         ORDER BY o_date DESC, s_storename, b_title
     </select>
 
+    <!-- 구매자별 조회기간 내의 대여항목-->
+    <select id="getRentalListByDateRange" resultType="Map">
+		SELECT * FROM
+		<choose>
+		    <when test="startDate != null and endDate != null">                
+		    	(SELECT rownum rn, RL.*      
+		    	 FROM (SELECT o_id as "o_id",
+                              o_date as "o_date",
+                              b_title as "b_title",
+                              s_storename as "s_storename",
+                              rental_status as "rental_status",
+                              r_duedate as "r_duedate",
+                              r_latefee_total as "r_latefee_total"
+                       FROM O, R, B, S, STATUS_R
+                       WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
+                             r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
+                             r_c_id = #{c_id} AND o_date BETWEEN #{startDate} AND #{endDate}+1
+                       ORDER BY o_date DESC, s_storename, b_title) RL
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, RL.*
+				 FROM (SELECT o_id as "o_id",
+                              o_date as "o_date",
+                              b_title as "b_title",
+                              s_storename as "s_storename",
+                              rental_status as "rental_status",
+                              r_duedate as "r_duedate",
+                              r_latefee_total as "r_latefee_total"
+                       FROM O, R, B, S, STATUS_R
+                       WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
+                             r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
+                             r_c_id = #{c_id}
+                       ORDER BY o_date DESC, s_storename, b_title) RL
+				)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>
+    </select>
+
     <select id="getCurrentRentalListByCId" parameterType="String" resultType="Map">
         SELECT rownum,
                b_title as "b_title",
@@ -83,6 +125,15 @@
         WHERE (r_rental_status_id IN (2, 3)) AND r_c_id = #{c_id}
     </select>
 
+    <!-- 구매자별 조회기간 내의 총 대여항목수 세기-->
+    <select id="countRentalsByDateRange" resultType="Integer">
+        SELECT COUNT(*) FROM R, O
+        WHERE r_c_id = #{c_id} AND r_o_id = o_id
+        <if test="startDate != null and endDate != null">
+		      AND o_date BETWEEN #{startDate} AND #{endDate}+1
+		</if>
+    </select>
+
     <insert id="addRentalList" parameterType="Map">
         INSERT INTO R(r_o_id, r_s_id, r_b_isbn, r_c_id, r_order_status_id, r_ordercancel_rejection_reason, r_delivery_status_id, r_deliverydate, r_rentalperiod, r_duedate, r_rental_status_id, r_returndate, r_latefee_total, r_latefee_paid, r_latefee_paydate, r_id)
         VALUES(#{o_id}, #{cart_s_id}, #{cart_b_isbn}, #{c_id}, 1, NULL, 1, NULL, #{cart_rentalperiod}, NULL, 1, NULL, NULL, NULL, NULL, R_SEQ.NEXTVAL)
@@ -101,6 +152,45 @@
               rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
               rr_c_id = #{c_id}
         ORDER BY rr_id DESC
+    </select>
+
+    <!-- 구매자별 조회기간 내의 대여예약-->
+    <select id="getReservationListByDateRange" resultType="RentalReservationDto">
+		SELECT * FROM
+		<choose>
+		    <when test="startDate != null and endDate != null">                
+		    	(SELECT rownum rn, RRL.*      
+		    	 FROM (SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+                       FROM RR, S, B, STATUS_RR
+                       WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
+                             rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
+                             rr_c_id = #{c_id} AND rr_reqdate BETWEEN #{startDate} AND #{endDate}+1
+                       ORDER BY rr_reqdate DESC) RRL
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, RRL.*
+				 FROM (SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+                       FROM RR, S, B, STATUS_RR
+                       WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
+                             rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
+                             rr_c_id = #{c_id}
+                       ORDER BY rr_reqdate DESC) RRL
+				)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>
+    </select>
+
+    <!-- 구매자별 조회기간 내의 총 대여예약건수 세기-->
+    <select id="countReservationsByDateRange" resultType="Integer">
+        SELECT COUNT(*) FROM RR
+        WHERE rr_c_id = #{c_id}
+        <if test="startDate != null and endDate != null">
+		      AND rr_reqdate BETWEEN #{startDate} AND #{endDate}+1
+		</if>
     </select>
 
     <update id="updateReservationByRRId" parameterType="Integer">

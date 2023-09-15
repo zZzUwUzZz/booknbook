@@ -60,7 +60,7 @@
             
             <div>
                 <h2 class="pagename">MY ORDER DETAILS</h2>
-                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> ${oInfo.o_date}</p>
+                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> <fmt:formatDate value="${oInfo.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></p>
             </div>
 
             <div>
@@ -68,13 +68,13 @@
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>서점명</th>
+                        <th width="170px">서점명</th>
                         <th>도서명</th>
-                        <th>판매단가</th>
-                        <th>수량</th>
-                        <th>주문상태</th>
-                        <th>배송상태</th>
-                        <th>배송완료일</th>
+                        <th width="100px">판매단가</th>
+                        <th width="80px">수량</th>
+                        <th width="100px">주문상태</th>
+                        <th width="100px">배송상태</th>
+                        <th width="120px">배송완료일</th>
                     </tr>
 
                     <c:if test="${empty oPList}">
@@ -88,7 +88,7 @@
                             <tr>
                                 <td>${oPItem.s_storename}</td>
                                 <td>${oPItem.b_title}</td>
-                                <td>${oPItem.b_price}</td>
+                                <td><fmt:formatNumber value="${oPItem.b_price}" type="number" pattern="#,##0"/>원</td>
                                 <td>${oPItem.p_amount}</td>
                                 <td>${oPItem.order_status}</td>
                                 <td>${oPItem.delivery_status}</td>
@@ -105,13 +105,13 @@
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th>서점명</th>
+                        <th width="170px">서점명</th>
                         <th>도서명</th>
-                        <th>기본대여료</th>
-                        <th>대여기간</th>
-                        <th>주문상태</th>
-                        <th>배송상태</th>
-                        <th>배송완료일</th>
+                        <th width="100px">대여료<span style="font-size: 11px;">(7일)</span></th>
+                        <th width="80px">대여기간</th>
+                        <th width="100px">주문상태</th>
+                        <th width="100px">배송상태</th>
+                        <th width="120px">배송완료일</th>
                     </tr>
 
                     <c:if test="${empty oRList}">
@@ -125,9 +125,9 @@
                             <tr>
                                 <td>${oRItem.s_storename}</td>
                                 <td>${oRItem.b_title}</td>
-                                <td>${oRItem.b_rent}</td>
-                                <td>${oRItem.r_rentalperiod}</td>
-                                <td>${oRItem.order_status}</td>
+                                <td><fmt:formatNumber value="${oRItem.b_rent}" type="number" pattern="#,##0"/>원</td>
+                                <td>${oRItem.r_rentalperiod}일</td>
+                                <td >${oRItem.order_status}</td>
                                 <td>${oRItem.delivery_status}</td>
                                 <td>${oRItem.r_deliverydate}</td>
                             </tr>

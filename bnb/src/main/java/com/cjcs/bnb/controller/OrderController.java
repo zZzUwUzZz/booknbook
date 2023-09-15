@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,7 +19,6 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dto.CartDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.service.OrderService;
-import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
 import jakarta.servlet.http.HttpSession;
@@ -47,8 +48,8 @@ public class OrderController {
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        List<CartDto> cPList = oDao.getPurchaseCartByCId(c_id);
-        List<CartDto> cRList = oDao.getRentalCartByCId(c_id);
+        List<CartDto> cPList = oSer.getPurchaseCartAndStockCheck(c_id);
+        List<CartDto> cRList = oSer.getRentalCartAndStockCheck(c_id);
 
         model.addAttribute("cPList", cPList);
         model.addAttribute("cRList", cRList);
@@ -97,28 +98,32 @@ public class OrderController {
         return "orderer/payment";
     }
 
-    @GetMapping("/cartamountupdate/{cart_id}/{cart_amount}")    // 구매카트항목 수량변경
-    public String updateCartAmount(@PathVariable int cart_id, @PathVariable int cart_amount) {
+    @PostMapping("/cartamountupdate")    // 구매카트항목 수량변경
+    public ResponseEntity<Integer> updateCartAmount(@RequestParam int cart_id, @RequestParam int cart_amount) {
 
         oDao.updateCartAmount(cart_id, cart_amount);
+        CartDto cDto = oDao.getCartByCartId(cart_id);
+        Integer updated_payment = cDto.getB_price() * cDto.getCart_amount();
 
-        return "redirect:/cart";
+        return ResponseEntity.ok(updated_payment);
     }
 
-    @GetMapping("/cartrentalperiodupdate/{cart_id}/{cart_rentalperiod}")    // 대여카트항목 대여기간변경
-    public String updateCartRentalPeriod(@PathVariable int cart_id, @PathVariable int cart_rentalperiod) {
+    @PostMapping("/cartrentalperiodupdate")    // 대여카트항목 대여기간변경
+    public ResponseEntity<Integer> updateCartRentalPeriod(@RequestParam int cart_id, @RequestParam int cart_rentalperiod) {
 
         oDao.updateCartRentalPeriod(cart_id, cart_rentalperiod);
+        CartDto cDto = oDao.getCartByCartId(cart_id);
+        Integer updated_payment = (Integer)(cDto.getB_rent() * cDto.getCart_rentalperiod() / 7);
 
-        return "redirect:/cart";
+        return ResponseEntity.ok(updated_payment);
     }
 
-    @GetMapping("/cartitemdelete/{cart_id}")    // 카트에서 개별항목 삭제
-    public String deleteCartItem(@PathVariable int cart_id) {
+    @PostMapping("/cartitemdelete")    // 카트에서 개별항목 삭제
+    public ResponseEntity<Void> deleteCartItem(@RequestParam int cart_id) {
 
         oDao.deleteCartItem(cart_id);
 
-        return "redirect:/cart";
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/payment")    // 결제페이지
@@ -139,13 +144,21 @@ public class OrderController {
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
+        Boolean stockCheck = oSer.stockCheck(pcart_idList, rcart_idList);
+        log.info("stockCheck:{}", stockCheck);
+        
+        if (!stockCheck) {
+            rttr.addFlashAttribute("msg", "결제 실패! 재고가 부족합니다.");
+            return "redirect:/cart";
+        }
+
         Boolean result = oSer.addOrder(c_id, pcart_idList, rcart_idList, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone,
                                        o_total_pricerent, o_total_deliveryfee, o_total_payment);
 
         if (result) {
             return "redirect:/payment/success";
         } else {
-            rttr.addFlashAttribute("msg", "결제 실패");
+            rttr.addFlashAttribute("msg", "결제 실패!");
             return "redirect:/cart";
         }
     }

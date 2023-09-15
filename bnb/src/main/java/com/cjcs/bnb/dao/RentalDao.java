@@ -38,8 +38,12 @@ public interface RentalDao {
 
     public List<RentalDto> RentCurrentList(String s_id); // 대여현황
     public List<RentalDto> DeliveryStatusList(); // 배송 상태명
-    public void UpdateDeliStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status); // 배송 상태 업데이트
-    
+    public void UpdateDeliStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status, @Param("b_title") String b_title); // 배송 상태 업데이트
+    public void UpdateRentStatus_Wait(@Param("o_id") int o_id); // 대여 상태 업데이트 [대여시작전]
+    public void UpdateRentStatus_Curr(@Param("o_id") int o_id); // 대여 상태 업데이트 [대여중]
+    public void UpdateRentStatus_Late(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [연체]
+    public void UpdateRentStatus_Return(@Param("o_id") int o_id); // 대여 상태 업데이트 [반납 완료]
+    public void RentResStatus_First(@Param("b_title") String b_title); // 예약 1순위 예약 상태 변경
 
 
     public List<RentalDto> RentReturnList(String s_id); // 반납현황

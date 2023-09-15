@@ -70,7 +70,7 @@
             <div class="contain-3">
                 <div class="box-3">
                     <h1>대여 현황</h1>
-                    <button id="status_save" onclick="updateSelectedsSatus()">저장</button><br><br>
+                    <button id="status_save" onclick="updateSelectedStatus()">저장</button><br><br>
                     <table class="seller-list">
                         <thead>
                             <tr>
@@ -98,16 +98,19 @@
                                     <td>
                                         <select class="del_status" name="del_status_${status.index}">
                                             <c:forEach items="${DeliveryStatusList}" var="DelStatus">
-                                                <option value="${DelStatus.delivery_status}">
+                                                <option value="${DelStatus.delivery_status}" <c:if
+                                                    test="${rentcurrent.delivery_status == DelStatus.delivery_status}">
+                                                    selected</c:if>
+                                                    >
                                                     ${DelStatus.delivery_status}
                                                 </option>
                                             </c:forEach>
                                         </select>
 
                                     </td>
-                                    <td id="rent_status_text_${status.index}">${rentcurrent.rental_status}</td> 
+                                    <td id="rent_status_text_${status.index}">${rentcurrent.rental_status}</td>
                                     <td>
-                                        <button id="Rent_Return">반납 완료</button>
+                                        <button id="Rent_Return" onclick="Rent_Return()">반납 완료</button>
                                     </td>
                                     <td>${rentcurrent.overdue_days}</td>
                                 </tr>
@@ -121,103 +124,47 @@
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
 </body>
 <script>
-    function updateSelectedsSatus() {
-        var data = [];
-        var rows = document.querySelectorAll('.seller-list tbody tr');
+    function updateSelectedStatus() {
+    var data = [];
+    var rows = document.querySelectorAll('.seller-list tbody tr');
 
-        rows.forEach(function (row, index) {
-            var o_id = row.querySelector('td:first-child').textContent;
-            var delivery_status = row.querySelector('.del_status').value;
+    rows.forEach(function (row, index) {
+        var o_id = row.querySelector('td:first-child').textContent;
+        var b_title = row.querySelector('td:nth-child(3)').textContent;
+        var select = row.querySelector('.del_status');
+        var delivery_status = select.options[select.selectedIndex].value;
 
-            data.push({
-                o_id: o_id,
-                delivery_status: delivery_status,
+        data.push({
+            o_id: o_id,
+            b_title: b_title,
+            delivery_status: delivery_status,
+        });
+    });
+
+    console.log(data);
+
+    $.ajax({
+        url: '/seller/rent/curr/save',
+        method: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function (response) {
+            console.log('서버 응답:', response);
+            alert('상태가 저장되었습니다!');
+
+            var rows = document.querySelectorAll('.seller-list tbody tr');
+            rows.forEach(function (row, index) {
+                var del_status_text = $('#del_status_text_' + index);
+                del_status_text.text(response[index].delivery_status);
             });
-        });
+        },
+        error: function (error) {
+            console.error('오류 발생:', error);
+            alert('상태 저장 실패');
+        }
+    });
+}
 
-        console.log(data);
-
-        $.ajax({
-            url: '/seller/rent/curr/save',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function () {
-                $.ajax({
-                    url: '/seller/rent/curr',
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (responseData) {
-                        console.log('데이터가 업데이트되었습니다.', responseData);
-                        alert('현재 상태가 저장되었습니다!');
-
-                        var rows = document.querySelectorAll('.seller-list tbody tr');
-
-                        rows.forEach(function (row, index) {
-                            var updatedData = responseData[index];
-
-                            var del_status_text = $('#del_status_text_' + index);
-                            del_status_text.text(updatedData.delivery_status);
-                        });
-                    },
-                    error: function () {
-                        console.error('데이터를 가져오는 데 실패했습니다.');
-                        alert('현재 상태 저장 실패');
-                    },
-                });
-            },
-            error: function () {
-                console.error('현재 상태 저장 실패');
-                alert('현재 상태 저장 실패');
-            },
-        });
-    }
-
-
-
-
-    // fetch('curr/save', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(data),
-    //         })
-    //         .then(function (response) {
-    //             if (response.ok) {
-    //                 alert('현재 상태가 저장되었습니다!');
-
-    //                 rows.forEach(function (row, index) {
-    //                     var updatedData = data[index];
-    //                     var del_status_td = row.querySelector(`#del_status_text_${index}`);
-    //                     var rent_status_td = row.querySelector(`#rent_status_text_${index}`);
-    //                     if (del_status_td && rent_status_td) {
-    //                         del_status_td.textContent = updatedData.delivery_status;
-    //                         rent_status_td.textContent = updatedData.rental_status;
-    //                     }
-    //                 });
-    //             } else {
-    //                 throw new Error('데이터 저장 실패');
-    //             }
-    //         })
-    //         .catch(function (error) {
-    //             console.error('오류:', error);
-    //             alert('데이터 저장 실패');
-    //         });
-    // .then(function (response) {
-    //     console.log(response);
-    //     if (response.ok) {
-    //         alert('현재 상태가 저장되었습니다!');
-    //     } else {
-    //         alert('현재 상태 저장 실패');
-    //     }
-    // })
-    // .catch(function (error) {
-    //     console.error('에러 : ', error);
-    // });
-
-
-    // 
 </script>
 
 </html>

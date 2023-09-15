@@ -158,8 +158,8 @@
             order_sort = '대여'
             AND
             NOT rental_status = '반납완료'
-            <!-- AND
-            S_ID = 'seller001' -->
+            AND
+            S_ID = 'seller001'
     </select>
 
     <!-- 배송 상태명 -->
@@ -176,6 +176,26 @@
             WHERE DELIVERY_STATUS = #{delivery_status}
         )
         WHERE r_o_id = #{o_id}
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+        )
+    </update>
+
+    <!-- 대여 상태 업데이트 [대여시작전] -->
+    <update id="UpdateRentStatus_Wait">
+        UPDATE Rental   
+        SET R_RENTAL_STATUS_ID = (
+            SELECT RENTAL_STATUS_ID
+            FROM Status_R
+            WHERE RENTAL_STATUS = '대여시작전'
+            AND ROWNUM = 1
+        )
+        WHERE r_o_id = #{o_id}
+        AND R_DELIVERY_STATUS_ID NOT IN (
+            SELECT DELIVERY_STATUS_ID
+            FROM Status_D
+            WHERE DELIVERY_STATUS IN ('배송완료', '수령완료')
+        )
     </update>
 
     <!-- 대여 상태 업데이트 [대여중] -->
@@ -185,33 +205,43 @@
             SELECT RENTAL_STATUS_ID
             FROM Status_R
             WHERE RENTAL_STATUS = '대여중'
+            AND ROWNUM = 1
         )
         WHERE r_o_id = #{o_id}
         AND (
             R_DELIVERY_STATUS_ID = (
                 SELECT DELIVERY_STATUS_ID
                 FROM Status_D
-                WHERE DELIVERY_STATUS = '배송완료')
+                WHERE DELIVERY_STATUS = '배송완료'
+                AND ROWNUM = 1
+            )
             OR
             R_DELIVERY_STATUS_ID = (
                 SELECT DELIVERY_STATUS_ID
                 FROM Status_D
-                WHERE DELIVERY_STATUS = '수령완료')
+                WHERE DELIVERY_STATUS = '수령완료'
+                AND ROWNUM = 1
+            )
         )
     </update>
 
     <!-- 대여 상태 업데이트 [연체] -->
     <update id="UpdateRentStatus_Late">
-        UPDATE Rental
-        SET R_RENTAL_STATUS_ID = (
-            SELECT RENTAL_STATUS_ID
+        UPDATE Rental r
+        SET r.R_RENTAL_STATUS_ID = (
+            SELECT MAX(RENTAL_STATUS_ID)
             FROM Status_R
             WHERE RENTAL_STATUS = '연체'
         )
         WHERE r_o_id = #{o_id}
-            AND
-            (select (o_date + r_rentalperiod) from order_list) <![CDATA[<]]> sysdate
+            AND (
+                    (
+                    SELECT MAX(o_date + r_rentalperiod) FROM order_list WHERE o_id = #{o_id} AND b_title = #{b_title}
+                    ) <![CDATA[<]]> sysdate
+            )
     </update>
+
+    
 
     <!-- 대여 상태 업데이트 [반납 완료] -->
     <update id="UpdateRentStatus_Return">
@@ -226,22 +256,21 @@
 
     <!-- 예약 1순위 예약 상태 변경 -->
     <update id="RentResStatus_First">
-        UPDATE Rental_Res
-        SET RR_RES_STATUS_ID = (
-            SELECT RES_STATUS_ID
-            FROM Status_RR
-            WHERE RES_STATUS = '대여가능'
+        UPDATE Rental_Res r
+        SET r.RR_RES_STATUS_ID = (
+            SELECT MAX(s.RES_STATUS_ID)
+            FROM Status_RR s
+            WHERE s.RES_STATUS = '대여가능'
         )
-        WHERE RR_S_ID = #{s_id}
-        AND RR_B_ISBN = (
-            SELECT b_isbn from book where b_title = #{b_title}
+        WHERE r.RR_S_ID = 'seller001'
+        AND r.RR_B_ISBN IN (
+            SELECT b_isbn FROM book WHERE b_title = #{b_title}
         )
-        AND RR_REQDATE = (
+        AND r.RR_REQDATE IN (
             SELECT MIN(RR_REQDATE)
-            FROM Rental_Res
-            WHERE RR_S_ID = #{s_id} AND RR_B_ISBN = (
-                SELECT b_isbn from book where b_title = #{b_title}
-            )
+            FROM Rental_Res rr
+            JOIN book b ON rr.RR_B_ISBN = b.b_isbn
+            WHERE rr.RR_S_ID = 'seller001' AND b.b_title = #{b_title}
         )
     </update>
 

@@ -260,10 +260,13 @@ public class SellerPageController {
     }
 
     @PostMapping("/rent/curr/save")
-    public ResponseEntity<String> UpdateDeliStatus(@RequestBody List<RentalDto> requestData) {
+    public ResponseEntity<List<RentalDto>> UpdateDeliStatus(@RequestBody List<RentalDto> requestData) {
+        // 배송 상태 업데이트
         rSer.UpdateDeliStatus(requestData);
-        return ResponseEntity.ok("현재 상태가 변경되었습니다!");
+        return ResponseEntity.ok(requestData);
     }
+
+
 
     @GetMapping("/rent/return")
     public String sellerrentreturn(String s_id, Model model) {

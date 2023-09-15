@@ -199,6 +199,7 @@ public class SellerPageController {
         return "seller/sellerCSMember";
     }
 
+    // 등록된 도서 리스트 
     @GetMapping("/book/list")
     public String sellerbooklist(String s_id,
             @RequestParam(required = false) String filter,
@@ -222,6 +223,9 @@ public class SellerPageController {
 
         return "seller/sellerBookList";
     }
+
+
+    
 
     @GetMapping("/book/add")
     public String sellerbookadd() {

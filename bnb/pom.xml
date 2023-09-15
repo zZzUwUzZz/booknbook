@@ -135,7 +135,11 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
-
+<!-- Gson : Google이 제공하는 JSON 처리 라이브러리 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
 
 	</dependencies>
 

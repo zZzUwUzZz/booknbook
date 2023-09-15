@@ -8,6 +8,13 @@
     UPDATE Book SET b_salestock = #{b_salestock} WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn}
 </update>
 
+  <!-- 재입고 알림 정보 찾기 -->
+    <select id="findStockNotif" resultType="com.cjcs.bnb.dto.StockNotifDto">
+        SELECT * FROM Stock_Notif
+        WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn} AND c_id = #{c_id}
+    </select>
+ 
+
 <!-- Get notification list -->
 <select id="getNotifList" resultType="StockNotifDto">
     SELECT * FROM Stock_Notif WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn}
@@ -36,6 +43,28 @@
     SELECT * FROM Book WHERE b_isbn = #{isbn} AND b_s_id = 'seller001'
 </select>
 
+    <!-- insertStockNotif Method -->
+    <insert id="insertStockNotif">
+        INSERT INTO stock_notif (b_s_id, b_isbn, c_id)
+        VALUES (#{b_s_id}, #{b_isbn}, #{c_id})
+    </insert>
 
+    <!-- findUsersToNotify Method -->
+    <select id="findUsersToNotify" resultType="com.cjcs.bnb.dto.StockNotifDto">
+        SELECT * FROM stock_notif
+        WHERE b_isbn = #{isbn} AND b_s_id = #{sellerId}
+    </select>
+
+    <!-- insertNotification Method -->
+    <insert id="insertNotification">
+        INSERT INTO notifboard (nb_m_id, nb_msg, nb_date, nb_read)
+        VALUES (#{nb_m_id}, #{nb_msg}, SYSDATE, 'N') 
+    </insert>
+
+    <!-- deleteStockNotif Method -->
+    <delete id="deleteStockNotif">
+        DELETE FROM stock_notif
+        WHERE b_s_id = #{b_s_id} AND b_isbn = #{b_isbn} AND c_id = #{c_id}
+    </delete>
 
 </mapper>

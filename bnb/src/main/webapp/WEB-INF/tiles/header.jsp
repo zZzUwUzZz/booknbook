@@ -43,6 +43,8 @@
     </div>
 </div>
 
+
+
 <div class="sc_md">
     <div class="sc_cls">
         <span class="material-symbols-outlined">
@@ -111,6 +113,7 @@
 
  
  <script>
+
 $(document).ready(function() {
   var socket = new SockJS('/websocket-endpoint'); // 웹소켓 엔드포인트
   var stompClient = Stomp.over(socket);
@@ -135,12 +138,7 @@ $(document).ready(function() {
     }
   );
 });
-
-
-
-
-
-
+ 
 window.onload = function() {
     var msg = "${msg}";
     if (msg === '이미 로그인 된 상태입니다.') {

@@ -384,6 +384,9 @@
         });
 
 
+
+
+        
             $("#RestockBtn").click(function () {
                 const sellerId = "${sellerId}";  // Controller에서 설정한 변수
                 const isbn = "${bdInfo.b_isbn}";  // Controller에서 설정한 변수

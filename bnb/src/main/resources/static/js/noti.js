@@ -21,11 +21,13 @@ $(document).ready(function () {
   
   
    
-  
+  document.addEventListener("DOMContentLoaded", function() {
+
   
   var isLoggedIn = false; // 로그인 상태
   var notifications = []; // 알림 목록
   
+
   // 초기 메시지 설정
   function setDefaultNotification() {
     var notiBox = document.getElementsByClassName('notilistbox')[0];
@@ -51,7 +53,7 @@ $(document).ready(function () {
       newDiv.addEventListener('click', markAsRead);  // 이 부분 추가
             
       var aTag = document.createElement("a");
-      aTag.href = '/product/' + notification.productId; // 상품 상세 페이지로 이동하는 URL
+      aTag.href = '/books/detail/' + notification.productId; // 상품 상세 페이지로 이동하는 URL
       aTag.innerHTML = notification.message;
       newDiv.appendChild(aTag);
   
@@ -115,14 +117,9 @@ $(document).ready(function () {
     // setLoginStatus(true); // 로그인한 경우
     // setLoginStatus(false); // 로그인하지 않은 경우
      
-    // showNotification(1, '신발');
+    // showNotification(1, '치킨의 정석');
     // showNotification(2, '바지');
-  
-  
-
-
-
-
+   
 
     // 글자색을 회색으로 변경하고, 모든 알림이 확인되었는지 체크하는 함수
     function markAsRead(event) {
@@ -152,4 +149,23 @@ $(document).ready(function () {
       }
     }
   }
-  
+
+
+  setDefaultNotification();
+
+  // WebSocket 초기화
+  var socket = new SockJS('/ws');
+  var stompClient = Stomp.over(socket);
+  stompClient.connect({}, function(frame) {
+      // 사용자 ID를 가져옵니다. 이 부분은 당신의 애플리케이션에 따라 다를 수 있습니다.
+      const userId = "customer001";  // 로그인 상태에 따라 이 값을 동적으로 할당해야 할 것입니다.
+
+      stompClient.subscribe('/topic/notifications/' + userId, function(notification) {
+          // 알림을 처리하는 로직
+          // 여기에 로직을 추가하면, 실시간으로 알림을 받을 수 있습니다.
+          // 예를 들어, notifications 배열에 새 알림을 push하고 setDefaultNotification()을 다시 호출할 수 있습니다.
+          var noti = JSON.parse(notification.body);
+          showNotification(noti.productId, noti.productName);
+      });
+  });
+});

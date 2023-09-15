@@ -97,7 +97,7 @@
                         <c:forEach var="oItem" items="${oList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">${oItem.o_id}</td>
-                                <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                 <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
                                 <td>${oItem.order_status}</td>
                                 <td>${oItem.o_delivery_sort}</td>

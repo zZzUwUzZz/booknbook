@@ -18,9 +18,9 @@ public interface PurchaseDao {
 //수희
 
     //구매관련
-    public List<HashMap<String, String>> getPurchaseListByOId(Integer o_id);
+    public List<HashMap<String, Object>> getPurchaseListByOId(Integer o_id);
     public List<HashMap<String, String>> getPurchaseListByCId(String c_id);
-    public List<HashMap<String, String>> getPurchaseListByDateRange(SearchDto sDto);
+    public List<HashMap<String, Object>> getPurchaseListByDateRange(SearchDto sDto);
     public HashMap<String, String> getPurchaseItemByPId(Integer p_id);
     public List<PurchaseDto> getLatest5PurchaseListByCId(String c_id);
 

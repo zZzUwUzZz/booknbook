@@ -18,7 +18,7 @@ public interface RentalDao {
     
 
     //수희    
-    public List<HashMap<String, String>> getRentalListByOId(Integer o_id);
+    public List<HashMap<String, Object>> getRentalListByOId(Integer o_id);
     public List<HashMap<String, String>> getRentalListByCId(String c_id);
     public List<HashMap<String, String>> getRentalListByDateRange(SearchDto sDto);
     public List<HashMap<String, String>> getCurrentRentalListByCId(String c_id);

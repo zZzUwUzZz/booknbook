@@ -1,9 +1,7 @@
 package com.cjcs.bnb.controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +35,6 @@ import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -163,12 +160,16 @@ public class CustomerPageController {
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
         HashMap<String, Object> oInfo = oDao.getOrderInfoByOId(o_id);
-        List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
-        List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
+        List<HashMap<String, Object>> oPList = pDao.getPurchaseListByOId(o_id);
+        List<HashMap<String, Object>> oRList = rDao.getRentalListByOId(o_id);
 
         model.addAttribute("oInfo", oInfo);
         model.addAttribute("oPList", oPList);
         model.addAttribute("oRList", oRList);
+
+        Boolean delivered = oSer.hasAtLeastOneDelivered(oPList, oRList);
+        log.info("delivered:{}", delivered);
+        model.addAttribute("delivered", delivered);
         
         return "customer/mypageOrderDetail";
     }
@@ -192,10 +193,29 @@ public class CustomerPageController {
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
         sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> pList = pDao.getPurchaseListByDateRange(sDto);
+        List<HashMap<String, Object>> pList = pDao.getPurchaseListByDateRange(sDto);
         String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/purchaselist");
 
         if (pList != null) {
+
+            for (HashMap<String, Object> pItem : pList) {
+
+                LocalDate currDate = LocalDate.now();
+                Timestamp deliDate = (Timestamp) pItem.get("p_deliverydate");
+
+                if (deliDate == null) {
+                    pItem.put("after_a_week", "false");
+
+                } else {
+                    LocalDate aWeekAfterDeliveryDate = (deliDate).toLocalDateTime().toLocalDate().plusDays(7);
+                    if (currDate.isAfter(aWeekAfterDeliveryDate)) {
+                        pItem.put("after_a_week", "true");
+                    } else {
+                        pItem.put("after_a_week", "false");
+                    }
+                }
+            }
+
             session.setAttribute("pageNum", sDto.getPageNum());
             model.addAttribute("pList", pList);
             model.addAttribute("pageHtml", pageHtml);

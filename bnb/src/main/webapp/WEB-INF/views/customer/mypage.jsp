@@ -188,7 +188,7 @@
                             <c:forEach var="pItem" items="${pList}">
                                 <tr>
                                     <td>${pItem.o_id}</td>
-                                    <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                    <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                     <td><span>${pItem.b_title}</span></td>
                                     <td><a href="/mypage/orderdetail/${pItem.o_id}">${pItem.delivery_status}</a></td>
                                 </tr>
@@ -219,7 +219,7 @@
                             <c:forEach var="rItem" items="${rList}">
                                 <tr>
                                     <td>${rItem.o_id}</td>
-                                    <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                                    <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                     <td><span>${rItem.b_title}</span></td>
                                     <td><a href="/mypage/orderdetail/${rItem.o_id}">${rItem.delivery_status}</a></td>
                                 </tr>

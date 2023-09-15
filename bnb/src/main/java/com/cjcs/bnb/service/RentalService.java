@@ -110,15 +110,20 @@ public class RentalService {
     }
 
     //유다
-
-    // 대여 항목 가져오기
-    public List<RentalDto> getRentalList() {
-    return rDao.getRentalList();
+     // 모든 연체된 대여 항목 ID 목록
+     public List<Integer> getAllLateRentalIds() {
+        return rDao.getAllLateRentalIds();
     }
 
-    // 연체료 정보 가져오기
-    public RentalDto getLateFeeInfo(int r_id) {
-    return rDao.getLateFeeInfo(r_id);
+    // 주어진 ID 목록을 기반으로 총 연체료를 계산합니다.
+    public int getTotalLateFee(List<Integer> r_idList) {
+        int totalLateFee = 0;
+
+        for(Integer r_id : r_idList) {
+            totalLateFee += rDao.getLateFee(r_id); 
+        }
+
+        return totalLateFee;
     }
-  
+    
 }

@@ -168,4 +168,8 @@
             r_returndate is not null
     </select>
 
+    <select id="getAllLateRentalIds" resultType="Integer">
+      
+    </select>
+
 </mapper>

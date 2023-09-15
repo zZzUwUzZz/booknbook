@@ -1,5 +1,6 @@
 package com.cjcs.bnb.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class OrderController {
     private PurchaseService pSer;
     @Autowired
     private RentalService rSer;
-
+  
 
     @GetMapping("/cart")    // 카트페이지
     public String cart(Model model, HttpSession session) {
@@ -101,10 +101,15 @@ public class OrderController {
     }
 
     @GetMapping("/paymentlatefee")    // 연체료결제페이지 
-    public String paymentLatefee() {
+    public String paymentLatefee(Model model, HttpSession session) {
                                                      //음 damit... 
+   // 모든 연체된 대여 항목 ID 목록을 가져옵니다. (이 메서드는 `RentalService` 클래스에 정의되어야 합니다)
+    List<Integer> r_idList = rSer.getAllLateRentalIds();
+    int totalLateFee = rSer.getTotalLateFee(r_idList);
+    model.addAttribute("lateFee", totalLateFee);
+
         return "orderer/paymentlatefee";
-    }
+    }    
 
     @PostMapping("/payLatefee")    // 연체료결제처리
     public String payLatefee() {

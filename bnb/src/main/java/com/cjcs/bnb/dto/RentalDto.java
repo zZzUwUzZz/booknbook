@@ -57,5 +57,6 @@ public class RentalDto {
     private String rr_rejection_reason; //예약불가사유
     private Timestamp returnexpect_days; // 반납 예정일
     private String returnexpect_daysStr; // 반납 예정일 (날짜 데이터 형식 변환)
+
     
 }

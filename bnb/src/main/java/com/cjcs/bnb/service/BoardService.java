@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.cjcs.bnb.common.Paging;
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
+import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +54,8 @@ public class BoardService {
 		return paging.makeHtmlPaging();
 
 	}
-
+    public void saveReport(ReportBoardDto reportBoardDto) {
+        rbDao.insertReport(reportBoardDto); // `insertReport` 메서드 호출
+    }
+    
 }

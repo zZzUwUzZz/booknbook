@@ -48,6 +48,10 @@
 		WHERE report_id = #{report_id}
 	</delete>
 
-
+ 
+    <insert id="insertReport">
+        INSERT INTO report_board (report_id, report_title, report_content, report_date)
+        VALUES (#{report_id}, #{report_title}, #{report_content}, #{report_date})
+    </insert>
 
 </mapper>

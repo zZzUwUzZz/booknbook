@@ -118,57 +118,44 @@ String formattedDate = dateFormat.format(currentDate);
             
         </div>
 
-        <form action="submit.php" method="post" enctype="multipart/form-data">
+        <form action="/report/save" method="post">
+            <div class="input-field">
+                <label for="report_title">제목</label>
+                <input type="text" id="report_title" name="report_title" required>
+            </div>
             
             <div class="input-field">
-                <label for="storeName">서점 이름</label>
-                <input type="text" id="storeName" name="storeName" required>
+                <label for="report_content">내용</label>
+                <textarea id="report_content" name="report_content" rows="5" style="resize: none;" oninput="checkCharCount()" maxlength="5000" required></textarea>
+                <!-- 추가된 글자수 제한을 알려주는 부분 -->
+                <div id="charCount">0/5000</div>
             </div>
-            
-            <div class="input-field">
-                <label for="content">소개</label>
-                <textarea id="content" name="content" rows="5" style="resize: none;" oninput="checkCharCount()" maxlength="200" required></textarea>
-            </div>
-            <span id="charCount">0/5000 글자</span> <!-- 글자 수 카운트 한국어로 변경 -->
-            
-            <div class="input-field">
-                <label for="storeAddress">서점 주소</label>
-                <input type="text" id="storeAddress" name="storeAddress" required>
-            </div>
-            
-            <div class="input-field-image">
-                <label for="storeImage">서점 사진</label>
-                <input type="file" id="storeImage" name="storeImage" accept="image/*" required>
-            </div>
-
+        
             <div class="today_day">
-            <p>작성일  <%= formattedDate %></p>
+                <p>작성일  <%= formattedDate %></p>
+                <input type="hidden" name="report_date" value="<%= formattedDate %>">
             </div>
-
+        
             <div id="input2">
                 <input type="submit" value="제출하기">
             </div>
-
         </form>
         
-    </div>
-
     <script>
     
     function checkCharCount() {
-        const content = document.getElementById("content").value;
-        const charCount = content.length;
-        const charLimit = 5000; // 최대 글자 수 제한
+    const content = document.getElementById("report_content").value; // ID 변경
+    const charCount = content.length;
+    const charLimit = 5000;
 
-        document.getElementById("charCount").textContent = `${charCount}/${charLimit} 0/5000`;
+    document.getElementById("charCount").textContent = `${charCount}/${charLimit}`;
 
-        if (charCount > charLimit) {
-            document.getElementById("charCount").style.color = "red";
-        } else {
-            document.getElementById("charCount").style.color = "gray"; 
-        }
+    if (charCount > charLimit) {
+        document.getElementById("charCount").style.color = "red";
+    } else {
+        document.getElementById("charCount").style.color = "gray"; 
     }
-
+}
     </script>
 
 </body>

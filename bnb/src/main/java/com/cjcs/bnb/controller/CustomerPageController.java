@@ -47,14 +47,9 @@ public class CustomerPageController {
     @Autowired
     private MemberService mSer;
     @Autowired
-    private NotificationService nSer;
-
-    @Autowired
     private OrderService oSer;
     @Autowired
     private PurchaseService pSer;
-    @Autowired
-    private RentalService rSer;
     @Autowired
     private BoardService bSer;
 
@@ -150,6 +145,7 @@ public class CustomerPageController {
         if (oList != null) {
             session.setAttribute("pageNum", sDto.getPageNum());
             model.addAttribute("oList", oList);
+            log.info("oList:{}", oList);
             model.addAttribute("pageHtml", pageHtml);
         }
 
@@ -328,7 +324,7 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @ResponseBody   // 비동기통신(굳이 비동기로 할 필요 없는 페이지인데 그냥 해보고 싶어서 해봄 -_-...)
+    @ResponseBody
     @PostMapping("/reservationcancel")    // 대여예약취소처리
     public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
 
@@ -336,7 +332,7 @@ public class CustomerPageController {
         String c_id = "customer001";
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
 
-        rSer.cancelReservationByRRId(rrDto.getRr_id());
+        rDao.updateReservationByRRId(rrDto.getRr_id(), 4);
 
         List<RentalReservationDto> rrList = rDao.getReservationListByCId(c_id);
 

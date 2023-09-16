@@ -33,14 +33,65 @@ public class RentalService {
     @Autowired
     private RentalDao rDao;
 
-    @Autowired
-    private SqlSession sqlSession;
 
     // 수희
 
-    public void cancelReservationByRRId(int rr_id) {
+    // 연체료 업데이트
+    public void updateLatefee() {
 
-        rDao.updateReservationByRRId(rr_id);
+        try {
+
+            // 연체자들(연체료납부여부=N) 불러오기
+            List<RentalDto> rList = rDao.getRentalListByLatefeePaid("N");
+
+            if (rList != null) {
+
+                // 아직도 반납 안 했으면 연체료 업데이트
+                for (RentalDto rDto : rList) {
+
+                    if (rDto.getR_rental_status_id() == 3) {
+                        Integer r_id = rDto.getR_id();
+                        Integer latefee = rDao.getStoreLatefeeByRId(r_id);
+                        rDao.updateLatefeeByRId(r_id, latefee);
+                    }
+                }
+            }
+            
+        } catch (Exception e) {
+            System.out.println("ERROR: "+e.getStackTrace());
+        }
+
+    }
+
+    // 신규연체발생 처리
+    public void checkReturn() {
+
+        try {
+
+            // 대여자들(상태코드=2) 불러오기 
+            List<RentalDto> rList = rDao.getRentalListByStatusR(2);
+            log.info("rList:{}", rList);
+
+            if (rList != null) {
+                LocalDate currDate = LocalDate.now();
+
+                // 반납기한 지났으면 대여상태,연체료,연체료납부여부 업데이트
+                for (RentalDto rDto : rList) {
+
+                    LocalDate dueDate = ((Timestamp)rDto.getR_duedate()).toLocalDateTime().toLocalDate();
+
+                    if (currDate.isAfter(dueDate)) {
+                        Integer r_id = rDto.getR_id();
+                        Integer latefee = rDao.getStoreLatefeeByRId(r_id);
+                        rDao.updateRentalStatusByRId(r_id, 3, latefee, "N");
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR: "+e.getStackTrace());
+        }
+
     }
 
     

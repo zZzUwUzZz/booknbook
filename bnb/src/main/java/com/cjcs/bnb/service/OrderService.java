@@ -2,8 +2,6 @@ package com.cjcs.bnb.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,9 +9,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.BookMapper;
@@ -22,12 +17,9 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.CartDto;
+import com.cjcs.bnb.dto.RentalReservationDto;
 
 import lombok.extern.slf4j.Slf4j;
-import com.cjcs.bnb.dto.BookDto;
-import com.cjcs.bnb.dto.CartDto;
-import com.cjcs.bnb.dto.PurchaseDto;
-import com.cjcs.bnb.dto.RentalDto;
 
 // 이 서비스클래스 안에서는 아래 관련작업 하시면 됨요.
 
@@ -109,7 +101,6 @@ public class OrderService {
         return cPList;
     }
 
-
     // 대여카트 로딩 시 대여재고체크 및 카트수량 변경
     public List<CartDto> getRentalCartAndStockCheck(String c_id) {
 
@@ -133,42 +124,24 @@ public class OrderService {
         return cRList;
     }
 
-
     // 구매카트에서 선택한 항목을 결제페이지로 넘기기
-    public List<CartDto> purchaseCartToPayment(ArrayList<Integer> pcart_idList) {
+    public List<CartDto> cartToPayment(ArrayList<Integer> cart_idList) {
 
-        List<CartDto> cPList = new ArrayList<>();
+        List<CartDto> cList = new ArrayList<>();
 
-        int listLength = pcart_idList.size();
-
-        for (int n=0; n<listLength; n++) {
-
-            int cart_id = pcart_idList.get(n);
-            CartDto cartDto = oDao.getCartByCartId(cart_id);
-            cPList.add(cartDto);
-        }
-
-        return cPList;
-    }
-        
-    // 대여카트에서 선택한 항목을 결제페이지로 넘기기
-    public List<CartDto> rentalCartToPayment(ArrayList<Integer> rcart_idList) {
-
-        List<CartDto> cRList = new ArrayList<>();
-
-        int listLength = rcart_idList.size();
+        int listLength = cart_idList.size();
 
         for (int n=0; n<listLength; n++) {
 
-            int cart_id = rcart_idList.get(n);
+            int cart_id = cart_idList.get(n);
             CartDto cartDto = oDao.getCartByCartId(cart_id);
-            cRList.add(cartDto);
+            cList.add(cartDto);
         }
 
-        return cRList;
+        return cList;
     }
 
-    // 결제페이지로 넘긴 구매항목의 대여료 총합
+    // 결제페이지로 넘긴 구매항목의 가격 총합
     public int getPriceSum(List<CartDto> cPList) {
 
         int total_b_price = 0;
@@ -264,8 +237,6 @@ public class OrderService {
             oDao.addOrderSelectKey(orderMap);
             Integer o_id = (Integer)orderMap.get("o_id");
                
-            log.info("o_id:{}", o_id);
-               
             if (pcart_idList != null) {
                
                 for (Integer cart_id : pcart_idList) {
@@ -287,6 +258,52 @@ public class OrderService {
                     oDao.deleteCartItem(cart_id);
                 }
             }
+
+        } catch (Exception e) {
+            System.out.println("ERROR: "+e.getStackTrace());
+            return false;
+        }
+
+        return true;
+    }
+
+    // 대여순번항목 결제처리 - 트랜잭션
+    @Transactional
+    public Boolean addResOrder(String c_id, Integer rr_id,
+                            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
+                            Integer o_total_pricerent, Integer o_total_deliveryfee, Integer o_total_payment) {
+
+        try {
+
+            HashMap<String, Object> orderMap = new HashMap<>();
+            orderMap.put("c_id", c_id);
+            orderMap.put("rr_id", rr_id);
+            orderMap.put("o_delivery_sort", o_delivery_sort);
+            orderMap.put("o_recip_addr", o_recip_addr);
+            orderMap.put("o_recip_name", o_recip_name);
+            orderMap.put("o_recip_phone", o_recip_phone);
+            orderMap.put("o_total_pricerent", o_total_pricerent);
+            if (o_delivery_sort.equals("택배")) {
+                orderMap.put("o_total_deliveryfee", o_total_deliveryfee);
+                orderMap.put("o_total_payment", o_total_payment);
+            } else if (o_delivery_sort.equals("방문수령")) {
+                orderMap.put("o_total_deliveryfee", 0);
+                orderMap.put("o_total_payment", o_total_pricerent);
+            }
+            log.info("orderMap:{}", orderMap);
+               
+            oDao.addOrderSelectKey(orderMap);
+            Integer o_id = (Integer)orderMap.get("o_id");
+            log.info("o_id:{}", o_id);
+
+            RentalReservationDto rrDto = rDao.getReservationByRRId(rr_id);
+            log.info("rrDto:{}", rrDto);
+            rDao.addRentalList(o_id, rrDto.getRr_s_id(), rrDto.getRr_b_isbn(), rrDto.getRr_c_id(), 7);
+            // bDao.updateRentalStock(rrDto.getRr_s_id(), rrDto.getRr_b_isbn());
+            // 예림이가 대여가능상태로 바꿀 때 재고를 1로 올리는지 0 유지하는지 체크하고,
+            // 1로 올리는 경우 주석해제해야함
+            
+            rDao.updateReservationByRRId(rr_id, 6);
 
         } catch (Exception e) {
             System.out.println("ERROR: "+e.getStackTrace());

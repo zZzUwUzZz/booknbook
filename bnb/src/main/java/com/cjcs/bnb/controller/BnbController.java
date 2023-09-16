@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dao.MemberDao;
+import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.service.BoardService;
+import com.cjcs.bnb.service.RentalService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +33,13 @@ public class BnbController {
 
     @Autowired
     private BoardService bSer;
+    @Autowired
+    private RentalService rSer;
 
     @Autowired
     private MemberDao mDao;
+    @Autowired
+    private RentalDao rDao;
     @Autowired
     private ReportBoardDao rbDao;
     @Autowired
@@ -60,6 +67,16 @@ public class BnbController {
     }
 
 
+    // 매일밤 12시 실행할 작업
+    @Scheduled(cron = "10 0 3 ? * *")
+    public void dailyCheck() {
+        
+        rSer.updateLatefee();   // 연체료 업데이트 후
+        rSer.checkReturn();     // 신규연체 처리
+
+        // rSer.   // 대여순번자처리 메서드 들어갈 자리
+
+    }
 
 
     // 여기부터 관리자페이지
@@ -130,12 +147,15 @@ public class BnbController {
     public String adminCustomerList(SearchDto sDto, Model model, HttpSession session) {
 
         List<MemberDto> customerList = mDao.getCustomerListByKeyword(sDto);
-        
-        log.info("customerList:{}", customerList.size());
-
 		String pageHtml = bSer.getPageboxHtml(sDto, "/admin/customerlist");
 
 		if (customerList != null) {
+
+            for (MemberDto mDto : customerList) {
+
+                int overdues = rDao.countLateReturnsByCId(mDto.getM_id());
+                mDto.setOverdues(overdues);
+            }
 
 			session.setAttribute("pageNum", sDto.getPageNum());
 

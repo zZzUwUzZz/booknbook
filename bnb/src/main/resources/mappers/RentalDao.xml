@@ -60,7 +60,10 @@
                               s_storename as "s_storename",
                               rental_status as "rental_status",
                               r_duedate as "r_duedate",
-                              r_latefee_total as "r_latefee_total"
+                              r_latefee_total as "r_latefee_total",
+                              r_latefee_paid as "r_latefee_paid",
+                              r_latefee_paydate as "r_latefee_paydate",
+                              r_id as "r_id"
                        FROM O, R, B, S, STATUS_R
                        WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
                              r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
@@ -76,7 +79,10 @@
                               s_storename as "s_storename",
                               rental_status as "rental_status",
                               r_duedate as "r_duedate",
-                              r_latefee_total as "r_latefee_total"
+                              r_latefee_total as "r_latefee_total",
+                              r_latefee_paid as "r_latefee_paid",
+                              r_latefee_paydate as "r_latefee_paydate",
+                              r_id as "r_id"
                        FROM O, R, B, S, STATUS_R
                        WHERE o_id = r_o_id AND r_s_id = s_id AND r_s_id = b_s_id AND
                              r_b_isbn = b_isbn AND r_rental_status_id = rental_status_id AND
@@ -90,6 +96,19 @@
 		]]>
     </select>
 
+    <select id="getRentalByRId" resultType="RentalDto">
+        SELECT r_id, s_storename, b_title, r_duedate, r_latefee_total
+        FROM ORDER_LIST_R WHERE r_id = #{r_id}
+    </select>
+
+    <select id="getRentalListByStatusR" resultType="RentalDto">
+        SELECT * FROM R WHERE r_rental_status_id = #{code}
+    </select>
+
+    <select id="getRentalListByLatefeePaid" resultType="RentalDto">
+        SELECT * FROM R WHERE r_latefee_paid = #{code}
+    </select>
+
     <select id="getCurrentRentalListByCId" parameterType="String" resultType="Map">
         SELECT rownum,
                b_title as "b_title",
@@ -101,9 +120,9 @@
             FROM R, S, B, STATUS_R
             WHERE r_s_id = s_id AND r_s_id = b_s_id AND r_b_isbn = b_isbn AND
                     r_rental_status_id = rental_status_id AND
-                    (r_rental_status_id IN (2, 3)) AND
+                    (r_rental_status_id IN (2, 3) OR (r_rental_status_id IN (4) AND r_latefee_paid IN ('N'))) AND
                     r_c_id = #{c_id}
-            ORDER BY r_o_id DESC)
+            ORDER BY r_duedate)
         <![CDATA[
         WHERE rownum<4
         ]]>
@@ -119,10 +138,37 @@
         ]]>
     </select>
 
+    <update id="updateRentalStatusByRId">
+        UPDATE R
+        SET r_rental_status_id = #{code},
+            r_latefee_total = #{latefee},
+            r_latefee_paid = #{paid_or_not}
+        WHERE r_id = #{r_id}
+    </update>
+
+    <update id="updateLatefeeByRId">
+        UPDATE R SET r_latefee_total = r_latefee_total + #{latefee}
+        WHERE r_id = #{r_id}
+    </update>
+
+    <update id="updateLatefeePayDateByRId">
+        UPDATE R SET r_latefee_paid = #{code}, r_latefee_paydate = SYSDATE
+        WHERE r_id = #{r_id}
+    </update>
+
+    <select id="getStoreLatefeeByRId">
+        SELECT s_latefee FROM S, R WHERE s_id = r_s_id AND r_id = #{r_id}
+    </select>
+
     <select id="countCurrentRentalByCId" parameterType="String" resultType="Integer">
-        SELECT count(*)
+        SELECT COUNT(*)
         FROM R
-        WHERE (r_rental_status_id IN (2, 3)) AND r_c_id = #{c_id}
+        WHERE (r_rental_status_id IN (2, 3) OR (r_rental_status_id IN (4) AND r_latefee_paid IN ('N'))) AND r_c_id = #{c_id}
+    </select>
+
+    <select id="countLateReturnsByCId">
+        SELECT COUNT(*) FROM R
+        WHERE r_c_id = #{c_id} AND r_latefee_total is not null
     </select>
 
     <!-- 구매자별 조회기간 내의 총 대여항목수 세기-->
@@ -134,9 +180,9 @@
 		</if>
     </select>
 
-    <insert id="addRentalList" parameterType="Map">
+    <insert id="addRentalList">
         INSERT INTO R(r_o_id, r_s_id, r_b_isbn, r_c_id, r_order_status_id, r_ordercancel_rejection_reason, r_delivery_status_id, r_deliverydate, r_rentalperiod, r_duedate, r_rental_status_id, r_returndate, r_latefee_total, r_latefee_paid, r_latefee_paydate, r_id)
-        VALUES(#{o_id}, #{cart_s_id}, #{cart_b_isbn}, #{c_id}, 1, NULL, 1, NULL, #{cart_rentalperiod}, NULL, 1, NULL, NULL, NULL, NULL, R_SEQ.NEXTVAL)
+        VALUES(#{o_id}, #{s_id}, #{b_isbn}, #{c_id}, 1, NULL, 1, NULL, #{r_rentalperiod}, NULL, 1, NULL, NULL, NULL, NULL, R_SEQ.NEXTVAL)
     </insert>
 
     <update id="cancelRentalByOId" parameterType="Integer">
@@ -145,8 +191,12 @@
         WHERE r_o_id = #{o_id}
     </update>
 
+    <select id="getReservationByRRId" parameterType="Integer" resultType="RentalReservationDto">
+        SELECT * FROM RENTAL_RES_INFO WHERE rr_id = #{rr_id}
+    </select>
+
     <select id="getReservationListByCId" parameterType="String" resultType="RentalReservationDto">
-        SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+        SELECT RR.*, b_title, s_storename, res_status
         FROM RR, S, B, STATUS_RR
         WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
               rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
@@ -160,7 +210,7 @@
 		<choose>
 		    <when test="startDate != null and endDate != null">                
 		    	(SELECT rownum rn, RRL.*      
-		    	 FROM (SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+		    	 FROM (SELECT RR.*, b_title, s_storename, res_status
                        FROM RR, S, B, STATUS_RR
                        WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
                              rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
@@ -170,7 +220,7 @@
 		    </when>
 		    <otherwise>
 		    	(SELECT rownum rn, RRL.*
-				 FROM (SELECT rr_id, rr_reqdate, b_title, s_storename, rr_res_status_id, res_status, rr_rejection_reason
+				 FROM (SELECT RR.*, b_title, s_storename, res_status
                        FROM RR, S, B, STATUS_RR
                        WHERE rr_s_id = s_id AND rr_s_id = b_s_id AND
                              rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
@@ -193,9 +243,9 @@
 		</if>
     </select>
 
-    <update id="updateReservationByRRId" parameterType="Integer">
+    <update id="updateReservationByRRId">
         UPDATE RR
-        SET rr_res_status_id = 4
+        SET rr_res_status_id = #{code}
         WHERE rr_id = #{rr_id}
     </update>
 

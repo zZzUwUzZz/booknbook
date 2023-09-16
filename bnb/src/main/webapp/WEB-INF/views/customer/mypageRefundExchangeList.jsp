@@ -101,7 +101,7 @@
                                 <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                 <td onclick="location.href='/mypage/purchaselist'" class="td-linked">${reItem.re_o_id}</td>
                                 <td>${reItem.s_storename}</td>
-                                <td>${reItem.b_title}</td>
+                                <td title="${reItem.b_title}"><span>${reItem.b_title}</span></td>
                                 <td>${reItem.re_amount}</td>
                                 <td>${reItem.process_status}</td>
                                 <c:choose>

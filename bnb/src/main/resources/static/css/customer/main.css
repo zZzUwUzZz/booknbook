@@ -16,7 +16,7 @@
 .container-3 {
     box-sizing: border-box;
     width: 530px;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 .container-4 {
     box-sizing: border-box;
@@ -25,11 +25,17 @@
     margin: auto;
 }
 table {
+    border-spacing: 2px;
     width: 100%;
-    font-size: 15px;
+    font-size: 14.5px;
     text-align: center;
+    margin-top: -5px;
 }
-tr {
+th {
+    height: 26px;
+    background-color: #f0eee2;
+}
+td {
     height: 24px;
 }
 .cards {
@@ -112,4 +118,7 @@ h4 {
 }
 .book_img a img {
     height: 205px;
+}
+td span {
+    padding-left: 0;
 }

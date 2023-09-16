@@ -81,9 +81,9 @@
                     <tr class="headrow">
                         <th width="100px">주문번호</th>
                         <th width="160px">주문일자</th>
-                        <th>주문품목</th>
-                        <th width="100px">주문상태</th>
-                        <th width="100px">수령방법</th>
+                        <th>주문내용</th>
+                        <th width="105px">주문상태</th>
+                        <th width="105px">수령방법</th>
                         <th width="100px"> </th>
                     </tr>
 
@@ -98,7 +98,14 @@
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">${oItem.o_id}</td>
                                 <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
-                                <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
+                                <c:choose>
+                                    <c:when test="${oItem.book_sorts_minus_one eq 0}">
+                                        <td>${oItem.first_title}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td>${oItem.order_status}</td>
                                 <td>${oItem.o_delivery_sort}</td>
                                 <td><button onclick="location.href='/mypage/orderdetail/${oItem.o_id}'">상세보기</button></td>

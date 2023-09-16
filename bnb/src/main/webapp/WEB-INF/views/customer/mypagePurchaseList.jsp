@@ -81,8 +81,8 @@
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th width="100px">주문번호</th>
-                        <th width="160px">주문일자</th>
+                        <th width="90px">주문번호</th>
+                        <th width="140px">주문일자</th>
                         <th>도서명</th>
                         <th width="50px">수량</th>
                         <th>서점명</th>
@@ -102,7 +102,7 @@
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${pItem.o_id}'" class="td-linked">${pItem.o_id}</td>
                                 <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
-                                <td>${pItem.b_title}</td>
+                                <td title="${pItem.b_title}"><span>${pItem.b_title}</span></td>
                                 <td>${pItem.p_amount}</td>
                                 <td>${pItem.s_storename}</td>
                                 <td>${pItem.delivery_status}</td>

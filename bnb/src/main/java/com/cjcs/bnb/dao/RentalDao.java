@@ -13,6 +13,7 @@ import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.service.RentalService;
 
 @Mapper
+
 public interface RentalDao {
 
     //수희    
@@ -37,10 +38,10 @@ public interface RentalDao {
     public List<RentalDto> RentReturnList(String s_id); // 반납현황
     public List<RentalDto> getRentalList();             // 대여 항목 가져오기
     public RentalDto getLateFeeInfo(int r_id);   
-           
+
     //유다
-    // 모든 연체된 대여 항목의 ID 목록을 가져오는 메서드
-    List<Integer> getAllLateRentalIds();
-    int getLateFee(int r_id);
-    // 연체료 정보를 가져오는 메서드
+    public int getLateFee(ArrayList<Integer> r_idList);
+    // public List<RentalDto> getAllLateRentals() {
+    //     // 데이터베이스에서 모든 연체 대여 항목
+    // }
 }

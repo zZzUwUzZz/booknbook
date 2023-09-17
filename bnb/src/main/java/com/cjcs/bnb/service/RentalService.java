@@ -108,22 +108,17 @@ public class RentalService {
         }
         return resultList;
     }
-
-    //유다
-     // 모든 연체된 대여 항목 ID 목록
-     public List<Integer> getAllLateRentalIds() {
-        return rDao.getAllLateRentalIds();
+    public Map<String, Object> getLateFeeInfo(ArrayList<Integer> r_idList) {
+        int lateFee = rDao.getLateFee(r_idList);  // 연체료를 가져오는 DAO 메서드
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("lateFee", lateFee);
+        response.put("r_idList", r_idList);
+        
+        return response;
     }
-
-    // 주어진 ID 목록을 기반으로 총 연체료를 계산합니다.
-    public int getTotalLateFee(List<Integer> r_idList) {
-        int totalLateFee = 0;
-
-        for(Integer r_id : r_idList) {
-            totalLateFee += rDao.getLateFee(r_id); 
-        }
-
-        return totalLateFee;
-    }
-    
+    // public List<RentalDto> getAllLateRentals() {
+    //     // 연체된 대여 항목의 목록
+    //     return rDao.getAllLateRentals();
+    // }
 }

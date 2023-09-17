@@ -25,7 +25,7 @@ public class MenuController {
         return "/books/books";
     }
 
-    @PostMapping("/report")
+    @GetMapping("/report")
     public String report(@ModelAttribute ReportBoardDto reportBoardDto) {
         // 현재 시간을 report_date에 설정
         // reportBoardDto.setReportDate(Timestamp.valueOf(LocalDateTime.now()));

@@ -2,6 +2,7 @@ package com.cjcs.bnb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.CartDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.MemberService;
@@ -36,6 +40,8 @@ public class OrderController {
     private PurchaseService pSer;
     @Autowired
     private RentalService rSer;
+    @Autowired
+    private RentalDao rentalDao;
   
 
     @GetMapping("/cart")    // 카트페이지
@@ -101,15 +107,11 @@ public class OrderController {
     }
 
     @GetMapping("/paymentlatefee")    // 연체료결제페이지 
-    public String paymentLatefee(Model model, HttpSession session) {
-                                                     //음 damit... 
-   // 모든 연체된 대여 항목 ID 목록을 가져옵니다. (이 메서드는 `RentalService` 클래스에 정의되어야 합니다)
-    List<Integer> r_idList = rSer.getAllLateRentalIds();
-    int totalLateFee = rSer.getTotalLateFee(r_idList);
-    model.addAttribute("lateFee", totalLateFee);
-
-        return "orderer/paymentlatefee";
-    }    
+    public String paymentLateFee(@RequestParam ArrayList<Integer> r_idList, Model model) {
+        Map<String, Object> lateFeeInfo = rSer.getLateFeeInfo(r_idList);
+        model.addAttribute("lateFeeInfo", lateFeeInfo);
+        return "orderer/paymentLateFee";  
+    }
 
     @PostMapping("/payLatefee")    // 연체료결제처리
     public String payLatefee() {

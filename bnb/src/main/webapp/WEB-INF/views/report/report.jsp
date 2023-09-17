@@ -19,8 +19,92 @@ String formattedDate = dateFormat.format(currentDate);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>제보하기</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <style>
+        body {
+            background-color: #4d6b50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            border: 1px solid #000000;
+            padding: 20px;
+            width: 50%;
+            background-color: #fffbed;
+        }
+
+        .title-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field label {
+            flex: 1;
+            text-align: left;
+        }
+
+        .input-field input[type="text"],
+        .input-field textarea {
+            flex: 5;
+            margin-left: 10px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        /* 문자 수 카운트 설정 */
+        #charCount {
+            font-size: 12px;
+            color: gray;
+        }
+
+        /* 제출 버튼 스타일 수정 */
+        #input2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #input2 input[type="submit"] {
+            background-color: #4d6b50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* 호버 효과 */
+        }
+
+        #input2 input[type="submit"]:hover {
+            background-color:  #ff9946; /* 클릭 시 버튼 배경색 변경 */
+        }
+
+        .input-field-image {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field-image label {
+            flex: 1;
+            text-align: left;
+        }
+
+        .input-field-image input[type="file"] {
+            flex: 5;
+            text-align: center;
+        }
+    </style>
+
 </head>
 
 <body>

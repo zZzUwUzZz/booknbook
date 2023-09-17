@@ -59,9 +59,11 @@ public class BoardService {
 		return paging.makeHtmlPaging();
 
 	}
-    public void insertReport(ReportBoardDto reportBoardDto) {
-        // reportBoardDto.setReport_date(Timestamp.valueOf(LocalDateTime.now())); // 현재 시간을 설정
-        rbDao.insertReport(reportBoardDto); 
+    public void insertReport(ReportBoardDto reportBoardDto){
+        reportBoardDto.setReport_date(new Timestamp(System.currentTimeMillis()));
+        rbDao.insertReport(reportBoardDto);
     }
 }
+
+
 

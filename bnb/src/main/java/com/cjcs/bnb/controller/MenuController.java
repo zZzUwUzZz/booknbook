@@ -31,7 +31,7 @@ public class MenuController {
         // reportBoardDto.setReportDate(Timestamp.valueOf(LocalDateTime.now()));
         
         boardService.insertReport(reportBoardDto);
-        return "redirect:/report_success"; // 제출 성공 페이지로 리디렉션
+        return "redirect:/admin"; // 제출 성공 페이지로 리디렉션
 
     }
 }

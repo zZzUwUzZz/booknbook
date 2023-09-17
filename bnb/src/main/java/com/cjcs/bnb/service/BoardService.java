@@ -1,5 +1,8 @@
 package com.cjcs.bnb.service;
 
+
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +57,8 @@ public class BoardService {
 		return paging.makeHtmlPaging();
 
 	}
-    public void saveReport(ReportBoardDto reportBoardDto) {
-        rbDao.insertReport(reportBoardDto); // `insertReport` 메서드 호출
+    public void insertReport(ReportBoardDto reportBoardDto) {
+    rbDao.insertReport(reportBoardDto);
     }
     
 }

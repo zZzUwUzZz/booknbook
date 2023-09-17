@@ -25,6 +25,11 @@ public class MenuController {
         return "/books/books";
     }
 
+    @GetMapping("/report_form")
+    public String report() {
+        return "/report";  // 제보 폼을 보여주는 페이지로 리다이렉트
+    }
+
     @PostMapping("/report")
     public String report(@ModelAttribute ReportBoardDto reportBoardDto) {
         reportBoardDto.setReport_date(Timestamp.valueOf(LocalDateTime.now()));  // 현재 시간 설정

@@ -118,7 +118,7 @@ String formattedDate = dateFormat.format(currentDate);
             
         </div>
 
-        <form action="/report/save" method="post">
+        <form action="/report" method="post" enctype="multipart/form-data">
             <div class="input-field">
                 <label for="report_title">제목</label>
                 <input type="text" id="report_title" name="report_title" required>

@@ -36,7 +36,8 @@ public interface RentalDao {
     public List<RentalDto> RentCurrentList(String s_id); // 대여현황
     public List<RentalDto> RentReturnList(String s_id); // 반납현황
     public List<RentalDto> getRentalList();             // 대여 항목 가져오기
-    public RentalDto getLateFeeInfo(int r_id);          
+    public RentalDto getLateFeeInfo(int r_id);   
+           
     //유다
     // 모든 연체된 대여 항목의 ID 목록을 가져오는 메서드
     List<Integer> getAllLateRentalIds();

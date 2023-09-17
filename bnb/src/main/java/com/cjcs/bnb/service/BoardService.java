@@ -61,7 +61,7 @@ public class BoardService {
 	}
     public void insertReport(ReportBoardDto reportBoardDto) {
         // reportBoardDto.setReport_date(Timestamp.valueOf(LocalDateTime.now())); // 현재 시간을 설정
-        rbDao.insertReport(reportBoardDto); // DAO를 통해 데이터베이스에 데이터를 저장
+        rbDao.insertReport(reportBoardDto); 
     }
 }
 

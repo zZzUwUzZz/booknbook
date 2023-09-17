@@ -225,7 +225,20 @@
     </select>
 
     <select id="getReservationListByStatusRR" parameterType="Integer" resultType="RentalReservationDto">
-        SELECT RR.* FROM RR WHERE rr_res_status_id = #{code}
+        SELECT * FROM RENTAL_RES_INFO 
+        WHERE rr_res_status_id = #{code}
+    </select>
+
+    <select id="getFirstReservationByStatusRR" resultType="RentalReservationDto">
+        SELECT rownum rn, RRI.*
+        FROM (SELECT * FROM RENTAL_RES_INFO 
+              WHERE rr_res_status_id = #{code} AND
+		            rr_s_id = #{s_id} AND
+		            rr_b_isbn = #{b_isbn}
+              ORDER BY rr_reqdate) RRI
+        <![CDATA[
+        WHERE rn <= 1
+        ]]>
     </select>
 
     <!-- 구매자별 조회기간 내의 대여예약-->
@@ -273,6 +286,12 @@
         <if test="cancel_reason != null">
 		      , rr_cancel_reason = #{cancel_reason} 
 		</if>
+        WHERE rr_id = #{rr_id}
+    </update>
+
+    <update id="setPaymentDuedate">
+        UPDATE RR
+        SET rr_res_status_id = 5, rr_duedate = SYSDATE + #{days} - 1 
         WHERE rr_id = #{rr_id}
     </update>
 

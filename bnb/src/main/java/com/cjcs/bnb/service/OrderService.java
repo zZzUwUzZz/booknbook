@@ -254,7 +254,7 @@ public class OrderService {
                     
                     CartDto cDto = oDao.getCartByCartId(cart_id);
                     rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_rentalperiod());
-                    bDao.updateRentalStock(cDto.getCart_s_id(), cDto.getCart_b_isbn());
+                    bDao.updateRentalStock(cDto.getCart_s_id(), cDto.getCart_b_isbn(), 1);
                     oDao.deleteCartItem(cart_id);
                 }
             }
@@ -300,10 +300,9 @@ public class OrderService {
             log.info("rrDto:{}", rrDto);
             rDao.addRentalList(o_id, rrDto.getRr_s_id(), rrDto.getRr_b_isbn(), rrDto.getRr_c_id(), 7);
             // bDao.updateRentalStock(rrDto.getRr_s_id(), rrDto.getRr_b_isbn());
-            // 예림이가 대여가능상태로 바꿀 때 재고를 1로 올리는지 0 유지하는지 체크하고,
-            // 1로 올리는 경우 주석해제해야함
+            // 대여예약리스트 소진될 때까지 재고를 0으로 유지하기로 해서 재고차감 생략함
             
-            rDao.updateReservationByRRId(rr_id, 6);
+            rDao.updateReservationByRRId(rr_id, 6, null);
 
         } catch (Exception e) {
             System.out.println("ERROR: "+e.getStackTrace());

@@ -79,8 +79,11 @@ public class BnbController {
     @Scheduled(cron = "1 0 0 ? * *")
     public void dailyCheck() {
         
+        // 대여관련
         rSer.updateLatefee();      // 연체료 업데이트 후
         rSer.checkReturn();        // 신규연체 처리
+        
+        // 대여예약관련
         rSer.checkReservation();   // 대여예약 처리
 
     }

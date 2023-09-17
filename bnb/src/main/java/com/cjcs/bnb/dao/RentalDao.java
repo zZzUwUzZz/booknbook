@@ -45,11 +45,13 @@ public interface RentalDao {
     public RentalReservationDto getReservationByRRId(Integer rr_id);
     public List<RentalReservationDto> getReservationListByCId(String c_id);
     public List<RentalReservationDto> getReservationListByStatusRR(Integer code);
+    public RentalReservationDto getFirstReservationByStatusRR(Integer code, String s_id, String b_isbn);
     public List<RentalReservationDto> getReservationListByDateRange(SearchDto sDto);
 
     public int countReservationsByDateRange(SearchDto sDto);
 
     public void updateReservationByRRId(int rr_id, int code, String cancel_reason);
+    public void setPaymentDuedate(int rr_id, int days);  // 결제가능기간이 2일이면 days=2
 
     //예림
     public List<RentalDto> RentResList(String s_id); // 예약 신청 리스트 불러오기

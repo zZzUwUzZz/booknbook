@@ -196,6 +196,10 @@
 		</if>
     </select>
 
+    <select id="countAllRentalItems" resultType="Map">
+        SELECT COUNT(*) as "num_of_rentals" FROM R
+    </select>
+
     <insert id="addRentalList">
         INSERT INTO R(r_o_id, r_s_id, r_b_isbn, r_c_id, r_order_status_id, r_ordercancel_rejection_reason, r_delivery_status_id, r_deliverydate, r_rentalperiod, r_duedate, r_rental_status_id, r_returndate, r_latefee_total, r_latefee_paid, r_latefee_paydate, r_id)
         VALUES(#{o_id}, #{s_id}, #{b_isbn}, #{c_id}, 1, NULL, 1, NULL, #{r_rentalperiod}, NULL, 1, NULL, NULL, NULL, NULL, R_SEQ.NEXTVAL)
@@ -218,6 +222,10 @@
               rr_b_isbn = b_isbn AND rr_res_status_id = res_status_id AND
               rr_c_id = #{c_id}
         ORDER BY rr_id DESC
+    </select>
+
+    <select id="getReservationListByStatusRR" parameterType="Integer" resultType="RentalReservationDto">
+        SELECT RR.* FROM RR WHERE rr_res_status_id = #{code}
     </select>
 
     <!-- 구매자별 조회기간 내의 대여예약-->
@@ -262,6 +270,9 @@
     <update id="updateReservationByRRId">
         UPDATE RR
         SET rr_res_status_id = #{code}
+        <if test="cancel_reason != null">
+		      , rr_cancel_reason = #{cancel_reason} 
+		</if>
         WHERE rr_id = #{rr_id}
     </update>
 

@@ -1,5 +1,6 @@
 package com.cjcs.bnb.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,13 +76,12 @@ public class BnbController {
 
 
     // 매일밤 12시 실행할 작업
-    @Scheduled(cron = "10 0 3 ? * *")
+    @Scheduled(cron = "1 0 0 ? * *")
     public void dailyCheck() {
         
-        rSer.updateLatefee();   // 연체료 업데이트 후
-        rSer.checkReturn();     // 신규연체 처리
-
-        // rSer.   // 대여순번자처리 메서드 들어갈 자리
+        rSer.updateLatefee();      // 연체료 업데이트 후
+        rSer.checkReturn();        // 신규연체 처리
+        rSer.checkReservation();   // 대여예약 처리
 
     }
 
@@ -109,16 +109,15 @@ public class BnbController {
         // 통계
         int num_of_seller = mDao.countSellers(null);
         int num_of_customer = mDao.countCustomers(null);
-        int num_of_order = oDao.countAllOrders();
-        int num_of_rentalItem = rDao.countAllRentals();
-        // int num_of_purchaseItem = pDao.countAllPurchases();
+        int num_of_order = ((BigDecimal) oDao.countAllOrders().get("num_of_orders")).intValue();
+        int num_of_rentalItem = ((BigDecimal) rDao.countAllRentalItems().get("num_of_rentals")).intValue();
+        int num_of_purchaseItem = ((BigDecimal) pDao.countAllPurchaseItems().get("num_of_purchases")).intValue();
 
         model.addAttribute("num_of_seller", num_of_seller);
         model.addAttribute("num_of_customer", num_of_customer);
-        // model.addAttribute("num_of_customer", num_of_order);
-        // model.addAttribute("num_of_customer", num_of_rentalItem);
-        // model.addAttribute("num_of_customer", num_of_purchaseItem);
-
+        model.addAttribute("num_of_order", num_of_order);
+        model.addAttribute("num_of_rentalItem", num_of_rentalItem);
+        model.addAttribute("num_of_purchaseItem", num_of_purchaseItem);
 
         // 상습연체범 (기간내3회이상)
         List<HashMap<String, String>> blackList = rDao.getCustomerBlackList(3);

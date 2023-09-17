@@ -25,6 +25,7 @@ public interface PurchaseDao {
     public List<PurchaseDto> getLatest5PurchaseListByCId(String c_id);
 
     public Integer countPurchasesByDateRange(SearchDto sDto);
+    public HashMap<String, Object> countAllPurchaseItems();
 
     public int addPurchaseList(Integer o_id,  String cart_s_id, String cart_b_isbn, String c_id, Integer cart_amount);
 

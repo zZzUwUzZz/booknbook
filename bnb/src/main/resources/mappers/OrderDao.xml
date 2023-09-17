@@ -167,8 +167,8 @@
 		</if>
     </select>
 
-    <select id="countAllOrders">
-        SELECT COUNT(*) FROM O
+    <select id="countAllOrders" resultType="Map">
+        SELECT COUNT(*) as "num_of_orders" FROM O
     </select>
 
 

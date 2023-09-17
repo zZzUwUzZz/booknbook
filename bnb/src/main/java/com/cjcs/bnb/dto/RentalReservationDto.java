@@ -20,7 +20,7 @@ public class RentalReservationDto {
     private String rr_cancel_reason;  // 예약취소사유(기한내 미결제)
 
     //뷰에만 있는 필드
-    private String res_status;        // 예약상태(승인대기/예약불가/예약중/예약취소/대여가능) 
+    private String res_status;        // 예약상태(승인대기/예약불가/예약중/예약취소/대여가능/대여완료) 
     private String s_storename;       // 예약한서점명
     private int s_deliveryfee;        // 예약한서점의배송비
     private String b_title;           // 예약한책제목

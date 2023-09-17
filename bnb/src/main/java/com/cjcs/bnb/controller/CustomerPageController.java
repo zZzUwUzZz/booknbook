@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -324,19 +325,13 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @ResponseBody
     @PostMapping("/reservationcancel")    // 대여예약취소처리
-    public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
+    public ResponseEntity<Void> cancelReservation(@RequestParam int rr_id, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        log.info("rr_id:{}", rr_id);
+        rDao.updateReservationByRRId(rr_id, 4, null);
 
-        rDao.updateReservationByRRId(rrDto.getRr_id(), 4);
-
-        List<RentalReservationDto> rrList = rDao.getReservationListByCId(c_id);
-
-        return rrList;
+        return ResponseEntity.noContent().build();
     }
 
 

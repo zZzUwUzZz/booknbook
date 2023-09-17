@@ -43,8 +43,7 @@ public interface OrderDao {
     public HashMap<String, Object> getOrderInfoByOId(int o_id);
 
     public Integer countOrdersByDateRange(SearchDto sDto);
-    public Integer countAllOrders();
-    public Integer countAllOrdercancels();
+    public HashMap<String, Object> countAllOrders();
 
     // 예림
     public int getTodaySellCnt(String s_id);

@@ -126,7 +126,7 @@
                         <h4 class="stats">· 총 입점서점 수 :<a href="/admin/sellerlist">&nbsp;&nbsp;${num_of_seller}</a></h4>
                         <h4 class="stats">· 총 일반회원 수 : <a href="/admin/customerlist">&nbsp;&nbsp;${num_of_customer}</a></h4>
                         <h4 class="stats">· 총 주문 건수 : &nbsp;${num_of_order}</h4>
-                        <h4 class="stats">· 총 주문취소 수 : &nbsp;${num_of_ordercancel}</h4>
+                        <br>
                         <h4 class="stats">· 총 대여항목 수 : &nbsp;${num_of_rentalItem}</h4>
                         <h4 class="stats">· 총 구매항목 수 : &nbsp;${num_of_purchaseItem}</h4>
                     </div>

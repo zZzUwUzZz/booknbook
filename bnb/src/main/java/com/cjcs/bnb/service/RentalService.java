@@ -94,6 +94,41 @@ public class RentalService {
 
     }
 
+    // 대여예약건들 처리
+    public void checkReservation() {
+
+        try {
+
+            // 대여예약 순번 돌아온 사람들(상태코드=5) 불러오기 
+            List<RentalReservationDto> rrList = rDao.getReservationListByStatusRR(5);
+            log.info("rrList:{}", rrList);
+
+            if (rrList != null) {
+                LocalDate currDate = LocalDate.now();
+
+                // 결제시한 지났으면 예약상태,취소사유 업데이트하고 알림창에 추가
+                for (RentalReservationDto rrDto : rrList) {
+
+                    LocalDate dueDate = ((Timestamp)rrDto.getRr_duedate()).toLocalDateTime().toLocalDate();
+
+                    if (currDate.isAfter(dueDate)) {
+
+
+
+                        // 다음순위예약자 있는지 확인 후 처리
+                        
+
+                    }
+                }
+            }
+
+            
+        } catch (Exception e) {
+            System.out.println("ERROR: "+e.getStackTrace());
+        }
+
+    }
+
     
     // 예림
 

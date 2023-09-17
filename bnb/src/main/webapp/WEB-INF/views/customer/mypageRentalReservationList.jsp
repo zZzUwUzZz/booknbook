@@ -77,7 +77,7 @@
 
             <div>
                 <div class="tablebox">
-                <table id="async_table">
+                <table>
                     <tr class="headrow">
                         <th width="100px">예약번호</th>
                         <th width="160px">요청일자</th>
@@ -96,7 +96,7 @@
                     <c:if test="${!empty rrList}">
                         <c:forEach var="rrItem" items="${rrList}">
                             <tr>
-                                <td>${rrItem.rr_id}</td>
+                                <td id="rr-${rrItem.rr_id}">${rrItem.rr_id}</td>
                                 <td><fmt:formatDate value="${rrItem.rr_reqdate}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                                 <td title="${rrItem.b_title}"><span>${rrItem.b_title}</span></td>
                                 <td>${rrItem.s_storename}</td>
@@ -109,13 +109,13 @@
                                         <td><div class="available" onclick="location.href='/restopay/${rrItem.rr_id}'" title="결제기한까지 대여신청하지 않을 경우&#013;대여예약이 취소됩니다.">대여하기</div></td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td>${rrItem.res_status}</td>
+                                        <td id="status-${rrItem.rr_id}">${rrItem.res_status}</td>
                                     </c:otherwise>
                                 </c:choose>
                             
                                 <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 1 || rrItem.rr_res_status_id eq 3}">
-                                        <td><button onclick="cancel('${rrItem.rr_id}')" class="cancel_btn">예약취소</button></td>
+                                        <td><button class="cancel_btn" data-rr-id="rr-${rrItem.rr_id}" data-status-id="status-${rrItem.rr_id}">예약취소</button></td>
                                     </c:when>
                                     <c:when test="${rrItem.rr_res_status_id eq 5}">
                                         <td class="available-td">결제기한:<br><fmt:formatDate value="${rrItem.rr_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
@@ -156,75 +156,40 @@
 
     <script>
 
-    function cancel(rr_id) {
+    $(document).ready(function () {
 
-        let conf = confirm('대여예약을 취소할까요?');
-                
-        if (conf == true) {
-                
-            let data = {};
-            data.rr_id = rr_id;
+        $(".cancel_btn").click(function() {
 
-            console.log(data); 
-            
-            $.ajax({
-                
-                method: 'post',
-                url: '/mypage/reservationcancel',
-                data: data,
-                dataType: 'json' 
-                
-            }).done(function(rrList) {    // update후의 대여예약 리스트가 파라미터자리로 넘어옴
-                
-                let rrListHtml = '';
+            let conf = confirm('대여예약을 취소할까요?');
 
-                rrListHtml += '<tr class="headrow">'
-                            + '<th>예약번호</th>'
-                            + '<th>요청일자</th>'
-                            + '<th>도서명</th>'
-                            + '<th>서점명</th>'
-                            + '<th>예약상태</th>'
-                            + '<th> </th>'
-                           + '</tr>'
+            if (conf == true) {
                 
-                if (rrList == null) {
+                let status_id = $(this).data('status-id')
+                $('#'+status_id).text('예약취소')
+                $(this).hide()
+
+                let data = {};
+                let id = $(this).data('rr-id')
+                let rr_id = $('#'+id).html()
+                data.rr_id = rr_id;
+                
+                $.ajax({
                     
-                    rrListHtml += '<tr>'
-                                + '<td colspan="6">대여내역이 없습니다.</td>'
-                               + '</tr>'
+                    method: 'post',
+                    url: '/mypage/reservationcancel',
+                    data: data,
+                    dataType: 'json' 
                     
-                } else {
+                }).done(function() {
+
+                }).fail(function(err) {
                     
-                    for (let rrItem of rrList) {
-                        
-                        rrListHtml += '<tr>'
-                                    + '<td>'+rrItem.rr_id+'</td>'
-                                    + '<td>'+rrItem.rr_reqdate+'</td>'
-                                    + '<td>'+rrItem.b_title+'</td>'
-                                    + '<td>'+rrItem.s_storename+'</td>'
-                                    + '<td>'+rrItem.res_status+'</td>'
-                        if (rrItem.rr_res_status_id == 1 || rrItem.rr_res_status_id == 3) {
-                            rrListHtml += '<td><button onclick="cancel('+rrItem.rr_id+')" class="cancel_btn">예약취소</button></td>'
-                        } else {
-                            rrListHtml += '<td width="80px"></td>'
-                        }
-                        rrListHtml += '</tr>'
-        
-                    }
-                }
-
-                $('#async_table').html(rrListHtml);
-                
-                
-            }).fail(function(err) {
-                
-                console.log(err)
-                
-            })
-            
-        }
-
-    }
+                    location.href='/mypage/rentalreservationlist'
+                    
+                })
+            }
+        })
+    })
 
     </script>
 

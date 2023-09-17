@@ -2,6 +2,7 @@ package com.cjcs.bnb.service;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,8 @@ public class BoardService {
     private ReportBoardDao rbDao;
     @Autowired
     private MemberDao mDao;
-    
+    @Autowired
+    private ReportBoardDto reportBoardDto;
 
     public String getPageboxHtml(SearchDto sDto, String listUrl) {
 
@@ -58,7 +60,8 @@ public class BoardService {
 
 	}
     public void insertReport(ReportBoardDto reportBoardDto) {
-    rbDao.insertReport(reportBoardDto);
+        // reportBoardDto.setReport_date(Timestamp.valueOf(LocalDateTime.now())); // 현재 시간을 설정
+        rbDao.insertReport(reportBoardDto); // DAO를 통해 데이터베이스에 데이터를 저장
     }
-    
 }
+

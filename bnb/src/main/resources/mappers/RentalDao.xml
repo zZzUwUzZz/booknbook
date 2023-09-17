@@ -138,6 +138,22 @@
         ]]>
     </select>
 
+    <select id="getCustomerBlackList" resultType="Map">
+        SELECT r_c_id as "id", c_name as "name", overdues as "overdues", latefee as "latefee"
+        FROM (SELECT r_c_id, c_name, COUNT(*) as overdues, SUM(r_latefee_total) as latefee
+              FROM R, C 
+              WHERE r_c_id = c_id AND
+                    <![CDATA[
+                    r_duedate >= (SYSDATE - INTERVAL '3' MONTH) AND
+                    ]]>
+                    r_latefee_total IS NOT NULL
+              GROUP BY r_c_id, c_name)
+        <![CDATA[
+        WHERE overdues >= #{frequency}
+        ]]>
+        ORDER BY c_name
+    </select>
+
     <update id="updateRentalStatusByRId">
         UPDATE R
         SET r_rental_status_id = #{code},

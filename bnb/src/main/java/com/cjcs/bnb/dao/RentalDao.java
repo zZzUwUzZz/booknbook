@@ -1,12 +1,12 @@
 package com.cjcs.bnb.dao;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.dto.SearchDto;
@@ -23,6 +23,7 @@ public interface RentalDao {
     public List<RentalDto> getRentalListByLatefeePaid(String code);
     public List<HashMap<String, String>> getCurrentRentalListByCId(String c_id);
     public List<RentalDto> getLatest5RentalListByCId(String c_id);
+    public List<HashMap<String, String>> getCustomerBlackList(Integer frequency);
 
     public int updateRentalStatusByRId(Integer r_id, Integer code, Integer latefee, String paid_or_not);
     public int updateLatefeeByRId(Integer r_id, Integer latefee);
@@ -32,6 +33,7 @@ public interface RentalDao {
     public int countCurrentRentalByCId(String c_id);
     public int countLateReturnsByCId(String c_id);
     public int countRentalsByDateRange(SearchDto sDto);
+    public int countAllRentals();
 
     public int addRentalList(Integer o_id,  String s_id, String b_isbn, String c_id, Integer r_rentalperiod);
 

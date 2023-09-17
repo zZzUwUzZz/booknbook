@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dao.MemberDao;
+import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
 import com.cjcs.bnb.dto.BookDto;
@@ -38,8 +40,13 @@ public class BnbController {
 
     @Autowired
     private MemberDao mDao;
+
+    @Autowired
+    private OrderDao oDao;
     @Autowired
     private RentalDao rDao;
+    @Autowired
+    private PurchaseDao pDao;
     @Autowired
     private ReportBoardDao rbDao;
     @Autowired
@@ -84,6 +91,7 @@ public class BnbController {
     @GetMapping("/admin")    // 관리자페이지 홈
     public String admin(Model model) {
 
+        // 카테고리
         HashMap<String, List<HashMap<String, String>>> categoryNames = new HashMap<>();
 
         List<BookDto> categoryNamesM = categoryDao.listMediumCategories();
@@ -98,11 +106,23 @@ public class BnbController {
 
         model.addAttribute("categoryNames", categoryNames);
 
+        // 통계
         int num_of_seller = mDao.countSellers(null);
         int num_of_customer = mDao.countCustomers(null);
+        int num_of_order = oDao.countAllOrders();
+        int num_of_rentalItem = rDao.countAllRentals();
+        // int num_of_purchaseItem = pDao.countAllPurchases();
 
         model.addAttribute("num_of_seller", num_of_seller);
         model.addAttribute("num_of_customer", num_of_customer);
+        // model.addAttribute("num_of_customer", num_of_order);
+        // model.addAttribute("num_of_customer", num_of_rentalItem);
+        // model.addAttribute("num_of_customer", num_of_purchaseItem);
+
+
+        // 상습연체범 (기간내3회이상)
+        List<HashMap<String, String>> blackList = rDao.getCustomerBlackList(3);
+        model.addAttribute("blackList", blackList);
 
         return "admin/admin";
     }

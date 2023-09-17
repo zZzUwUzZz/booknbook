@@ -18,5 +18,6 @@ public interface ReportBoardDao {
     
     public void deleteReportByRId(int report_id);
 
-    public void insertReport(ReportBoardDto reportBoardDto); // 새 메서드 추가
+    public void insertReport(ReportBoardDto reportBoardDto);
+   
 }

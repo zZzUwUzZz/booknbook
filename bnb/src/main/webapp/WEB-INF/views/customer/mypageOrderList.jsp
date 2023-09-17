@@ -25,9 +25,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
+    <link rel="stylesheet" href="/css/customer/main.css">
+
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -44,14 +45,12 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist" id="currpage">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
@@ -59,61 +58,81 @@
 
         <div class="board-area">
             
-            <div>
-                <h2 class="pagename">MY ORDER LIST</h2>
+            <div class="odtext_01">
+                <span class="pagename">MY ORDER LIST</span>
             </div>
 
-            <div>
-                <div class="tablebox">
-                <table>
-                    <tr class="headrow">
-                        <th>주문번호</th>
-                        <th>주문일자</th>
-                        <th>주문품목</th>
-                        <th>주문상태</th>
-                        <th>수령방법</th>
-                        <th> </th>
-                    </tr>
+            <div class="odListBox">
 
-                    <c:if test="${empty oList}">
-                        <tr>
-                            <td colspan="6">주문내역이 없습니다.</td>
-                        </tr>
-                    </c:if>
-        
-                    <c:if test="${!empty oList}">
-                        <c:forEach var="oItem" items="${oList}">
-                            <tr>
-                                <td onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">${oItem.o_id}</td>
-                                <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                <td>${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건</td>
-                                <td>${oItem.order_status}</td>
-                                <td>${oItem.o_delivery_sort}</td>
-                                <td><button onclick="location.href='/mypage/orderdetail/${oItem.o_id}'">상세보기</button></td>
-                            </tr>
-                            </c:forEach>
-                    </c:if>
-                </table>
+            <c:if test="${empty oList}">
+            
+                <h4>주문내역이 없습니다.</h4>
+            </c:if>
+            
+            <c:if test="${!empty oList}">
+                <c:forEach var="oItem" items="${oList}">
+                    <div class="odListContain">
+                        <article class="odItemBox">
+                            <div class="odTitle">
+                                <div class="odText">
+                                   주문번호</div>
+                                <div onclick="location.href='/mypage/orderdetail/${oItem.o_id}'" class="td-linked">#${oItem.o_id}</div>
+                            </div>
+            
+                            <div class="odTitle">
+                                <div class="odText">주문날짜</div>
+                                <fmt:formatDate value="${oItem.o_date}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                            </div>
+            
+                            <div class="odItem">
+                                <!--  <div class="odText">주문품목</div> -->
+                                ${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건
+                            </div>
+            
+                            <div class="odTitle">
+                                <div class="odText">주문상태</div>
+                                ${oItem.order_status}
+                            </div>
+            
+                            <div class="odTitle">
+                                <div class="odDetail" onclick="location.href='/mypage/orderdetail/${oItem.o_id}'">상세보기</div>
+            
+                            </div>
+            
+                        </article>
+            
+                    </div>
+            
+                </c:forEach>
+            </c:if>
+
+
+            </div>
+
+            <div class="button-area">
+                <div class="buttons">
+                    <span class="material-symbols-sharp">
+                        chevron_left
+                        </span>
+                </div>
+                <div class="buttons">
+                    <span class="material-symbols-sharp">
+                        chevron_right
+                        </span>
                 </div>
             </div>
-
-            <div>
+        
+            <!-- <div>
                 <div class="pagebox">${pageHtml}</div>
-            </div>
-
+            </div> -->
+         
         </div>
 
-        <div class="button-area">
-
-            <div class="buttons"></div>
-            <div class="buttons"></div>
-
-        </div>
+      
 
     </div>
 
-
-
+   
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
 
 </body>

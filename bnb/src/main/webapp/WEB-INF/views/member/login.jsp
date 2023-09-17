@@ -78,7 +78,7 @@
   
     <div class="find_signupcontain">
     <div class="findidpwtt"> <a href="/member/findId">아이디, 비밀번호를 잊으셨나요?</a> </div> 
-     <div class="signuptt"><span>북앤북인 처음이신가요?</span><a href="/member/choice">가입하기</a></div>
+     <div class="signuptt"><span>북앤북은 처음이신가요?</span><a href="/member/choice">가입하기</a></div>
     </div>
   </form>
 

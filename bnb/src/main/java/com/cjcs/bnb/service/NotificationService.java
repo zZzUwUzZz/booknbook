@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cjcs.bnb.controller.MenuController;
 import com.cjcs.bnb.dto.ExtendedNotifBoardDto;
 import com.cjcs.bnb.dto.StockNotifDto;
+import com.cjcs.bnb.mappers.NotificationMapper;
 import com.cjcs.bnb.mappers.StockMapper;
 import com.google.gson.Gson;
 
@@ -30,37 +31,15 @@ public class NotificationService {
     @Autowired
     StockMapper stockMapper;
 
-        @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
-    
-    public void sendNotification(ExtendedNotifBoardDto notification) {
-        simpMessagingTemplate.convertAndSend(
-            "/topic/notifications/" + notification.getNb_m_id(),
-            new Gson().toJson(notification)
-        );
-    } 
-
-
-    public void processStockNotif(String isbn, String sellerId) {
-        List<StockNotifDto> usersToNotify = stockMapper.findUsersToNotify(isbn, sellerId);
-        for (StockNotifDto user : usersToNotify) {
-            // 알림 메시지 생성
-            ExtendedNotifBoardDto notif = new ExtendedNotifBoardDto();
-            notif.setNb_m_id(user.getC_id());
-            notif.setNb_msg("Your book with ISBN: " + sellerId + isbn + " is now available.");
-            // 추가 정보 설정 (예: 서점 이름, 책 제목 등)
-            // ...
-
-     
-            // 알림 보내기
-            mCon.sendNotification(notif);
-
-            // Stock_Notif에서 사용자 제거
-            stockMapper.deleteStockNotif(user);
-        }
+    public List<ExtendedNotifBoardDto> getNotifications(String userId) {
+        return notificationMapper.getNotifications(userId);
     }
 
-
+    public void markAllAsRead(String userId) {
+        notificationMapper.markAllAsRead(userId);
+    }
 
 }

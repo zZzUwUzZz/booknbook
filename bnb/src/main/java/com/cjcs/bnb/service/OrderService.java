@@ -45,7 +45,6 @@ public class OrderService {
     @Autowired
     private BookMapper bDao;
 
-
     // 킹효진
 
     // 장바구니 아이템 유무 체크
@@ -77,6 +76,10 @@ public class OrderService {
         oDao.updateCartItem(cartDto);
     }
 
+    public List<PurchaseDto> getISBNListByOId(int o_id) {
+        return oDao.getISBNListByOId(o_id);
+    }
+
     // 수희
     public List<CartDto> purchaseCartToPayment(ArrayList<Integer> pcart_idList) {
 
@@ -84,7 +87,7 @@ public class OrderService {
 
         int listLength = pcart_idList.size();
 
-        for (int n=0; n<listLength; n++) {
+        for (int n = 0; n < listLength; n++) {
 
             int cart_id = pcart_idList.get(n);
             CartDto cartDto = oDao.getCartByCartId(cart_id);
@@ -93,14 +96,14 @@ public class OrderService {
 
         return cPList;
     }
-        
+
     public List<CartDto> rentalCartToPayment(ArrayList<Integer> rcart_idList) {
 
         List<CartDto> cRList = new ArrayList<>();
 
         int listLength = rcart_idList.size();
 
-        for (int n=0; n<listLength; n++) {
+        for (int n = 0; n < listLength; n++) {
 
             int cart_id = rcart_idList.get(n);
             CartDto cartDto = oDao.getCartByCartId(cart_id);
@@ -143,7 +146,7 @@ public class OrderService {
             storenames.add(cartDto.getS_storename());
         }
 
-        HashSet<String> set = new HashSet<>(storenames);  // 중복제거스킬..-_-
+        HashSet<String> set = new HashSet<>(storenames); // 중복제거스킬..-_-
         storenames = new ArrayList<>(set);
 
         for (String storename : storenames) {
@@ -155,11 +158,11 @@ public class OrderService {
 
     @Transactional
     public Boolean addOrder(String c_id, ArrayList<Integer> pcart_idList, ArrayList<Integer> rcart_idList,
-                            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
-                            Integer o_total_pricerent, Integer o_total_deliveryfee, Integer o_total_payment) {
+            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
+            Integer o_total_pricerent, Integer o_total_deliveryfee, Integer o_total_payment) {
 
         try {
-            
+
             HashMap<String, Object> orderMap = new HashMap<>();
             orderMap.put("c_id", c_id);
             orderMap.put("o_delivery_sort", o_delivery_sort);
@@ -175,36 +178,37 @@ public class OrderService {
                 orderMap.put("o_total_payment", o_total_pricerent);
             }
             log.info("orderMap:{}", orderMap);
-               
+
             oDao.addOrderSelectKey(orderMap);
-            Integer o_id = (Integer)orderMap.get("o_id");
-               
+            Integer o_id = (Integer) orderMap.get("o_id");
+
             log.info("o_id:{}", o_id);
-               
+
             if (pcart_idList != null) {
-               
+
                 for (Integer cart_id : pcart_idList) {
-                   
+
                     CartDto cDto = oDao.getCartByCartId(cart_id);
                     pDao.addPurchaseList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_amount());
                     bDao.updateSaleStock(cDto.getCart_s_id(), cDto.getCart_b_isbn(), cDto.getCart_amount());
                     oDao.deleteCartItem(cart_id);
                 }
             }
-           
+
             if (rcart_idList != null) {
-               
+
                 for (Integer cart_id : rcart_idList) {
-                    
+
                     CartDto cDto = oDao.getCartByCartId(cart_id);
-                    rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_rentalperiod());
+                    rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id,
+                            cDto.getCart_rentalperiod());
                     bDao.updateRentalStock(cDto.getCart_s_id(), cDto.getCart_b_isbn());
                     oDao.deleteCartItem(cart_id);
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR: "+e.getStackTrace());
+            System.out.println("ERROR: " + e.getStackTrace());
             return false;
         }
 

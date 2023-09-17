@@ -43,6 +43,12 @@
     SELECT * FROM Book WHERE b_isbn = #{isbn} AND b_s_id = 'seller001'
 </select>
 
+
+<select id="findstorename" resultType="string">
+    SELECT s_storename FROM Seller WHERE s_id = #{s_id}
+</select>
+
+
     <!-- insertStockNotif Method -->
     <insert id="insertStockNotif">
         INSERT INTO stock_notif (b_s_id, b_isbn, c_id)
@@ -56,10 +62,16 @@
     </select>
 
     <!-- insertNotification Method -->
-    <insert id="insertNotification">
+    <!-- <insert id="insertNotification">
         INSERT INTO notifboard (nb_m_id, nb_msg, nb_date, nb_read)
         VALUES (#{nb_m_id}, #{nb_msg}, SYSDATE, 'N') 
-    </insert>
+    </insert> -->
+    
+<insert id="insertNotification" parameterType="com.cjcs.bnb.dto.ExtendedNotifBoardDto">
+    INSERT INTO NotifBoard (nb_m_id, nb_msg, nb_date, nb_read, b_isbn, b_s_id, b_title, s_storename)
+    VALUES (#{nb_m_id}, #{nb_msg}, SYSDATE, 'N', #{b_isbn}, #{b_s_id}, #{b_title}, #{s_storename})
+</insert>
+
 
     <!-- deleteStockNotif Method -->
     <delete id="deleteStockNotif">

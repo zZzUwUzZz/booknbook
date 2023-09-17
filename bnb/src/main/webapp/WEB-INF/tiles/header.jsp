@@ -22,6 +22,34 @@
     <script src="/js/noti.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/main.js"></script>
+
+    <style>
+ 
+ body{
+    animation: fadein 2000ms ease-out;
+    -moz-animation: fadein 2000ms ease-out; /* Firefox */
+    -webkit-animation: fadein 2000ms ease-out; /* Safari and  Chrome */
+    -o-animation: fadein 2000ms ease-out; /* Opera */
+}
+@keyframes fadein {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@-o-keyframes fadein { /* Opera */
+    from {opacity:0;}
+    to {opacity: 1;}
+}
+
+
+    </style>
 </head>
      <!-- modal -->
  
@@ -35,15 +63,18 @@
         </div>
     </div>
 
-   <div class="noti_md">
-    <div class="noti_tt">
-        <p>알림</p>
-    </div>
-    <div class="notilistbox">
-    </div>
-</div>
 
+    <h1 class="WStest" 
+    style="display: none;background-color: rgba(255, 232, 0, 0.5);position: absolute;text-align: center;margin: auto;width: 100%;height: 100px;top: 4%;z-index: 999;pointer-events: none;"></h1>
 
+    <div class="noti_md">
+        <div class="noti_tt">
+            <p>알림</p>
+        </div>
+        <div class="notilistbox">
+        </div>
+    </div>
+ 
 
 <div class="sc_md">
     <div class="sc_cls">
@@ -114,31 +145,20 @@
  
  <script>
 
-$(document).ready(function() {
-  var socket = new SockJS('/websocket-endpoint'); // 웹소켓 엔드포인트
-  var stompClient = Stomp.over(socket);
 
-  stompClient.connect({}, 
-    function(frame) { // 연결 성공
-      console.log('Connected: ' + frame);
-    
-      // '/topic/notifications/' + user_id 형식으로 subscribe. user_id는 실제 사용자 ID로 대체
-      stompClient.subscribe('/topic/notifications/customer001', function(message) {
-        if (message.body === "Your book with ISBN: b_isbn is now available.") {
-          // HTML 문서의 .WStest 클래스를 가진 요소에 "입고 완" 텍스트 삽입
-          $('.WStest').text("책 입고 완료요ㅋㅋ");
-          alert("책 입고 완료요ㅋㅋ");
-        }
-      });
-    }, 
-    function(error) { // 연결 실패
-      console.log('STOMP: ' + error);
-      setTimeout(connect, 5000);
-      console.log('STOMP: Reconnecting in 5 seconds');
-    }
-  );
+jQuery(function($) {
+$("body").css("display", "none");
+$("body").fadeIn(2000);
+$("a.transition").click(function(event){
+event.preventDefault();
+linkLocation = this.href;
+$("body").fadeOut(1000, redirectPage);
 });
- 
+function redirectPage() {
+window.location = linkLocation;
+}
+});
+
 window.onload = function() {
     var msg = "${msg}";
     if (msg === '이미 로그인 된 상태입니다.') {

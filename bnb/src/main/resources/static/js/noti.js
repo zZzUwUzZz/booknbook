@@ -1,171 +1,184 @@
-
-// 알림 아이콘 버튼
+// 데이터는 잘가져옴 
 
 $(document).ready(function () {
-    // noti_btn을 클릭하면 noti_md를 토글합니다.
-    $(".noti_btn").click(function (event) {
-        $(".noti_md").toggle();
-        event.stopPropagation();  // 이벤트가 상위 DOM 요소로 전파되는 것을 막습니다.
-    });
-  
-    // noti_md를 클릭해도 아무 일도 일어나지 않도록 합니다.
-    $(".noti_md").click(function (event) {
-        event.stopPropagation();  // 이벤트가 상위 DOM 요소로 전파되는 것을 막습니다.
-    });
-  
-    // 문서의 바탕을 클릭하면 noti_md를 숨깁니다.
-    $(document).click(function () {
-        $(".noti_md").hide();
-    });
-  });
-  
-  
-   
-  document.addEventListener("DOMContentLoaded", function() {
 
-  
-  var isLoggedIn = false; // 로그인 상태
+  var isLoggedIn = true; // 로그인 상태
   var notifications = []; // 알림 목록
-  
 
-  // 초기 메시지 설정
-  function setDefaultNotification() {
-    var notiBox = document.getElementsByClassName('notilistbox')[0];
-    notiBox.innerHTML = ''; // 기존 내용 클리어
-  
-    if (!isLoggedIn) {
-      var defaultDiv = document.createElement("div");
-      defaultDiv.className = 'noti_ngout';
-      defaultDiv.innerHTML = "로그인이 필요한 서비스입니다.";
-      notiBox.appendChild(defaultDiv);
-    } else if (notifications.length === 0) {
-      var defaultDiv = document.createElement("div");
-      defaultDiv.className = 'noti_ng';
-      defaultDiv.innerHTML = "표시할 알림이 없습니다.";
-      notiBox.appendChild(defaultDiv);
-    }
-  
-    // 추가된 알림이 있을 경우
-    notifications.forEach(function(notification) {
-      var newDiv = document.createElement("div");
-      newDiv.className = 'noti_item';
-      newDiv.setAttribute('data-read', 'false');  // '읽음' 상태를 나타내는 데이터 속성 추가
-      newDiv.addEventListener('click', markAsRead);  // 이 부분 추가
-            
-      var aTag = document.createElement("a");
-      aTag.href = '/books/detail/' + notification.productId; // 상품 상세 페이지로 이동하는 URL
-      aTag.innerHTML = notification.message;
-      newDiv.appendChild(aTag);
-  
-      // 날짜를 표기하기 위한 span 요소 생성
-      var dateSpan = document.createElement("span");
-      dateSpan.className = 'noti_date';
-      dateSpan.innerHTML = notification.date;
-      newDiv.appendChild(dateSpan);
-   
-      notiBox.appendChild(newDiv);
-    });
-  }
-  
-  // 상품이 입고되었을 때 이 함수를 호출
-  function showNotification(productId, productName) {
-    if (isLoggedIn) {
-      var message = productName + " 상품이 새로 입고되었습니다! 지금 바로 확인해보세요.";
-      var date = new Date().toLocaleDateString(); // 현재 날짜
-      notifications.push({ productId, message, date }); // 알림 목록에 추가
-  
-      // 알림 목록 갱신
+    // 1. 페이지 로딩 시 서버에서 알림 목록을 불러옵니다.
+    const userId = "customer001"; // 실제 로그인된 사용자 ID
+    $.get("/notifications?userId=" + userId, function (data) {
+      console.log("Server response: ", data); // 이 부분을 추가
+      notifications = data;
       setDefaultNotification();
-  
-      // 빨간 점 추가
-      newNotificationReceived();
+
+      let hasUnread = false;
+      for (const notification of notifications) {
+        if (notification.nb_read === 'N') {
+          hasUnread = true;
+          break;
+        }
     }
-  }
+    if (hasUnread) {
+      newNotificationReceived();
+    } else {
+      removeNewDot();
+      $('.WStest').text('실시간 알림 성공').css('display', 'none');
+    }
+    });
+
+
+// 알림 아이콘 버튼 이벤트
+$(".noti_btn").click(function (event) {
+  $(".noti_md").toggle();
+  markAllAsRead();  // 모든 알림을 읽음 상태로 변경
+  event.stopPropagation();
+});
+
+
+// 모든 알림을 읽음 상태로 변경하는 함수
+function markAllAsRead() {
+  const userId = "customer001";  // 실제 로그인된 사용자 ID를 이곳에 입력해야 함
+  // 서버에 읽음 상태로 바꾸는 요청을 보냅니다.
+  $.post("/markAllAsRead", { userId: userId }, function(response) {
+      // 모든 알림을 읽음 상태로 변경한 후에 빨간 점을 제거합니다.
+      $(".noti_btn .new_dot").remove();
+  });
+}
+
+function removeNewDot() {
+  $(".noti_btn .new_dot").remove();
+}
+
+
+  $(".noti_md").click(function (event) {
+    event.stopPropagation();
+  });
+
+  $(document).click(function () {
+    $(".noti_md").hide();
+  });
+
+ 
+
+  // 초기 알림 상태 설정
+  setDefaultNotification();
+
+
+ // WebSocket 초기화
+ var socket = new SockJS('/ws');
+ var stompClient = Stomp.over(socket);
+
+ stompClient.connect({}, function (frame) {
+   stompClient.subscribe('/topic/notifications/' + userId, function (notification) {
+    console.log("WebSocket notification: ", notification); // 이 부분을 추가
+
+     var noti = JSON.parse(notification.body);
+     notifications.push(noti);
+     setDefaultNotification();
+     showNotification(noti.userId, noti.b_title, noti.s_storename, noti.b_isbn, noti.b_s_id);
+     newNotificationReceived();  // 새로운 알림이 있을 때 빨간 점 추가
+
+   });
+ });
+
   
   // 빨간 점 추가
   function newNotificationReceived() {
-    var notiBtns = document.getElementsByClassName('noti_btn'); // 클래스를 사용
-  
-    for(var i = 0; i < notiBtns.length; i++) {
-      // new_dot이 이미 있는지 확인
-      var existingDot = notiBtns[i].getElementsByClassName('new_dot');
-      
-      if(existingDot.length === 0) { // new_dot이 없을 경우에만 추가
-        var redDot = document.createElement("span");
-        redDot.className = 'new_dot';
-        redDot.innerHTML = '●';
-        notiBtns[i].appendChild(redDot);
-      }
-    }
-  }
-  
-  
-  // 사용자 로그인 상태 설정
-  function setLoginStatus(status) {
-    isLoggedIn = status;
-    notifications = []; // 알림 목록 초기화
-    setDefaultNotification(); // 디폴트 메시지 설정
-  }
-  
-  // 페이지 로드 시 디폴트 메시지 설정
-  document.addEventListener("DOMContentLoaded", function() {
-    setDefaultNotification();
-  });
-   
-  
-     
-    // setLoginStatus(true); // 로그인한 경우
-    // setLoginStatus(false); // 로그인하지 않은 경우
-     
-    // showNotification(1, '치킨의 정석');
-    // showNotification(2, '바지');
-   
-
-    // 글자색을 회색으로 변경하고, 모든 알림이 확인되었는지 체크하는 함수
-    function markAsRead(event) {
-        console.log("markAsRead called"); // 이 로그가 보이는지 확인
-        const notiItem = event.currentTarget;
-        notiItem.setAttribute('data-read', 'true');
-        notiItem.style.color = 'grey';
-        checkAllNotificationsRead();
-      }
-  
-  // 모든 알림이 확인되었는지 체크하고, 그렇다면 빨간점을 제거하는 함수
-  function checkAllNotificationsRead() {
-    const notiItems = document.querySelectorAll('.noti_item');
-    let allRead = true;
-  
-    notiItems.forEach((item) => {
-      if (item.getAttribute('data-read') !== 'true') {
-        allRead = false;
+    $(".noti_btn").each(function () {
+      if (!$(this).find('.new_dot').length) { // new_dot이 없을 경우에만 추가
+        var redDot = $('<span>').addClass('new_dot').text('●');
+        $(this).append(redDot);
       }
     });
-  
-    if (allRead) {
-      const notiBtn = document.querySelector('.noti_btn');
-      const existingDot = notiBtn.querySelector('.new_dot');
-      if (existingDot) {
-        notiBtn.removeChild(existingDot);
-      }
-    }
   }
 
+// showNotification 함수 수정
+// function showNotification(userId, b_title, s_storename, b_isbn, b_s_id) {
+//   var message = `"` + b_title + `" 상품이 새로 입고되었습니다! 지금 바로 확인해보세요.` + " ― " + s_storename + " 서점";
+//   var date = new Date().toLocaleDateString();
+  
+//   var notificationObj = {
+//       userId: userId,
+//       message: message,
+//       date: date,
+//       b_title: b_title,
+//       s_storename: s_storename,
+//       b_isbn: b_isbn,
+//       b_s_id: b_s_id
+//   };
+  
+//  // notifications.push(notificationObj);
+//   setDefaultNotification();
+//   newNotificationReceived();
+// }
 
-  setDefaultNotification();
 
-  // WebSocket 초기화
-  var socket = new SockJS('/ws');
-  var stompClient = Stomp.over(socket);
-  stompClient.connect({}, function(frame) {
-      // 사용자 ID를 가져옵니다. 이 부분은 당신의 애플리케이션에 따라 다를 수 있습니다.
-      const userId = "customer001";  // 로그인 상태에 따라 이 값을 동적으로 할당해야 할 것입니다.
+ // setDefaultNotification 함수 수정
+function setDefaultNotification() {
+  var notiBox = $('.notilistbox').first();
+  notiBox.html('');
+  
+  let hasUnread = false;
 
-      stompClient.subscribe('/topic/notifications/' + userId, function(notification) {
-          // 알림을 처리하는 로직
-          // 여기에 로직을 추가하면, 실시간으로 알림을 받을 수 있습니다.
-          // 예를 들어, notifications 배열에 새 알림을 push하고 setDefaultNotification()을 다시 호출할 수 있습니다.
-          var noti = JSON.parse(notification.body);
-          showNotification(noti.productId, noti.productName);
-      });
-  });
-});
+  if (!isLoggedIn) {
+    notiBox.append('<div class="noti_ngout">로그인이 필요한 서비스입니다.</div>');
+  } else if (notifications.length === 0) {
+    notiBox.append('<div class="noti_ng">표시할 알림이 없습니다.</div>');
+  } else {
+    notifications.forEach(function (notification) {
+      
+      if (notification.nb_read === 'N') {
+        hasUnread = true;
+      }
+      console.log("DB에 있는 알림 목록", notification);
+
+      $('.WStest').text('실시간 알림 성공').css('display', 'block');
+     
+      var newDiv = $('<div></div>');
+      newDiv.addClass('noti_item');
+      newDiv.attr('data-read', 'false');
+      
+      var aTag = $('<a></a>');
+      aTag.attr('href', '/books/detail/' + notification.b_isbn + '/' + notification.b_s_id);
+      
+      // var fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+     
+      // nb_msg 값을 기반으로 다양한 메시지를 생성합니다.
+      var fullMessage = '';
+      if (notification.nb_msg === '입고') {
+        fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+      } else if (notification.nb_msg === '대여가능') {
+        fullMessage = `"` + notification.b_title + `" 상품 대여 가능 합니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+      } // 추가적인 조건을 이곳에 작성
+     
+     
+      aTag.html(fullMessage);
+    
+      var dateSpan = $('<span></span>');
+      dateSpan.addClass('noti_date');
+      dateSpan.html(notification.nb_date);
+    
+      newDiv.append(aTag);
+      newDiv.append(dateSpan);
+      newDiv.click(markAsRead);
+      
+      notiBox.prepend(newDiv);
+      newNotificationReceived();
+    });
+  }
+}
+ 
+  function markAsRead(event) {
+    const notiItem = $(event.currentTarget);
+    notiItem.attr('data-read', 'true').css('background', '#cdcdcd');
+    checkAllNotificationsRead();
+  }
+ 
+  if (hasUnread) {
+    newNotificationReceived();
+  } else {
+    removeNewDot();
+  }
+  
+})

@@ -71,12 +71,15 @@
                                 </div>
                             </div>
 
+                            <!-- 찜하기 버튼 -->
                             <div class="TextBox03">
                                 <div class="btnBox">
                                     <div class="likeNoti">
-                                        <div class="likeBtn"> <span class="material-symbols-outlined">
+                                        <div id="favButton" class="${favb_state == 1 ? 'faved' : 'unfaved'}">
+                                            <span class="material-symbols-outlined">
                                                 favorite
-                                            </span> </div>
+                                            </span> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -202,19 +205,75 @@
     <script>
 
 
-        $(document).ready(function () {
-            var B_SALESTOCK = parseInt($("#soldOutBtn").val());
-            var B_RENTALSTOCK = parseInt($("#rentalstock").val());
+$(document).ready(function() {
+ 
+    // 찜하기 버튼 
+    var bookData = {
+        "userId": 'customer001',
+        "s_id": "${bdInfo.b_s_id}",
+        "isbn": "${bdInfo.b_isbn}",
+        "state": "${fav_state}"
+    };
+  
+    var favBookDTO = {
+        "favb_c_id": bookData.userId,
+        "favb_s_id": bookData.s_id,
+        "favb_b_isbn": bookData.isbn,
+        "favb_state": bookData.state
+    };
+    
 
-            if (B_SALESTOCK === 0) {
-                alert("판매할게없음요..");
+    $.ajax({
+        url: "/getFavState",
+    method: "GET",
+    data: {
+        "favb_c_id": bookData.userId,
+        "favb_s_id": bookData.s_id,
+        "favb_b_isbn": bookData.isbn,
+        "favb_state": bookData.state
+    },
+    success: function(response) {
+        console.log("불러온 정보:", response);
+        console.log("GetFavState Response:", response);
+        if(response === 1) {
+                console.log("Success:", response);
+                $("#favButton").addClass("faved");
+                $("#favButton").css("color", "#ff6f36").css("font-variation-settings", "'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48");
+            } else {
+                $("#favButton").removeClass("faved");
+                $("#favButton").css("color", "#203b23").css("font-variation-settings", "'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48");
             }
+        }
+    });
 
-            if (B_RENTALSTOCK === 0) {
-                alert("대여할게없음요..");
-            }
-        });
 
+    $(".likeNoti").click(function () {
+     
+    $.ajax({
+        
+        url: "/checkFavBook",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(favBookDTO),
+        success: function(response) {
+            console.log("CheckFavBook Response:", response);
+            if(response == 1) {
+                    $("#favButton").addClass("faved");
+                    $("#favButton").css("color", "#ff6f36").css("font-variation-settings", "'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48").css("transition", "all .3s");
+
+                } else {
+                    console.log("Response is 0");
+                    $("#favButton").removeClass("faved");
+                    $("#favButton").css("color", "#203b23").css("font-variation-settings", "'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48").css("transition", "all .3s");
+                }
+            },
+                error: function (error) {
+                    console.log("Error:", error);  // 에러 핸들링 추가
+        }
+    });
+    });
+
+});
 
         $(document).ready(function () {
             const saleStock = parseInt("${salestock}");

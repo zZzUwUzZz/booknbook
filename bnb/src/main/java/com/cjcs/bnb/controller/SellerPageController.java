@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
@@ -38,9 +37,6 @@ import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 import com.cjcs.bnb.service.StockService;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializer;
-
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/seller")
@@ -199,7 +195,7 @@ public class SellerPageController {
         return "seller/sellerCSMember";
     }
 
-    // 등록된 도서 리스트 
+    // 등록된 도서 리스트
     @GetMapping("/book/list")
     public String sellerbooklist(String s_id,
             @RequestParam(required = false) String filter,
@@ -223,9 +219,6 @@ public class SellerPageController {
 
         return "seller/sellerBookList";
     }
-
-
-    
 
     @GetMapping("/book/add")
     public String sellerbookadd() {

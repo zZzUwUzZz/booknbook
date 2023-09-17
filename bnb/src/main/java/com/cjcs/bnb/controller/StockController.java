@@ -18,6 +18,7 @@ import com.cjcs.bnb.dto.StockNotifDto;
 import com.cjcs.bnb.dto.StockUpdateDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.StockService;
+
 @RestController
 public class StockController {
     @Autowired
@@ -26,7 +27,7 @@ public class StockController {
     @Autowired
     private SimpMessagingTemplate template;
 
-  @PostMapping("/updateStock")
+    @PostMapping("/updateStock")
     public Boolean updateStock(@RequestBody StockUpdateDto stockUpdateDto) {
         System.out.println("Received stockUpdateDto: " + stockUpdateDto);
         return stockService.updateStock(stockUpdateDto);
@@ -45,17 +46,16 @@ public class StockController {
         stockService.insertStockNotif(stockNotifDto);
     }
 
-
     @PostMapping("/processStockNotif")
     public ResponseEntity<String> processStockNotif(@RequestBody Map<String, String> payload) {
         String isbn = payload.get("isbn");
-        String sellerId = payload.get("sellerId"); System.out.println("Received request with isbn: " + isbn + ", sellerId: " + sellerId);
-        
+        String sellerId = payload.get("sellerId");
+        System.out.println("Received request with isbn: " + isbn + ", sellerId: " + sellerId);
+
         stockService.processStockNotif(isbn, sellerId);
-        return ResponseEntity.ok("Processed");
+        return ResponseEntity.ok("{\"message\": \"Processed\"}");
     }
-    
-     
+
     @PostMapping("/api/stockNotif")
     public ResponseEntity<String> addStockNotification(@RequestBody StockNotifDto stockNotif) {
         System.out.println("Request received for stock notification: " + stockNotif);
@@ -68,7 +68,7 @@ public class StockController {
         return new ResponseEntity<>("재입고 알림 신청이 완료되었습니다.", HttpStatus.OK);
     }
 
-  //  재입고 알림 처리
+    // 재입고 알림 처리
     // @PostMapping("/api/processStock")
     // public ResponseEntity<String> processStock(@RequestBody String isbn, String
     // sellerId) {

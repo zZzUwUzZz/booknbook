@@ -1,20 +1,44 @@
+/* 밝은 버전 바탕 */
+
+body {
+    background: #dfdad5;
+}
+a {
+    color: #203b23;
+}
+.ft {
+    margin-top: 0px;
+}
+
+.hd {
+    color: #203b23;
+    border-bottom: 1px solid #203b23;
+}
+
+hr {
+    background:#203b23;
+    height:1px;
+    border:0;
+}
+
+
+.mypg {
+    padding: 15px 0px;
+    font-size: 23px;
+}
+
+
 .container-mypage {
-    border: 1px solid red;
+    color: #203b23;
     display: flex;
     flex-direction: row;
-    width: 1400px;
-    height: 650px;
-    margin: auto;
-    margin-top: 40px;
-    padding: 15px;
+    width: 100%;
+    height: 87vh;
 }
 .board-area {
-    color: #4c4240;
-    background-color: #fffbed;
-    border-radius: 10px;
-    width: 1135px;
-    margin: 0 15px;
+    width: 80%;
 }
+
 .board-area .pagename {
     margin-left: 44px;
 }
@@ -22,60 +46,59 @@
     margin-left: 44px;
 }
 .container-mypage a {
-    color: #4c4240;
+    color: #203b23;
 }
 .button-area {
     display: flex;
-    flex-direction: column-reverse;
-    border: 1px solid orange;
-    width: 50px;
+    place-content: space-between;
+    width: 91%;
+    justify-content: space-between;
+    margin: auto;
 }
+
 .buttons {
+    padding: 30px;
     cursor: pointer;
-    text-align: center;
-    line-height: 49px;
-    font-size: 15px;
-    border-radius: 10px;
-    background-color: #fffbed;
-    width: 50px;
-    height: 50px;
-    margin-top: 10px;
 }
-.buttons:hover {
-    background-color: #4c4240;
-    color:#fffbed;
+.buttons span {
+    font-size: 44px;
+font-variation-settings:'wght' 200;
 }
-.buttons:active {
-    position: relative;
-    top: 1px;
+
+/* 메뉴 */
+
+.menu_simple {
+    width: 20%;
+    font-size: 20px;
+    border-right: 1px solid #203b23;
 }
+
+
 .menu_simple ul {
     margin: 0; 
     padding: 0;
-    width:185px;
     list-style-type: none;
 }
 
 .menu_simple ul li a {
     text-decoration: none;
-    color: #fffbed; 
-    padding: 10.5px 11px;
-    background-color: #5f5350;
+    padding: 12px 30px;
     display:block;
+    transition: all .2s;
 }
 
-/* .menu_simple ul li a:visited {
-    color: #fffbed;
-} */    
+.menu_simple ul li a:hover {
+color: #618064;
+}
+
 
 #currpage {
-    background-color: #fffbed;
-    color: #4c4240;
-    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px
 }
+
 .menu_simple ul li a:hover, .menu_simple ul li .current {
-    color: #fffbed;
-    background-color: #ff9946;
 }
 td span {
     width: 120px;

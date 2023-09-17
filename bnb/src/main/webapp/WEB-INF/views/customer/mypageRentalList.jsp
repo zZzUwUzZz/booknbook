@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
+    <link rel="stylesheet" href="/css/customer/main.css">
+
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -43,14 +45,12 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist" id="currpage">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
@@ -60,72 +60,110 @@
 
             <form action="/payment" method="post">
 
-            <div>
-                <h2 class="pagename">RENTAL LIST</h2>
+                <div class="odtext_01">
+                <span class="pagename">RENTAL LIST</span>
             </div>
 
-            <div>
-                <div class="tablebox">
-                <table>
-                    <tr class="headrow">
-                        <th>주문번호</th>
-                        <th>주문일자</th>
-                        <th>도서명</th>
-                        <th>서점명</th>
-                        <th>대여상태</th>
-                        <th>반납기한</th>
-                        <th>총 연체료</th>
-                        <th width="60px">납부일자</th>
-                        <th width="40px"></th>
-                    </tr>
+            <div class="rentListContain">
 
-                    <c:if test="${empty rList}">
-                        <tr>
-                            <td colspan="9">대여내역이 없습니다.</td>
-                        </tr>
-                    </c:if>
-        
-                    <c:if test="${!empty rList}">
-                        <c:forEach var="rItem" items="${rList}">
-                            <tr>
-                                <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
-                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                <td>${rItem.b_title}</td>
-                                <td>${rItem.s_storename}</td>
-                                <td>${rItem.rental_status}</td>
-                                <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-                                <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
-                                <td><fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                <c:if test="${empty rList}">
+                    <h4>대여내역이 없습니다.</h4>
+                </c:if>
+            
+                <c:if test="${!empty rList}">
+                    <c:forEach var="rItem" items="${rList}">
+                        <div class="rListBox">
+                            <article class="rItemBox">
+                                <div class="pTitle">
+                                    <div class="pText">
+                                        주문번호</div>
+                                    <div onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">
+                                        #${rItem.o_id}
+                                    </div>
+                                </div>
+            
+                                <div class="pTitle">
+                                    <div class="pText">주문날짜</div>
+                                    <fmt:formatDate value="${rItem.o_date}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+            
+                                <div class="rItem">
+                                     ${rItem.b_title}
+                                </div>
+            
+                                <div class="pStore">
+                                    <div class="pText">서점명</div>
+                                    ${rItem.s_storename}
+                                </div>
+            
+                                <div class="pDeli">
+                                    <div class="pText">대여상태</div>
+                                    ${rItem.rental_status}
+                                </div>
+            
+                                <div class="pRe">
+                                    <div class="pText">총 연체료</div>
+                                    <fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0" />
+                                </div>
+            
+                                <div class="pTitle">
+                                    <div class="pText">납부일자</div>
+                                    <fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+            
+            
                                 <c:choose>
-                                    <c:when test="${rItem.r_rental_status_id eq 3 && not empty rItem.r_latefee_total && rItem.r_latefee_paid ne 'Y'}">
-                                        <td><input type="checkbox"></td>
+                                    <c:when
+                                        test="${rItem.r_rental_status_id eq 3 && not empty rItem.r_latefee_total && rItem.r_latefee_paid ne 'Y'}">
+                                        <td>
+                                            <div class="ckContain">
+                                                <input type="checkbox" class="ckbox" name="p_idList" value="${rItem.p_id}">
+                                                <label for="ckbox"></label>
+                                            </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <td><input type="checkbox" disabled></td>
+                                        <div class="ckContain">
+                                            <input type="checkbox" class="ckbox" name="p_idList" value="${rItem.p_id}" disabled>
+                                            <label for="ckbox"></label>
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
-                            </tr>
-                         </c:forEach>
-                    </c:if>
-                </table>
-                </div>
+            
+                            </article>
+                        </div>
+            
+                    </c:forEach>
+                </c:if>
+            
             </div>
+
+
+
 
             <div class="btnbox">
                 <button type="submit" id="submit" disabled>연체료납부</button>
             </div>
 
             </form>
+          
+          
+            <div class="button-area">
+                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">
+                    <span class="material-symbols-sharp">
+                        chevron_left
+                    </span>
+                </div>
+                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">
+                    <span class="material-symbols-sharp">
+                        chevron_right
+                    </span>
+                </div>
 
+            </div>
+    
         </div>
 
-        <div class="button-area">
-
-            <div class="buttons"></div>
-            <div class="buttons"></div>
-
-        </div>
-
+   
     </div>
 
 

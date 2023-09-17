@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cjcs.bnb.dto.CartDto;
+import com.cjcs.bnb.dto.PurchaseDto;
 
 @Mapper
 public interface OrderDao {
@@ -22,6 +23,8 @@ public interface OrderDao {
 
     CartDto insertCartItem(CartDto cartDto);
 
+    List<PurchaseDto> getISBNListByOId(int o_id);
+
     // 유다,수희
     public List<CartDto> getCartByCId(String c_id);
 
@@ -37,11 +40,11 @@ public interface OrderDao {
 
     public int updateCartRentalPeriod(int cart_id, int cart_rentalperiod);
 
-
     public int addOrderSelectKey(HashMap<String, Object> orderMap);
 
-    //수희
+    // 수희
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
+
     public HashMap<String, Object> getOrderInfoByOId(int o_id);
 
     // 예림

@@ -8,6 +8,7 @@ import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.NotifBoardDto;
 import com.cjcs.bnb.dto.StockNotifDto;
 import com.cjcs.bnb.dto.StockUpdateDto;
+
 @Mapper
 public interface StockMapper {
     int updateStock(StockUpdateDto stockUpdateDto);
@@ -22,8 +23,9 @@ public interface StockMapper {
 
     BookDto BookInfoDt(String isbn, String sellerId);
 
-
     StockNotifDto findStockNotif(StockNotifDto stockNotif);
+
+    String findstorename(String sellerId);
 
     // 재입고 알림 신청
     void insertStockNotif(StockNotifDto stockNotif);
@@ -40,6 +42,5 @@ public interface StockMapper {
     void updateStock(BookDto bDto);
 
     void deleteAndNotify(BookDto bDto);
-
 
 }

@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.CartDto;
+import com.cjcs.bnb.dto.FavBookDTO;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.service.BookService;
+import com.cjcs.bnb.service.FavBookService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
@@ -46,18 +49,27 @@ public class DetailPageController {
     @Autowired
     private RentalService rSer;
     @Autowired
+    private FavBookService fbkSer;
+    @Autowired
     private RentalDao rDao;
 
     private static final Logger logger = LoggerFactory.getLogger(DetailPageController.class);
 
     @GetMapping("/books/detail/{isbn}/{sellerId}")
-    public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId, Model model) {
+    public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId,
+            HttpSession session, Model model) {
         // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
         BookDto book = bSer.findBookByIsbnAndSellerId(isbn, sellerId);
         BookDto bkStock = bSer.findBookStock(isbn, sellerId);
         BookDto bdInfo = bSer.bookDetail(isbn, sellerId);
         List<BookDto> bkISBN = bSer.findBooksByIsbn(isbn);
 
+        String userId = "customer001";
+
+        // String userId = (String) session.getAttribute("userId");
+        Integer fav_state = fbkSer.getFavState(new FavBookDTO(userId, sellerId, isbn));
+
+        model.addAttribute("fav_state", fav_state);
         model.addAttribute("bkISBN", bkISBN);
         model.addAttribute("book", book);
         model.addAttribute("bdInfo", bdInfo);

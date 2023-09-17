@@ -168,7 +168,13 @@
         AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
     </select>
     
-    
+    <select id="getLateFee" parameterType="list" resultType="int">
+        <!-- SELECT SUM(late_fee) FROM rental WHERE r_id IN 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach> --> <!-- 내용 수정해야함 -->
+    </select>
+ 
     
 </mapper>
 

@@ -48,17 +48,9 @@
 		WHERE report_id = #{report_id}
 	</delete>
 
-	<select id="getLateFee" parameterType="list" resultType="int">
-        <!-- SELECT SUM(late_fee) FROM rental WHERE r_id IN 
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-            #{item}
-        </foreach> --> <!-- 내용 수정해야함 -->
-    </select>
- 
-     <insert id="insertReport" parameterType="com.cjcs.bnb.dto.ReportBoardDto">
-        INSERT INTO REPORTBOARD (report_title, report_content)
-        VALUES (#{report_title}, #{report_content})
+	<insert id="insertReport" parameterType="com.cjcs.bnb.dto.ReportBoardDto">
+        INSERT INTO REPORTBOARD (report_id, report_title, report_content, report_date)
+        VALUES (#{report_id}, #{report_title}, #{report_content}, #{report_date})
     </insert>
-
 
 </mapper>

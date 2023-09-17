@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +27,15 @@ public class MenuController {
     }
 
     @GetMapping("/report")
-    public String report(@ModelAttribute ReportBoardDto reportBoardDto) {
-        // 현재 시간을 report_date에 설정
-        // reportBoardDto.setReportDate(Timestamp.valueOf(LocalDateTime.now()));
-        
-        boardService.insertReport(reportBoardDto);
-        return "redirect:/admin"; // 제출 성공 페이지로 리디렉션
-
+    public String report(Model model) {
+        model.addAttribute("reportBoardDto", new ReportBoardDto());
+        return "report";
     }
+
+    @PostMapping("/report")
+    public String report(@ModelAttribute ReportBoardDto reportBoardDto) {
+        boardService.insertReport(reportBoardDto);
+        return "main";
+    }
+
 }

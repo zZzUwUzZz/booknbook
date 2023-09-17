@@ -1,11 +1,21 @@
 package com.cjcs.bnb.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.collections4.iterators.ArrayListIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cjcs.bnb.common.Paging;
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
+import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +43,7 @@ public class BoardService {
             case "/admin/reportlist":
                 totalNum = rbDao.countReports(sDto);   //전체 글의 개수, 키워드 있거나 없거나
                 break;
+
             case "/admin/sellerlist":
                 totalNum = mDao.countSellers(sDto);
                 break;
@@ -53,5 +64,6 @@ public class BoardService {
 		return paging.makeHtmlPaging();
 
 	}
-
+    
 }
+        

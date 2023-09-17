@@ -15,7 +15,8 @@ public class MenuController {
     //제보하기 
     @GetMapping("/report")
     public String report() {
-        return "report";
+        return "redirect:/admin/report";
+
     }
 
 }

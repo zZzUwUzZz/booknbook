@@ -28,8 +28,6 @@ public class BoardService {
     private ReportBoardDao rbDao;
     @Autowired
     private MemberDao mDao;
-    @Autowired
-    private ReportBoardDto reportBoardDto;
 
     public String getPageboxHtml(SearchDto sDto, String listUrl) {
 

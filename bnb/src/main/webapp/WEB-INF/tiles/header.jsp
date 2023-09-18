@@ -26,10 +26,10 @@
     <style>
  
  body{
-    animation: fadein 2000ms ease-out;
-    -moz-animation: fadein 2000ms ease-out; /* Firefox */
-    -webkit-animation: fadein 2000ms ease-out; /* Safari and  Chrome */
-    -o-animation: fadein 2000ms ease-out; /* Opera */
+    animation: fadein 1500ms ease-out;
+    -moz-animation: fadein 1500ms ease-out; /* Firefox */
+    -webkit-animation: fadein 1500ms ease-out; /* Safari and  Chrome */
+    -o-animation: fadein 1500ms ease-out; /* Opera */
 }
 @keyframes fadein {
     from {opacity:0;}
@@ -148,11 +148,11 @@
 
 jQuery(function($) {
 $("body").css("display", "none");
-$("body").fadeIn(2000);
+$("body").fadeIn(1000);
 $("a.transition").click(function(event){
 event.preventDefault();
 linkLocation = this.href;
-$("body").fadeOut(1000, redirectPage);
+$("body").fadeOut(500, redirectPage);
 });
 function redirectPage() {
 window.location = linkLocation;

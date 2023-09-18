@@ -16,6 +16,14 @@
         WHERE M.m_id = #{s_id}
     </select>
  
+<select id="getFavBookStoreName" resultType="String">
+    SELECT s.s_storename
+    FROM FavBook fb
+    JOIN Seller s ON fb.favb_s_id = s.s_id
+    WHERE fb.favb_c_id = #{c_id} AND fb.favb_b_isbn = #{favb_b_isbn}
+</select>
+ 
+
 <!-- <select id="getSellersInfoByIds" resultType="com.cjcs.bnb.dto.MemberDto">
     SELECT s_id, s_storename, m_addr, m_phone
     FROM Seller

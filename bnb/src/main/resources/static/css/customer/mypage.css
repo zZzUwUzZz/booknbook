@@ -55,10 +55,12 @@ hr {
     width: 91%;
     justify-content: space-between;
     margin: auto;
+    margin-top: -27px;
+
 }
 
 .buttons {
-    padding: 30px;
+    padding: 0;
     cursor: pointer;
 }
 .buttons span {

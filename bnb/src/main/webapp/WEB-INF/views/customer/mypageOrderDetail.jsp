@@ -109,7 +109,7 @@
                             </div>
                         </div>
 
-
+            </div>
 
 
                         <div class="pcContain_01">
@@ -247,14 +247,17 @@
 
                     $(document).ready(() => {
 
-                        let o_status_1 = '${oPList[0].order_status_id}'
-                        let o_status_2 = '${oRList[0].order_status_id}'
+        let o_status_1 = '${oPList[0].order_status_id}'
+        let o_status_2 = '${oRList[0].order_status_id}'
+        let delivered = '${delivered}'
 
-                        if (o_status_1 == 1 || o_status_2 == 1) {
-                            $('#cancel-btn').attr('disabled', false);
-                        } else {
-                            $('#cancel-btn').attr('disabled', true);
-                        }
+        if (delivered == 'true') {
+            $('#cancel-btn').attr('disabled', true);
+        } else if (o_status_1 == 1 || o_status_2 == 1) {
+            $('#cancel-btn').attr('disabled', false);
+        } else {
+            $('#cancel-btn').attr('disabled', true);
+        }
 
                     })
 

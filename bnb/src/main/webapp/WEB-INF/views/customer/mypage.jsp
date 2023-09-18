@@ -103,11 +103,11 @@
                         <h3><a href="/mypage/refundexchangelist">진행 중인 교환/반품 : ${num_of_currRE}건</a></h3>
                         <table>
                             <tr>
-                                <th>구분</th>
-                                <th>신청일자</th>
+                                <th width="45px">구분</th>
+                                <th width="90px">신청일자</th>
                                 <th>도서명</th>
-                                <th>서점명</th>
-                                <th>처리상태</th>
+                                <th width="70px">서점명</th>
+                                <th width="70px">처리상태</th>
                             </tr>
 
                             <c:if test="${empty curr_reList}">
@@ -121,7 +121,7 @@
                                     <tr>
                                         <td>${reItem.re_sort}</td>
                                         <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-                                        <td>${reItem.b_title}</td>
+                                        <td><span>${reItem.b_title}</span></td>
                                         <td>${reItem.s_storename}</td>
                                         <td>${reItem.process_status}</td>
                                     </tr>
@@ -134,14 +134,14 @@
                     
                      <div class="container-3 card-top cards">
 
-                        <h3><a href="/mypage/rentallist">현재 대여 중 : ${num_of_currR}건</a></h3>
+                        <h3><a href="/mypage/rentallist">현재 대여/연체 중 : ${num_of_currR}건</a></h3>
                         <table>
                             <tr>
+                                <th width="80px">대여상태</th>
                                 <th>도서명</th>
-                                <th>서점명</th>
-                                <th>반납기한</th>
-                                <th>대여상태</th>
-                                <th>총 연체료</th>
+                                <!-- <th>서점명</th> -->
+                                <th width="110px">반납기한</th>
+                                <th width="70px">총 연체료</th>
                             </tr>
 
                             <c:if test="${empty curr_rList}">
@@ -153,10 +153,10 @@
                             <c:if test="${!empty curr_rList}">
                                 <c:forEach var="rItem" items="${curr_rList}">
                                     <tr>
-                                        <td>${rItem.b_title}</td>
-                                        <td>${rItem.s_storename}</td>
-                                        <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                         <td>${rItem.rental_status}</td>
+                                        <td><span>${rItem.b_title}</span></td>
+                                        <!-- <td><span>${rItem.s_storename}</span></td> -->
+                                        <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                         <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
                                     </tr>
                                     </c:forEach>
@@ -178,12 +178,11 @@
                     </div>
                     <table>
                         <tr>
-                            <th>주문번호</th>
+                             <th>주문번호</th>
                             <th>도서명</th>
                             <th>배송현황</th>
                             <th>주문일자</th>
-
-                        </tr>
+                          </tr>
 
                         <c:if test="${empty pList}">
                             <tr>
@@ -215,7 +214,6 @@
                             <th>도서명</th>
                             <th>배송현황</th>
                             <th>주문일자</th>
-
                         </tr>
 
                         <c:if test="${empty rList}">

@@ -31,8 +31,13 @@ hr {
     color: #203b23;
     display: flex;
     flex-direction: row;
+
     width: 100%;
     height: auto!important;
+    margin: auto;
+    margin-top: 40px;
+    padding: 15px;
+
 }
 .board-area {
     width: 80%;
@@ -172,6 +177,15 @@ td span {
 
 .optt_text {
     font-size: 20px;
+}
+.infobox {
+    display: flex;
+    justify-content: space-between;
+    width: 1040px;
+    height: 30px;
+    margin: auto;
+    margin-top: 35px;
+
 }
 
 .opTitle_status {

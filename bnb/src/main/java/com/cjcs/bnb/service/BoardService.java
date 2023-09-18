@@ -1,10 +1,16 @@
 package com.cjcs.bnb.service;
 
+import java.time.LocalDate;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cjcs.bnb.common.Paging;
 import com.cjcs.bnb.dao.MemberDao;
+import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.PurchaseDao;
+import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
 import com.cjcs.bnb.dto.SearchDto;
 
@@ -23,6 +29,12 @@ public class BoardService {
     private ReportBoardDao rbDao;
     @Autowired
     private MemberDao mDao;
+    @Autowired
+    private OrderDao oDao;
+    @Autowired
+    private PurchaseDao pDao;
+    @Autowired
+    private RentalDao rDao;
     
 
     public String getPageboxHtml(SearchDto sDto, String listUrl) {
@@ -39,14 +51,33 @@ public class BoardService {
             case "/admin/customerlist":
                 totalNum = mDao.countCustomers(sDto);
                 break;
+            case "/mypage/orderlist":
+                totalNum = oDao.countOrdersByDateRange(sDto);   //전체 결과 개수, 조회기간 있거나 없거나
+                break;
+            case "/mypage/purchaselist":
+                totalNum = pDao.countPurchasesByDateRange(sDto);
+                break;
+            case "/mypage/rentallist":
+                totalNum = rDao.countRentalsByDateRange(sDto);
+                break;
+            case "/mypage/refundexchangelist":
+                totalNum = pDao.countRefExchsByDateRange(sDto);
+                break;
+            case "/mypage/rentalreservationlist":
+                totalNum = rDao.countReservationsByDateRange(sDto);
         }
 
-		if(sDto.getColname() !=null) {
+		if (sDto.getColname() != null) {
 			listUrl += "?colname="+sDto.getColname()
-			        + "&keyword="+sDto.getKeyword()+"&";
-		}else {
-			listUrl ="?";
+			         + "&keyword="+sDto.getKeyword()+"&";
 		}
+
+        if (sDto.getStartDate() != null) {
+            listUrl += "?startDate="+sDto.getStartDate()
+                     + "&endDate="+sDto.getEndDate()+"&";
+        } else {
+			listUrl +="?";
+        }
 
 		Paging paging=new Paging(totalNum, sDto.getPageNum(), sDto.getListCnt(), sDto.getPageCnt(), listUrl);
 

@@ -64,6 +64,18 @@
             </div>
 
 
+            <div class="datebox">
+                <div>
+                <form action="/mypage/refundexchangelist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+      
             <div class="PcListBox">
 
 
@@ -115,6 +127,7 @@
                                     ${reItem.process_status}
                                 </div>
             
+ 
                                 <c:choose>
                                     <c:when test="${reItem.re_process_status_id eq 1}">
                                         <div class="re_clbtn" onclick="cancel('${reItem.re_id}')" class="cancel_btn">
@@ -135,26 +148,13 @@
             
             </div>
 
-           
-
-            
-              <div class="button-area">
-                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">
-                    <span class="material-symbols-sharp">
-                        chevron_left
-                        </span>
-                </div>
-                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">
-                    <span class="material-symbols-sharp">
-                        chevron_right
-                        </span>
-                </div>
+ 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
 
         </div>
-
-        
-      
+ 
     </div>
 
 

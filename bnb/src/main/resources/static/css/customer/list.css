@@ -1,7 +1,23 @@
+
 /* 밝은 버전 바탕 */
 
 body {
     background: #dfdad5;
+}
+
+.datebox {
+    width: 1020px;
+    display: flex;
+    flex-direction: row-reverse;
+    margin: auto;
+    padding-bottom: 10px;
+    margin-top: -25px;
+}
+
+table {
+    width: 1020px;
+    text-align: center;
+    margin: auto;
 }
 a {
     color: #203b23;
@@ -101,12 +117,10 @@ color: #618064;
 
 .menu_simple ul li a:hover, .menu_simple ul li .current {
 }
+
 td span {
     width: 120px;
     display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 
@@ -207,3 +221,39 @@ td span {
 .re_clbtn:hover {
     background: #49634c;
 }
+
+
+.available {
+    border-radius: 10px;
+    background-color: #4c4240;
+    color: #fffbed;
+    text-align: center;
+    font-size: 15px;
+    line-height: 30px;
+    width: 80px;
+    height: 30px;
+    margin: auto;
+}
+.available:hover {
+    cursor: pointer;
+    background-color: #ff9946;
+    box-shadow: none;
+}
+.available:active {
+    position: relative;
+    top: 1px;
+}
+.available-td {
+    color: rgb(255, 60, 0);
+    font-size: 13px;
+}
+td span {
+    box-sizing: border-box;
+    width: 240px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0;
+}
+

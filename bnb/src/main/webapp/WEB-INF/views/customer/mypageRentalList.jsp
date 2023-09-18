@@ -57,8 +57,20 @@
         </div>
 
         <div class="board-area">
+ 
+          <div class="datebox">
+                <div>
+                <form action="/mypage/rentallist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
 
-            <form action="/payment" method="post">
+            <form action="/latefeetopay" method="post">
 
                 <div class="odtext_01">
                 <span class="pagename">RENTAL LIST</span>
@@ -100,7 +112,20 @@
                                     <div class="pText">대여상태</div>
                                     ${rItem.rental_status}
                                 </div>
-            
+     
+                              <c:choose>
+                                 <div class="pDeli">
+                                    <div class="pText">대여상태</div>
+                                    <c:when test="${rItem.rental_status eq '연체'}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${rItem.rental_status}
+                                    </c:otherwise>
+                                   </div>
+                                </c:choose>
+                              
+                              
+                              
                                 <div class="pRe">
                                     <div class="pText">총 연체료</div>
                                     <fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0" />
@@ -120,6 +145,65 @@
                                                 <input type="checkbox" class="ckbox" name="p_idList" value="${rItem.p_id}">
                                                 <label for="ckbox"></label>
                                             </div>
+
+                                          
+     <!--
+            <div>
+                <h2 class="pagename">RENTAL LIST</h2>
+            </div>
+
+           
+
+            <div>
+                <div class="tablebox">
+                <table>
+                    <tr class="headrow">
+                        <th width="90px">주문번호</th>
+                        <th width="140px">주문일자</th>
+                        <th>도서명</th>
+                        <th>서점명</th>
+                        <th width="100px">대여상태</th>
+                        <th width="100px">반납기한</th>
+                        <th width="70px">연체료</th>
+                        <th width="100px">납부일자</th>
+                        <th width="40px"></th>
+                    </tr>
+
+                    <c:if test="${empty rList}">
+                        <tr>
+                            <td colspan="9">대여내역이 없습니다.</td>
+                        </tr>
+                    </c:if>
+        
+                    <c:if test="${!empty rList}">
+                        <c:forEach var="rItem" items="${rList}">
+                            <tr>
+                                <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
+                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
+                                <td title="${rItem.b_title}"><span>${rItem.b_title}</span></td>
+                                <td>${rItem.s_storename}</td>
+                                <c:choose>
+                                    <c:when test="${rItem.rental_status eq '연체'}">
+                                        <td title="먼저 책을 반납하셔야&#013;연체료를 납부하실 수 있어요." style="color: rgb(255, 60, 0);">${rItem.rental_status}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${rItem.rental_status}</td>
+                                    </c:otherwise>
+                                </c:choose>
+                                <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                <c:choose>
+                                    <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
+                                        <td title="연체료를 납부해주세요." style="color: rgb(255, 60, 0);"><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
+                                    </c:otherwise>
+                                </c:choose>
+                                <td><fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                <c:choose>
+                                    <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
+                                        <td><input type="checkbox" name="r_idList" value="${rItem.r_id}"></td>
+
                                     </c:when>
                                     <c:otherwise>
                                         <div class="ckContain">
@@ -135,35 +219,26 @@
                     </c:forEach>
                 </c:if>
             
+            </div> -->
+
+ 
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
 
-
-
-
-            <div class="btnbox">
-                <button type="submit" id="submit" disabled>연체료납부</button>
-            </div>
+            <c:if test="${!empty rList}">
+                <div class="btnbox">
+                    <button type="submit" id="submit" disabled>연체료납부</button>
+                </div>
+            </c:if>
 
             </form>
           
           
-            <div class="button-area">
-                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">
-                    <span class="material-symbols-sharp">
-                        chevron_left
-                    </span>
-                </div>
-                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">
-                    <span class="material-symbols-sharp">
-                        chevron_right
-                    </span>
-                </div>
-
-            </div>
-    
+          
         </div>
 
-   
+ 
     </div>
 
 
@@ -171,6 +246,9 @@
 
 
     <script>
+        
+        let m = '${msg}'
+        if (m != '') { alert(m) }
 
         $(document).ready(()=>{
     

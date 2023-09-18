@@ -60,9 +60,21 @@
             
             <div class="odtext_01">
                 <span class="pagename">MY ORDER LIST</span>
+            </div>    
+            <div class="odListBox">
+
+            <div class="datebox">
+                <div>
+                <form action="/mypage/orderlist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
             </div>
 
-            <div class="odListBox">
 
             <c:if test="${empty oList}">
             
@@ -83,10 +95,16 @@
                                 <div class="odText">주문날짜</div>
                                 <fmt:formatDate value="${oItem.o_date}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
                             </div>
-            
+                          
+                                <c:choose>
                             <div class="odItem">
-                                <!--  <div class="odText">주문품목</div> -->
-                                ${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건
+                               <c:when test="${oItem.book_sorts_minus_one eq 0}">
+                                ${oItem.first_title}
+                               </c:when>
+                               <c:otherwise>
+                        ${oItem.first_title} 외 ${oItem.book_sorts_minus_one}건
+                                   </c:otherwise>
+                                </c:choose>
                             </div>
             
                             <div class="odTitle">
@@ -106,25 +124,13 @@
                 </c:forEach>
             </c:if>
 
-
             </div>
 
-            <div class="button-area">
-                <div class="buttons">
-                    <span class="material-symbols-sharp">
-                        chevron_left
-                        </span>
-                </div>
-                <div class="buttons">
-                    <span class="material-symbols-sharp">
-                        chevron_right
-                        </span>
-                </div>
-            </div>
-        
-            <!-- <div>
+
+       
+           <div>
                 <div class="pagebox">${pageHtml}</div>
-            </div> -->
+            </div>
          
         </div>
 

@@ -56,16 +56,32 @@
             </ul>
         </div>
 
-           <div class="board-area">
 
     <form action="/mypage/refundexchange" method="GET">
+
+        <div class="board-area">
 
             <div class="pctext_01">
                 <span class="pagename">PURCHASE LIST</span>
             </div>
 
+
+          
             <div class="PcListBox">
 
+                    <div class="datebox">
+                <div>
+                <form action="/mypage/purchaselist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
+                </div>
+            </div>
+
+          
             <c:if test="${empty pList}">
                 <h4>주문내역이 없습니다.</h4>
             </c:if>
@@ -134,31 +150,25 @@
             
                 </c:forEach>
             </c:if>
-            
+
+  
+ 
             </div>
       
 
 
-            <div class="btnbox">
-                <button type="submit" id="submit" disabled>교환/반품신청</button>
+            <div>
+                <div class="pagebox">${pageHtml}</div>
             </div>
+
+
+            <c:if test="${!empty pList}">
+                <div class="btnbox">
+                    <button type="submit" id="submit" disabled>교환/반품신청</button>
+                </div>
+            </c:if>
+
             </form>
-
-          
-
-            <div class="button-area">
-
-                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">
-                    <span class="material-symbols-sharp">
-                        chevron_left
-                    </span>
-                </div>
-                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">
-                    <span class="material-symbols-sharp">
-                        chevron_right
-                    </span>
-                </div>
-            </div>
             
         </div>
 

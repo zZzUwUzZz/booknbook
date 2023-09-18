@@ -1,7 +1,7 @@
 package com.cjcs.bnb.dao;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -55,8 +55,9 @@ public interface BookMapper {
 
         // 수희
 
-        public int updateSaleStock(String cart_s_id, String cart_b_isbn, int cart_amount);
+        public int updateSaleStock(String s_id, String b_isbn, int qty);
+        public int updateRentalStock(String s_id, String b_isbn, int qty);
+        public HashMap<String, Object> getStockInfo(Integer cart_id);
 
-        public int updateRentalStock(String cart_s_id, String cart_b_isbn);
 
 }

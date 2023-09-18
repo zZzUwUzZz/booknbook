@@ -65,7 +65,7 @@
                         <td class="th" width="100px">글번호</td>
                         <td class="info_td" width="180px">${rbDto.report_id}</td>
                         <td class="th" width="100px">작성일</td>
-                        <td class="info_td"><fmt:formatDate value="${rbDto.report_date}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate></td>
+                        <td class="info_td"><fmt:formatDate value="${rbDto.report_date}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
                     </tr>
                     <tr>
                         <td class="th">글제목</td>

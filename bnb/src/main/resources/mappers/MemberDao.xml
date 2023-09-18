@@ -95,7 +95,7 @@
         WHERE M_ID = #{userId}
     </update>
 
-
+ 
     <!-- 회원탈퇴 -->
     
     <resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">
@@ -230,8 +230,9 @@
 		    </when>
 		    <otherwise>
 		    	(SELECT rownum rn, CI.*
-				 FROM CUSTOMER_INFO CI
-            	 ORDER BY m_joindate DESC)
+				 FROM (SELECT * FROM CUSTOMER_INFO
+            	       ORDER BY m_joindate DESC) CI
+                )
 		    </otherwise>
 		</choose>
 		<![CDATA[
@@ -266,8 +267,9 @@
 		    </when>
 		    <otherwise>
 		    	(SELECT rownum rn, SI.*
-				 FROM SELLER_INFO SI
-            	 ORDER BY m_joindate DESC)
+				 FROM (SELECT * FROM SELLER_INFO
+            	       ORDER BY m_joindate DESC) SI
+                )
 		    </otherwise>
 		</choose>
 		<![CDATA[

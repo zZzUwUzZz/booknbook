@@ -88,7 +88,7 @@
                             <td class="label">이메일</td> <td>${mDto.m_email}</td>
                         </tr>
                         <tr>
-                            <td class="label">가입일자</td> <td><fmt:formatDate value="${mDto.m_joindate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                            <td class="label">가입일자</td> <td><fmt:formatDate value="${mDto.m_joindate}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                         </tr>
                     </table>
         

@@ -24,15 +24,36 @@ table {
     padding: 5px;
 }
 tr {
-    height: 30px;
+    height: 35px;
+}
+.cart {
+    height: 40px;
+}
+.head_row {
+    background-color: rgb(220, 220, 220);
 }
 .qty_input {
     width: 35px;
 }
+.td_gray {
+    color: rgb(175, 175, 175);
+}
+.soldout {
+    color: rgb(255, 60, 0);
+    font-size: 13px;
+}
 .last_row {
     background-color: rgb(220, 220, 220);
-    height: 30px;
 }
+.detail_link {
+    cursor: pointer;
+}
+.detail_link:hover {
+    text-decoration: underline;
+    position: relative;
+    bottom: 1px;
+}
+
 .orderinfo_area {
     box-sizing: border-box;
     display: flex;
@@ -42,6 +63,16 @@ tr {
     line-height: 25px;
     margin: auto;
     padding: 20px 20px;
+}
+#delivery_info {
+    font-size: 15px;
+    margin-top: 5px;
+}
+#payment_info {
+    line-height: 25px;
+}
+hr {
+    margin: 5px 0;
 }
 .label {
     display: inline-block;
@@ -72,4 +103,18 @@ tr {
     line-height: 400px;
     border-bottom: 1px solid #36593a;
     margin: auto;
+}
+td span {
+    box-sizing: border-box;
+    width: 240px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    top: 2px;
+}
+td span:hover {
+    position: relative;
+    top: 2px;
 }

@@ -1,5 +1,7 @@
 package com.cjcs.bnb.controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +35,10 @@ import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.mappers.FavoriteMapper;
 import com.cjcs.bnb.mappers.FileMapper;
+
+import com.cjcs.bnb.dto.SearchDto;
+import com.cjcs.bnb.service.BoardService;
+
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
@@ -50,14 +57,11 @@ public class CustomerPageController {
     @Autowired
     private MemberService mSer;
     @Autowired
-    private NotificationService nSer;
-
-    @Autowired
     private OrderService oSer;
     @Autowired
     private PurchaseService pSer;
     @Autowired
-    private RentalService rSer;
+    private BoardService bSer;
 
     @Autowired
     private MemberDao mDao;
@@ -141,15 +145,23 @@ public class CustomerPageController {
         return "redirect:/mypage/info";
     }
 
-    @GetMapping("/orderlist") // 주문내역
-    public String mypageOrderList(Model model, HttpSession session) {
+    @GetMapping("/orderlist")    // 주문내역
+    public String mypageOrderList(SearchDto sDto, Model model, HttpSession session) {
 
         // 일단 하드코딩함.
         String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> oList = oDao.getOrderListGroupByOId(c_id);
-        model.addAttribute("oList", oList);
+        List<HashMap<String, String>> oList = oDao.getOrderListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/orderlist");
+        
+        if (oList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("oList", oList);
+            log.info("oList:{}", oList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageOrderList";
     }
@@ -167,6 +179,10 @@ public class CustomerPageController {
         model.addAttribute("oRList", oRList);
         model.addAttribute("isbnList", isbnList);
 
+        Boolean delivered = oSer.hasAtLeastOneDelivered(oPList, oRList);
+        log.info("delivered:{}", delivered);
+        model.addAttribute("delivered", delivered);
+
         return "customer/mypageOrderDetail";
     }
 
@@ -180,34 +196,66 @@ public class CustomerPageController {
         return "redirect:/mypage/orderdetail/" + o_id;
     }
 
-    @GetMapping("/purchaselist") // 구매내역
-    public String mypagePurchaseList(Model model, HttpSession session) {
+    @GetMapping("/purchaselist")    // 구매내역
+    public String mypagePurchaseList(SearchDto sDto, Model model, HttpSession session) {
 
         // 일단 하드코딩함.
         String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> pList = pDao.getPurchaseListByCId(c_id);
-        model.addAttribute("pList", pList);
+        List<HashMap<String, Object>> pList = pDao.getPurchaseListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/purchaselist");
+
+        if (pList != null) {
+
+            for (HashMap<String, Object> pItem : pList) {
+
+                LocalDate currDate = LocalDate.now();
+                Timestamp deliDate = (Timestamp) pItem.get("p_deliverydate");
+
+                if (deliDate == null) {
+                    pItem.put("after_a_week", "false");
+
+                } else {
+                    LocalDate aWeekAfterDeliveryDate = (deliDate).toLocalDateTime().toLocalDate().plusDays(7);
+                    if (currDate.isAfter(aWeekAfterDeliveryDate)) {
+                        pItem.put("after_a_week", "true");
+                    } else {
+                        pItem.put("after_a_week", "false");
+                    }
+                }
+            }
+
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("pList", pList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypagePurchaseList";
     }
 
-    @GetMapping("/rentallist") // 대여내역
-    public String mypageRentalList(Model model, HttpSession session) {
+    @GetMapping("/rentallist")    // 대여내역
+    public String mypageRentalList(SearchDto sDto, Model model, HttpSession session) {
 
         // 일단 하드코딩함.
         String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> rList = rDao.getRentalListByCId(c_id);
-        log.info("rList:{}", rList);
-        model.addAttribute("rList", rList);
+        List<HashMap<String, String>> rList = rDao.getRentalListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/rentallist");
+
+        if (rList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("rList", rList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageRentalList";
     }
 
-    @GetMapping("/refundexchange") // 교환반품신청폼
+    @GetMapping("/refundexchange")     // 교환반품신청폼
     public String mypageRefundExchangeFrm(@RequestParam ArrayList<Integer> p_idList, Model model) {
 
         log.info("p_idList:{}", p_idList);
@@ -241,15 +289,24 @@ public class CustomerPageController {
         return "redirect:/mypage/refundexchangelist";
     }
 
-    @GetMapping("/refundexchangelist") // 교환반품내역
-    public String mypageRefundExchangeList(Model model, HttpSession session) {
+    @GetMapping("/refundexchangelist")    // 교환반품내역
+    public String mypageRefundExchangeList(SearchDto sDto, Model model, HttpSession session) {
 
         // 일단 하드코딩함.
         String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
+        log.info("re_id:{}", sDto);
 
-        List<RefExchDto> reList = pDao.getRefExchListByCId(c_id);
-        model.addAttribute("reList", reList);
+        List<RefExchDto> reList = pDao.getRefExchListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/refundexchangelist");
+        log.info("reList:{}", reList);
+
+        if (reList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("reList", reList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageRefundExchangeList";
     }
@@ -262,33 +319,33 @@ public class CustomerPageController {
         return "redirect:/mypage/refundexchangelist";
     }
 
-    @GetMapping("/rentalreservationlist") // 대여예약내역
-    public String mypageRentalReservationList(Model model, HttpSession session) {
+    @GetMapping("/rentalreservationlist")    // 대여예약내역
+    public String mypageRentalReservationList(SearchDto sDto, Model model, HttpSession session) {
 
         // 일단 하드코딩함.
         String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        sDto.setC_id(c_id);
 
-        List<RentalReservationDto> rrList = rSer.getReservationListByCId(c_id);
-        log.info("rrList:{}", rrList);
-        model.addAttribute("rrList", rrList);
+        List<RentalReservationDto> rrList = rDao.getReservationListByDateRange(sDto);
+        String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/rentalreservationlist");
+
+        if (rrList != null) {
+            session.setAttribute("pageNum", sDto.getPageNum());
+            model.addAttribute("rrList", rrList);
+            model.addAttribute("pageHtml", pageHtml);
+        }
 
         return "customer/mypageRentalReservationList";
     }
 
-    @ResponseBody // 비동기통신(굳이 비동기로 할 필요 없는 페이지인데 그냥 해보고 싶어서 해봄 -_-...)
-    @PostMapping("/reservationcancel") // 대여예약취소처리
-    public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
+    @PostMapping("/reservationcancel")    // 대여예약취소처리
+    public ResponseEntity<Void> cancelReservation(@RequestParam int rr_id, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        log.info("rr_id:{}", rr_id);
+        rDao.updateReservationByRRId(rr_id, 4, null);
 
-        rSer.cancelReservationByRRId(rrDto.getRr_id());
-
-        List<RentalReservationDto> rrList = rSer.getReservationListByCId(c_id);
-
-        return rrList;
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/favoritestores") // 즐겨찾는서점 페이지

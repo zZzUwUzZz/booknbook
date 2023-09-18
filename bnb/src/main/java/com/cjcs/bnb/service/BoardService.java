@@ -58,7 +58,6 @@ public class BoardService {
 
 	}
     public void insertReport(ReportBoardDto reportBoardDto){
-        reportBoardDto.setReport_date(new Timestamp(System.currentTimeMillis()));
         rbDao.insertReport(reportBoardDto);
     }
 }

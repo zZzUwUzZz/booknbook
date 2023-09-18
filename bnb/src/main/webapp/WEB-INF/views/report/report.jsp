@@ -146,6 +146,6 @@ String formattedDate = dateFormat.format(currentDate);
     }
 }
     </script>
- <jsp:include page="report_submission.jsp" />
+
 </body>
 </html>

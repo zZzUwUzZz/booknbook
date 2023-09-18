@@ -27,15 +27,14 @@ public class MenuController {
     }
 
     @GetMapping("/report")
-    public String report(Model model) {
-        model.addAttribute("reportBoardDto", new ReportBoardDto());
-        return "report";
+    public String report() {
+        return "/report/report";
     }
 
     @PostMapping("/report")
     public String report(@ModelAttribute ReportBoardDto reportBoardDto) {
         boardService.insertReport(reportBoardDto);
-        return "main";
+        return "redirect:/"; 
     }
 
 }

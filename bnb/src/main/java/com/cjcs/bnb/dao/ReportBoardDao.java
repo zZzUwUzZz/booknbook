@@ -20,5 +20,4 @@ public interface ReportBoardDao {
 
     public void insertReport(ReportBoardDto reportBoardDto);
    
-    
 }

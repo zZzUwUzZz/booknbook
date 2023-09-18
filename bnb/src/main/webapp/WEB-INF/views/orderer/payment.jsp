@@ -53,9 +53,9 @@
                     <table>
 
                         <tr class="head_row">
-                            <th>서점명</th>
+                            <th width="160px">서점명</th>
                             <th>도서명</th>
-                            <th width="130px">판매가</th>
+                            <th width="140px">판매가</th>
                             <th width="70px">수량</th>
                             <th width="130px">금액</th>
                         </tr>
@@ -64,16 +64,16 @@
                             <tr>
                                 <input type="hidden" name="pcart_idList" value="${cPItem.cart_id}">
                                 <td>${cPItem.s_storename}</td>
-                                <td>${cPItem.b_title}</td>
+                                <td title="${cPItem.b_title}"><span>${cPItem.b_title}</span></td>
                                 <td><fmt:formatNumber value="${cPItem.b_price}" type="number" pattern="#,##0"/>원</td>
                                 <td>${cPItem.cart_amount}</td> 
                                 <td><fmt:formatNumber value="${cPItem.b_price * cPItem.cart_amount}" type="number" pattern="#,##0"/>원</td>
                             </tr>
                         </c:forEach>
                         
-                        <tr>
-                            <td colspan="4" class="last_row"></td>
-                            <td id="total_b_price" class="last_row"><fmt:formatNumber value="${total_b_price}" type="number" pattern="#,##0"/>원</td>
+                        <tr class="last_row">
+                            <td colspan="4"></td>
+                            <td id="total_b_price"><fmt:formatNumber value="${total_b_price}" type="number" pattern="#,##0"/>원</td>
                         </tr>
 
                     </table> 
@@ -94,9 +94,9 @@
                     <table>
 
                         <tr class="head_row">
-                            <th>서점명</th>
+                            <th width="160px">서점명</th>
                             <th>도서명</th>
-                            <th width="105px">기본대여료</th>
+                            <th width="100px">기본대여료</th>
                             <th width="90px">대여기간</th>
                             <th width="70px">수량</th>
                             <th width="130px">금액</th>
@@ -106,7 +106,7 @@
                             <tr>
                                 <input type="hidden" name="rcart_idList" value="${cRItem.cart_id}">
                                 <td>${cRItem.s_storename}</td>
-                                <td>${cRItem.b_title}</td>
+                                <td title="${cRItem.b_title}"><span>${cRItem.b_title}</span></td>
                                 <td><fmt:formatNumber value="${cRItem.b_rent}" type="number" pattern="#,##0"/>원</td>
                                 <td>${cRItem.cart_rentalperiod}일</td>
                                 <td>1</td>

@@ -1,9 +1,11 @@
 package com.cjcs.bnb.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dao.MemberDao;
+import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.PurchaseDao;
+import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.service.BoardService;
+import com.cjcs.bnb.service.RentalService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +36,18 @@ public class BnbController {
 
     @Autowired
     private BoardService bSer;
+    @Autowired
+    private RentalService rSer;
 
     @Autowired
     private MemberDao mDao;
+
+    @Autowired
+    private OrderDao oDao;
+    @Autowired
+    private RentalDao rDao;
+    @Autowired
+    private PurchaseDao pDao;
     @Autowired
     private ReportBoardDao rbDao;
     @Autowired
@@ -60,6 +75,18 @@ public class BnbController {
     }
 
 
+    // 매일밤 12시 실행할 작업
+    @Scheduled(cron = "1 0 0 ? * *")
+    public void dailyCheck() {
+        
+        // 대여관련
+        rSer.updateLatefee();      // 연체료 업데이트 후
+        rSer.checkReturn();        // 신규연체 처리
+        
+        // 대여예약관련
+        rSer.checkReservation();   // 대여예약 처리
+
+    }
 
 
     // 여기부터 관리자페이지
@@ -67,6 +94,7 @@ public class BnbController {
     @GetMapping("/admin")    // 관리자페이지 홈
     public String admin(Model model) {
 
+        // 카테고리
         HashMap<String, List<HashMap<String, String>>> categoryNames = new HashMap<>();
 
         List<BookDto> categoryNamesM = categoryDao.listMediumCategories();
@@ -81,11 +109,22 @@ public class BnbController {
 
         model.addAttribute("categoryNames", categoryNames);
 
+        // 통계
         int num_of_seller = mDao.countSellers(null);
         int num_of_customer = mDao.countCustomers(null);
+        int num_of_order = ((BigDecimal) oDao.countAllOrders().get("num_of_orders")).intValue();
+        int num_of_rentalItem = ((BigDecimal) rDao.countAllRentalItems().get("num_of_rentals")).intValue();
+        int num_of_purchaseItem = ((BigDecimal) pDao.countAllPurchaseItems().get("num_of_purchases")).intValue();
 
         model.addAttribute("num_of_seller", num_of_seller);
         model.addAttribute("num_of_customer", num_of_customer);
+        model.addAttribute("num_of_order", num_of_order);
+        model.addAttribute("num_of_rentalItem", num_of_rentalItem);
+        model.addAttribute("num_of_purchaseItem", num_of_purchaseItem);
+
+        // 상습연체범 (기간내3회이상)
+        List<HashMap<String, String>> blackList = rDao.getCustomerBlackList(3);
+        model.addAttribute("blackList", blackList);
 
         return "admin/admin";
     }
@@ -130,12 +169,15 @@ public class BnbController {
     public String adminCustomerList(SearchDto sDto, Model model, HttpSession session) {
 
         List<MemberDto> customerList = mDao.getCustomerListByKeyword(sDto);
-        
-        log.info("customerList:{}", customerList.size());
-
 		String pageHtml = bSer.getPageboxHtml(sDto, "/admin/customerlist");
 
 		if (customerList != null) {
+
+            for (MemberDto mDto : customerList) {
+
+                int overdues = rDao.countLateReturnsByCId(mDto.getM_id());
+                mDto.setOverdues(overdues);
+            }
 
 			session.setAttribute("pageNum", sDto.getPageNum());
 

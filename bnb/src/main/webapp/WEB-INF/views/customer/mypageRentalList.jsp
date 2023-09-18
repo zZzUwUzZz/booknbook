@@ -74,19 +74,19 @@
                 </div>
             </div>
 
-            <form action="/payment" method="post">
+            <form action="/latefeetopay" method="post">
 
             <div>
                 <div class="tablebox">
                 <table>
                     <tr class="headrow">
-                        <th width="100px">주문번호</th>
-                        <th width="160px">주문일자</th>
+                        <th width="90px">주문번호</th>
+                        <th width="140px">주문일자</th>
                         <th>도서명</th>
                         <th>서점명</th>
                         <th width="100px">대여상태</th>
                         <th width="100px">반납기한</th>
-                        <th width="90px">총 연체료</th>
+                        <th width="70px">연체료</th>
                         <th width="100px">납부일자</th>
                         <th width="40px"></th>
                     </tr>
@@ -101,16 +101,30 @@
                         <c:forEach var="rItem" items="${rList}">
                             <tr>
                                 <td onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">${rItem.o_id}</td>
-                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                <td>${rItem.b_title}</td>
+                                <td><fmt:formatDate value="${rItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
+                                <td title="${rItem.b_title}"><span>${rItem.b_title}</span></td>
                                 <td>${rItem.s_storename}</td>
-                                <td>${rItem.rental_status}</td>
+                                <c:choose>
+                                    <c:when test="${rItem.rental_status eq '연체'}">
+                                        <td title="먼저 책을 반납하셔야&#013;연체료를 납부하실 수 있어요." style="color: rgb(255, 60, 0);">${rItem.rental_status}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${rItem.rental_status}</td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
-                                <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
+                                <c:choose>
+                                    <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
+                                        <td title="연체료를 납부해주세요." style="color: rgb(255, 60, 0);"><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td><fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                 <c:choose>
-                                    <c:when test="${rItem.r_rental_status_id eq 3 && not empty rItem.r_latefee_total && rItem.r_latefee_paid ne 'Y'}">
-                                        <td><input type="checkbox"></td>
+                                    <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
+                                        <td><input type="checkbox" name="r_idList" value="${rItem.r_id}"></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td><input type="checkbox" disabled></td>
@@ -151,6 +165,9 @@
 
 
     <script>
+        
+        let m = '${msg}'
+        if (m != '') { alert(m) }
 
         $(document).ready(()=>{
     

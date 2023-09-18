@@ -89,3 +89,36 @@ tr {
     height: 22px;
     margin: 1px;
 }
+.available {
+    border-radius: 10px;
+    background-color: #4c4240;
+    color: #fffbed;
+    text-align: center;
+    font-size: 15px;
+    line-height: 30px;
+    width: 80px;
+    height: 30px;
+    margin: auto;
+}
+.available:hover {
+    cursor: pointer;
+    background-color: #ff9946;
+    box-shadow: none;
+}
+.available:active {
+    position: relative;
+    top: 1px;
+}
+.available-td {
+    color: rgb(255, 60, 0);
+    font-size: 13px;
+}
+td span {
+    box-sizing: border-box;
+    width: 240px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0;
+}

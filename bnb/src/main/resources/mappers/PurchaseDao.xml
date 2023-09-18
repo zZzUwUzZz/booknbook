@@ -70,8 +70,9 @@
                               re_amount as "re_amount",
                               re_process_status_id as "re_process_status_id",
                               delivery_status as "delivery_status",
-                              p_delivery_status_id as "p_delivery_status_id"
-                       FROM (SELECT p_id, o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn, delivery_status, p_delivery_status_id
+                              p_delivery_status_id as "p_delivery_status_id",
+                              p_deliverydate as "p_deliverydate"
+                       FROM (SELECT p_id, o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn, delivery_status, p_delivery_status_id, p_deliverydate
                              FROM O, P, B, S, STATUS_D
                              WHERE o_id = p_o_id AND p_s_id = s_id AND
                                    p_s_id = b_s_id AND p_b_isbn = b_isbn AND
@@ -95,8 +96,9 @@
                               re_amount as "re_amount",
                               re_process_status_id as "re_process_status_id",
                               delivery_status as "delivery_status",
-                              p_delivery_status_id as "p_delivery_status_id"
-                       FROM (SELECT p_id, o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn, delivery_status, p_delivery_status_id
+                              p_delivery_status_id as "p_delivery_status_id",
+                              p_deliverydate as "p_deliverydate"
+                       FROM (SELECT p_id, o_id, o_date, s_storename, b_title, p_amount, p_s_id, p_b_isbn, delivery_status, p_delivery_status_id, p_deliverydate
                              FROM O, P, B, S, STATUS_D
                              WHERE o_id = p_o_id AND p_s_id = s_id AND
                                    p_s_id = b_s_id AND p_b_isbn = b_isbn AND
@@ -147,6 +149,10 @@
         <if test="startDate != null and endDate != null">
 		      AND o_date BETWEEN #{startDate} AND #{endDate}+1
 		</if>
+    </select>
+
+    <select id="countAllPurchaseItems" resultType="Map">
+        SELECT COUNT(*) as "num_of_purchases" FROM P
     </select>
 
     <insert id="addPurchaseList" parameterType="Map">

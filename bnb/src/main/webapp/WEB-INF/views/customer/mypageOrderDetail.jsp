@@ -60,7 +60,7 @@
             
             <div>
                 <h2 class="pagename">MY ORDER DETAILS</h2>
-                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> <fmt:formatDate value="${oInfo.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></p>
+                <p class="leftside order-info"><span class="boldtext">| 주문번호 |</span> ${oInfo.o_id} <span class="boldtext">| 주문일자 |</span> <fmt:formatDate value="${oInfo.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></p>
             </div>
 
             <div>
@@ -92,7 +92,9 @@
                                 <td>${oPItem.p_amount}</td>
                                 <td>${oPItem.order_status}</td>
                                 <td>${oPItem.delivery_status}</td>
-                                <td>${oPItem.p_deliverydate}</td>
+                                <c:if test="${!empty oPItem.p_deliverydate}">
+                                    <td><fmt:formatDate value="${oPItem.p_deliverydate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                </c:if>
                             </tr>
                          </c:forEach>
                     </c:if>
@@ -129,7 +131,9 @@
                                 <td>${oRItem.r_rentalperiod}일</td>
                                 <td >${oRItem.order_status}</td>
                                 <td>${oRItem.delivery_status}</td>
-                                <td>${oRItem.r_deliverydate}</td>
+                                <c:if test="${!empty oRItem.r_deliverydate}">
+                                    <td><fmt:formatDate value="${oRItem.r_deliverydate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                </c:if>
                             </tr>
                          </c:forEach>
                     </c:if>
@@ -163,7 +167,7 @@
                     </c:otherwise>
                 </c:choose>
 
-                
+
             </div>
 
             <div class="btnbox">
@@ -194,8 +198,11 @@
 
         let o_status_1 = '${oPList[0].order_status_id}'
         let o_status_2 = '${oRList[0].order_status_id}'
+        let delivered = '${delivered}'
 
-        if (o_status_1 == 1 || o_status_2 == 1) {
+        if (delivered == 'true') {
+            $('#cancel-btn').attr('disabled', true);
+        } else if (o_status_1 == 1 || o_status_2 == 1) {
             $('#cancel-btn').attr('disabled', false);
         } else {
             $('#cancel-btn').attr('disabled', true);

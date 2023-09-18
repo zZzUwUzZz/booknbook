@@ -1,14 +1,13 @@
 package com.cjcs.bnb.controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,6 @@ import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,14 +48,9 @@ public class CustomerPageController {
     @Autowired
     private MemberService mSer;
     @Autowired
-    private NotificationService nSer;
-
-    @Autowired
     private OrderService oSer;
     @Autowired
     private PurchaseService pSer;
-    @Autowired
-    private RentalService rSer;
     @Autowired
     private BoardService bSer;
 
@@ -153,6 +146,7 @@ public class CustomerPageController {
         if (oList != null) {
             session.setAttribute("pageNum", sDto.getPageNum());
             model.addAttribute("oList", oList);
+            log.info("oList:{}", oList);
             model.addAttribute("pageHtml", pageHtml);
         }
 
@@ -163,12 +157,16 @@ public class CustomerPageController {
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
         HashMap<String, Object> oInfo = oDao.getOrderInfoByOId(o_id);
-        List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
-        List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
+        List<HashMap<String, Object>> oPList = pDao.getPurchaseListByOId(o_id);
+        List<HashMap<String, Object>> oRList = rDao.getRentalListByOId(o_id);
 
         model.addAttribute("oInfo", oInfo);
         model.addAttribute("oPList", oPList);
         model.addAttribute("oRList", oRList);
+
+        Boolean delivered = oSer.hasAtLeastOneDelivered(oPList, oRList);
+        log.info("delivered:{}", delivered);
+        model.addAttribute("delivered", delivered);
         
         return "customer/mypageOrderDetail";
     }
@@ -192,10 +190,29 @@ public class CustomerPageController {
         //회원가입, 로그인 기능 생기면 윗줄 수정하기.
         sDto.setC_id(c_id);
 
-        List<HashMap<String, String>> pList = pDao.getPurchaseListByDateRange(sDto);
+        List<HashMap<String, Object>> pList = pDao.getPurchaseListByDateRange(sDto);
         String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/purchaselist");
 
         if (pList != null) {
+
+            for (HashMap<String, Object> pItem : pList) {
+
+                LocalDate currDate = LocalDate.now();
+                Timestamp deliDate = (Timestamp) pItem.get("p_deliverydate");
+
+                if (deliDate == null) {
+                    pItem.put("after_a_week", "false");
+
+                } else {
+                    LocalDate aWeekAfterDeliveryDate = (deliDate).toLocalDateTime().toLocalDate().plusDays(7);
+                    if (currDate.isAfter(aWeekAfterDeliveryDate)) {
+                        pItem.put("after_a_week", "true");
+                    } else {
+                        pItem.put("after_a_week", "false");
+                    }
+                }
+            }
+
             session.setAttribute("pageNum", sDto.getPageNum());
             model.addAttribute("pList", pList);
             model.addAttribute("pageHtml", pageHtml);
@@ -308,19 +325,13 @@ public class CustomerPageController {
         return "customer/mypageRentalReservationList";
     }
 
-    @ResponseBody   // 비동기통신(굳이 비동기로 할 필요 없는 페이지인데 그냥 해보고 싶어서 해봄 -_-...)
     @PostMapping("/reservationcancel")    // 대여예약취소처리
-    public List<RentalReservationDto> cancelReservation(RentalReservationDto rrDto, HttpSession session) {
+    public ResponseEntity<Void> cancelReservation(@RequestParam int rr_id, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        log.info("rr_id:{}", rr_id);
+        rDao.updateReservationByRRId(rr_id, 4, null);
 
-        rSer.cancelReservationByRRId(rrDto.getRr_id());
-
-        List<RentalReservationDto> rrList = rDao.getReservationListByCId(c_id);
-
-        return rrList;
+        return ResponseEntity.noContent().build();
     }
 
 

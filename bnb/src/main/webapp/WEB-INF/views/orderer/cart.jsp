@@ -72,7 +72,7 @@
                                     <c:when test="${cPItem.cart_amount eq 0}">
                                         <td><input type="checkbox" class="check_p check" name="pcart_idList" id="p-${cPItem.cart_id}" value="${cPItem.cart_id}" disabled></td>
                                         <td class="detail_link td_gray" onclick="location.href=''">${cPItem.s_storename}</td>
-                                        <td class="detail_link td_gray" onclick="location.href='/books/detail/${cPItem.cart_b_isbn}/${cPItem.cart_s_id}'">${cPItem.b_title}</td>
+                                        <td class="detail_link td_gray" onclick="location.href='/books/detail/${cPItem.cart_b_isbn}/${cPItem.cart_s_id}'" title="${cPItem.b_title}"><span>${cPItem.b_title}</span></td>
                                         <td class="td_gray"><fmt:formatNumber value="${cPItem.b_price}" type="number" pattern="#,##0"/>원</td>
                                         <td>
                                             <input type="hidden" id="stock-${cPItem.cart_id}" value="${cPItem.b_salestock}">-
@@ -82,7 +82,7 @@
                                     <c:otherwise>
                                         <td><input type="checkbox" class="check_p check" name="pcart_idList" id="p-${cPItem.cart_id}" value="${cPItem.cart_id}"></td>
                                         <td class="detail_link" onclick="location.href=''">${cPItem.s_storename}</td>
-                                        <td class="detail_link" onclick="location.href='/books/detail/${cPItem.cart_b_isbn}/${cPItem.cart_s_id}'">${cPItem.b_title}</td>
+                                        <td class="detail_link" onclick="location.href='/books/detail/${cPItem.cart_b_isbn}/${cPItem.cart_s_id}'" title="${cPItem.b_title}"><span>${cPItem.b_title}</span></td>
                                         <td><fmt:formatNumber value="${cPItem.b_price}" type="number" pattern="#,##0"/>원</td>
                                         <td>
                                             <input type="hidden" id="stock-${cPItem.cart_id}" value="${cPItem.b_salestock}">
@@ -132,7 +132,7 @@
                                     <c:when test="${cRItem.cart_amount eq 0}">
                                         <td><input type="checkbox" class="check_r check" name="rcart_idList" id="r-${cRItem.cart_id}" value="${cRItem.cart_id}" disabled></td>
                                         <td class="detail_link td_gray" onclick="location.href=''">${cRItem.s_storename}</td>
-                                        <td class="detail_link td_gray" onclick="location.href='/books/detail/${cRItem.cart_b_isbn}/${cRItem.cart_s_id}'">${cRItem.b_title}</td>
+                                        <td class="detail_link td_gray" onclick="location.href='/books/detail/${cRItem.cart_b_isbn}/${cRItem.cart_s_id}'" title="${cRItem.b_title}"><span>${cRItem.b_title}</span></td>
                                         <td class="td_gray"><fmt:formatNumber value="${cRItem.b_rent}" type="number" pattern="#,##0"/>원</td>
                                         <td>-</td> 
                                         <td>
@@ -143,7 +143,7 @@
                                     <c:otherwise>
                                         <td><input type="checkbox" class="check_r check" name="rcart_idList" id="r-${cRItem.cart_id}" value="${cRItem.cart_id}"></td>
                                         <td class="detail_link" onclick="location.href=''">${cRItem.s_storename}</td>
-                                        <td class="detail_link" onclick="location.href='/books/detail/${cRItem.cart_b_isbn}/${cRItem.cart_s_id}'">${cRItem.b_title}</td>
+                                        <td class="detail_link" onclick="location.href='/books/detail/${cRItem.cart_b_isbn}/${cRItem.cart_s_id}'" title="${cRItem.b_title}"><span>${cRItem.b_title}</span></td>
                                         <td><fmt:formatNumber value="${cRItem.b_rent}" type="number" pattern="#,##0"/>원</td>
                                         <td>
                                             <select name="cart_rentalperiod" id="rp-${cRItem.cart_id}">

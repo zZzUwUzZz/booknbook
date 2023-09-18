@@ -167,6 +167,10 @@
 		</if>
     </select>
 
+    <select id="countAllOrders" resultType="Map">
+        SELECT COUNT(*) as "num_of_orders" FROM O
+    </select>
+
 
 <!--예림-->
     <!-- 오늘 판매 수 카운트 -->

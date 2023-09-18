@@ -280,6 +280,21 @@
         )
     </update>
 
+    <!-- 대여 재고 조회 -->
+    <select id="getRentalStock" resultType="BookDto">
+        select b_s_id, b_title, b_rentalstock
+        from book
+        where b_title = #{b_title}
+        and b_s_id = 'seller001'
+    </select>
+
+    <!-- 대여 재고 증가 -->
+    <update id="RentalStockAdd">
+        UPDATE BOOK
+        SET B_RENTALSTOCK = B_RENTALSTOCK + 1
+        WHERE B_TITLE = #{b_title}
+        and b_s_id = 'seller001'
+    </update>
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">

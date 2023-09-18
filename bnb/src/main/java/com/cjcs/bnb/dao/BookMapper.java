@@ -50,6 +50,7 @@ public interface BookMapper {
 
 
 
+
     //수희
 
     public int updateSaleStock(String cart_s_id, String cart_b_isbn, int cart_amount);

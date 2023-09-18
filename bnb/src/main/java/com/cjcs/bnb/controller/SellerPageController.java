@@ -267,8 +267,10 @@ public class SellerPageController {
     }
 
     @PostMapping("/rent/curr/return")
-    public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData) {
-        rSer.UpdateRentStatus_Return(requestData);
+    public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData, String s_id) {
+        rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+        rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
+        rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
         return ResponseEntity.ok("반납 처리");
     }
 

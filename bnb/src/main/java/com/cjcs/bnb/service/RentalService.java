@@ -110,7 +110,7 @@ public class RentalService {
     }
 
     // 대여 상태 업데이트 [대여시작전]
-    public void UpdateRentStatus_Wait(RentalDto requestData){
+    public void UpdateRentStatus_Wait(RentalDto requestData) {
         rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title());
     }
 
@@ -132,6 +132,16 @@ public class RentalService {
     // 예약 1순위 예약 상태 변경
     public void RentResStatus_First(RentalDto requestData) {
         rDao.RentResStatus_First(requestData.getB_title());
+    }
+
+    // 대여 재고 조회
+    public int getRentalStock(RentalDto requestData) {
+        return rDao.getRentalStock(requestData.getB_title());
+    }
+
+    // 대여 재고 +1
+    public void RentalStockAdd(RentalDto requestData, String s_id) {
+        rDao.RentalStockAdd(requestData.getB_title(), s_id);
     }
 
     // 반납 현황 리스트

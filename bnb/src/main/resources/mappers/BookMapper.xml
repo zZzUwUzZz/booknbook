@@ -159,12 +159,7 @@ SELECT * FROM (
         </choose>
     </select>
 
-    <!-- 대여 재고 증가 -->
-    <update id="RentalStockAdd">
-        UPDATE BOOK
-        SET B_RENTALSTOCK = B_RENTALSTOCK + 1
-        WHERE B_TITLE = #{b_title}
-    </update>
+
 
 
 <!-- 수희 -->

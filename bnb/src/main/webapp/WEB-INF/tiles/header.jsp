@@ -12,14 +12,47 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
     <link rel="stylesheet" href="/css/noti.css">
+
+    <!-- SockJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<!-- STOMP.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
     <script src="/js/noti.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/main.js"></script>
+
+    <style>
+ 
+ body{
+    animation: fadein 2000ms ease-out;
+    -moz-animation: fadein 2000ms ease-out; /* Firefox */
+    -webkit-animation: fadein 2000ms ease-out; /* Safari and  Chrome */
+    -o-animation: fadein 2000ms ease-out; /* Opera */
+}
+@keyframes fadein {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@-o-keyframes fadein { /* Opera */
+    from {opacity:0;}
+    to {opacity: 1;}
+}
+
+
+    </style>
 </head>
      <!-- modal -->
-
+ 
      <div id="small-menu">
         <p class="smallmenuId">${sessionScope.loggedInUser}</p>
         <div class="smMenuList">
@@ -30,13 +63,18 @@
         </div>
     </div>
 
-   <div class="noti_md">
-    <div class="noti_tt">
-        <p>알림</p>
+
+    <h1 class="WStest" 
+    style="display: none;background-color: rgba(255, 232, 0, 0.5);position: absolute;text-align: center;margin: auto;width: 100%;height: 100px;top: 4%;z-index: 999;pointer-events: none;"></h1>
+
+    <div class="noti_md">
+        <div class="noti_tt">
+            <p>알림</p>
+        </div>
+        <div class="notilistbox">
+        </div>
     </div>
-    <div class="notilistbox">
-    </div>
-</div>
+ 
 
 <div class="sc_md">
     <div class="sc_cls">
@@ -106,6 +144,20 @@
 
  
  <script>
+
+
+jQuery(function($) {
+$("body").css("display", "none");
+$("body").fadeIn(2000);
+$("a.transition").click(function(event){
+event.preventDefault();
+linkLocation = this.href;
+$("body").fadeOut(1000, redirectPage);
+});
+function redirectPage() {
+window.location = linkLocation;
+}
+});
 
 window.onload = function() {
     var msg = "${msg}";

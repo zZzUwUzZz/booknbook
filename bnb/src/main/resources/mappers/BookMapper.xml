@@ -42,7 +42,9 @@ WHERE rn BETWEEN #{start} AND #{end}
           B_ISBN = #{isbn} AND B_S_ID = #{sellerId}
 </select>
 
- 
+ <select id="findBookStock" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT * FROM Book WHERE b_isbn = #{isbn} AND b_s_id = #{sellerId}
+</select>
 
 <!-- 키워드에 해당하는 책의 총 개수를 조회 -->
 <select id="countKeyword" resultType="int">
@@ -133,9 +135,6 @@ SELECT * FROM (
     WHERE B.b_s_id = S.s_id AND B.b_isbn = #{isbn}
     ORDER BY B.b_price ASC
 </select>
-
-
-
 
 
 <!-- 예림 -->

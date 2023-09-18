@@ -34,8 +34,21 @@ public class RentalService {
     private BookMapper bookDao;
     @Autowired
     private NotificationDao nDao;
+      @Autowired
+     private SqlSession sqlSession;
+ 
+ 
+    // 킹효진
 
-
+    public String requestRental(RentalReservationDto rrDto) {
+        RentalReservationDto existingRental = rDao.findRentalByCriteria(rrDto);
+        if (existingRental != null) {
+            return "already";
+        }
+        rDao.insertRental(rrDto);
+        return "success";
+    }
+ 
     // 수희
 
     // 연체료 업데이트

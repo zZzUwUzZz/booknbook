@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
-  
+    <link rel="stylesheet" href="/css/customer/main.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
@@ -44,14 +45,12 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist" id="currpage">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
@@ -59,11 +58,11 @@
 
         <div class="board-area">
 
-            <div>
-                <h2 class="pagename">RENTAL RESERVATION LIST</h2>
+            <div class="retext_01">
+                <span class="pagename">RENTAL RESERVATION LIST</span>
             </div>
 
-            <div class="datebox">
+   <div class="datebox">
                 <div>
                 <form action="/mypage/rentalreservationlist">
                     <input type="date" id="startDate" name="startDate" required>
@@ -74,35 +73,54 @@
                 </form>
                 </div>
             </div>
+          
+            <div class="rrListBox">
 
-            <div>
-                <div class="tablebox">
-                <table>
-                    <tr class="headrow">
-                        <th width="100px">예약번호</th>
-                        <th width="160px">요청일자</th>
-                        <th>도서명</th>
-                        <th>서점명</th>
-                        <th width="110px">예약상태</th>
-                        <th width="110px"></th>
-                    </tr>
-
-                    <c:if test="${empty rrList}">
-                            <tr>
-                                <td colspan="6">예약내역이 없습니다.</td>
-                            </tr>
-                    </c:if>
-        
-                    <c:if test="${!empty rrList}">
-                        <c:forEach var="rrItem" items="${rrList}">
-                            <tr>
-                                <td id="rr-${rrItem.rr_id}">${rrItem.rr_id}</td>
-                                <td><fmt:formatDate value="${rrItem.rr_reqdate}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
-                                <td title="${rrItem.b_title}"><span>${rrItem.b_title}</span></td>
-                                <td>${rrItem.s_storename}</td>
-
+     
+                              
+                <c:if test="${empty rrList}">
+                    <div>예약내역이 없습니다.</div>
+                </c:if>
+            
+                <c:if test="${!empty rrList}">
+                    <c:forEach var="rrItem" items="${rrList}">
+                        <div class="rrListContain">
+                            <article class="rrItemBox">
+            
+                                <div class="reNum">
+                                    <div class="reText">
+                                        예약번호</div>
+                                    <div>#${rrItem.rr_id}
+                                    </div>
+                                </div>
+            
+                                <div class="reTitle">
+                                    <div class="reText">요청일자</div>
+                                    <fmt:formatDate value="${rrItem.rr_reqdate}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+            
+            
+                                <div class="rrItem">
+                                     ${rrItem.b_title}
+                                </div>
+            
+                                <div class="reStore">
+                                    <div class="reText">서점명</div>
+                                    ${rrItem.s_storename}
+                                </div>
+            <!--
+                              
                                 <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 2}">
+                                 
+                                        <span class="status_code">${rrItem.res_status}<br>${rrItem.rr_rejection_reason}</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="reDeli">
+                                            <div class="reText">예약상태</div>
+                                            ${rrItem.res_status}
+                                        </div>
+
                                         <td title="${rrItem.rr_rejection_reason}">${rrItem.res_status}</td>
                                     </c:when>
                                     <c:when test="${rrItem.rr_res_status_id eq 5}">
@@ -110,11 +128,19 @@
                                     </c:when>
                                     <c:otherwise>
                                         <td id="status-${rrItem.rr_id}">${rrItem.res_status}</td>
+                      
                                     </c:otherwise>
                                 </c:choose>
-                            
+                                
+            
+                          
                                 <c:choose>
                                     <c:when test="${rrItem.rr_res_status_id eq 1 || rrItem.rr_res_status_id eq 3}">
+
+                                        <div class="re_clbtn" onclick="cancel('${rrItem.rr_id}')">
+                                            예약취소
+                                        </div>
+
                                         <td><button class="cancel_btn" data-rr-id="rr-${rrItem.rr_id}" data-status-id="status-${rrItem.rr_id}">예약취소</button></td>
                                     </c:when>
                                     <c:when test="${rrItem.rr_res_status_id eq 5}">
@@ -122,11 +148,25 @@
                                     </c:when>
                                     <c:when test="${rrItem.rr_res_status_id eq 2}">
                                         <td class="available-td">${rrItem.rr_cancel_reason}</td>
+
                                     </c:when>
                                     <c:otherwise>
-                                        <td width="80px"></td>
+                                        <div class="re_clbtn02"></div>
                                     </c:otherwise>
                                 </c:choose>
+
+            
+                                <c:if test="${!empty rrItem.rr_rejection_reason}">
+                                    ${rrItem.rr_rejection_reason}
+                                </c:if>
+            
+                            </article>
+                        </div>
+                    </c:forEach>
+                </c:if>
+            </div>
+
+   
                             </tr>
                         </c:forEach>
                     </c:if>
@@ -140,13 +180,11 @@
 
         </div>
 
-        <div class="button-area">
-
-            <!-- <div class="buttons"></div>
-            <div class="buttons"></div> -->
-
-        </div>
-
+-->
+             
+    
+            </div>
+            </div>
     </div>
 
 

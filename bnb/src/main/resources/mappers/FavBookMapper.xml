@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.mappers.FavBookMapper">
+
+  <insert id="addFav">
+    INSERT INTO FavBook (favb_c_id, favb_s_id, favb_b_isbn, fav_state) VALUES (#{favb_c_id}, #{favb_s_id}, #{favb_b_isbn}, 1)
+</insert>
+
+<delete id="removeFav">
+    DELETE FROM FavBook WHERE favb_c_id = #{favb_c_id} AND favb_s_id = #{favb_s_id} AND favb_b_isbn = #{favb_b_isbn}
+</delete>
+
+
+<select id="getFavState" resultType="java.lang.Integer">
+    SELECT fav_state FROM FavBook WHERE favb_c_id = #{favb_c_id} AND favb_s_id = #{favb_s_id} AND favb_b_isbn = #{favb_b_isbn}
+</select>
+
+</mapper>

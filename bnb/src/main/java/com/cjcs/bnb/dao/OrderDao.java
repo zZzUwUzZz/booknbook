@@ -8,7 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.cjcs.bnb.dto.CartDto;
+
+import com.cjcs.bnb.dto.PurchaseDto;
+
 import com.cjcs.bnb.dto.SearchDto;
+
 
 @Mapper
 public interface OrderDao {
@@ -25,7 +29,11 @@ public interface OrderDao {
 
     CartDto insertCartItem(CartDto cartDto);
 
-    //수희
+
+    List<PurchaseDto> getISBNListByOId(int o_id);
+
+    // 유다,수희
+
     public List<CartDto> getCartByCId(String c_id);
     public CartDto getCartByCartId(Integer cart_id);
     public List<CartDto> getPurchaseCartByCId(String c_id);
@@ -38,8 +46,12 @@ public interface OrderDao {
 
     public int addOrderSelectKey(HashMap<String, Object> orderMap);
 
+
+    // 수희
+
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
     public List<HashMap<String, String>> getOrderListByDateRange(SearchDto sDto);
+
     public HashMap<String, Object> getOrderInfoByOId(int o_id);
 
     public Integer countOrdersByDateRange(SearchDto sDto);

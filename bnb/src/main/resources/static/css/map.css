@@ -251,7 +251,7 @@ span.material-symbols-outlined.close-button {
 #favfalse {
     font-size: 100px;
     opacity: 0.5;
-    color: #ffffff;
+    color: #ff9d43;
     transition: all .8s;
     font-variation-settings: 'FILL' 1, 'wght' 100,'GRAD' 0,'opsz' 48;
 }

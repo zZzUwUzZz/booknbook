@@ -7,7 +7,8 @@
     background-color: none;
     width: 100%;
     padding: 13px 0 13px 27px;
-
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .favstore {
     display: inline-block;
@@ -30,3 +31,82 @@
 img {
     height: 280px;
 }
+
+.mypg {
+    padding: 15px 0px;
+    font-size: 23px;
+}
+
+.prfArea {
+    width: 80%;
+}
+
+/* 프로필 카드 */
+.prfbox01 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 42px 0px;
+}
+
+.prfContain {
+    width: 500px;
+    background: #203b23;
+    padding: 28px 32px;
+    display: flex;
+    margin: 24px;
+}
+
+.stinfoBox {
+    width: 150px;
+    text-align: center;
+}
+
+.infoText {
+    width: 100%;
+    padding: 4px;
+    margin-left: 50px;
+    line-height: 44px;
+    color: #dfdad5;
+}
+
+.stbtn {
+    padding: 10px;
+    background: #dfdad5;
+    color: #203b23;
+}
+
+.imgbox {
+    width: 150px;
+    height: 150px;
+    background: #90ab93;
+    border-radius: 50%;
+    margin-bottom: 14px;
+}
+
+.imgbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.st_text01 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 13px;
+    margin-top: 12px;
+}
+
+.st_text02 {
+    font-size: 19px;
+}
+
+.st_text03 {
+    font-size: 14px;
+    margin-top: 9px;
+}
+
+
+
+
+

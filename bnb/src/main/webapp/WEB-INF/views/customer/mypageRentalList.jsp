@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
+    <link rel="stylesheet" href="/css/customer/main.css">
+
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -43,26 +45,20 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist" id="currpage">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
         </div>
 
         <div class="board-area">
-
-            <div>
-                <h2 class="pagename">RENTAL LIST</h2>
-            </div>
-
-            <div class="datebox">
+ 
+          <div class="datebox">
                 <div>
                 <form action="/mypage/rentallist">
                     <input type="date" id="startDate" name="startDate" required>
@@ -75,6 +71,88 @@
             </div>
 
             <form action="/latefeetopay" method="post">
+
+                <div class="odtext_01">
+                <span class="pagename">RENTAL LIST</span>
+            </div>
+
+            <div class="rentListContain">
+
+                <c:if test="${empty rList}">
+                    <h4>대여내역이 없습니다.</h4>
+                </c:if>
+            
+                <c:if test="${!empty rList}">
+                    <c:forEach var="rItem" items="${rList}">
+                        <div class="rListBox">
+                            <article class="rItemBox">
+                                <div class="pTitle">
+                                    <div class="pText">
+                                        주문번호</div>
+                                    <div onclick="location.href='/mypage/orderdetail/${rItem.o_id}'" class="td-linked">
+                                        #${rItem.o_id}
+                                    </div>
+                                </div>
+            
+                                <div class="pTitle">
+                                    <div class="pText">주문날짜</div>
+                                    <fmt:formatDate value="${rItem.o_date}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+            
+                                <div class="rItem">
+                                     ${rItem.b_title}
+                                </div>
+            
+                                <div class="pStore">
+                                    <div class="pText">서점명</div>
+                                    ${rItem.s_storename}
+                                </div>
+            
+                                <div class="pDeli">
+                                    <div class="pText">대여상태</div>
+                                    ${rItem.rental_status}
+                                </div>
+     
+                              <c:choose>
+                                 <div class="pDeli">
+                                    <div class="pText">대여상태</div>
+                                    <c:when test="${rItem.rental_status eq '연체'}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${rItem.rental_status}
+                                    </c:otherwise>
+                                   </div>
+                                </c:choose>
+                              
+                              
+                              
+                                <div class="pRe">
+                                    <div class="pText">총 연체료</div>
+                                    <fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0" />
+                                </div>
+            
+                                <div class="pTitle">
+                                    <div class="pText">납부일자</div>
+                                    <fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+            
+            
+                                <c:choose>
+                                    <c:when
+                                        test="${rItem.r_rental_status_id eq 3 && not empty rItem.r_latefee_total && rItem.r_latefee_paid ne 'Y'}">
+                                        <td>
+                                            <div class="ckContain">
+                                                <input type="checkbox" class="ckbox" name="p_idList" value="${rItem.p_id}">
+                                                <label for="ckbox"></label>
+                                            </div>
+
+                                          
+     <!--
+            <div>
+                <h2 class="pagename">RENTAL LIST</h2>
+            </div>
+
+           
 
             <div>
                 <div class="tablebox">
@@ -125,18 +203,25 @@
                                 <c:choose>
                                     <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
                                         <td><input type="checkbox" name="r_idList" value="${rItem.r_id}"></td>
+
                                     </c:when>
                                     <c:otherwise>
-                                        <td><input type="checkbox" disabled></td>
+                                        <div class="ckContain">
+                                            <input type="checkbox" class="ckbox" name="p_idList" value="${rItem.p_id}" disabled>
+                                            <label for="ckbox"></label>
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
-                            </tr>
-                         </c:forEach>
-                    </c:if>
-                </table>
-                </div>
-            </div>
+            
+                            </article>
+                        </div>
+            
+                    </c:forEach>
+                </c:if>
+            
+            </div> -->
 
+ 
             <div>
                 <div class="pagebox">${pageHtml}</div>
             </div>
@@ -148,16 +233,12 @@
             </c:if>
 
             </form>
-
+          
+          
+          
         </div>
 
-        <div class="button-area">
-
-            <!-- <div class="buttons"></div>
-            <div class="buttons"></div> -->
-
-        </div>
-
+ 
     </div>
 
 

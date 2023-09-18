@@ -42,9 +42,9 @@
         <body>
 
             <%@include file="/WEB-INF/tiles/header.jsp" %>
-
+          
             <div class="bookListContainer">
-             
+
               <div class="catetext">
                 <h4>${category_m_id}${category_s_id}</h4>
               </div>
@@ -85,7 +85,13 @@
                       <div class="bk_area">
                         <a href="<c:url value='/books/detail/${book.b_isbn}/${book.b_s_id}'/>">
                           <div class="bkimgbox">
-                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/160x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
+                          
+                            <div class="statusText" data-salestock="${book.b_salestock}" data-rentalstock="${book.b_rentalstock}">
+                                <label class="statusText_2"></label>
+                                <label class="statusText_3"></label>
+                            </div>
+                       
+                            <img src="https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
                           </div>
                         </a>
                         <div class="bk_item_text"><b>${book.b_title}</b><br>
@@ -118,6 +124,45 @@
                 <%@include file="/WEB-INF/tiles/footer.jsp" %>
                 <script src="/js/books.js"></script>
 
+ <script>
+
+$(document).ready(function() {
+  $(".statusText").each(function() {
+    const saleStock = parseInt($(this).data('salestock'));
+    const rentalStock = parseInt($(this).data('rentalstock'));
+
+    const statusText2 = $(this).find('.statusText_2');
+    const statusText3 = $(this).find('.statusText_3');
+
+    // 초기 상태: 모든 텍스트와 스타일을 숨김
+    statusText2.hide();
+    statusText3.hide();
+    statusText3.css('background-color', '');
+
+    // 판매 수량 0개 + 대여 수량 1개 이상
+    if (saleStock <= 0 && rentalStock >= 1) {
+      statusText2.text('품절').show();
+      statusText3.hide();
+    }
+
+    // 판매 수량 1개 이상 + 대여 수량 0개
+    else if (saleStock >= 1 && rentalStock <= 0) {
+      statusText2.hide();
+      statusText3.text('대여중').show();
+      statusText3.css('top', '-138px');
+    }
+
+    // 판매 수량 0개 + 대여 수량 0개
+    else if (saleStock <= 0 && rentalStock <= 0) {
+      statusText2.text('품절').show();
+      statusText3.text('대여중').css('background-color', 'rgb(231, 86, 2)').show();
+      statusText3.css('top', '-113px');
+    }
+  });
+});
+
+
+ </script>
         </body>
 
         </html>

@@ -55,22 +55,45 @@ public class MemberController {
 
     // @PostMapping("/login")
     // public String login(@RequestParam String m_id, @RequestParam String m_pw,
-    //         RedirectAttributes rttr, HttpSession session) {
-    //     HashMap<String, String> memberData = new HashMap<>();
-    //     memberData.put("m_id", m_id);
-    //     memberData.put("m_pw", m_pw);
+    // RedirectAttributes rttr, HttpSession session) {
+    // HashMap<String, String> memberData = new HashMap<>();
+    // memberData.put("m_id", m_id);
+    // memberData.put("m_pw", m_pw);
 
-    //     MemberDto mb = mSer.login(memberData);
+    // MemberDto mb = mSer.login(memberData);
 
-    //     if (mb != null) {
-    //         session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
-    //         return "redirect:/";
-    //     } else {
-    //         rttr.addFlashAttribute("msg", "로그인 실패");
-    //         return "redirect:/member/login";
-    //     }
+    // if (mb != null) {
+    // session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
+    // return "redirect:/";
+    // } else {
+    // rttr.addFlashAttribute("msg", "로그인 실패");
+    // return "redirect:/member/login";
+    // }
     // }
 
+    // @PostMapping("/login")
+    // public String login(@RequestParam String m_id, @RequestParam String m_pw,
+    // RedirectAttributes rttr, HttpSession session) {
+    // HashMap<String, String> memberData = new HashMap<>();
+    // memberData.put("m_id", m_id);
+    // memberData.put("m_pw", m_pw);
+
+    // MemberDto mb = mSer.login(memberData);
+
+    // if (mb != null) {
+    // session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
+    // session.setAttribute("userType", mb.getUserType()); // 사용자 유형을 세션에 저장
+
+    // // 로그 출력
+    // System.out.println("User ID: " + mb.getM_id());
+    // System.out.println("User Type: " + mb.getUserType());
+
+    // return "redirect:/";
+    // } else {
+    // rttr.addFlashAttribute("msg", "로그인 실패");
+    // return "redirect:/member/login";
+    // }
+    // }
 
     @PostMapping("/login")
     public String login(@RequestParam String m_id, @RequestParam String m_pw,
@@ -78,17 +101,16 @@ public class MemberController {
         HashMap<String, String> memberData = new HashMap<>();
         memberData.put("m_id", m_id);
         memberData.put("m_pw", m_pw);
-    
-        MemberDto mb = mSer.login(memberData);
-    
-        if (mb != null) {
-            session.setAttribute("loggedInUser", mb.getM_id());  // 사용자 아이디를 세션에 저장
-            session.setAttribute("userType", mb.getUserType()); // 사용자 유형을 세션에 저장
-    
-             // 로그 출력
-        System.out.println("User ID: " + mb.getM_id());
-        System.out.println("User Type: " + mb.getUserType());    
 
+        MemberDto mb = mSer.login(memberData);
+
+        if (mb != null) {
+            session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
+            session.setAttribute("M_ROLE", mb.getM_role()); // 사용자 유형을 M_ROLE 세션에 저장
+
+            // 로그 출력
+            System.out.println("User ID: " + session.getAttribute("loggedInUser"));
+            System.out.println("User Type (M_ROLE): " + session.getAttribute("M_ROLE"));
 
             return "redirect:/";
         } else {
@@ -96,8 +118,6 @@ public class MemberController {
             return "redirect:/member/login";
         }
     }
-
-
 
     // 로그아웃
     @GetMapping("/logout")
@@ -171,7 +191,6 @@ public class MemberController {
             mDao.joinMember(member);
             mDao.joinCustomer(member);
 
-            
             resultMap.put("success", true);
             resultMap.put("message", "회원가입 성공");
         } catch (Exception e) {
@@ -310,6 +329,23 @@ public class MemberController {
             rttr.addFlashAttribute("msg", "회원 탈퇴에 실패했습니다. 아이디와 비밀번호를 다시 확인해주세요.");
             return "redirect:/member/unregister";
         }
+    }
+
+    @GetMapping("/admin")
+    public String adminPage(HttpSession session, RedirectAttributes rttr) {
+        MemberDto loggedInUser = (MemberDto) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/member/login";
+        }
+
+        if (!"ROLE_ADMIN".equals(loggedInUser.getUserType())) { // 가정: userType에 권한 정보가 들어가 있다.
+            rttr.addFlashAttribute("msg", "관리자 권한이 필요합니다.");
+            return "redirect:/";
+        }
+
+        return "admin/admin"; // 실제 admin 페이지의 view 이름
     }
 
 }

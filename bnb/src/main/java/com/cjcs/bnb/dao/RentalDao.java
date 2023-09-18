@@ -13,10 +13,17 @@ import com.cjcs.bnb.dto.SearchDto;
 @Mapper
 public interface RentalDao {
     
+
+    // 킹효진
+    RentalReservationDto findRentalByCriteria(RentalReservationDto rrDto);
+
+    int insertRental(RentalReservationDto rrDto);
+    
     //수희
 
     //대여
     public List<HashMap<String, Object>> getRentalListByOId(Integer o_id);
+
     public List<HashMap<String, String>> getRentalListByCId(String c_id);
     public List<HashMap<String, String>> getRentalListByDateRange(SearchDto sDto);
     public RentalDto getRentalByRId(Integer r_id);

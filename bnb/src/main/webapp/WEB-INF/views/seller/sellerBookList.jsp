@@ -16,16 +16,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/seller.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="/js/slide.js"></script>
-</head>
+
+ </head>
 
 <body>
     <%@include file="/WEB-INF/tiles/header.jsp" %>
@@ -82,6 +79,14 @@
                             <input type="submit" value="검색">
                         </form>
                         <h1>등록된 도서 리스트</h1>
+                        <div class="bookStatusBtn">
+
+
+                            <div class="bkwareBtn">입고관리</div>
+                            <div class="bkstockBtn">재고관리</div>
+                            <div class="allbkstatusBtn"></div>
+                        </div>
+                       
                         <table class="seller-list">
                             <thead>
                                 <tr>
@@ -90,20 +95,28 @@
                                     <th>저자</th>
                                     <th>판매재고</th>
                                     <th>대여재고</th>
+                                    <th class="saletext"></th>
+                                    <th class="waretext"></th>
+                                    <th class="bkstBtn"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach items="${SellerBookList}" var="Books">
-                                    <tr>
+                                    <tr data-seller-id="${Books.b_s_id}" data-isbn="${Books.b_isbn}">
                                         <td>${Books.category_s}</td>
                                         <td>${Books.b_title}</td>
                                         <td>${Books.b_author}</td>
                                         <td>${Books.b_salestock}</td>
                                         <td>${Books.b_rentalstock}</td>
+                                        <td><input type="number" class="stockNum"></td>
+                                        <td><input type="number" class="wareNum"></td>
+                                        <td class="editBtn"></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
+
+                        
                     </div>
                 </div>
             </div>
@@ -111,6 +124,9 @@
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+
+    <script src="/js/seller/SellerBookList.js"></script>
+
 </body>
 
 </html>

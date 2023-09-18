@@ -95,33 +95,43 @@ p.bkInfoText02::-webkit-scrollbar {
     background: #203b23;
     color: #dfdad5;
     margin: 16px 0;
-
 }
 
+.RentsoldOutBtn {
+    cursor: pointer;
+    padding: 15px;
+    background: #203b23;
+    color: #dfdad5;
+    margin: 16px 0;
+    text-align: center;
+    font-size: 18px;
+}
+
+
+/* 찜하기 버튼 */
 .likeNoti {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #dfdad5;
     margin: 16px 0;
-    border: 1px solid #203b23;
-
+    transition: all .3s;
 }
 
-.likeBtn, .notiBtn {
+#favButton {
     cursor: pointer;
-    background: #a2aba3;
-    width: 50%;
-    padding: 15px;
     font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48;
-    color: #203b23;
+}
+ 
+#favButton span {
+    font-size: 45px;
+    cursor: pointer;
 }
 
-.likeBtn {
-    border-right: 1px solid #203b23;
+#favButton:hover span {
+    font-variation-settings: 'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48;
+    color: #ff8f62;
+    transition: all .3s;
 }
-
-
 
 /* 책 커버 사진  */
 
@@ -279,3 +289,42 @@ font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' -25, 'opsz' 48;
     font-size: 18px;
   }
 
+
+/* 서점명, 가격, 찜하기 부분, 재입고 버튼, 품절 상태 등 */
+
+p.status {
+    display: none;
+    font-size: 14px;
+    color: #dfdad5;
+    background: #203b23;
+    padding: 2px 6px;
+    margin: 7px 0px;
+    width: 27px;
+}
+
+.TextBox01 {
+    display: flex;
+    align-items: center;
+}
+.TextBox02 {
+    width: 100%;
+}
+
+
+/* 재입고 버튼 */
+
+#RestockBtn { 
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: #cc7025;
+    color: #dfdad5;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+
+#RestockBtn span {
+    margin-right: 4px;
+}

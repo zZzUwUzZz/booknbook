@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
 // 현재 날짜와 시간을 가져옵니다.
@@ -125,27 +126,40 @@ String formattedDate = dateFormat.format(currentDate);
                 <div id="charCount">0/5000</div>
             </div>
 
-            <div class="input-field">
-                <input type="submit" value="제출하기">
-            </div>
-        </form>
-        
-    <script>
-    
-    function checkCharCount() {
-    const content = document.getElementById("report_content").value; // ID 변경
-    const charCount = content.length;
-    const charLimit = 5000;
+            <form action="/report" method="post" onsubmit="return submitForm();">
+             
+                <div class="input-field">
+                    <input type="submit" value="제출하기">
+                </div>
+            
+                <!-- <c:if test="${not empty message}">
+                    <div class="alert alert-success" role="alert">
+                        ${message}
+                    </div>
+                </c:if> -->
+            </form>
+            
+            <script>
+                 function submitForm() {
+                    alert("성공적으로 제보되었습니다.");
+                    return true; 
+                }
 
-    document.getElementById("charCount").textContent = `${charCount}/${charLimit}`;
-
-    if (charCount > charLimit) {
-        document.getElementById("charCount").style.color = "red";
-    } else {
-        document.getElementById("charCount").style.color = "gray"; 
-    }
-}
-    </script>
+                function checkCharCount() {
+                    const content = document.getElementById("report_content").value; // ID 변경
+                    const charCount = content.length;
+                    const charLimit = 5000;
+            
+                    document.getElementById("charCount").textContent = `${charCount}/${charLimit}`;
+            
+                    if (charCount > charLimit) {
+                        document.getElementById("charCount").style.color = "red";
+                    } else {
+                        document.getElementById("charCount").style.color = "gray"; 
+                    }
+                }
+            
+            </script>
 
 </body>
 </html>

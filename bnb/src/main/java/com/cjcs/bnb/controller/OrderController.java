@@ -76,6 +76,7 @@ public class OrderController {
         oDao.updateCartAmount(cart_id, cart_amount);
 
         return "redirect:/cart";
+
     }
 
     @GetMapping("/cartrentalperiodupdate/{cart_id}/{cart_rentalperiod}")    // 대여카트항목 대여기간변경
@@ -84,6 +85,7 @@ public class OrderController {
         oDao.updateCartRentalPeriod(cart_id, cart_rentalperiod);
 
         return "redirect:/cart";
+        
     }
 
     @GetMapping("/cartitemdelete/{cart_id}")    // 카트에서 개별항목 삭제

@@ -1,5 +1,4 @@
 /* body */
- 
 
 a {
     color: #dfdad5;
@@ -69,6 +68,7 @@ p.smallmenuId {
 }
 
 .hd {
+    font-weight: 400;
     padding: 43px;
     text-align: center;
     padding-top: 14px;

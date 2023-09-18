@@ -1,4 +1,4 @@
-// books.js
+
 $(document).ready(function() {
     $("#mediumCategory").change(function() {
         var selectedMediumCategoryId = $(this).val();

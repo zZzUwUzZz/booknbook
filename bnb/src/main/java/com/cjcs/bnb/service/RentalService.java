@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,21 @@ public class RentalService {
     private BookMapper bookDao;
     @Autowired
     private NotificationDao nDao;
+      @Autowired
+     private SqlSession sqlSession;
+ 
+ 
+    // 킹효진
 
-
+    public String requestRental(RentalReservationDto rrDto) {
+        RentalReservationDto existingRental = rDao.findRentalByCriteria(rrDto);
+        if (existingRental != null) {
+            return "already";
+        }
+        rDao.insertRental(rrDto);
+        return "success";
+    }
+ 
     // 수희
 
     // 연체료 업데이트

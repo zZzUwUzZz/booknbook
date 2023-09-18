@@ -18,6 +18,12 @@ table {
 tr {
     height: 40px;
 }
+
+.mypg {
+    padding: 15px 0px;
+    font-size: 23px;
+}
+
 .content_td {
     border: 1px solid #4c4240;
     text-align: left;
@@ -29,11 +35,8 @@ tr {
     text-align: left;
     padding: 10px;
 }
-.td-linked:hover {
-    cursor: pointer;
-    color: #ff9946;
-    text-decoration: underline;
-}
+ 
+
 .headrow {
     background: #4c4240;
     color:beige;

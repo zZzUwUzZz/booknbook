@@ -129,6 +129,17 @@
     		<artifactId>mailgun-java</artifactId>
     		<version>1.0.8</version>
     	</dependency>
+		<!-- websocket : 웹소켓 실시간 체크 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+<!-- Gson : Google이 제공하는 JSON 처리 라이브러리 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
 
 	</dependencies>
 

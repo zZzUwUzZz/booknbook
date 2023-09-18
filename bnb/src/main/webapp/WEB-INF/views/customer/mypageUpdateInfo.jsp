@@ -96,7 +96,10 @@
                             </tr>
                             <tr>
                                 <td class="label">휴대전화번호</td>
-                                <td><input type="text" value="${mDto.m_phone}" name="m_phone" class="info" required></td>
+                                <td><input type="text" id="phone" value="${mDto.m_phone}" name="m_phone" class="info" required></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><p id="phone_format_check" class="red_msg" style="display: none">11자리의 숫자만 입력할 수 있습니다.</p></td>
                             </tr>
                             <tr>
                                 <td class="label">이메일</td>
@@ -165,6 +168,19 @@
                 $('#pw_not_same').css({'color': 'red', 'display': 'block'})
             } else {
                 $('#pw_not_same').css({'display': 'none'})
+            }
+
+        })
+
+        $('#phone').focusout(()=>{
+
+            let phone_format = /^\d{11}$/;   //숫자만 11자리
+
+            let phone = $('#phone').val()
+            if (!phone.match(phone_format)) {
+                $('#phone_format_check').css({'color': 'red', 'display': 'block'})
+            } else {
+                $('#phone_format_check').css({'display': 'none'})
             }
 
         })

@@ -3,42 +3,36 @@ package com.cjcs.bnb.controller;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.mybatis.logging.Logger;
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cjcs.bnb.dao.BookMapper;
+import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
-
 import com.cjcs.bnb.service.MemberService;
-
 import com.cjcs.bnb.service.OrderService;
-
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
-import oracle.jdbc.proxy.annotation.Post;
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/seller")
 public class SellerPageController {
@@ -60,6 +54,12 @@ public class SellerPageController {
 
     @Autowired
     private FileService fileService; // MyBatis mapper
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private BookMapper bookDao;
 
     // 서점 정보 페이지
     @GetMapping
@@ -214,8 +214,47 @@ public class SellerPageController {
     }
 
     @GetMapping("/book/add")
-    public String sellerbookadd() {
+    public String sellerbookadd(Model model) {
+
+        // 중분류카테고리 드랍다운폼에 출력
+        List<BookDto> categories_m = categoryDao.listMediumCategories();
+        model.addAttribute("categories_m", categories_m);
+
         return "seller/sellerBookAdd";
+    }
+
+    @ResponseBody
+    @PostMapping("/book/add/getsmallcategories")
+    public List<BookDto> getsmallbymedium(@RequestParam String category_m_id) {
+
+        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 출력
+        List<BookDto> categories_s = categoryDao.listSmallCategories(category_m_id);
+
+        return categories_s;
+    }
+
+    @ResponseBody
+    @PostMapping("/book/add/isbncheck")
+    public Boolean checkisbn(@RequestParam String b_isbn, HttpSession session) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+
+        // 이미 등록된 isbn인지 체크
+        BookDto book = bookDao.getBookByIsbn(s_id, b_isbn);
+        if (book != null) return true;
+        else return false;
+    }
+
+    @PostMapping("/book/add")
+    public String sellerbookaddtodb(BookDto bookDto) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        bookDto.setB_s_id(s_id);
+
+        log.info("bookDto:{}", bookDto);
+        bookDao.addNewBook(bookDto);
+
+        return "redirect:/seller/book/list";
     }
 
     @GetMapping("/book/detail")

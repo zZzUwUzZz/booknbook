@@ -17,6 +17,7 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dto.CartDto;
+import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 
 import lombok.extern.slf4j.Slf4j;

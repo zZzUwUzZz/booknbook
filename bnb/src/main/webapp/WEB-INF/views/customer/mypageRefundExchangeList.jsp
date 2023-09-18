@@ -33,7 +33,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
-
+    <style>
+        .container-mypage {height: auto!important;}
+ 
+    </style>
 </head>
 
 <body>
@@ -149,7 +152,7 @@
             </div>
 
  
-            <div>
+            <div class="pagenation">
                 <div class="pagebox">${pageHtml}</div>
             </div>
 

@@ -170,20 +170,19 @@ public class CustomerPageController {
     public String mypageOrderDetail(@PathVariable("o_id") int o_id, Model model, HttpSession session) {
 
         HashMap<String, Object> oInfo = oDao.getOrderInfoByOId(o_id);
-        List<HashMap<String, String>> oPList = pDao.getPurchaseListByOId(o_id);
-        List<HashMap<String, String>> oRList = rDao.getRentalListByOId(o_id);
-        List<PurchaseDto> isbnList = oSer.getISBNListByOId(o_id);
+        List<HashMap<String, Object>> oPList = pDao.getPurchaseListByOId(o_id);
+        List<HashMap<String, Object>> oRList = rDao.getRentalListByOId(o_id);
 
         model.addAttribute("oInfo", oInfo);
         model.addAttribute("oPList", oPList);
         model.addAttribute("oRList", oRList);
-        model.addAttribute("isbnList", isbnList);
 
         Boolean delivered = oSer.hasAtLeastOneDelivered(oPList, oRList);
         log.info("delivered:{}", delivered);
         model.addAttribute("delivered", delivered);
 
         return "customer/mypageOrderDetail";
+
     }
 
     @GetMapping("/ordercancel") // 주문취소처리

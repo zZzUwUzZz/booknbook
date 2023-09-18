@@ -60,4 +60,11 @@ public interface BookMapper {
         public HashMap<String, Object> getStockInfo(Integer cart_id);
 
 
+        public BookDto getBookByIsbn(String s_id, String isbn);
+        public int addNewBook(BookDto bookDto);
+        public int updateSaleStock(String s_id, String b_isbn, int qty);
+        public int updateRentalStock(String s_id, String b_isbn, int qty);
+        public HashMap<String, Object> getStockInfo(Integer cart_id);
+
+
 }

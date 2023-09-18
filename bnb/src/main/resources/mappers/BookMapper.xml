@@ -161,6 +161,31 @@ SELECT * FROM (
 
 <!-- 수희 -->
 
+    <!-- 판매자페이지 신규도서등록시 이미 등록된 isbn인지 체크 -->
+    <select id="getBookByIsbn" resultType="BookDto">
+        SELECT * FROM B WHERE b_s_id = #{s_id} AND b_isbn = #{isbn}
+    </select>
+
+    <!-- 판매자페이지 신규도서등록 -->
+    <insert id="addNewBook" parameterType="BookDto">
+        INSERT INTO B(b_s_id, b_isbn, b_title, b_author, b_bookdesc,
+                      <if test="b_forsale != null">b_forsale,</if>
+                      <if test="b_price != null">b_price,</if>
+                      <if test="b_salestock != null">b_salestock,</if>
+                      <if test="b_forrental != null">b_forrental,</if>
+                      <if test="b_rent != null">b_rent,</if>
+                      <if test="b_rentalstock != null">b_rentalstock,</if>
+                      b_regdate, b_category_s_id)
+        VALUES(#{b_s_id}, #{b_isbn}, #{b_title}, #{b_author}, #{b_bookdesc},
+               <if test="b_forsale != null">#{b_forsale},</if>
+               <if test="b_price != null">#{b_price},</if>
+               <if test="b_salestock != null">#{b_salestock},</if>
+               <if test="b_forrental != null">#{b_forrental},</if>
+               <if test="b_rent != null">#{b_rent},</if>
+               <if test="b_rentalstock != null">#{b_rentalstock},</if>
+               DEFAULT, #{b_category_s_id})
+    </insert>
+
     <!-- 구매항목 구매수량만큼 판매재고에서 차감-->
     <update id="updateSaleStock">
         UPDATE B SET b_salestock = b_salestock - #{qty}

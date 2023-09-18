@@ -107,6 +107,7 @@ public class BnbController {
             categoryNames.put(nameM, NamesS);
         }
 
+        model.addAttribute("categoryNamesM", categoryNamesM);
         model.addAttribute("categoryNames", categoryNames);
         log.info("categoryNames:{}", categoryNames);
 

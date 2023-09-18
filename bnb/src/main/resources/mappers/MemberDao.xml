@@ -222,14 +222,14 @@
 		SELECT * FROM
 		<choose>
 		    <when test="colname!=null and colname !=''">                
-		    	(SELECT rownum rn, CI.*
+		    	(SELECT rownum rn, CI.*, REGEXP_REPLACE(m_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') formatted_phone
 		    	 FROM (SELECT * FROM CUSTOMER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		    	       ORDER BY m_joindate DESC) CI
 		    	)
 		    </when>
 		    <otherwise>
-		    	(SELECT rownum rn, CI.*
+		    	(SELECT rownum rn, CI.*, REGEXP_REPLACE(m_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') formatted_phone
 				 FROM (SELECT * FROM CUSTOMER_INFO
             	       ORDER BY m_joindate DESC) CI
                 )
@@ -259,14 +259,14 @@
 		SELECT * FROM
 		<choose>
 		    <when test="colname!=null and colname !=''">                
-		    	(SELECT rownum rn, SI.*
+		    	(SELECT rownum rn, SI.*, REGEXP_REPLACE(m_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') formatted_phone
 		    	 FROM (SELECT * FROM SELLER_INFO
 		    	       WHERE ${colname} LIKE '%'||#{keyword}||'%'
 		    	       ORDER BY m_joindate DESC) SI
 		    	)
 		    </when>
 		    <otherwise>
-		    	(SELECT rownum rn, SI.*
+		    	(SELECT rownum rn, SI.*, REGEXP_REPLACE(m_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') formatted_phone
 				 FROM (SELECT * FROM SELLER_INFO
             	       ORDER BY m_joindate DESC) SI
                 )
@@ -293,7 +293,8 @@
     <!--id로 구매자회원정보 가져오기-->
     <select id="getCustomerInfoById" parameterType="String" resultType="MemberDto">
         <!--DB에 customer_info라는 뷰 미리 만들어놨음-->
-        SELECT * FROM CUSTOMER_INFO 
+        SELECT CI.*, REGEXP_REPLACE(m_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') formatted_phone 
+        FROM CUSTOMER_INFO CI
         WHERE M_ID=#{m_id}
     </select>
 

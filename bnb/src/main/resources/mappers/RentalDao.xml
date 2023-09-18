@@ -344,35 +344,31 @@
 
     <!-- 대여 현황 -->
     <select id="RentCurrentList" resultType="RentalDto">
-        select o_id, o_c_id, b_title, o_date, o_date + r_rentalperiod as returnexpect_days, o_delivery_sort, delivery_status, rental_status,
-            CASE
-                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
-                ELSE 0
-            END AS overdue_days
+        SELECT o_id, o_c_id, b_title, o_date, r_duedate, o_delivery_sort, delivery_status, rental_status
         FROM
-            order_list
+            ORDER_LIST
         WHERE
             order_sort = '대여'
             AND
-            S_ID = 'seller001'
+            s_id = #{s_id}
     </select>
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">
         select o_id, o_c_id, b_title, o_date, r_returndate,
             CASE
-                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
+                WHEN r_returndate IS NOT NULL THEN r_returndate - r_duedate
                 ELSE NULL
             END AS overdue_days,
             r_latefee_total
         FROM
-            order_list
+            ORDER_LIST
         WHERE
             order_sort = '대여'
             AND
-            S_ID = 'seller001'
-            and
-            r_returndate is not null
+            s_id = #{s_id}
+            AND
+            r_returndate IS NOT NULL
     </select>
 
     

@@ -128,8 +128,7 @@
                                             <article class="opItemBox">
                                                 <div class="opItem">
                                                     <div class="opimg">
-                                                        <img
-                                                            src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${currentISBN}.jpg">
+                                                        <img  src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${currentISBN}.jpg">
                                                     </div>
                                                     <div class="opItemInfoText">
                                                         <div class="opstn">${oRItem.s_storename}</div>

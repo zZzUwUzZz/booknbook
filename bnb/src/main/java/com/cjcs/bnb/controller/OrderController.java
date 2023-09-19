@@ -53,9 +53,7 @@ public class OrderController {
     @GetMapping("/cart")    // 카트페이지
     public String cart(Model model, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         List<CartDto> cPList = oSer.getPurchaseCartAndStockCheck(c_id);
         List<CartDto> cRList = oSer.getRentalCartAndStockCheck(c_id);
@@ -96,11 +94,10 @@ public class OrderController {
 
     @PostMapping("/cart")    // 선택한항목 결제페이지로 넘기기
     public String cartToPayment(@RequestParam(required = false) ArrayList<Integer> pcart_idList,
-                                @RequestParam(required = false) ArrayList<Integer> rcart_idList, Model model) {
+                                @RequestParam(required = false) ArrayList<Integer> rcart_idList,
+                                Model model, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         MemberDto mDto = mDao.getCustomerInfoById(c_id);
         model.addAttribute("customer", mDto);
@@ -141,11 +138,9 @@ public class OrderController {
                       @RequestParam String o_delivery_sort,
                       @RequestParam String o_recip_addr, @RequestParam String o_recip_name, @RequestParam String o_recip_phone,
                       @RequestParam Integer o_total_pricerent, @RequestParam Integer o_total_deliveryfee, @RequestParam Integer o_total_payment,
-                      RedirectAttributes rttr) {
+                      RedirectAttributes rttr, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         //결제버튼누르는 순간 재고 다시확인
         Boolean stockCheck = oSer.stockCheck(pcart_idList, rcart_idList);
@@ -170,11 +165,9 @@ public class OrderController {
     //여기부터 대여순번항목결제
 
     @GetMapping("/restopay/{rr_id}")    // 대여순번항목 결제페이지로 넘기기
-    public String resToPay(@PathVariable int rr_id, Model model) {
+    public String resToPay(@PathVariable int rr_id, Model model, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         MemberDto mDto = mDao.getCustomerInfoById(c_id);
         model.addAttribute("customer", mDto);
@@ -189,11 +182,9 @@ public class OrderController {
     public String payRes(@RequestParam Integer rr_id, @RequestParam String o_delivery_sort,
                          @RequestParam String o_recip_addr, @RequestParam String o_recip_name, @RequestParam String o_recip_phone,
                          @RequestParam Integer o_total_pricerent, @RequestParam Integer o_total_deliveryfee, @RequestParam Integer o_total_payment,
-                         RedirectAttributes rttr) {
+                         RedirectAttributes rttr, HttpSession session) {
 
-        //일단 하드코딩함.
-        String c_id = "customer001";
-        //회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         Boolean result = oSer.addResOrder(c_id, rr_id, o_delivery_sort, o_recip_addr, o_recip_name, o_recip_phone,
                                        o_total_pricerent, o_total_deliveryfee, o_total_payment);

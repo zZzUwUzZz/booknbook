@@ -308,9 +308,4 @@ public class RentalService {
         return returnList;
     }
 
-    public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate startDate,
-            LocalDate endDate) {
-        return null;
-    }
-
 }

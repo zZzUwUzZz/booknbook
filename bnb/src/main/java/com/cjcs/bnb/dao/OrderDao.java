@@ -62,6 +62,8 @@ public interface OrderDao {
 
     public HashMap<String, Object> countAllOrders();
 
+    public List<HashMap<String, Object>> getOrderListToCancelBySId(String s_id); // 판매자 주문취소관리페이지용
+
     // 예림
     public int getTodaySellCnt(String s_id);
 

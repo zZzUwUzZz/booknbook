@@ -182,6 +182,27 @@
         SELECT COUNT(*) as "num_of_orders" FROM O
     </select>
 
+    <!-- 판매자페이지 주문취소관리용 -->
+    <select id="getOrderListToCancelBySId" parameterType="String" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               order_sort as "order_sort",
+               o_c_id as "o_c_id",
+               s_storename as "s_storename",
+               b_title as "b_title",
+               b_isbn as "b_isbn",
+               amount as "amount",
+               order_status_id as "order_status_id",
+               order_status as "order_status",
+               cancel_rejection_reason as "cancel_rejection_reason",
+               delivery_status_id as "delivery_status_id",
+               delivery_status as "delivery_status"
+        FROM ORDER_LIST
+        WHERE s_id = #{s_id} AND order_status_id IN (2, 3, 4)
+        ORDER BY o_id DESC, order_sort DESC, b_title
+    </select>
+
 
 <!--예림-->
     <!-- 오늘 판매 수 카운트 -->

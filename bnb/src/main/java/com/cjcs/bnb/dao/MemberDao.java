@@ -34,6 +34,7 @@ public interface MemberDao {
 
         List<MemberDto> getSellersInfoByIds(List<String> sellerIds);
 
+      
         // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
         /// 재락
@@ -44,6 +45,7 @@ public interface MemberDao {
         public boolean joinCustomer(MemberDto mDto);
 
         public boolean join2(MemberDto mDto);
+
 
         @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
         MemberDto getMemberById(String m_id);

@@ -253,16 +253,25 @@ public class MemberService {
         HashMap<String, String> favs = mDao.getLatestFavStoreByCId(c_id, 1);
         HashMap<String, String> favb = mDao.getLatestFavBookByCId(c_id, 1);
 
-        latestFav.put("favs_s_id", favs.get("favs_s_id"));
-        latestFav.put("favs_s_storename", favs.get("favs_s_storename"));
-        latestFav.put("favb_s_id", favb.get("favb_s_id"));
-        latestFav.put("favb_b_isbn", favb.get("favb_b_isbn"));
+        if (favs != null) {
+            latestFav.put("favs_s_id", favs.get("favs_s_id"));
+            latestFav.put("favs_s_storename", favs.get("favs_s_storename"));
+        }
+        if (favb != null) {
+            latestFav.put("favb_s_id", favb.get("favb_s_id"));
+            latestFav.put("favb_b_isbn", favb.get("favb_b_isbn"));
+        }
         log.info("latestFav:{}", latestFav);
 
         return latestFav;
     }
 
     // 예림
+
+    // public String getStoreName(String s_id) {
+    //     return mDao.getStoreName(s_id);
+    // }
+
     // 오늘 즐겨찾기한 회원 수 카운트
     public int getTodayBookmarkCnt(String s_id) {
         return mDao.getTodayBookmarkCnt(s_id);

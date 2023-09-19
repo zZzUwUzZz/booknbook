@@ -100,6 +100,11 @@
                                                 </div>
                                                 <div class="opTitle_status">
                                                     <div class="opText">
+                                                        ${oPItem.order_status}
+                                                    </div>
+                                                </div>
+                                                <div class="opTitle_status">
+                                                    <div class="opText">
                                                         ${oPItem.delivery_status}
                                                     </div>
                                                 </div>

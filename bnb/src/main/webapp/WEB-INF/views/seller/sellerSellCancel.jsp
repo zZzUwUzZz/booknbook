@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -68,15 +70,113 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-1">
-                    <div class="box-1">
+                <div class="contain-3">
+                    <div class="box-3">
 
+                        <h1>주문취소 관리</h1>
+
+                        <form action="/seller/sell/cancel" method="POST" id="updateForm">
+                        <button type="submit" id="save">저장</button><br><br>
+                        <table class="seller-list">
+                            <thead>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <th>주문일자</th>
+                                    <th>아이디</th>
+                                    <th>구분</th>
+                                    <th>제목</th>
+                                    <th>수량</th>
+                                    <th>배송상태</th>
+                                    <th>주문상태</th>
+                                    <th>승인여부</th>
+                                    <th>거절사유</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <c:if test="${empty oList}">
+                                    <tr>
+                                        <td colspan="10">주문취소 요청이 없습니다.</td>
+                                    </tr>
+                                </c:if>
+
+                                <c:if test="${!empty oList}">
+                                    <c:forEach items="${oList}" var="oItem">
+                                        <tr class="row">
+                                            <input type="hidden" name="b_isbn" value="${oItem.b_isbn}">
+                                            <input type="hidden" name="o_id" value="${oItem.o_id}">
+                                            <input type="hidden" name="order_sort" value="${oItem.order_sort}">
+                                            <td>${oItem.o_id}</td>
+                                            <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm" /></td>
+                                            <td>${oItem.o_c_id}</td>
+                                            <td>${oItem.order_sort}</td>
+                                            <td>${oItem.b_title}</td>
+                                            <td>${oItem.amount}</td>
+                                            <td>${oItem.delivery_status}</td>
+                                            <td>${oItem.order_status}</td>
+                                            <td>
+                                                <select name="order_status_id" class="status_select">
+                                                    <option value="2" disabled selected>취소요청</option>
+                                                    <option value="3">취소불가</option>
+                                                    <option value="4">취소완료</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${empty oItem.cancel_rejection_reason}">
+                                                        <input type="text" name="cancel_rejection_reason" class="reason" disabled>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${cancel_rejection_reason}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:if>
+
+                            </tbody>
+                        </table>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+
+
+    <script>
+
+    $(document).ready(function () {
+
+        $('#updateForm').submit(function () {
+
+            event.preventDefault();
+
+            let conf = confirm('저장할까요?')
+            if (conf == true) {
+                this.submit();
+            }
+        })
+
+        $('.status_select').change(function () {
+
+            let status_id = $(this).val();
+            let reason_box = $(this).closest('.row').find('input.reason');
+
+            if (status_id == 3) {
+                reason_box.prop('disabled', false);
+            } else if (status_id == 4) {
+                reason_box.prop('disabled', true);
+            }
+        })
+
+    })
+
+
+    </script>
+
 </body>
 
 </html>

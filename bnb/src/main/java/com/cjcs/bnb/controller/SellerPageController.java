@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.CategoryDao;
+import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.RentalDto;
@@ -30,7 +32,14 @@ import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
+import com.cjcs.bnb.service.StockService;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cjcs.bnb.service.SellerService;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,31 +53,26 @@ public class SellerPageController {
 
     @Autowired
     private MemberService mSer;
-
     @Autowired
     private PurchaseService pSer;
-
     @Autowired
     private RentalService rSer;
-
     @Autowired
     private OrderService oSer;
-
     @Autowired
     private BookService bSer;
-
+    @Autowired
+    private StockService stSer;
     @Autowired
     private FileService fileService; // MyBatis mapper
 
     @Autowired
     private CategoryDao categoryDao;
-
     @Autowired
     private BookMapper bookDao;
-  
-    @Autowired
-    private StockService stSer;
 
+    @Autowired
+    private OrderDao oDao;
 
     // 서점 정보 페이지
     @GetMapping
@@ -87,8 +91,13 @@ public class SellerPageController {
 
     // 서점 회원 마이페이지 메인
     @GetMapping("/main")
-    public String sellermain(String s_id, String rr_s_id, Model model) {
+    public String sellermain(HttpSession session, Model model) {
 
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        // String StoreName = mSer.getStoreName(s_id);
+        // model.addAttribute("StroeName", StoreName);
+        
         // 오늘 판매 건수 카운트
         int getTodaySellCnt = oSer.getTodaySellCnt(s_id);
         model.addAttribute("TodaySellCnt", getTodaySellCnt);
@@ -98,7 +107,7 @@ public class SellerPageController {
         model.addAttribute("TodayRentCnt", getTodayRentCnt);
 
         // 오늘 예약 건수 카운트
-        int getTodayRentResCnt = oSer.getTodayRentResCnt(rr_s_id);
+        int getTodayRentResCnt = oSer.getTodayRentResCnt(s_id);
         model.addAttribute("TodayRentResCnt", getTodayRentResCnt);
 
         // 오늘 총 주문 건수 카운트
@@ -144,7 +153,7 @@ public class SellerPageController {
         String Start_Date = format.format(now);
         String End_Date = format.format(now);
 
-        int getTodayCalculate = oSer.getCalculate(Start_Date, End_Date);
+        int getTodayCalculate = oSer.getCalculate(Start_Date, End_Date, s_id);
         model.addAttribute("TodaySumAmount", getTodayCalculate);
 
         // 한 달 간 정산 금액 합산
@@ -165,7 +174,7 @@ public class SellerPageController {
             e.printStackTrace(); // 예외 정보 로깅
         }
 
-        int getMonthSumAmount = oSer.getCalculate(Start_Date, End_Date);
+        int getMonthSumAmount = oSer.getCalculate(Start_Date, End_Date, s_id);
         model.addAttribute("MonthSumAmount", getMonthSumAmount);
 
         return "seller/sellerMain";
@@ -193,7 +202,9 @@ public class SellerPageController {
     // }
 
     @GetMapping("/csmember")
-    public String sellercsmember(String s_id, Model model) {
+    public String sellercsmember(HttpSession session, Model model) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
 
         // 서점 이용 기록 있는 회원들 리스트 불러오기
         List<MemberDto> getCsMemberList = mSer.getCsMemberList(s_id);
@@ -204,10 +215,12 @@ public class SellerPageController {
 
     // 등록된 도서 리스트
     @GetMapping("/book/list")
-    public String sellerbooklist(String s_id,
+    public String sellerbooklist(HttpSession session,
             @RequestParam(required = false) String filter,
             @RequestParam(required = false) String keyword,
             Model model) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
 
         List<BookDto> bookList = stSer.SellerBookListDT(s_id, filter, keyword);
         model.addAttribute("SellerBookList", bookList);
@@ -251,18 +264,23 @@ public class SellerPageController {
     @PostMapping("/book/add/isbncheck")
     public Boolean checkisbn(@RequestParam String b_isbn, HttpSession session) {
 
-        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+
 
         // 이미 등록된 isbn인지 체크
         BookDto book = bookDao.getBookByIsbn(s_id, b_isbn);
-        if (book != null) return true;
-        else return false;
+        if (book != null)
+            return true;
+        else
+            return false;
     }
 
     @PostMapping("/book/add")
     public String sellerbookaddtodb(BookDto bookDto) {
 
-        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        String s_id = (String) session.getAttribute("loggedInUser");
+
         bookDto.setB_s_id(s_id);
 
         log.info("bookDto:{}", bookDto);
@@ -277,7 +295,9 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/reserve")
-    public String sellerrentreserve(String s_id, Model model) {
+    public String sellerrentreserve(HttpSession session, Model model) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
 
         // 예약 신청 리스트 불러오기
         List<RentalDto> resultList = rSer.RentResList(s_id);
@@ -299,7 +319,9 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/curr")
-    public String sellerrentcurr(String s_id, Model model) {
+    public String sellerrentcurr(HttpSession session, Model model) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
 
         // 대여 현황 리스트 불러오기
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
@@ -308,8 +330,51 @@ public class SellerPageController {
         return "seller/sellerRentCurr";
     }
 
+    @PostMapping("/rent/curr/save")
+    public ResponseEntity<List<RentalDto>> UpdateDeliStatus(HttpSession session,
+            @RequestBody List<RentalDto> requestData) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        // 배송 상태 업데이트
+        rSer.UpdateDeliStatus(requestData, s_id);
+        return ResponseEntity.ok(requestData);
+    }
+
+    @PostMapping("/rent/curr/return")
+    public ResponseEntity<String> UpdateRentStatus_Return(HttpSession session, @RequestBody RentalDto requestData) {
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        int rentalStock = rSer.getRentalStock(requestData, s_id); // 대여 재고 조회
+        int CountRentalRes = rSer.CountRentalRes(requestData, s_id); // 예약자 수 카운트
+
+        if (rentalStock > 0) {
+            // 대여재고 > 0
+            // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData, s_id); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else if (CountRentalRes == 0) {
+            // 대여재고 = 0 예약자 = 0
+            // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData, s_id); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else {
+            // 대여재고 = 0 예약자 > 0
+            // 반납완료, 예약 1순위 상태 변경, 알림 보내기, 결제시한 날짜 추가
+            rSer.UpdateRentStatus_Return(requestData, s_id); // 반납 완료로 상태 변경
+            rSer.RentResStatus_First(requestData, s_id); // 예약 1순위 예약 상태 변경
+            rSer.RentRes_First_Alert(requestData, s_id); // 예약 1순위 대여가능 알림 전송
+            rSer.RentRes_First_Pay(requestData, s_id); // 예약 1순위 결제기한 추가
+            return ResponseEntity.ok("반납 처리 및 예약 1순위 처리");
+        }
+    }
+
     @GetMapping("/rent/return")
-    public String sellerrentreturn(String s_id, Model model) {
+    public String sellerrentreturn(Model model, HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
 
         // 반납 내역 불러오기
         List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
@@ -323,11 +388,28 @@ public class SellerPageController {
         return "seller/sellerSellHistory";
     }
 
-    @GetMapping("/sell/cancel")
-    public String sellersellcancel(Model model) {
-        // List<Order> orders = oSer.getAllOrders(); // 모든 주문 목록을 가져옵니다.
-        // model.addAttribute("orders", orders); // 주문 목록을 JSP에 전달합니다.
+
+    @GetMapping("/sell/cancel")  // 주문취소요청 리스트
+    public String sellersellcancellist(Model model, HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        List<HashMap<String, Object>> oList = oDao.getOrderListToCancelBySId(s_id);
+        model.addAttribute("oList", oList);
+
         return "seller/sellerSellCancel";
+    }
+    
+    @PostMapping("/sell/cancel")  // 주문취소요청 처리
+    public String sellersellcancel(@RequestParam List<Integer> o_idList, @RequestParam List<String> s_idList,
+                                   @RequestParam List<String> isbnList, @RequestParam List<String> sortList,
+                                   @RequestParam List<Integer> statusList, @RequestParam List<String> reasonList,
+                                   Model model, HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+        
+
+        return "redirect:/seller/sell/cancel";
     }
 
     // @PostMapping("/sell/cancel")
@@ -377,25 +459,27 @@ public class SellerPageController {
     public String calculate(
             @RequestParam("Start_Date") String Start_Date,
             @RequestParam("End_Date") String End_Date,
-            Model model) {
+            Model model, HttpSession session) {
+        String s_id = (String) session.getAttribute("loggedInUser");
+
         // 달력으로 지정한 날짜로 조회기간 출력
         model.addAttribute("Start_Date", Start_Date);
         model.addAttribute("End_Date", End_Date);
 
         // 기간 내 대여료
-        int getCalculateRent = oSer.getCalculateRent(Start_Date, End_Date);
+        int getCalculateRent = oSer.getCalculateRent(Start_Date, End_Date, s_id);
         model.addAttribute("CalculateRent", getCalculateRent);
 
         // 기간 내 연체료
-        int getCalculateLate = oSer.getCalculateLate(Start_Date, End_Date);
+        int getCalculateLate = oSer.getCalculateLate(Start_Date, End_Date, s_id);
         model.addAttribute("CalculateLate", getCalculateLate);
 
         // 기간 내 판매금액
-        int getCalculateSell = oSer.getCalculateSell(Start_Date, End_Date);
+        int getCalculateSell = oSer.getCalculateSell(Start_Date, End_Date, s_id);
         model.addAttribute("CalculateSell", getCalculateSell);
 
         // 기간 내 반품/환불 금액
-        int getCalculateReturn = oSer.getCalculateReturn(Start_Date, End_Date);
+        int getCalculateReturn = oSer.getCalculateReturn(Start_Date, End_Date, s_id);
         model.addAttribute("CalculateReturn", getCalculateReturn);
 
         // 수수료, 최종 정산 금액

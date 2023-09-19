@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -23,18 +24,18 @@
     <link rel="stylesheet" href="/css/slide.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    
+
 </head>
 
 <body>
     <%@include file="/WEB-INF/tiles/header.jsp" %>
-    <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
+    <jsp:include page="/WEB-INF/views/adminFile/seller.jsp" />
     <section>
         <div class="wrap">
             <div class="content">
                 <div class="side-menu">
                     <div class="bsname">
-                        <h1><a href="/seller/main">서점 이름</a></h1>
+                        <h1><a href="/seller/main">서점이름</a></h1>
                     </div>
                     <div class="menu-title">
                         MENU

@@ -85,17 +85,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${RentReturnList}" var="returnlist">
+
+                                
+                                <c:if test="${empty returnList}">
                                     <tr>
-                                        <td>${returnlist.o_id}</td>
-                                        <td>${returnlist.o_c_id}</td>
-                                        <td>${returnlist.b_title}</td>
-                                        <td>${returnlist.o_dateStr}</td>
-                                        <td>${returnlist.r_returndate}</td>
-                                        <td>${returnlist.overdue_days}</td>
-                                        <td>${returnlist.r_latefee_total}</td>
+                                        <td colspan="9">반납된 도서가 없습니다.</td>
                                     </tr>
-                                </c:forEach>
+                                </c:if>
+
+                                <c:if test="${!empty returnList}">
+                                    <c:forEach items="${returnList}" var="returned">
+                                        <tr>
+                                            <td>${returned.o_id}</td>
+                                            <td>${returned.o_c_id}</td>
+                                            <td>${returned.b_title}</td>
+                                            <td><fmt:formatDate value="${returned.r_duedate}" pattern="yyyy-MM-dd" /></td>
+                                            <td><fmt:formatDate value="${returned.r_returndate}" pattern="yyyy-MM-dd" /></td>
+                                            <td>${returned.overdue_days}</td>
+                                            <td><fmt:formatNumber value="${returned.r_latefee_total}" type="number" pattern="#,##0" /></td>
+                                            <td>${returned.r_latefee_paid}</td>
+                                            <td><fmt:formatDate value="${returned.r_latefee_paydate}" pattern="yyyy-MM-dd" /></td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:if>
+
                             </tbody>
                         </table>
                     </div>

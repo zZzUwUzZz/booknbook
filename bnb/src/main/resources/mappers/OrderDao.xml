@@ -175,70 +175,83 @@
         SELECT COUNT(*) as "num_of_orders" FROM O
     </select>
 
+    <!-- 판매자페이지 주문취소관리용 -->
+    <select id="getOrderListToCancelBySId" parameterType="String" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               order_sort as "order_sort",
+               o_c_id as "o_c_id",
+               s_storename as "s_storename",
+               b_title as "b_title",
+               b_isbn as "b_isbn",
+               amount as "amount",
+               order_status_id as "order_status_id",
+               order_status as "order_status",
+               cancel_rejection_reason as "cancel_rejection_reason",
+               delivery_status_id as "delivery_status_id",
+               delivery_status as "delivery_status"
+        FROM ORDER_LIST
+        WHERE s_id = #{s_id} AND order_status_id IN (2, 3, 4)
+        ORDER BY o_id DESC, order_sort DESC, b_title
+    </select>
+
 
 <!--예림-->
     <!-- 오늘 판매 수 카운트 -->
     <select id="getTodaySellCnt" resultType="int">
         select count(*)
         from order_list
-        where to_char(o_date, 'yy/mm/dd') = '23/09/02' and order_sort = '구매' and s_id = 'seller003'
-        <!-- where to_char(o_date, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and order_sort = '구매' and s_id = #{s_id} -->
+        where to_char(o_date, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and order_sort = '구매' and s_id = #{s_id}
     </select>
 
     <!-- 오늘 대여 수 카운트 -->
     <select id="getTodayRentCnt" resultType="int">
         select count(*)
         from order_list
-        where to_char(o_date, 'yy/mm/dd') = '23/09/02' and order_sort = '대여' and s_id = 'seller003'
-        <!-- where to_char(o_date, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and order_sort = '대여' and s_id = #{s_id} -->
+        where to_char(o_date, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and order_sort = '대여' and s_id = #{s_id}
     </select>
 
     <!-- 오늘 대여 예약 수 카운트 -->
     <select id="getTodayRentResCnt" parameterType="RentalReservationDto" resultType="Integer">
         select count(*)
         from Rental_Res
-        where to_char(rr_reqdate, 'yy/mm/dd') = '23/09/03' and rr_s_id = 'seller002'
-        <!-- where to_char(rr_reqdate, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and rr_s_id = #{rr_s_id} -->
+        where to_char(rr_reqdate, 'yy/mm/dd') = to_char(sysdate, 'yy/mm/dd') and rr_s_id = #{s_id}
     </select>
 
     <!-- 오늘 배송 준비중 카운트 -->
     <select id="getTodayDeliveryPrepare" parameterType="SellerDto" resultType="Integer">
         SELECT count(*)
         from order_list
-        where order_status_id = 2 and s_id = 'seller001'
-        <!-- where order_status_id = 4 and deliverydate = sysdate and s_id = #{s_id} -->
+        where order_status_id = 4 and deliverydate = sysdate and s_id = #{s_id}
     </select>
 
     <!-- 오늘 배송중 카운트 -->
     <select id="getTodayDeliverShip" parameterType="SellerDto" resultType="Integer">
         SELECT count(*)
         from order_list
-        where order_status_id = 1 and s_id = 'seller003'
-        <!-- where order_status_id = 6 and deliverydate = sysdate and s_id = #{s_id} -->
+        where order_status_id = 6 and deliverydate = sysdate and s_id = #{s_id}
     </select>
 
     <!-- 오늘 배송 완료 카운트 -->
     <select id="getTodayDeliverComplete" parameterType="SellerDto" resultType="Integer">
         SELECT count(*)
         from order_list
-        where order_status_id = 1 and s_id = 'seller002'
-        <!-- where order_status_id = 7 and deliverydate = sysdate and s_id = #{s_id} -->
+        where order_status_id = 7 and deliverydate = sysdate and s_id = #{s_id}
     </select>
 
     <!-- 한 달간 취소 요청 카운트 -->
     <select id="getMonthCancelRequest" parameterType="SellerDto" resultType="Integer">
         select count(*)
         from order_list
-        where o_date between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and order_status_id = '2' and s_id = 'seller001'
-        <!-- where o_date between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and order_status_id = '2' and s_id = #{s_id} -->
+        where o_date between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and order_status_id = '2' and s_id = #{s_id}
     </select>
 
     <!-- 한 달간 반품/교환 카운트 -->
     <select id="getMonthReturnRequest" parameterType="SellerDto" resultType="Integer">
         select count(*)
         from Ref_Exch
-        where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = 'seller001'
-        <!-- where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = #{s_id} -->
+        where re_reqdate between to_char(sysdate-30, 'yy/mm/dd') and to_char(sysdate, 'yy/mm/dd') and re_s_id = #{s_id}
     </select>
 
     <!-- 정산 내역 -->
@@ -249,7 +262,7 @@
         FROM Book
         INNER JOIN Rental ON Rental.r_b_isbn = Book.b_isbn
         INNER JOIN Orders ON Orders.o_id = Rental.r_o_id
-        WHERE Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+        WHERE Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd') and Rental.r_s_id = #{s_id}
     </select>
 
     <!-- 설정한 기간 내의 연체료 합계 -->
@@ -257,7 +270,7 @@
         SELECT r_latefee_total
         FROM Rental
         INNER JOIN Orders ON Orders.o_id = Rental.r_o_id
-        WHERE Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+        WHERE Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd') and Rental.r_s_id = #{s_id}
     </select>
 
     <!-- 설정한 기간 내의 판매 금액 합계 -->
@@ -266,7 +279,7 @@
         FROM Book, Purchase
         INNER JOIN Orders ON Orders.o_id = Purchase.p_o_id
         WHERE Purchase.p_b_isbn = Book.b_isbn
-        AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+        AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd') and Purchase.p_s_id = #{s_id}
     </select>
 
     <!-- 설정한 기간 내의 반품 금액 합계 -->
@@ -276,7 +289,7 @@
         INNER JOIN Orders ON Orders.o_id = Ref_Exch.re_o_id
         INNER JOIN Book ON Ref_Exch.re_b_isbn = Book.b_isbn
         WHERE Ref_Exch.re_sort = '반품'
-        AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd')
+        AND Orders.o_date between to_date(#{Start_Date}, 'yy/mm/dd') and to_date(#{End_Date}, 'yy/mm/dd') and Ref_Exch.re_s_id = #{s_id}
     </select>
     
     

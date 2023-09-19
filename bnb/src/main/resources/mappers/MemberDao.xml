@@ -153,10 +153,11 @@
     </delete>
 
 
-
-
 <!--예림-->
-
+    <!-- <select id="getStoreName" resultType="MemberDto">
+        SELECT S_STORENAME FROM SELLER WHERE S_ID = #{s_id}
+    </select> -->
+    
     <!--id로 판매자회원정보 가져오기-->
     <select id="getSellerInfoById" parameterType="String" resultType="MemberDto">
         <!--DB에 seller_info라는 뷰 미리 만들어놨음-->
@@ -191,24 +192,21 @@
     <select id="getTodayBookmarkCnt" parameterType="SellerDto" resultType="Integer">
         SELECT COUNT(*)
         FROM FavStore
-        WHERE FAVS_S_ID = 'seller001' and TRUNC(FAVS_DATE) = TRUNC(SYSDATE)
-        <!-- WHERE FAVS_S_ID = #{s_id} and TRUNC(FAVS_DATE) = TRUNC(sysdate) --> 
+        WHERE FAVS_S_ID = #{s_id} and TRUNC(FAVS_DATE) = TRUNC(SYSDATE)
     </select>
 
     <!-- 이번주 즐겨잧기 회원수 카운트 -->
     <select id="getWeekBookmarkCnt" parameterType="SellerDto" resultType="Integer">
         SELECT COUNT(*)
         FROM FavStore
-        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE <![CDATA[>=]]> to_char(sysdate-7, 'yy/mm/dd')
-        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE <![CDATA[>=]]> to_char(sysdate-7, 'yy/mm/dd') -->
+        WHERE FAVS_S_ID = #{s_id} and FAVS_DATE <![CDATA[>=]]> to_char(sysdate-7, 'yy/mm/dd')
     </select>
 
     <!-- 이번달 즐겨잧기 회원수 카운트 -->
     <select id="getMonthBookmarkCnt" parameterType="SellerDto" resultType="Integer">
         SELECT COUNT(*)
         FROM FavStore
-        WHERE FAVS_S_ID = 'seller001' and FAVS_DATE <![CDATA[>=]]> to_char(sysdate-30, 'yy/mm/dd')
-        <!-- WHERE FAVS_S_ID = #{s_id} and FAVS_DATE <![CDATA[>=]]> to_char(sysdate-30, 'yy/mm/dd') -->
+        WHERE FAVS_S_ID = #{s_id} and FAVS_DATE <![CDATA[>=]]> to_char(sysdate-30, 'yy/mm/dd')
     </select>
 
     <!-- 이용 회원 리스트 불러오기 -->
@@ -224,7 +222,7 @@
         INNER JOIN 
             customer ON order_list.o_c_id = customer.c_id
         where
-            s_id = 'seller001'
+            s_id = #{s_id}
         GROUP BY 
             o_c_id, c_name
     </select>

@@ -54,9 +54,6 @@ public interface BookMapper {
                         @Param("keyword") String keyword);
 
         // 수희
-
-       
-
         public BookDto getBookByIsbn(String s_id, String isbn);
         public int addNewBook(BookDto bookDto);
         public int updateSaleStock(String s_id, String b_isbn, int qty);

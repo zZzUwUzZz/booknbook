@@ -316,7 +316,7 @@
         from Rental_Res
         inner join Book on Rental_Res.rr_b_isbn = Book.b_isbn
         inner join Status_RR on Rental_Res.rr_res_status_id = Status_RR.res_status_id
-        where rr_s_id = 'seller001' and not res_status = '대여가능'
+        where rr_s_id = #{s_id} and (not res_status = '대여가능' or not res_status = '대여완료')
     </select>
 
     <!-- 예약 수락 -->
@@ -354,8 +354,197 @@
         WHERE
             order_sort = '대여'
             AND
+
             S_ID = 'seller001'
+
+            NOT rental_status = '반납완료'
+            AND
+            S_ID = #{s_id}
     </select>
+
+    <!-- 배송 상태명 -->
+    <select id="DeliveryStatusList" resultType="RentalDto">
+        select delivery_status from Status_D
+    </select>
+
+    <!-- 배송상태 업데이트 -->
+    <update id="UpdateDeliStatus">
+        UPDATE Rental
+        SET R_DELIVERY_STATUS_ID = (
+            SELECT DELIVERY_STATUS_ID
+            FROM Status_D
+            WHERE DELIVERY_STATUS = #{delivery_status}
+        )
+        WHERE r_o_id = #{o_id}
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+    </update>
+
+    <!-- 대여 상태 업데이트 [대여시작전] -->
+    <update id="UpdateRentStatus_Wait">
+        UPDATE Rental   
+        SET R_RENTAL_STATUS_ID = (
+            SELECT RENTAL_STATUS_ID
+            FROM Status_R
+            WHERE RENTAL_STATUS = '대여시작전'
+            AND ROWNUM = 1
+        )
+        WHERE r_o_id = #{o_id}
+        AND R_DELIVERY_STATUS_ID NOT IN (
+            SELECT DELIVERY_STATUS_ID
+            FROM Status_D
+            WHERE DELIVERY_STATUS IN ('배송완료', '수령완료')
+        )
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+    </update>
+
+    <!-- 대여 상태 업데이트 [대여중] -->
+    <update id="UpdateRentStatus_Curr">
+        UPDATE Rental
+        SET R_RENTAL_STATUS_ID = (
+            SELECT RENTAL_STATUS_ID
+            FROM Status_R
+            WHERE RENTAL_STATUS = '대여중'
+            AND ROWNUM = 1
+        )
+        WHERE r_o_id = #{o_id}
+        AND (
+            R_DELIVERY_STATUS_ID = (
+                SELECT DELIVERY_STATUS_ID
+                FROM Status_D
+                WHERE DELIVERY_STATUS = '배송완료'
+                AND ROWNUM = 1
+            )
+            OR
+            R_DELIVERY_STATUS_ID = (
+                SELECT DELIVERY_STATUS_ID
+                FROM Status_D
+                WHERE DELIVERY_STATUS = '수령완료'
+                AND ROWNUM = 1
+            )
+        )
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+    </update>
+
+    <!-- 대여 상태 업데이트 [연체] -->
+    <update id="UpdateRentStatus_Late">
+        UPDATE Rental r
+        SET r.R_RENTAL_STATUS_ID = (
+            SELECT MAX(RENTAL_STATUS_ID)
+            FROM Status_R
+            WHERE RENTAL_STATUS = '연체'
+        )
+        WHERE r_o_id = #{o_id}
+        AND (
+                (
+                SELECT MAX(o_date + r_rentalperiod) FROM order_list WHERE o_id = #{o_id} AND b_title = #{b_title}
+                ) <![CDATA[<]]> sysdate
+        )
+    </update>    
+
+    <!-- 대여 상태 업데이트 [반납 완료] -->
+    <update id="UpdateRentStatus_Return">
+        UPDATE Rental
+        SET R_RENTAL_STATUS_ID = (
+            SELECT RENTAL_STATUS_ID
+            FROM Status_R
+            WHERE RENTAL_STATUS = '반납완료'
+        )
+        WHERE r_o_id = #{o_id}
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+    </update>
+
+    <!-- 예약 1순위 예약 상태 변경 -->
+    <update id="RentResStatus_First">
+        UPDATE Rental_Res r
+        SET r.RR_RES_STATUS_ID = (
+            SELECT MAX(s.RES_STATUS_ID)
+            FROM Status_RR s
+            WHERE s.RES_STATUS = '대여가능'
+        )
+        WHERE r.RR_S_ID = #{s_id}
+        AND r.RR_B_ISBN IN (
+            SELECT b_isbn FROM book WHERE b_title = #{b_title}
+        )
+        AND r.RR_REQDATE IN (
+            SELECT MIN(RR_REQDATE)
+            FROM Rental_Res rr
+            JOIN book b ON rr.RR_B_ISBN = b.b_isbn
+            WHERE rr.RR_S_ID = #{s_id} AND b.b_title = #{b_title}
+        )
+    </update>
+
+    <!-- 예약 1순위 대여가능 알림 전송 -->
+    <insert id="RentRes_First_Alert">
+        INSERT INTO NotifBoard(NB_M_ID, NB_MSG, NB_DATE, B_ISBN, B_S_ID, B_TITLE, S_STORENAME)
+        SELECT rr.RR_C_ID,
+            '대여가능',
+            sysdate,
+            rr.RR_B_ISBN,
+            #{s_id},
+            b.b_title,
+            s.S_STORENAME
+        FROM (
+            SELECT *
+            FROM Rental_Res rr
+            JOIN book b ON rr.RR_B_ISBN = b.b_isbn
+            WHERE rr.RR_S_ID = #{s_id} AND b.b_title = #{b_title}
+            ORDER BY RR_REQDATE
+        ) rr
+        JOIN seller s ON s.S_ID = #{s_id}
+        WHERE ROWNUM = 1
+    </insert>
+
+    <!-- 예약 1순위 결제기한 추가 -->
+    <update id="RentRes_First_Pay">
+        UPDATE Rental_Res rr
+        SET rr.RR_DUEDATE = SYSDATE + 1
+        WHERE rr.RR_S_ID = (
+            SELECT RR_S_ID
+            FROM (
+                SELECT rr2.RR_S_ID
+                FROM Rental_Res rr2
+                JOIN book b ON rr2.RR_B_ISBN = b.b_isbn
+                WHERE rr2.RR_S_ID = #{s_id} AND b.b_title = #{b_title}
+                ORDER BY rr2.RR_REQDATE
+            )
+            WHERE ROWNUM = 1
+        )
+    </update>
+
+    <!-- 대여 재고 조회 -->
+    <select id="getRentalStock" resultType="RentalDto">
+        select b_s_id, b_title, b_rentalstock
+        from book
+        where b_title = #{b_title}
+        and b_s_id = #{s_id}
+    </select>
+
+    <!-- 대여 재고 증가 -->
+    <update id="RentalStockAdd">
+        UPDATE BOOK
+        SET B_RENTALSTOCK = B_RENTALSTOCK + 1
+        WHERE B_TITLE = #{b_title}
+        and b_s_id = #{s_id}
+    </update>
+
+    <!-- 예약자 수 조회 -->
+    <select id="CountRentalRes" resultType="RentalDto">
+        select count(*)
+        from Rental_Res
+        where rr_s_id = #{s_id}
+        AND RR_B_ISBN IN (
+            SELECT b_isbn FROM book WHERE b_title = #{b_title}
+        )
+    </select>
+
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">

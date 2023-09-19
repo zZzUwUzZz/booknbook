@@ -29,6 +29,5 @@
  <select id="getAllBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
     SELECT * FROM SELLER
 </select>
+
 </mapper>
-
-

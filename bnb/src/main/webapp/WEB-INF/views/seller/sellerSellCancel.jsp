@@ -103,9 +103,8 @@
                                 <c:if test="${!empty oList}">
                                     <c:forEach items="${oList}" var="oItem">
                                         <tr class="row">
-                                            <input type="hidden" name="b_isbn" value="${oItem.b_isbn}">
-                                            <input type="hidden" name="o_id" value="${oItem.o_id}">
-                                            <input type="hidden" name="order_sort" value="${oItem.order_sort}">
+                                            <input type="hidden" name="item_id" class="item_id" value="${oItem.item_id}">
+                                            <input type="hidden" name="order_sort" class="order_sort" value="${oItem.order_sort}">
                                             <td>${oItem.o_id}</td>
                                             <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm" /></td>
                                             <td>${oItem.o_c_id}</td>
@@ -113,18 +112,24 @@
                                             <td>${oItem.b_title}</td>
                                             <td>${oItem.amount}</td>
                                             <td>${oItem.delivery_status}</td>
-                                            <td>${oItem.order_status}</td>
-                                            <td>
-                                                <select name="order_status_id" class="status_select">
-                                                    <option value="2" disabled selected>취소요청</option>
-                                                    <option value="3">취소불가</option>
-                                                    <option value="4">취소완료</option>
-                                                </select>
+                                            <td class="status_td">${oItem.order_status}</td>
+                                            <td class="apprv_td">
+                                                <c:choose>
+                                                    <c:when test="${oItem.order_status_id eq 3}">거절</c:when>
+                                                    <c:when test="${oItem.order_status_id eq 4}">승인</c:when>
+                                                    <c:otherwise>
+                                                        <select name="order_status_id" class="status">
+                                                            <option value="2" disabled selected>-</option>
+                                                            <option value="3" class="no">취소거절</option>
+                                                            <option value="4" class="yes">취소승인</option>
+                                                        </select>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
-                                            <td>
+                                            <td class="reason_td">
                                                 <c:choose>
                                                     <c:when test="${empty oItem.cancel_rejection_reason}">
-                                                        <input type="text" name="cancel_rejection_reason" class="reason" disabled>
+                                                        <input type="text" name="rejection_reason" class="reason" disabled>
                                                     </c:when>
                                                     <c:otherwise>
                                                         ${cancel_rejection_reason}
@@ -155,19 +160,48 @@
             event.preventDefault();
 
             let conf = confirm('저장할까요?')
+
             if (conf == true) {
+
+                let rows = document.querySelectorAll('.seller-list tbody tr.row');
+
+                rows.forEach(function (row) {
+
+                    let order_sort = row.querySelector('.order_sort').value;
+                    let item_id = row.querySelector('.item_id').value;
+                    let status_id = row.querySelector('.status').value;
+                    let reason = row.querySelector('.reason').value;
+
+
+                    if (status_id == 3) {
+
+                        row.querySelector('.status_td').textContent = '취소불가';
+                        row.querySelector('.apprv_td').textContent = '거절';
+                        row.querySelector('.reason_td').textContent = reason;
+
+                    } else if (status_id == 4) {
+
+                        row.querySelector('.status_td').textContent = '취소완료';
+                        row.querySelector('.apprv_td').textContent = '승인';
+                        row.querySelector('.reason').value = null;
+                        row.querySelector('.reason_td').textContent = '';
+                    }
+                })
+
                 this.submit();
             }
         })
 
-        $('.status_select').change(function () {
+        // select폼에서 '취소거절' 선택한 경우에만 거절사유 text폼 활성화
+        $('.status').change(function () {
 
             let status_id = $(this).val();
             let reason_box = $(this).closest('.row').find('input.reason');
 
             if (status_id == 3) {
-                reason_box.prop('disabled', false);
+                reason_box.prop({'disabled': false, 'required': true});
             } else if (status_id == 4) {
+                reason_box.val('');
                 reason_box.prop('disabled', true);
             }
         })

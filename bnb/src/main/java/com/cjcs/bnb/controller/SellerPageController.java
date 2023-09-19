@@ -31,19 +31,10 @@ import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
-
 import com.cjcs.bnb.service.StockService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import com.cjcs.bnb.service.SellerService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-
-import com.cjcs.bnb.service.StockService;
 
 @Slf4j
 @Controller
@@ -396,14 +387,16 @@ public class SellerPageController {
     }
 
     @PostMapping("/sell/cancel") // 주문취소요청 처리
-    public String sellersellcancel(@RequestParam List<Integer> o_idList, @RequestParam List<String> s_idList,
-            @RequestParam List<String> isbnList, @RequestParam List<String> sortList,
-            @RequestParam List<Integer> statusList, @RequestParam List<String> reasonList,
-            Model model, HttpSession session) {
+    public void sellersellcancel(@RequestParam List<Integer> item_id, @RequestParam List<String> order_sort,
+                                   @RequestParam List<Integer> order_status_id, @RequestParam List<String> rejection_reason,
+                                   Model model, HttpSession session) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
+        log.info("item_id:{}", item_id);
+        log.info("order_sort:{}", order_sort);
+        log.info("order_status_id:{}", order_status_id);
+        log.info("rejection_reason:{}", rejection_reason);
 
-        return "redirect:/seller/sell/cancel";
     }
 
     // @PostMapping("/sell/cancel")

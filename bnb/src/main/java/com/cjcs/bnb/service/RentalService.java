@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.NotificationDao;
@@ -295,11 +296,6 @@ public class RentalService {
         }
 
         return returnList;
-    }
-
-    public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate startDate,
-            LocalDate endDate) {
-        return null;
     }
 
 }

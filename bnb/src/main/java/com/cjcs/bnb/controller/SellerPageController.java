@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.CategoryDao;
+import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.RentalDto;
@@ -29,12 +31,10 @@ import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
-
+import com.cjcs.bnb.service.StockService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import com.cjcs.bnb.service.StockService;
 
 
 @Slf4j
@@ -44,30 +44,25 @@ public class SellerPageController {
 
     @Autowired
     private MemberService mSer;
-
     @Autowired
     private PurchaseService pSer;
-
     @Autowired
     private RentalService rSer;
-
     @Autowired
     private OrderService oSer;
-
     @Autowired
     private BookService bSer;
-
+    @Autowired
+    private StockService stSer;
     @Autowired
     private FileService fileService; // MyBatis mapper
 
     @Autowired
     private CategoryDao categoryDao;
-
     @Autowired
     private BookMapper bookDao;
-  
     @Autowired
-    private StockService stSer;
+    private OrderDao oDao;
 
 
     // 서점 정보 페이지
@@ -252,7 +247,7 @@ public class SellerPageController {
     @PostMapping("/book/add/isbncheck")
     public Boolean checkisbn(@RequestParam String b_isbn, HttpSession session) {
 
-        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        String s_id = (String) session.getAttribute("loggedInUser");
 
         // 이미 등록된 isbn인지 체크
         BookDto book = bookDao.getBookByIsbn(s_id, b_isbn);
@@ -264,7 +259,7 @@ public class SellerPageController {
     @PostMapping("/book/add")
     public String sellerbookaddtodb(BookDto bookDto, HttpSession session) {
 
-        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        String s_id = (String) session.getAttribute("loggedInUser");
         bookDto.setB_s_id(s_id);
 
         log.info("bookDto:{}", bookDto);
@@ -350,9 +345,9 @@ public class SellerPageController {
 
 
     @GetMapping("/rent/return")
-    public String sellerrentreturn(Model model) {
+    public String sellerrentreturn(Model model, HttpSession session) {
 
-        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        String s_id = (String) session.getAttribute("loggedInUser");
         
         // 반납 내역 불러오기
         List<RentalDto> returnList = rSer.RentReturnList(s_id);
@@ -367,9 +362,27 @@ public class SellerPageController {
         return "seller/sellerSellHistory";
     }
 
-    @GetMapping("/sell/cancel")
-    public String sellersellcancel() {
+    @GetMapping("/sell/cancel")  // 주문취소요청 리스트
+    public String sellersellcancellist(Model model, HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        List<HashMap<String, Object>> oList = oDao.getOrderListToCancelBySId(s_id);
+        model.addAttribute("oList", oList);
+
         return "seller/sellerSellCancel";
+    }
+    
+    @PostMapping("/sell/cancel")  // 주문취소요청 처리
+    public String sellersellcancel(@RequestParam List<Integer> o_idList, @RequestParam List<String> s_idList,
+                                   @RequestParam List<String> isbnList, @RequestParam List<String> sortList,
+                                   @RequestParam List<Integer> statusList, @RequestParam List<String> reasonList,
+                                   Model model, HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+        
+
+        return "redirect:/seller/sell/cancel";
     }
 
     @GetMapping("/return/manage")

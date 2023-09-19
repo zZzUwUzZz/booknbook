@@ -76,27 +76,42 @@
                         </div>
                 
                         <div class="container-4">
-
+                        <c:if test="${!empty latestFav}">
 
                             <div class="store_img">
-                                <div class="imgBox">
-                                    <a href="/bookstore/detail/{latestFav.favs_s_id}">
-                                        <img src="/uploads/${latestFavStoreImg}">
-                                    </a>
-                                </div>
-                                <a style="color: #dfdad5;" href="/bookstore/detail/{latestFav.favs_s_id}"><div>${latestFav.favs_s_storename}</div></a> 
+                                <c:choose>
+                                    <c:when test="${!empty latestFav.favs_s_id}">
+                                        <div class="imgBox">
+                                            <a href="/bookstore/detail/{latestFav.favs_s_id}">
+                                                <img src="/uploads/${latestFavStoreImg}">
+                                            </a>
+                                        </div>
+                                        <a style="color: #dfdad5;" href="/bookstore/detail/{latestFav.favs_s_id}"><div>${latestFav.favs_s_storename}</div></a> 
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div>즐겨찾기한 서점이 없습니다.</div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
-                        
-                        
+
                             <div class="book_img">
-                                <div class="bkBox">
-                                    <a href="/books/detail/${latestFav.favb_b_isbn}/${latestFav.favb_s_id}">
-                                        <img src="https://contents.kyobobook.co.kr/sih/fit-in/1500x0/pdt/${latestFav.favb_b_isbn}.jpg"
-                                            alt="책표지사진">
-                                    </a>
-                                </div>
-                                <div>책 제목</div>
+                                <c:choose>
+                                    <c:when test="${!empty latestFav.favb_b_isbn}">
+                                        <div class="bkBox">
+                                            <a href="/books/detail/${latestFav.favb_b_isbn}/${latestFav.favb_s_id}">
+                                                <img src="https://contents.kyobobook.co.kr/sih/fit-in/1500x0/pdt/${latestFav.favb_b_isbn}.jpg"
+                                                    alt="책표지사진">
+                                            </a>
+                                        </div>
+                                        <div>책 제목</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div>찜한 도서가 없습니다.</div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
+
+                        </c:if>
                         </div>
 
                     </div>

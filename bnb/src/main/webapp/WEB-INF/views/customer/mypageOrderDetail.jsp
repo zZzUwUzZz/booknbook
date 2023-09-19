@@ -109,7 +109,7 @@
                             </div>
                         </div>
 
-            </div>
+         
 
 
                         <div class="pcContain_01">
@@ -123,7 +123,7 @@
 
                                 <c:if test="${!empty oRList}">
                                     <c:forEach var="oRItem" items="${oRList}" varStatus="status">
-                                        <c:set var="currentISBN" value="${isbnList[status.index].p_b_isbn}" />
+                                        <c:set var="rentISBN" value="${rentalISBNList[status.index]}" />
                                         <div class="items">
                                             <article class="opItemBox">
                                                 <div class="opItem">
@@ -162,27 +162,26 @@
                             <div class="infobox">
 
                                 <div class="infotext">
-                                    <span>총 상품금액</span>
+                                    <span>총 상품금액 </span>
                                     <span>
                                         <fmt:formatNumber value="${oInfo.o_total_pricerent}" type="number"
-                                            pattern="#,##0" />원
+                                            pattern="#,##0" /> 원
                                     </span>
                                 </div>
 
                                 <div class="infotext">
-                                    <span>총 배송비</span>
+                                    <span>총 배송비 </span>
                                     <span>
                                         <fmt:formatNumber value="${oInfo.o_total_deliveryfee}" type="number"
-                                            pattern="#,##0" />원
+                                            pattern="#,##0" /> 원
                                     </span>
                                 </div>
 
                                 <div class="infotext">
-                                    <span>총 결제금액</span>
+                                    <span>총 결제금액 </span>
                                     <span>
                                         <fmt:formatNumber value="${oInfo.o_total_payment}" type="number"
-                                            pattern="#,##0" />
-                                        원
+                                            pattern="#,##0" /> 원
                                     </span>
                                 </div>
                             </div>
@@ -234,9 +233,9 @@
                     </div>
 
 
-                </div>
+              
 
-
+            </div>
 
                 <jsp:include page="../../tiles/footer.jsp"></jsp:include>
 

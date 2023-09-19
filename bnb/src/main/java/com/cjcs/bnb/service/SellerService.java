@@ -19,4 +19,5 @@ public class SellerService {
     public SellerFileDto getSellerFile(String sellerId) {
         return sMp.getSellerFile(sellerId);
     }
+
 }

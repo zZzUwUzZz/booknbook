@@ -3,7 +3,6 @@ package com.cjcs.bnb.service;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -188,12 +187,12 @@ public class RentalService {
         return resultList;
     }
 
-    // 예약 신청 수락
+    // 예약 상태 수락
     public void ReserveAccept(RentalDto requestData) {
         rDao.ReserveAccept(requestData.getRr_id());
     }
 
-    // 예약 신청 거절
+    // 예약 상태 거절
     public void ReserveRefuse(RentalDto requestData) {
         rDao.ReserveRefuse(requestData.getRr_id(), requestData.getRr_rejection_reason());
     }
@@ -209,13 +208,14 @@ public class RentalService {
             if (o_date != null) {
                 dto.setO_dateStr(sdf.format(o_date));
             }
-            if (returnexpect_days != null) {
+            if(returnexpect_days!=null){
                 dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
             }
         }
 
         return resultList;
     }
+
 
     // 배송 상태명
     public List<RentalDto> DeliveryStatusList() {
@@ -224,24 +224,24 @@ public class RentalService {
 
     // 배송상태, 대여상태 업데이트
     @Transactional
-    public void UpdateDeliStatus(List<RentalDto> requestData) {
+    public void UpdateDeliStatus(List<RentalDto> requestData, String s_id) {
         for (RentalDto request : requestData) {
-            rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status(), request.getB_title());
-            UpdateRentStatus_Wait(request);
-            UpdateRentStatus_Curr(request);
+            rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status(), request.getB_title(), s_id);
+            UpdateRentStatus_Wait(request, s_id);
+            UpdateRentStatus_Curr(request, s_id);
             UpdateRentStatus_Late(request);
-            RentResStatus_First(request);
+            RentResStatus_First(request, s_id);
         }
     }
 
     // 대여 상태 업데이트 [대여시작전]
-    public void UpdateRentStatus_Wait(RentalDto requestData) {
-        rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title());
+    public void UpdateRentStatus_Wait(RentalDto requestData, String s_id) {
+        rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 대여 상태 업데이트 [대여중]
-    public void UpdateRentStatus_Curr(RentalDto requestData) {
-        rDao.UpdateRentStatus_Curr(requestData.getO_id(), requestData.getB_title());
+    public void UpdateRentStatus_Curr(RentalDto requestData, String s_id) {
+        rDao.UpdateRentStatus_Curr(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 대여 상태 업데이트 [연체]
@@ -250,18 +250,18 @@ public class RentalService {
     }
 
     // 대여 상태 업데이트 [반납 완료]
-    public void UpdateRentStatus_Return(RentalDto requestData) {
-        rDao.UpdateRentStatus_Return(requestData.getO_id(), requestData.getB_title());
+    public void UpdateRentStatus_Return(RentalDto requestData, String s_id) {
+        rDao.UpdateRentStatus_Return(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 예약 1순위 예약 상태 변경
-    public void RentResStatus_First(RentalDto requestData) {
-        rDao.RentResStatus_First(requestData.getB_title());
+    public void RentResStatus_First(RentalDto requestData, String s_id) {
+        rDao.RentResStatus_First(requestData.getB_title(), s_id);
     }
 
     // 대여 재고 조회
-    public int getRentalStock(RentalDto requestData) {
-        return rDao.getRentalStock(requestData.getB_title());
+    public int getRentalStock(RentalDto requestData, String s_id) {
+        return rDao.getRentalStock(requestData.getB_title(), s_id);
     }
 
     // 대여 재고 +1
@@ -270,37 +270,33 @@ public class RentalService {
     }
 
     // 예약자 수 조회
-    public int CountRentalRes(RentalDto requestData) {
-        return rDao.CountRentalRes(requestData.getB_title());
+    public int CountRentalRes(RentalDto requestData, String s_id) {
+        return rDao.CountRentalRes(requestData.getB_title(), s_id);
+    }
+
+    // 예약 1순위 대여가능 알림 전송
+    public void RentRes_First_Alert(RentalDto requestData, String s_id) {
+        rDao.RentRes_First_Alert(requestData.getB_title(), s_id);
+    }
+
+    // 예약 1순위 결제기한 추가
+    public void RentRes_First_Pay(RentalDto requestData, String s_id) {
+        rDao.RentRes_First_Pay(requestData.getB_title(), s_id);
     }
 
     // 반납 현황 리스트
     public List<RentalDto> RentReturnList(String s_id) {
-        
-        List<RentalDto> returnList = rDao.RentReturnList(s_id);
 
-        if (returnList != null) {
-
-            LocalDate currdate = LocalDate.now();
-
-            for (RentalDto rDto : returnList) {
-
-                if (rDto.getR_duedate() != null) {
-
-                    LocalDate duedate = ((Timestamp) rDto.getR_duedate()).toLocalDateTime().toLocalDate();
-                    if (currdate.isAfter(duedate)) {
-                        rDto.setOverdue_days((int)ChronoUnit.DAYS.between(duedate, currdate)); //연체일수 계산해서 저장
-                    }
-                }
+        // 날짜 형식 포맷 변경
+        List<RentalDto> resultList = rDao.RentReturnList(s_id);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (RentalDto dto : resultList) {
+            Date o_date = dto.getO_date();
+            if (o_date != null) {
+                dto.setO_dateStr(sdf.format(o_date));
             }
         }
-
-        return returnList;
-    }
-
-    public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate startDate,
-            LocalDate endDate) {
-        return null;
+        return resultList;
     }
 
 }

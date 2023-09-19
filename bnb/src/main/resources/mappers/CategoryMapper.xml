@@ -21,7 +21,7 @@
 
     <select id="listSmallCategoryNames" resultType="Map">
         SELECT category_m_id as "category_m_id", category_s_id as "category_s_id", category_s as "category_s"
-        FROM CATEGORY_S WHERE category_m_id = #{category_m_id} ORDER BY category_m_id, category_s
+        FROM CATEGORY_S WHERE category_m_id = #{category_m_id} ORDER BY category_s
     </select>
 
     <select id="getMediumCategoryIdByName">

@@ -67,12 +67,11 @@
             <c:if test="${!empty favBooks}">
                 <div class="container-fav">
                     <c:forEach var="favBook" items="${favBooks}">
+
                         <div class="favbook">
                             <a href="/books/detail/${favBook.b_isbn}/${favBook.b_s_id}">
                                 <img src="https://contents.kyobobook.co.kr/sih/fit-in/1500x0/pdt/${favBook.b_isbn}.jpg" alt="책표지사진">
                             </a>
-                  
-                           <div>${favBook.b_title}</div> 
                         </div>
 
                     </c:forEach>

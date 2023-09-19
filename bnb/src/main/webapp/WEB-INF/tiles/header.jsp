@@ -28,10 +28,10 @@
     <style>
  
  body{
-    animation: fadein 1500ms ease-out;
-    -moz-animation: fadein 1500ms ease-out; /* Firefox */
-    -webkit-animation: fadein 1500ms ease-out; /* Safari and  Chrome */
-    -o-animation: fadein 1500ms ease-out; /* Opera */
+    animation: fadein 2000ms ease-out;
+    -moz-animation: fadein 2000ms ease-out; /* Firefox */
+    -webkit-animation: fadein 2000ms ease-out; /* Safari and  Chrome */
+    -o-animation: fadein 2000ms ease-out; /* Opera */
 }
 @keyframes fadein {
     from {opacity:0;}
@@ -167,6 +167,7 @@
 
  <script>
     
+
 
 // 알림창 목록 
     $(document).ready(function () {
@@ -341,19 +342,19 @@ function setDefaultNotification() {
 
 
  
- jQuery(function($) {
- $("body").css("display", "none");
- $("body").fadeIn(1000);
- $("a.transition").click(function(event){
- event.preventDefault();
- linkLocation = this.href;
- $("body").fadeOut(500, redirectPage);
- });
- function redirectPage() {
- window.location = linkLocation;
- }
- });
-
+    jQuery(function ($) {
+        $("body").css("display", "none");
+        $("body").fadeIn(1000);
+        $("a.transition").click(function (event) {
+            event.preventDefault();
+            linkLocation = this.href;
+            $("body").fadeOut(500, redirectPage);
+        });
+        function redirectPage() {
+            window.location = linkLocation;
+        }
+    });
+   
 window.onload = function() {
     var msg = "${msg}";
     if (msg === '이미 로그인 된 상태입니다.') {

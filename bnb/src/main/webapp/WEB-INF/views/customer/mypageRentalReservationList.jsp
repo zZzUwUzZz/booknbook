@@ -186,7 +186,7 @@
     <script>
         $(document).ready(function () {
 
-            $(".cancel_btn02").click(function () {
+            $(".cancel_btn").click(function () {
 
                 let conf = confirm('대여예약을 취소할까요?');
 

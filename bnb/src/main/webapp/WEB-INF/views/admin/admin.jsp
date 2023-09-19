@@ -80,8 +80,8 @@
                             <h4>· 소분류 추가하기&nbsp;</h4>
                             <form action="/admin/categoryadd">
                                 <select name="category_m" style="width: 75px">
-                                    <c:forEach var="nameM" items="${categoryNamesM}">
-                                        <option value="${nameM.category_m}">${nameM.category_m}</option>
+                                    <c:forEach var="nameM" items="${categoryNames}">
+                                        <option value="${nameM.key}">${nameM.key}</option>
                                     </c:forEach> 
                                 </select>
                                 <input type="text" name="category_s_id" placeholder="소분류코드" style="width: 67px">
@@ -98,12 +98,12 @@
                                 </c:if>
                             
                                 <c:if test="${!empty categoryNames}">
-                                    <c:forEach var="nameM" items="${categoryNamesM}">
+                                    <c:forEach var="nameM" items="${categoryNames}">
                                         <div>
-                                            <p onclick="delete_category_m('${nameM.category_m}')" class="categories">&nbsp;${nameM.category_m}</p>
+                                            <p onclick="delete_category_m('${nameM.key}')" class="categories">&nbsp;${nameM.key}</p>
                                         </div>
                                         <div>
-                                            <c:forEach var="nameS" items="${categoryNames.get(nameM.category_m)}">
+                                            <c:forEach var="nameS" items="${categoryNames.get(nameM.key)}">
                                                 <span onclick="delete_category_s('${nameS.category_s_id}')" class="categories_s categories">${nameS.category_s} (${nameS.category_s_id}) </span>
                                             </c:forEach>
                                         </div>

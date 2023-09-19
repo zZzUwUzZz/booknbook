@@ -27,4 +27,5 @@ public interface SellerMapper {
     SellerDto getSellerById(String sellerId);
 
     SellerFileDto getSellerFile(String sellerId);
+
 }

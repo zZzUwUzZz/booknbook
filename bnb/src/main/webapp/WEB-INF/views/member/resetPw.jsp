@@ -17,11 +17,24 @@
             <li>아이디와 현재 비밀번호를 입력하여 본인 확인 후 비밀번호를 재설정하세요.</li>
         </ul>
     </div>
+    <div class="tabs">
+        <button class="tab-button" onclick="window.location='/member/findId'">아이디 찾기</button>
+        <button class="tab-button active" onclick="window.location='/member/resetPw'">비밀번호 초기화</button>
+    </div>
+
+
 
     <form id="resetPasswordForm" name="resetPasswordForm" action="#" method="post" target="_self" enctype="application/x-www-form-urlencoded">
         <div class="findId">
             <fieldset>   
                 <legend>본인 확인</legend>
+                <!-- <p>
+                    <strong>회원유형</strong>
+                    <select id="searchType" name="searchType" fw-label="회원유형">
+                        <option value="indi" selected="selected">개인회원</option>
+                        <option value="indibuis">개인 사업자회원</option>
+                    </select>
+                </p> -->
                 <p class="input-group">
                     <strong class="input_label">이름</strong>
                     <input id="input_field_name" name="name" class="lostInput" placeholder="이름을 입력하세요" type="text">
@@ -117,6 +130,7 @@
                 }
             });
         }
+        
     </script>
 
     <div class="footer"></div>

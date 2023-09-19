@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cjcs.bnb.dao.BookDao;
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dto.BookDto;
-
-import com.cjcs.bnb.dto.RentalDto;
-
 import com.cjcs.bnb.dto.NotifBoardDto;
-
 
 @Service
 public class BookService {
@@ -81,11 +77,9 @@ public class BookService {
         return bookMapper.searchSellerBookList(s_id, filter, keyword);
     }
 
-
-
     // 책 상세페이지 데이터 조회
     public BookDto bookDetail(String isbn, String sellerId) {
         return bookMapper.bookDetail(isbn, sellerId);
     }
- 
+
 }

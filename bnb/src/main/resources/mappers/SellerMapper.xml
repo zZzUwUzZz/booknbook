@@ -5,7 +5,7 @@
 <mapper namespace="com.cjcs.bnb.dao.MemberDao">
 
     <!-- 서점 검색 -->
-    <select id="searchBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
+<select id="searchBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
      SELECT * FROM (
         SELECT S.*, SF.sf_sysname, ROW_NUMBER() OVER (ORDER BY S.s_id) AS rn
         FROM seller S 
@@ -15,29 +15,19 @@
         OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')
     ) 
     WHERE rn BETWEEN #{startIdx} AND #{startIdx} + #{limit} - 1
-    </select>
+</select>
 
     <!-- 서점 검색결과 카운트 -->
-    <select id="countBookstores" resultType="int">
+<select id="countBookstores" resultType="int">
     SELECT COUNT(*) 
     FROM seller S
     JOIN member M ON S.s_id = M.m_id
     WHERE UPPER(S.s_storename) LIKE UPPER('%' || #{keyword} || '%')
     OR UPPER(M.m_addr) LIKE UPPER('%' || #{keyword} || '%')
-    </select>
+</select>
 
-    <select id="getAllBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
+ <select id="getAllBookstores" resultType="com.cjcs.bnb.dto.SellerDto">
     SELECT * FROM SELLER
-    </select>
-
-    <select id="getSellerById"  resultType="com.cjcs.bnb.dto.SellerDto">
-    SELECT * FROM Seller WHERE s_id = #{sellerId}
-    </select>
-
-    <select id="getSellerFile"  resultType="com.cjcs.bnb.dto.SellerFileDto">
-    SELECT * FROM Seller_File WHERE sf_s_id = #{sellerId}
-    </select>
+</select>
 
 </mapper>
-
-

@@ -4,6 +4,11 @@ import java.sql.Timestamp;
 
 import lombok.Data;
 
+
+
+
+
+
 @Data
 public class MemberDto {
 
@@ -18,11 +23,10 @@ public class MemberDto {
     private String newPassword;
     private String m_role;
    
-    // 새롭게 추가된 코드들
-    private String zipcode; // 우편번호
-    private String streetadr; // (지번주소)
-    private String detailadr; // (상세주소)
-    private String formatted_phone; // 010-1234-1234형태로 포맷변경한 연락처
+    // 새롭게 추가된 코드들 
+    private String zipcode; //우편번호
+    private String streetadr; //(지번주소) 
+    private String detailadr ;  //(상세주소)
 
     // 회원 구분
     private Integer userType;
@@ -49,4 +53,9 @@ public class MemberDto {
 
     // 수희
     private int overdues;
+
+    public String getPassword() {
+        return null;
+    }
+    
 }

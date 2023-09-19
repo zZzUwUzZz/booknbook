@@ -77,10 +77,6 @@ public class OrderService {
         return oDao.getISBNListByOId(o_id);
     }
 
-    public List<String> getRentalISBNListByOId(int o_id) {
-        return oDao.getRentalISBNListByOId(o_id);
-    }
-
     // 수희
 
     // 구매카트 로딩 시 판매재고체크 및 카트수량 변경
@@ -91,7 +87,7 @@ public class OrderService {
         for (CartDto cPItem : cPList) {
             int saleStock = cPItem.getB_salestock();
             int qty = cPItem.getCart_amount();
-
+            
             if (saleStock == 0) {
                 oDao.updateCartAmount(cPItem.getCart_id(), saleStock);
                 cPItem.setCart_amount(saleStock);
@@ -108,16 +104,17 @@ public class OrderService {
         return cPList;
     }
 
+
     // 대여카트 로딩 시 대여재고체크 및 카트수량 변경
     public List<CartDto> getRentalCartAndStockCheck(String c_id) {
 
         List<CartDto> cRList = oDao.getRentalCartByCId(c_id);
-
+                
         for (CartDto cRItem : cRList) {
 
             int rentalStock = cRItem.getB_rentalstock();
             int qty = cRItem.getCart_amount();
-
+            
             if (rentalStock == 0) {
                 oDao.updateCartAmount(cRItem.getCart_id(), rentalStock);
                 cRItem.setCart_amount(rentalStock);
@@ -198,24 +195,20 @@ public class OrderService {
     public Boolean stockCheck(ArrayList<Integer> pcart_idList, ArrayList<Integer> rcart_idList) {
 
         if (pcart_idList != null) {
-
+            
             for (Integer cart_id : pcart_idList) {
                 int qty = oDao.getCartByCartId(cart_id).getCart_amount();
                 log.info("qtyyy:{}", qty);
                 int stock = ((BigDecimal) bDao.getStockInfo(cart_id).get("b_salestock")).intValue();
                 log.info("stockkkk:{}", stock);
-                if (stock < qty) {
-                    return false;
-                }
+                if (stock < qty ) { return false; }
             }
         }
         if (rcart_idList != null) {
-
+            
             for (Integer cart_id : rcart_idList) {
                 int stock = ((BigDecimal) bDao.getStockInfo(cart_id).get("b_rentalstock")).intValue();
-                if (stock < 1) {
-                    return false;
-                }
+                if (stock < 1 ) { return false; }
             }
         }
         return true;
@@ -247,8 +240,8 @@ public class OrderService {
 
             oDao.addOrderSelectKey(orderMap);
 
-            Integer o_id = (Integer) orderMap.get("o_id");
-
+            Integer o_id = (Integer)orderMap.get("o_id");
+  
             if (pcart_idList != null) {
 
                 for (Integer cart_id : pcart_idList) {
@@ -266,8 +259,7 @@ public class OrderService {
 
                     CartDto cDto = oDao.getCartByCartId(cart_id);
 
-                    rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id,
-                            cDto.getCart_rentalperiod());
+                    rDao.addRentalList(o_id, cDto.getCart_s_id(), cDto.getCart_b_isbn(), c_id, cDto.getCart_rentalperiod());
                     bDao.updateRentalStock(cDto.getCart_s_id(), cDto.getCart_b_isbn(), 1);
                     oDao.deleteCartItem(cart_id);
                 }
@@ -284,8 +276,8 @@ public class OrderService {
     // 대여순번항목 결제처리 - 트랜잭션
     @Transactional
     public Boolean addResOrder(String c_id, Integer rr_id,
-            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
-            Integer o_total_pricerent, Integer o_total_deliveryfee, Integer o_total_payment) {
+                            String o_delivery_sort, String o_recip_addr, String o_recip_name, String o_recip_phone,
+                            Integer o_total_pricerent, Integer o_total_deliveryfee, Integer o_total_payment) {
 
         try {
 
@@ -305,9 +297,9 @@ public class OrderService {
                 orderMap.put("o_total_payment", o_total_pricerent);
             }
             log.info("orderMap:{}", orderMap);
-
+               
             oDao.addOrderSelectKey(orderMap);
-            Integer o_id = (Integer) orderMap.get("o_id");
+            Integer o_id = (Integer)orderMap.get("o_id");
             log.info("o_id:{}", o_id);
 
             RentalReservationDto rrDto = rDao.getReservationByRRId(rr_id);
@@ -315,11 +307,11 @@ public class OrderService {
             rDao.addRentalList(o_id, rrDto.getRr_s_id(), rrDto.getRr_b_isbn(), rrDto.getRr_c_id(), 7);
             // bDao.updateRentalStock(rrDto.getRr_s_id(), rrDto.getRr_b_isbn());
             // 대여예약리스트 소진될 때까지 재고를 0으로 유지하기로 해서 재고차감 생략함
-
+            
             rDao.updateReservationByRRId(rr_id, 6, null);
 
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getStackTrace());
+            System.out.println("ERROR: "+e.getStackTrace());
             return false;
         }
 
@@ -350,10 +342,8 @@ public class OrderService {
 
                 Timestamp d_date = (Timestamp) oPItem.get("p_deliverydate");
                 log.info("p_d_date:{}", d_date);
-                if (d_date == null)
-                    continue;
-                else
-                    return true;
+                if (d_date == null) continue;
+                else return true;
             }
         }
 
@@ -363,15 +353,14 @@ public class OrderService {
 
                 Timestamp d_date = (Timestamp) oRItem.get("r_deliverydate");
                 log.info("r_d_date:{}", d_date);
-                if (d_date == null)
-                    continue;
-                else
-                    return true;
+                if (d_date == null) continue;
+                else return true;
             }
         }
 
         return false;
     }
+
 
     // 예림
     // 오늘 판매 건수 카운트
@@ -385,8 +374,8 @@ public class OrderService {
     }
 
     // 오늘 예약 건수 카운트
-    public int getTodayRentResCnt(String rr_s_id) {
-        return oDao.getTodayRentResCnt(rr_s_id);
+    public int getTodayRentResCnt(String s_id) {
+        return oDao.getTodayRentResCnt(s_id);
     }
 
     // 오늘 배송 준비중 건수 카운트
@@ -415,11 +404,11 @@ public class OrderService {
     }
 
     // 입력한 기간 내 총 정산 금액 합산
-    public int getCalculate(String Start_Date, String End_Date) {
-        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date);
-        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date);
-        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date);
-        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date);
+    public int getCalculate(String Start_Date, String End_Date, String s_id) {
+        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date, s_id);
+        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date, s_id);
+        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date, s_id);
+        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -455,8 +444,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 대여료 합계
-    public int getCalculateRent(String Start_Date, String End_Date) {
-        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date);
+    public int getCalculateRent(String Start_Date, String End_Date, String s_id) {
+        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -471,8 +460,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 연체료 합계
-    public int getCalculateLate(String Start_Date, String End_Date) {
-        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date);
+    public int getCalculateLate(String Start_Date, String End_Date, String s_id) {
+        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -487,8 +476,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 판매금액 합계
-    public int getCalculateSell(String Start_Date, String End_Date) {
-        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date);
+    public int getCalculateSell(String Start_Date, String End_Date, String s_id) {
+        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -503,8 +492,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 반품/환불 합계
-    public int getCalculateReturn(String Start_Date, String End_Date) {
-        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date);
+    public int getCalculateReturn(String Start_Date, String End_Date, String s_id) {
+        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date, s_id);
 
         int total = 0;
 

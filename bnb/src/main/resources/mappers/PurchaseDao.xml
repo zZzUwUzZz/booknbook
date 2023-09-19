@@ -166,6 +166,26 @@
         WHERE p_o_id = #{o_id}
     </update>
 
+    <!-- 판매자페이지 주문취소관리용 -->
+    <select id="getPurchaseListToCancelBySId" resultType="Map">
+        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
+        SELECT o_id as "o_id",
+               o_date as "o_date",
+               order_sort as "order_sort",
+               p_c_id as "p_c_id",
+               s_storename as "s_storename",
+               b_title as "b_title",
+               b_isbn as "b_isbn",
+               amount as "amount",
+               order_status_id as "order_status_id",
+               order_status as "order_status",
+               delivery_status_id as "delivery_status_id"
+               delivery_status as "delivery_status"
+        FROM ORDER_LIST
+        WHERE s_id = #{s_id} AND order_status id IN (2, 3, 4)
+        ORDER BY o_id DESC, order_sort DESC, b_title
+    </select>
+
     <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="RefExchDto">
         SELECT p_o_id as "re_o_id",
                p_c_id as "re_c_id",

@@ -20,7 +20,8 @@
   <input type="text" id="m_id" name="m_id" placeholder="아이디(6자 이상의 영문/숫자)" required oninput="checkIdDuplication()">
       <span id="idCheckMessage"></span> <!-- 중복 확인 메시지를 표시할 요소 -->
       <input type="password" id="m_pw" name="m_pw" placeholder="비밀번호" required>
-      <!-- <input type="password" id="confirm-password" name="m_password" placeholder="비밀번호 확인" required> -->
+      <input type="password" id="confirm-password" name="m_password" placeholder="비밀번호 확인" required>
+      
       <input type="text" id="business-number" name="s_crn" placeholder="사업자번호" required>
       <input type="text" id="s_storename" name="s_storename" placeholder="서점명" required>
       <!-- <input type="text" id="m_addr" name="m_addr" placeholder="주소" required> -->
@@ -45,7 +46,7 @@
   function validateRegistrationForm(event) {
     let username = document.getElementById("m_id").value;
     let password = document.getElementById("m_pw").value;
-    // let confirmPassword = document.getElementById("confirm-password").value;
+    let confirmPassword = document.getElementById("confirm-password").value;
     let businessNumber = document.getElementById("business-number").value;
     let storeName = document.getElementById("s_storename").value;
     // let address = document.getElementById("m_addr").value;
@@ -85,13 +86,13 @@
     }
 
     // Contact validation (연락처 형식)
-    if (!/^\d{3}\d{3,4}\d{4}$/.test(contact)) {
-      alert("올바른 연락처 형식을 입력해주세요 (XXX-XXX-XXXX 또는 XXX-XXXX-XXXX).");
-      event.preventDefault();
-      return;
-    }
-    alert("회원가입이 완료되었습니다!");
-    document.querySelector('form').submit();
+    if (!/^\d{11}$/.test(contact)) {
+    alert("올바른 연락처 형식을 입력해주세요. 전화번호는 11자의 숫자로 입력해주세요.");
+    event.preventDefault();
+    return;
+}
+alert("회원가입이 완료되었습니다!");
+document.querySelector('form').submit();
       
 
     // Other field validations can be added similarly
@@ -129,6 +130,9 @@
         }
     });
 }
+
+
+
 
 function execPostCode() {
          new daum.Postcode({

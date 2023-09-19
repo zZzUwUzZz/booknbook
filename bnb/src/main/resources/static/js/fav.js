@@ -6,14 +6,15 @@ $(document).ready(function() {
       
       // 즐겨찾기 상태 불러오기
       $.ajax({
-          url: `/isFavorite?userId=customer001&storeId=${storeId}`,
+          url: `/isFavorite?userId=${userId}&storeId=${storeId}`,
           type: 'GET',
           success: function(response) {
               const buttonId = `favoriteButton_${storeId}`;
               const favoriteButton = $('#' + buttonId).length ? $('#' + buttonId) : $('.favoriteButton');
               
               favoriteButton.attr('id', buttonId);
-              favoriteButton.data('store-id', storeId);
+              favoriteButton.data('storeId', storeId);
+              favoriteButton.data('userId', userId);
           }
       });
 
@@ -22,12 +23,15 @@ $(document).ready(function() {
           url: `/get_store_details?id=${storeId}`,
           type: 'GET',
           success: function(data) {
+            
               $('#storeImg').attr('src', "/uploads/" + data.store_img);
               $('#storeAddr').text(data.store_addr);
               $('#storeName').text(data.store_name);
               $('#storeDescription').text(data.store_description);
               $('#storePhone').text(data.store_phone);
-              $('#storeDetailModal').css('display', 'block');
+              $('a[href="/bookstore/detail/"]').attr('href', '/bookstore/detail/' + data.store_s_id); // 추가된 부분
+
+        
           },
           error: function(error) {
               console.log("Error fetching store details:", error);
@@ -58,7 +62,7 @@ $(document).ready(function() {
   // 상점 아이템 클릭 시 모달 열고 즐겨찾기 상태 업데이트
   $(document).on('click', '.bs_item', function() {
     const storeId = $(this).data("store-id");
-      const userId = "customer001";  // 임의의 사용자 ID
+      const userId = $(this).data("user-id");;  // 임의의 사용자 ID
 
       // 즐겨찾기 상태 업데이트
       updateFavoriteButton(userId, storeId);
@@ -85,7 +89,7 @@ $(document).ready(function() {
   
   // 즐겨찾기 버튼 클릭 이벤트 핸들러
   $(document).on('click', '[id^=favoriteButton_]', function() {
-    const userId = 'customer001';
+    const userId = $(this).data("user-id");
     const storeId = $(this).data("store-id");
     const isFavorite = $(this).data("is-favorite");
     const button = $(this);

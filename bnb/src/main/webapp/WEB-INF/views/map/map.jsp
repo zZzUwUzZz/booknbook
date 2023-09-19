@@ -126,7 +126,7 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
 
                 <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
                 <div class="favoriteButton" id="favoriteButton_<%=storeId%>" data-store-id="<%=storeId%>"
-                    data-user-id="customer001">
+                    data-user-id="${userId}">
                 </div>
 
                 <div class="cls_btn">
@@ -140,6 +140,14 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
                     </div>
                     <div class="bsinfotext">
                         <h1 id="storeName"></h1>
+                    
+                        <div class="storebtn01">
+                       
+                        <span class="material-symbols-outlined">home</span>
+                        <a href="/bookstore/detail/${sellerId}">서점 방문하기 </a>
+
+                        </div>
+                        </a>
                         <h2 id="storeAddr"></h2>
                         <p id="storeDescription"></p>
                         <p id="storePhone"></p>

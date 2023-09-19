@@ -121,53 +121,19 @@ public class SearchController {
     }
 
 
-// @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
-// public String search(
-//         @RequestParam(name = "keyword", required = false) String keyword,
-//         @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-//         Model model) {
-
-//     List<SellerDto> results;
-//     int totalItems;
-
-//     if (keyword == null || keyword.trim().isEmpty()) {
-//         // 키워드가 없거나 빈 문자열인 경우 모든 서점 정보를 불러옴
-//         results = searchService.getAllBookstores();
-//         totalItems = results.size();
-//     } else {
-//         // 키워드가 있는 경우 해당 키워드로 검색
-//         int pageSize = 5;
-//         int startIdx = (pageNum - 1) * pageSize;
-
-//         results = searchService.searchBookstores(keyword, startIdx, pageSize);
-//         totalItems = searchService.countBookstores(keyword);
-        
-//         // 기타 로직 (이미지 정보, 회원 정보 등)
-//         // ... (이미지 정보와 회원 정보를 불러오는 로직을 여기에 넣을 수 있습니다.)
-//     }
-
-//     // 공통 로직 (모델에 결과 추가)
-//     model.addAttribute("results", results);
-//     model.addAttribute("totalItems", totalItems);
-
-//     return "/map/map";
-// }
-
-
-
-
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId,
-            HttpServletRequest request) {
-        MemberDto seller = searchService.getMemberInfo(storeId);
-        System.out.println("Seller Info: " + seller);
+            HttpSession session) {
+                
+          String userId = (String) session.getAttribute("loggedInUser");
 
+                MemberDto seller = searchService.getMemberInfo(storeId);
+       
         if (seller == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
+       
+        System.out.println("Seller Info: " + seller);
 
         Map<String, Object> response = new HashMap<>();
         response.put("store_img", seller.getSf_sysname());
@@ -175,9 +141,11 @@ public class SearchController {
         response.put("store_addr", seller.getM_addr());
         response.put("store_phone", seller.getM_phone());
         response.put("store_description", seller.getS_storedesc());
-
+        response.put("store_s_id", seller.getS_id()); 
+        
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     @PostMapping("/toggleFavorite")
     public ResponseEntity<?> toggleFavorite(@RequestParam String userId, @RequestParam String storeId,

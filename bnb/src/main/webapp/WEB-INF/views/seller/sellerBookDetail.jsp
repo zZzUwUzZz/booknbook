@@ -28,6 +28,7 @@
 
 <body>
     <%@include file="/WEB-INF/tiles/header.jsp" %>
+    <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
     <section>
         <div class="wrap">
             <div class="content">

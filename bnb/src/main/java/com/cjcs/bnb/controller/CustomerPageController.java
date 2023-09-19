@@ -87,8 +87,7 @@ public class CustomerPageController {
     public String mypage(Model model, HttpSession session) {
 
         // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
         model.addAttribute("c_id", c_id);
 
         HashMap<String, String> latestFav = mSer.getLatestFavStoreAndBookByCId(c_id);
@@ -117,9 +116,8 @@ public class CustomerPageController {
     @GetMapping("/info") // 일반회원 회원정보조회
     public String mypageInfo(Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+     
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         MemberDto mDto = mSer.getCustomerInfoById(c_id);
         model.addAttribute("mDto", mDto);
@@ -130,9 +128,8 @@ public class CustomerPageController {
     @GetMapping("/updateinfo") // 일반회원 회원정보수정폼
     public String mypageUpdateInfoFrm(Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+    
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         MemberDto mDto = mSer.getCustomerInfoById(c_id);
         model.addAttribute("mDto", mDto);
@@ -143,9 +140,7 @@ public class CustomerPageController {
     @PostMapping("/updateinfo") // 일반회원 회원정보수정처리
     public String mypageUpdateInfo(MemberDto updatedMDto, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         mSer.updateCustomerInfo(c_id, updatedMDto);
 
@@ -155,9 +150,8 @@ public class CustomerPageController {
     @GetMapping("/orderlist") // 주문내역
     public String mypageOrderList(SearchDto sDto, Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+     
+        String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
 
         List<HashMap<String, String>> oList = oDao.getOrderListByDateRange(sDto);
@@ -209,9 +203,8 @@ public class CustomerPageController {
     @GetMapping("/purchaselist") // 구매내역
     public String mypagePurchaseList(SearchDto sDto, Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+      
+        String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
 
         List<HashMap<String, Object>> pList = pDao.getPurchaseListByDateRange(sDto);
@@ -248,9 +241,8 @@ public class CustomerPageController {
     @GetMapping("/rentallist") // 대여내역
     public String mypageRentalList(SearchDto sDto, Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+ 
+        String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
 
         List<HashMap<String, String>> rList = rDao.getRentalListByDateRange(sDto);
@@ -302,9 +294,8 @@ public class CustomerPageController {
     @GetMapping("/refundexchangelist") // 교환반품내역
     public String mypageRefundExchangeList(SearchDto sDto, Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+     
+        String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
         log.info("re_id:{}", sDto);
 
@@ -332,9 +323,7 @@ public class CustomerPageController {
     @GetMapping("/rentalreservationlist") // 대여예약내역
     public String mypageRentalReservationList(SearchDto sDto, Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
 
         List<RentalReservationDto> rrList = rDao.getReservationListByDateRange(sDto);
@@ -361,10 +350,7 @@ public class CustomerPageController {
     @GetMapping("/favoritestores") // 즐겨찾는서점 페이지
     public String mypageFavoriteStores(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         log.info("page:{}", page);
 
@@ -401,9 +387,7 @@ public class CustomerPageController {
     public String mypageFavoriteBooks(@RequestParam(defaultValue = "1") int page,
             Model model, HttpSession session) {
 
-        // 일단 하드코딩함.
-        String c_id = "customer001";
-        // 회원가입, 로그인 기능 생기면 윗줄 수정하기.
+        String c_id = (String) session.getAttribute("loggedInUser");
 
         log.info("page:{}", page);
 

@@ -209,7 +209,7 @@ $(document).ready(function() {
  
     // 찜하기 버튼 
     var bookData = {
-        "userId": 'customer001',
+        "userId": '${userId}',
         "s_id": "${bdInfo.b_s_id}",
         "isbn": "${bdInfo.b_isbn}",
         "state": "${fav_state}"

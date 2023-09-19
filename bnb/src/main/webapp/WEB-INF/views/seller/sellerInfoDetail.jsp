@@ -34,7 +34,7 @@
 
         <body>
 
-       
+            <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
             <h1>seller info edit page</h1>
 
             <div>
@@ -50,7 +50,7 @@
                 <form id="uploadForm" action="/seller/settings/account" method="post" enctype="multipart/form-data">
 
                     <input type="file" id="fileInput" name="file">
-                    <input type="hidden" name="sellerId" value="testseller01">
+                    <input type="hidden" name="sellerId" value="${sf_s_id}">
                     <button type="submit" id="uploadBtn">Upload</button>
                 </form>
      

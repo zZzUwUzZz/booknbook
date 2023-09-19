@@ -43,7 +43,7 @@ cursor: pointer;
     display: none;
     font-family: 'BookkGothic-Bd';
     width: 115px;
-    height: 132px;
+    height: auto;
     background: rgb(255, 255, 255);
     position: absolute;
     z-index: 1;

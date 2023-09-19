@@ -58,21 +58,21 @@ public class DetailPageController {
     @GetMapping("/books/detail/{isbn}/{sellerId}")
     public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId,
             HttpSession session, Model model) {
-      
-        String userId = "customer001";
-
-                // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
+                
+        // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
+        String userId = (String) session.getAttribute("loggedInUser");
         BookDto book = bSer.findBookByIsbnAndSellerId(isbn, sellerId);
         BookDto bkStock = bSer.findBookStock(isbn, sellerId);
         BookDto bdInfo = bSer.bookDetail(isbn, sellerId);
         List<BookDto> bkISBN = bSer.findBooksByIsbn(isbn);
 
-        BookDto bookDetails = bSer.getAdditionalBookDetails(sellerId);
+        //BookDto bookDetails = bSer.getAdditionalBookDetails(sellerId);
     
-        // String userId = (String) session.getAttribute("userId");
-        Integer fav_state = fbkSer.getFavState(new FavBookDTO(userId, sellerId, isbn));
+         Integer fav_state = fbkSer.getFavState(new FavBookDTO(userId, sellerId, isbn));
     
-        model.addAttribute("bookDetails", bookDetails);
+        System.out.println("서점 아이디 : " + sellerId);
+        
+        //model.addAttribute("bookDetails", bookDetails);
         model.addAttribute("fav_state", fav_state);
         model.addAttribute("bkISBN", bkISBN);
         model.addAttribute("book", book);

@@ -34,6 +34,7 @@ public interface MemberDao {
 
         List<MemberDto> getSellersInfoByIds(List<String> sellerIds);
 
+      
         // 일단은 각자 필요한 쿼리문 만들어 쓰시고요.. 나중에 하나로 합칠 수 있는 건 합치겠음.
 
         /// 재락

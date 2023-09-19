@@ -30,13 +30,19 @@
     WHERE cart_c_id=#{cart_c_id} AND cart_b_isbn=#{cart_b_isbn} AND cart_s_id=#{cart_s_id} AND cart_sort='대여'
 </select>
 
+
  <select id="getISBNListByOId" resultType="com.cjcs.bnb.dto.PurchaseDto">
     SELECT p_b_isbn
     FROM Purchase
     WHERE p_o_id = #{o_id}
 </select>
 
-
+<select id="getRentalISBNListByOId" resultType="String">
+    SELECT r_b_isbn
+    FROM Rental
+    WHERE r_o_id = #{o_id}
+</select>
+ 
 <!--유다,수희-->
     <select id="getCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->

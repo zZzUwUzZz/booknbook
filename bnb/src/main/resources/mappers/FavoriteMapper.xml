@@ -30,4 +30,15 @@
   )
 </select>
 
+<select id="getLatestFavStoreImg" resultType="String">
+SELECT sf_sysname FROM (
+  SELECT sf_sysname, favs_date,
+         ROW_NUMBER() OVER (ORDER BY favs_date DESC) as rnum
+  FROM Seller_File sf
+  JOIN FavStore fs ON sf.sf_s_id = fs.favs_s_id
+  WHERE fs.favs_c_id = #{c_id}
+)
+WHERE rnum = 1
+</select>
+
 </mapper>

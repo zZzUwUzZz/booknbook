@@ -93,26 +93,6 @@ function removeNewDot() {
     });
   }
 
-// showNotification 함수 수정
-// function showNotification(userId, b_title, s_storename, b_isbn, b_s_id) {
-//   var message = `"` + b_title + `" 상품이 새로 입고되었습니다! 지금 바로 확인해보세요.` + " ― " + s_storename + " 서점";
-//   var date = new Date().toLocaleDateString();
-  
-//   var notificationObj = {
-//       userId: userId,
-//       message: message,
-//       date: date,
-//       b_title: b_title,
-//       s_storename: s_storename,
-//       b_isbn: b_isbn,
-//       b_s_id: b_s_id
-//   };
-  
-//  // notifications.push(notificationObj);
-//   setDefaultNotification();
-//   newNotificationReceived();
-// }
-
 
  // setDefaultNotification 함수 수정
 function setDefaultNotification() {
@@ -141,16 +121,15 @@ function setDefaultNotification() {
       
       var aTag = $('<a></a>');
       aTag.attr('href', '/books/detail/' + notification.b_isbn + '/' + notification.b_s_id);
-      
-      // var fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
-     
+  
       // nb_msg 값을 기반으로 다양한 메시지를 생성합니다.
       var fullMessage = '';
       if (notification.nb_msg === '입고') {
         fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
       } else if (notification.nb_msg === '대여가능') {
         fullMessage = `"` + notification.b_title + `" 상품 대여 가능 합니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
-      } // 추가적인 조건을 이곳에 작성
+      } 
+      // 추가적인 조건을 이곳에 작성
      
      
       aTag.html(fullMessage);

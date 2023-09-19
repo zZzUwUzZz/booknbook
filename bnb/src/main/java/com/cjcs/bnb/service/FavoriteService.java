@@ -28,4 +28,8 @@ public class FavoriteService {
     public void toggleFavorite(String userId, String storeId, int state) {
         favoriteMapper.toggleFavorite(userId, storeId, state);
     }
+
+    public String getLatestFavStoreImg(String c_id) {
+        return favoriteMapper.getLatestFavStoreImg(c_id);
+    }
 }

@@ -1,0 +1,65 @@
+.stContain01 {
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+    min-width: 1000px;
+    min-height: 600px;
+    padding: 70px 90px 150px 70px;
+    -webkit-background-position: 50% 50%;
+    background-position: 50% 50%;
+    -webkit-background-size: cover;
+    background-size: cover;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    background: #8d8d8d;
+}
+
+
+.stContain01::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    content: '';
+}
+
+
+.stinfoBox {
+    position: relative;
+    z-index: 10;
+    margin-right: 80px;
+    color: #ffffff;
+}
+
+.stinfoBox02 {
+    width: 100%;
+    max-width: 780px;
+    box-sizing: border-box;
+}
+
+
+.stText02 {
+    display: block;
+    margin-top: 16px;
+    font-size: 68px;
+    font-weight: 500;
+    line-height: 74px;
+}
+
+
+.stText03 {
+    margin-top: 34px;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.stText05 {
+    line-height: 26px;
+}

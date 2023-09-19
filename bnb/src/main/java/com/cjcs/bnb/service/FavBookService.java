@@ -11,10 +11,6 @@ public class FavBookService {
     @Autowired
     private FavBookMapper favBookMapper;
 
-    public String getFavBookStoreName(String c_id, String favb_b_isbn) {
-        return favBookMapper.getFavBookStoreName(c_id, favb_b_isbn);
-    }
-
     public Integer getFavState(FavBookDTO favBookDTO) {
         Integer favState = favBookMapper.getFavState(favBookDTO);
         return favState != null ? favState : 0;

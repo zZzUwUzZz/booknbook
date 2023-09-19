@@ -118,8 +118,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-3">
-                    <div class="box-3">
+                <div class="contain-Calc">
+                    <div class="box-Calc">
                         <h1>정산 내역 조회</h1>
                         <form action="/seller/calculate" method="post">
                             <input type="text" id="Start_Date" name="Start_Date" placeholder="시작 날짜">

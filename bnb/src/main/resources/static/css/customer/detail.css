@@ -34,7 +34,9 @@ hr {
     width: 100%;
     height: auto!important;
     margin: auto;
- 
+    margin-top: 40px;
+    padding: 15px;
+
 }
 .board-area {
     width: 80%;
@@ -55,12 +57,10 @@ hr {
     width: 91%;
     justify-content: space-between;
     margin: auto;
-    margin-top: -27px;
-
 }
 
 .buttons {
-    padding: 0;
+    padding: 30px;
     cursor: pointer;
 }
 
@@ -184,7 +184,7 @@ td span {
     height: 30px;
     margin: auto;
     margin-top: 35px;
-    margin-bottom: 72px;
+
 }
 
 .opTitle_status {
@@ -204,14 +204,10 @@ td span {
     align-items: center;
     text-transform: uppercase;
     border-bottom: 1px solid #203b23;
-
 }
 
 .infobox_02 {
-    padding: 46px 64px;
-    margin-top: 46px;
-    width: 1050px;
-    margin: auto;
+    padding: 47px 64px;
 }
 
 .infotext_03 {
@@ -225,10 +221,6 @@ td span {
     font-size: 19px;
     border-bottom: 1px solid #000;
  }
-
-.infotext span {
-    margin-right: 11px;
-}
 
 
 

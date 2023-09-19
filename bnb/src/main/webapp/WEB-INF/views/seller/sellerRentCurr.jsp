@@ -32,39 +32,41 @@
     <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
     <section>
         <div class="wrap">
-            <div class="side-menu">
-                <div class="bsname">
-                    <h1><a href="/seller/main">서점 이름</a></h1>
-                </div>
-                <div class="menu-title">
-                    MENU
-                </div>
-                <div class="menu">
-                    <div class="menu-group">
-                        <div class="bigmenu"><span>서점 정보</span></div>
-                        <div class="submenu"><a href="/seller/infoupdate">서점 정보 관리</a></div>
-                        <div class="submenu"><a href="/seller/csmember">고객 정보 보기</a></div>
+            <div class="content">
+                <div class="side-menu">
+                    <div class="bsname">
+                        <h1><a href="/seller/main">서점 이름</a></h1>
                     </div>
-                    <div class="menu-group">
-                        <div class="bigmenu"><span>도서 관리</span></div>
-                        <div class="submenu"><a href="/seller/book/list">등록된 도서 리스트</a></div>
-                        <div class="submenu"><a href="/seller/book/add">도서 추가 등록</a></div>
+                    <div class="menu-title">
+                        MENU
                     </div>
-                    <div class="menu-group">
-                        <div class="bigmenu"><span>대여 관리</span></div>
-                        <div class="submenu"><a href="/seller/rent/reserve">예약 신청 내역</a></div>
-                        <div class="submenu"><a href="/seller/rent/curr">대여 내역</a></div>
-                        <div class="submenu"><a href="/seller/rent/return">반납 내역</a></div>
-                    </div>
-                    <div class="menu-group">
-                        <div class="bigmenu"><span>판매 관리</span></div>
-                        <div class="submenu"><a href="/seller/sell/history">판매 내역</a></div>
-                        <div class="submenu"><a href="/seller/sell/cancel">주문 취소 관리</a></div>
-                        <div class="submenu"><a href="/seller/return/manage">반품/교환 관리</a></div>
-                    </div>
-                    <div class="menu-group">
-                        <div class="bigmenu"><span>정산</span></div>
-                        <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
+                    <div class="menu">
+                        <div class="menu-group">
+                            <div class="bigmenu"><span>서점 정보</span></div>
+                            <div class="submenu"><a href="/seller/infoupdate">서점 정보 관리</a></div>
+                            <div class="submenu"><a href="/seller/csmember">고객 정보 보기</a></div>
+                        </div>
+                        <div class="menu-group">
+                            <div class="bigmenu"><span>도서 관리</span></div>
+                            <div class="submenu"><a href="/seller/book/list">등록된 도서 리스트</a></div>
+                            <div class="submenu"><a href="/seller/book/add">도서 추가 등록</a></div>
+                        </div>
+                        <div class="menu-group">
+                            <div class="bigmenu"><span>대여 관리</span></div>
+                            <div class="submenu"><a href="/seller/rent/reserve">예약 신청 내역</a></div>
+                            <div class="submenu"><a href="/seller/rent/curr">대여 내역</a></div>
+                            <div class="submenu"><a href="/seller/rent/return">반납 내역</a></div>
+                        </div>
+                        <div class="menu-group">
+                            <div class="bigmenu"><span>판매 관리</span></div>
+                            <div class="submenu"><a href="/seller/sell/history">판매 내역</a></div>
+                            <div class="submenu"><a href="/seller/sell/cancel">주문 취소 관리</a></div>
+                            <div class="submenu"><a href="/seller/return/manage">반품/교환 관리</a></div>
+                        </div>
+                        <div class="menu-group">
+                            <div class="bigmenu"><span>정산</span></div>
+                            <div class="submenu"><a href="/seller/calculate">정산 내역</a></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,100 +120,32 @@
                                         </c:if>
                                     </td>
                                     <td>${rentcurrent.overdue_days}</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${RentCurrentList}" var="rentcurrent">
+                                    <tr>
+                                        <td>${rentcurrent.o_id}</td>
+                                        <td>${rentcurrent.o_c_id}</td>
+                                        <td>${rentcurrent.b_title}</td>
+                                        <td>${rentcurrent.o_dateStr}</td>
+                                        <td>${rentcurrent.returnexpect_daysStr}</td>
+                                        <td>${rentcurrent.o_delivery_sort}</td>
+                                        <td>${rentcurrent.delivery_status}</td>
+                                        <td>.</td>
+                                        <td>${rentcurrent.rental_status}</td>
+                                        <td>.</td>
+                                        <td>${rentcurrent.overdue_days}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
 </body>
-<script>
-    function updateSelectedStatus() {
-        var data = [];
-        var rows = document.querySelectorAll('.seller-list tbody tr');
-
-        rows.forEach(function (row, index) {
-            var o_id = row.querySelector('td:first-child').textContent;
-            var b_title = row.querySelector('td:nth-child(3)').textContent;
-            var select = row.querySelector('.del_status');
-            var delivery_status = select.options[select.selectedIndex].value;
-
-            data.push({
-                o_id: o_id,
-                b_title: b_title,
-                delivery_status: delivery_status,
-            });
-        });
-
-        console.log(data);
-
-        $.ajax({
-            url: '/seller/rent/curr/save',
-            method: 'POST',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function (response) {
-                console.log('서버 응답:', response);
-                alert('상태가 저장되었습니다!');
-
-                response.forEach(function (item, index) {
-                    var del_status_before = $('#del_status_text_' + index).text();
-                    var del_status_text = $('#del_status_text_' + index);
-                    if (del_status_before != item.delivery_status) {
-                        del_status_text.text(item.delivery_status);
-                        if (item.delivery_status == '배송완료' || item.delivery_status == '수령완료') {
-                            $('#rent_status_text_' + index).text('대여중');
-                            $('#UpdateRentStatus_Return_' + index).show();
-                        } else {
-                            $('#rent_status_text_' + index).text('대여시작전');
-                            $('#UpdateRentStatus_Return_' + index).hide();
-                        }
-                    }
-                });
-            },
-            error: function (error) {
-                console.error('오류 발생:', error);
-                alert('상태 저장 실패');
-            }
-        });
-    }
-
-    $(document).ready(function () {
-        $(document).on('click', '.rent-return-button', function () {
-            var index = $(this).data('index');
-            UpdateRentStatus_Return(index);
-        });
-    });
-
-    function UpdateRentStatus_Return(index) {
-        var row = document.getElementById('row_' + index);
-
-        if (row) {
-            var o_id = row.querySelector('td:first-child').textContent;
-            var b_title = row.querySelector('td:nth-child(3)').textContent;
-
-            $.ajax({
-                url: '/seller/rent/curr/return',
-                method: 'POST',
-                data: JSON.stringify({
-                    o_id: o_id,
-                    b_title: b_title
-                }),
-                contentType: 'application/json',
-                success: function (response) {
-                    console.log('처리 성공 : ', response);
-                    alert('반납 완료 처리되었습니다!');
-                },
-                error: function (error) {
-                    console.log('오류 발생 : ', error);
-                    alert('반납 처리 중 오류가 발생하였습니다');
-                }
-            });
-        }
-    }
-</script>
 
 </html>

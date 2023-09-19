@@ -240,7 +240,6 @@ public class SellerPageController {
         return "seller/sellerBookList";
     }
 
-    // 도서 신규등록 폼
     @GetMapping("/book/add")
     public String sellerbookadd(Model model) {
 
@@ -255,7 +254,7 @@ public class SellerPageController {
     @PostMapping("/book/add/getsmallcategories")
     public List<BookDto> getsmallbymedium(@RequestParam String category_m_id) {
 
-        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 비동기 출력
+        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 출력
         List<BookDto> categories_s = categoryDao.listSmallCategories(category_m_id);
 
         return categories_s;
@@ -277,9 +276,8 @@ public class SellerPageController {
             return false;
     }
 
-    // 도서 신규등록 처리
     @PostMapping("/book/add")
-    public String sellerbookaddtodb(BookDto bookDto, HttpSession session) {
+    public String sellerbookaddtodb(BookDto bookDto) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
 
@@ -328,10 +326,6 @@ public class SellerPageController {
         // 대여 현황 리스트 불러오기
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
-
-        // 배송 상태명
-        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
-        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
 
         return "seller/sellerRentCurr";
     }
@@ -383,9 +377,8 @@ public class SellerPageController {
         String s_id = (String) session.getAttribute("loggedInUser");
 
         // 반납 내역 불러오기
-        List<RentalDto> returnList = rSer.RentReturnList(s_id);
-        log.info("returnList:{}", returnList);
-        model.addAttribute("returnList", returnList);
+        List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
+        model.addAttribute("RentReturnList", RentReturnList);
 
         return "seller/sellerRentReturn";
     }
@@ -394,6 +387,7 @@ public class SellerPageController {
     public String sellersellhistory() {
         return "seller/sellerSellHistory";
     }
+
 
     @GetMapping("/sell/cancel")  // 주문취소요청 리스트
     public String sellersellcancellist(Model model, HttpSession session) {
@@ -418,6 +412,33 @@ public class SellerPageController {
         return "redirect:/seller/sell/cancel";
     }
 
+    // @PostMapping("/sell/cancel")
+    // public String processSellCancel(@RequestParam("orderId") Integer orderId) {
+    //     // 주문 상태 확인
+    //     Order order = oSer.getOrderById(orderId);
+    //     if (order == null) {
+    //         // 해당하는 주문이 없으면 오류 메시지 처리
+    //         return "redirect:/error_page"; // 적절한 오류 페이지로 리다이렉트
+    //     }
+        
+    //     // 이미 배송이 시작되었는지 확인
+    //     if (oSer.hasAtLeastOneDelivered(order)) {
+    //         // 이미 배송된 항목이 있는 주문은 취소할 수 없습니다.
+    //         return "redirect:/error_delivery_started"; // 적절한 오류 페이지로 리다이렉트
+    //     }
+        
+    //     // 주문 취소 처리
+    //     oSer.cancelOrderByOId(orderId);
+        
+    //     // 주문 취소 성공 시 리다이렉트
+    //     return "redirect:/seller/success_cancel"; // 성공적으로 취소되었다는 페이지나 경로로 리다이렉트
+    // }
+    
+    
+    
+    
+    
+    
     @GetMapping("/return/manage")
     public String sellerreturnmanage() {
         return "seller/sellerReturnManage";

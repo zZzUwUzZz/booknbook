@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -79,15 +78,14 @@
                                     <th>주문번호</th>
                                     <th>아이디</th>
                                     <th>제목</th>
-                                    <th>반납기한</th>
-                                    <th>반납일</th>
-                                    <th>연체일수</th>
-                                    <th>총 연체료</th>
-                                    <th>납부여부</th>
-                                    <th>납부일</th>
+                                    <th>대여일자</th>
+                                    <th>반납일자</th>
+                                    <th>연체일</th>
+                                    <th>연체료</th>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 
                                 <c:if test="${empty returnList}">
                                     <tr>

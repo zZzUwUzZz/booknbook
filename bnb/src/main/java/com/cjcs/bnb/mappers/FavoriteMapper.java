@@ -23,6 +23,4 @@ public interface FavoriteMapper {
     // 마이페이지 즐겨찾기 서점 이미지
     List<SellerFileDto> getSellerFileListByJoinedIds(Map<String, Object> params);
 
-    String getLatestFavStoreImg(String c_id);
-
 }

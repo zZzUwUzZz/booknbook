@@ -69,13 +69,13 @@
                     <div class="container-3 card-main cards">
 
                         <div class="idtext">
-                            <span>안녕하세요, <b class="namett" onclick="location.href='/mypage/info'">${c_id}</b>님!</span>
+                            <span>안녕하세요, <b onclick="location.href='/mypage/info'">${c_id}</b>님!</span>
                         </div>
                         <div>
-                            <h3 class="lastfavs">최근 나의 관심 서점과 책</h3>
+                            <h3>최근 나의 관심 서점과 책</h3>
                         </div>
-                
                         <div class="container-4">
+
                         <c:if test="${!empty latestFav}">
 
                             <div class="store_img">
@@ -109,11 +109,11 @@
                                         <div>찜한 도서가 없습니다.</div>
                                     </c:otherwise>
                                 </c:choose>
+
                             </div>
 
                         </c:if>
                         </div>
-
                     </div>
                
                
@@ -122,12 +122,10 @@
                 </div>
 
 
-                <div class="odBox02">
+                <div>
 <div class="container-3 card-top cards">
 
-    <div class="labelbox" style="margin-left: -6px;"> 
     <h3><a href="/mypage/refundexchangelist">진행 중인 교환/반품 : ${num_of_currRE}건</a></h3>
-</div>
     <table>
         <tr>
             <th width="45px">구분</th>
@@ -164,10 +162,7 @@
 
 <div class="container-3 card-top cards">
 
-    <div class="labelbox" style="margin-left: -6px;">
     <h3><a href="/mypage/rentallist">현재 대여/연체 중 : ${num_of_currR}건</a></h3>
-    </div>
-    
     <table>
         <tr>
             <th width="80px">대여상태</th>
@@ -201,7 +196,72 @@
     </table>
 </div>
 </div>
-              
+                <!-- <div class="orderInfo">
+    
+                     <div class="container-3 card-top cards">
+
+                        <h3><a href="/mypage/refundexchangelist">진행 중인 교환/반품 : ${num_of_currRE}건</a></h3>
+                        <table>
+                            <tr>
+                                <th width="45px">구분</th>
+                                <th width="90px">신청일자</th>
+                                <th>도서명</th>
+                                <th width="70px">서점명</th>
+                                <th width="70px">처리상태</th>
+                            </tr>
+
+                            <c:if test="${empty curr_reList}">
+                                <tr>
+                                    <td colspan="5">진행 중인 교환/반품이 없습니다.</td>
+                                </tr>
+                            </c:if>
+                
+                            <c:if test="${!empty curr_reList}">
+                                <c:forEach var="reItem" items="${curr_reList}">
+                                    <tr>
+                                        <td>${reItem.re_sort}</td>
+                                        <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                        <td><span>${reItem.b_title}</span></td>
+                                        <td>${reItem.s_storename}</td>
+                                        <td>${reItem.process_status}</td>
+                                    </tr>
+                                    </c:forEach>
+                            </c:if>
+                        </table>
+                    </div> 
+                    
+                     <div class="container-3 card-top cards">
+
+                        <h3><a href="/mypage/rentallist">현재 대여/연체 중 : ${num_of_currR}건</a></h3>
+                        <table>
+                            <tr>
+                                <th width="80px">대여상태</th>
+                                <th>도서명</th>
+                                <th>서점명</th>
+                                <th width="110px">반납기한</th>
+                                <th width="70px">총 연체료</th>
+                            </tr>
+
+                            <c:if test="${empty curr_rList}">
+                                <tr>
+                                    <td colspan="5">대여 중인 도서가 없습니다.</td>
+                                </tr>
+                            </c:if>
+                
+                            <c:if test="${!empty curr_rList}">
+                                <c:forEach var="rItem" items="${curr_rList}">
+                                    <tr>
+                                        <td>${rItem.rental_status}</td>
+                                        <td><span>${rItem.b_title}</span></td>
+                                         <td><span>${rItem.s_storename}</span></td>
+                                        <td><fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
+                                        <td><fmt:formatNumber value="${rItem.r_latefee_total}" type="number" pattern="#,##0"/></td>
+                                    </tr>
+                                    </c:forEach>
+                            </c:if>
+                        </table>
+ -->
+
             </div>
 
 

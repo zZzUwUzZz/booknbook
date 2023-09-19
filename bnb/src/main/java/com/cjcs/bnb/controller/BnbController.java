@@ -100,16 +100,14 @@ public class BnbController {
         List<BookDto> categoryNamesM = categoryDao.listMediumCategories();
 
         for (BookDto categoryNameM : categoryNamesM) {
-            
+
             String nameM = categoryNameM.getCategory_m();
             List<HashMap<String, String>> NamesS = categoryDao.listSmallCategoryNames(categoryNameM.getCategory_m_id());
 
             categoryNames.put(nameM, NamesS);
         }
 
-        model.addAttribute("categoryNamesM", categoryNamesM);
         model.addAttribute("categoryNames", categoryNames);
-        log.info("categoryNames:{}", categoryNames);
 
         // 통계
         int num_of_seller = mDao.countSellers(null);

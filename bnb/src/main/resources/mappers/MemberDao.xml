@@ -15,6 +15,18 @@
         LEFT JOIN SF ON S.s_id = SF.sf_s_id
         WHERE M.m_id = #{s_id}
     </select>
+ 
+<!-- <select id="getSellersInfoByIds" resultType="com.cjcs.bnb.dto.MemberDto">
+    SELECT s_id, s_storename, m_addr, m_phone
+    FROM Seller
+    JOIN Member ON Seller.s_id = Member.m_id
+    WHERE s_id IN (
+        SELECT REGEXP_SUBSTR(:sellerIdsString, '[^,]+', 1, LEVEL) FROM DUAL
+        CONNECT BY REGEXP_SUBSTR(:sellerIdsString, '[^,]+', 1, LEVEL) IS NOT NULL
+    )
+</select> -->
+
+    
 
 <select id="getFavBookStoreName" resultType="String">
     SELECT s.s_storename
@@ -54,6 +66,9 @@
         INSERT INTO CJCS.SELLER (S_ID,s_storename,S_CRN, S_DELIVERYFEE, S_LATEFEE)
         VALUES(#{m_id},#{s_storename}, #{s_crn}, DEFAULT, DEFAULT)
 </insert>
+
+
+
 
 <select id="findSellerIdByStoreNameAndEmail" resultType="string">
     SELECT S.S_ID

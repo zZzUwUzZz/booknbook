@@ -81,3 +81,31 @@ input[type="radio"] {
 .lostInput::placeholder {
     color: #f50101;
 }
+
+
+.tabs {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    background-color: #e6e6e6;
+    border: none;
+    color: #333;             /* 기본 글자색 설정 */
+    font-weight: normal;     /* 기본 텍스트 스타일 설정 */
+    transition: background-color 0.3s ease;
+}
+
+.tab-button:hover {
+    background-color: #ccc;
+}
+
+.tab-button.active {
+    background-color: #555;   /* 더 어두운 배경색 */
+    color: #fff;              /* 흰색 글자색 */
+    border: 2px solid #333;   /* 테두리 추가 */
+    font-weight: bold;        /* 볼드체 글자 */
+}

@@ -4,12 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.SellerDto;
-import com.cjcs.bnb.dto.SellerFileDto;
 
 @Mapper
 public interface BookstoreMapper {
@@ -28,4 +25,5 @@ public interface BookstoreMapper {
     int countTotalBooksBySeller(@Param("sellerId") String sellerId);
 
     SellerFileDto getSellerFileById(@Param("sellerId") String sellerId);
+
 }

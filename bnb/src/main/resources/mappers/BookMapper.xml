@@ -143,8 +143,7 @@ SELECT * FROM (
     SELECT CATEGORY_S, B_TITLE, B_AUTHOR, B_SALESTOCK, B_RENTALSTOCK
     FROM BOOK
     INNER JOIN CATEGORY_S ON BOOK.B_CATEGORY_S_ID = CATEGORY_S.CATEGORY_S_ID
-    WHERE B_S_ID = 'seller001'
-    <!-- WHERE B_S_ID = #{s_id} -->
+    WHERE B_S_ID = #{s_id}
         <choose>
             <when test="filter == 'category'">
                 AND UPPER(CATEGORY_S.CATEGORY_S) = UPPER(#{keyword})

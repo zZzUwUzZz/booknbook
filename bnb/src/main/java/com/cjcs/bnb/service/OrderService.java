@@ -385,8 +385,8 @@ public class OrderService {
     }
 
     // 오늘 예약 건수 카운트
-    public int getTodayRentResCnt(String rr_s_id) {
-        return oDao.getTodayRentResCnt(rr_s_id);
+    public int getTodayRentResCnt(String s_id) {
+        return oDao.getTodayRentResCnt(s_id);
     }
 
     // 오늘 배송 준비중 건수 카운트
@@ -415,11 +415,11 @@ public class OrderService {
     }
 
     // 입력한 기간 내 총 정산 금액 합산
-    public int getCalculate(String Start_Date, String End_Date) {
-        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date);
-        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date);
-        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date);
-        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date);
+    public int getCalculate(String Start_Date, String End_Date, String s_id) {
+        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date, s_id);
+        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date, s_id);
+        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date, s_id);
+        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -455,8 +455,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 대여료 합계
-    public int getCalculateRent(String Start_Date, String End_Date) {
-        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date);
+    public int getCalculateRent(String Start_Date, String End_Date, String s_id) {
+        List<Integer> RentList = oDao.CalculateRent(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -471,8 +471,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 연체료 합계
-    public int getCalculateLate(String Start_Date, String End_Date) {
-        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date);
+    public int getCalculateLate(String Start_Date, String End_Date, String s_id) {
+        List<Integer> LateList = oDao.CalculateLate(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -487,8 +487,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 판매금액 합계
-    public int getCalculateSell(String Start_Date, String End_Date) {
-        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date);
+    public int getCalculateSell(String Start_Date, String End_Date, String s_id) {
+        List<Integer> SellList = oDao.CalculateSell(Start_Date, End_Date, s_id);
 
         int total = 0;
 
@@ -503,8 +503,8 @@ public class OrderService {
     }
 
     // 입력한 기간 내 반품/환불 합계
-    public int getCalculateReturn(String Start_Date, String End_Date) {
-        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date);
+    public int getCalculateReturn(String Start_Date, String End_Date, String s_id) {
+        List<Integer> ReturnList = oDao.CalculateReturn(Start_Date, End_Date, s_id);
 
         int total = 0;
 

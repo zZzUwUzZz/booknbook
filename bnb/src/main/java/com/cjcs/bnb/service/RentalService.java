@@ -224,24 +224,24 @@ public class RentalService {
 
     // 배송상태, 대여상태 업데이트
     @Transactional
-    public void UpdateDeliStatus(List<RentalDto> requestData) {
+    public void UpdateDeliStatus(List<RentalDto> requestData, String s_id) {
         for (RentalDto request : requestData) {
-            rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status(), request.getB_title());
-            UpdateRentStatus_Wait(request);
-            UpdateRentStatus_Curr(request);
+            rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status(), request.getB_title(), s_id);
+            UpdateRentStatus_Wait(request, s_id);
+            UpdateRentStatus_Curr(request, s_id);
             UpdateRentStatus_Late(request);
-            RentResStatus_First(request);
+            RentResStatus_First(request, s_id);
         }
     }
 
     // 대여 상태 업데이트 [대여시작전]
-    public void UpdateRentStatus_Wait(RentalDto requestData) {
-        rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title());
+    public void UpdateRentStatus_Wait(RentalDto requestData, String s_id) {
+        rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 대여 상태 업데이트 [대여중]
-    public void UpdateRentStatus_Curr(RentalDto requestData) {
-        rDao.UpdateRentStatus_Curr(requestData.getO_id(), requestData.getB_title());
+    public void UpdateRentStatus_Curr(RentalDto requestData, String s_id) {
+        rDao.UpdateRentStatus_Curr(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 대여 상태 업데이트 [연체]
@@ -250,18 +250,18 @@ public class RentalService {
     }
 
     // 대여 상태 업데이트 [반납 완료]
-    public void UpdateRentStatus_Return(RentalDto requestData) {
-        rDao.UpdateRentStatus_Return(requestData.getO_id(), requestData.getB_title());
+    public void UpdateRentStatus_Return(RentalDto requestData, String s_id) {
+        rDao.UpdateRentStatus_Return(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 예약 1순위 예약 상태 변경
-    public void RentResStatus_First(RentalDto requestData) {
-        rDao.RentResStatus_First(requestData.getB_title());
+    public void RentResStatus_First(RentalDto requestData, String s_id) {
+        rDao.RentResStatus_First(requestData.getB_title(), s_id);
     }
 
     // 대여 재고 조회
-    public int getRentalStock(RentalDto requestData) {
-        return rDao.getRentalStock(requestData.getB_title());
+    public int getRentalStock(RentalDto requestData, String s_id) {
+        return rDao.getRentalStock(requestData.getB_title(), s_id);
     }
 
     // 대여 재고 +1
@@ -270,10 +270,20 @@ public class RentalService {
     }
 
     // 예약자 수 조회
-    public int CountRentalRes(RentalDto requestData) {
-        return rDao.CountRentalRes(requestData.getB_title());
+    public int CountRentalRes(RentalDto requestData, String s_id) {
+        return rDao.CountRentalRes(requestData.getB_title(), s_id);
     }
 
+    // 예약 1순위 대여가능 알림 전송
+    public void RentRes_First_Alert(RentalDto requestData, String s_id) {
+        rDao.RentRes_First_Alert(requestData.getB_title(), s_id);
+    }
+
+    // 예약 1순위 결제기한 추가
+    public void RentRes_First_Pay(RentalDto requestData, String s_id) {
+        rDao.RentRes_First_Pay(requestData.getB_title(), s_id);
+    }
+    
     // 반납 현황 리스트
     public List<RentalDto> RentReturnList(String s_id) {
         

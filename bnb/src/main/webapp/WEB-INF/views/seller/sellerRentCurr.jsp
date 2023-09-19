@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/css/slide.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    
+
 </head>
 
 <body>
@@ -101,8 +101,8 @@
                                             <c:forEach items="${DeliveryStatusList}" var="DelStatus">
                                                 <option value="${DelStatus.delivery_status}" <c:if
                                                     test="${rentcurrent.delivery_status == DelStatus.delivery_status}">
-                                                    selected</c:if>
-                                                    >
+                                                    selected
+                                                    </c:if>>
                                                     ${DelStatus.delivery_status}
                                                 </option>
                                             </c:forEach>
@@ -111,7 +111,8 @@
                                     </td>
                                     <td id="rent_status_text_${status.index}">${rentcurrent.rental_status}</td>
                                     <td>
-                                        <c:if test="${rentcurrent.rental_status == '대여중' || rentcurrent.rental_status == '연체'}">
+                                        <c:if
+                                            test="${rentcurrent.rental_status == '대여중' || rentcurrent.rental_status == '연체'}">
                                             <button id="UpdateRentStatus_Return_${status.index}"
                                                 class="rent-return-button" data-index="${status.index}">반납 완료</button>
                                         </c:if>

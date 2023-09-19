@@ -34,7 +34,7 @@
 
         <body>
 
-       
+            <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
             <h1>seller info edit page</h1>
 
             <div>

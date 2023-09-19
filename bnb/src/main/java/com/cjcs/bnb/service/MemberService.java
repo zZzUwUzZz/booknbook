@@ -76,6 +76,8 @@ public class MemberService {
         return count > 0;
     }
 
+    
+
     // 비번 초기화
 
     // public Boolean resetPassword(Map<String, String> inputData) {
@@ -261,6 +263,11 @@ public class MemberService {
     }
 
     // 예림
+
+    // public String getStoreName(String s_id) {
+    //     return mDao.getStoreName(s_id);
+    // }
+
     // 오늘 즐겨찾기한 회원 수 카운트
     public int getTodayBookmarkCnt(String s_id) {
         return mDao.getTodayBookmarkCnt(s_id);

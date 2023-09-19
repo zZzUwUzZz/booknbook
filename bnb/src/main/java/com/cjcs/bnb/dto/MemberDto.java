@@ -11,16 +11,18 @@ public class MemberDto {
     private String m_id; // request객체파라미터명==필드명(==컬럼명) 이면 스프링이 알아서 객체생성해서 필드에다 파라미터값 넣어줌..
     private String m_pw; // 우리는 지금 DTO와 Entity를 합쳐서 DTO만으로 하려고하므로 (==컬럼명) 까지 지켜주자..
     private String m_addr;
-    private String m_phone;
+    private String m_phone;  // 숫자만 11자리
     private String m_email;
     private Timestamp m_joindate; // 가입일자
     private String currentPassword;
     private String newPassword;
-
+    private String m_role;
+   
     // 새롭게 추가된 코드들
     private String zipcode; // 우편번호
     private String streetadr; // (지번주소)
     private String detailadr; // (상세주소)
+    private String formatted_phone; // 010-1234-1234형태로 포맷변경한 연락처
 
     // 회원 구분
     private Integer userType;
@@ -47,5 +49,4 @@ public class MemberDto {
 
     // 수희
     private int overdues;
-
 }

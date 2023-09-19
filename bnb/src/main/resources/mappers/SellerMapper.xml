@@ -30,5 +30,3 @@
     SELECT * FROM SELLER
 </select>
 </mapper>
-
-

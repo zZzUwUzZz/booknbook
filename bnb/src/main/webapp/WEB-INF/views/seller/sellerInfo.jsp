@@ -11,7 +11,7 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
 
 <h1>seller info page</h1>
 

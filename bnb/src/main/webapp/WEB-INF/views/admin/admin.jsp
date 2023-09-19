@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<p>Session M_ROLE value: ${sessionScope.M_ROLE}</p>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/adminmain.css">
+     
+
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -40,7 +42,7 @@
 <body>
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
-
+    <jsp:include page="/WEB-INF/views/adminFile/Admin.jsp"/>
 
     <div class="container-mypage">
 
@@ -79,8 +81,8 @@
                             <h4>· 소분류 추가하기&nbsp;</h4>
                             <form action="/admin/categoryadd">
                                 <select name="category_m" style="width: 75px">
-                                    <c:forEach var="nameM" items="${categoryNames}">
-                                        <option value="${nameM.key}">${nameM.key}</option>
+                                    <c:forEach var="nameM" items="${categoryNamesM}">
+                                        <option value="${nameM.category_m}">${nameM.category_m}</option>
                                     </c:forEach> 
                                 </select>
                                 <input type="text" name="category_s_id" placeholder="소분류코드" style="width: 67px">
@@ -97,12 +99,12 @@
                                 </c:if>
                             
                                 <c:if test="${!empty categoryNames}">
-                                    <c:forEach var="nameM" items="${categoryNames}">
+                                    <c:forEach var="nameM" items="${categoryNamesM}">
                                         <div>
-                                            <p onclick="delete_category_m('${nameM.key}')" class="categories">&nbsp;${nameM.key}</p>
+                                            <p onclick="delete_category_m('${nameM.category_m}')" class="categories">&nbsp;${nameM.category_m}</p>
                                         </div>
                                         <div>
-                                            <c:forEach var="nameS" items="${categoryNames.get(nameM.key)}">
+                                            <c:forEach var="nameS" items="${categoryNames.get(nameM.category_m)}">
                                                 <span onclick="delete_category_s('${nameS.category_s_id}')" class="categories_s categories">${nameS.category_s} (${nameS.category_s_id}) </span>
                                             </c:forEach>
                                         </div>

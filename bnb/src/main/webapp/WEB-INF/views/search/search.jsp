@@ -32,8 +32,8 @@
     <link rel="stylesheet" href="/css/books.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
-    <script src="/js/search.js"></script>
+    
+   
 </head>
 
 <body>
@@ -81,5 +81,7 @@
 <script>
   var totalItems = ${totalItems}; // JSP 변수를 JavaScript 변수에 할당
 </script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
 </body>
 </html>

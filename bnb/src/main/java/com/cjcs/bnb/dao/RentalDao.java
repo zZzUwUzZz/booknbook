@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.dto.SearchDto;
@@ -67,16 +66,17 @@ public interface RentalDao {
 
     public List<RentalDto> RentCurrentList(String s_id); // 대여현황
     public List<RentalDto> DeliveryStatusList(); // 배송 상태명
-    public void UpdateDeliStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status, @Param("b_title") String b_title); // 배송 상태 업데이트
-    public void UpdateRentStatus_Wait(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [대여시작전]
-    public void UpdateRentStatus_Curr(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [대여중]
+    public void UpdateDeliStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status, @Param("b_title") String b_title, String s_id); // 배송 상태 업데이트
+    public void UpdateRentStatus_Wait(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); // 대여 상태 업데이트 [대여시작전]
+    public void UpdateRentStatus_Curr(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); // 대여 상태 업데이트 [대여중]
     public void UpdateRentStatus_Late(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [연체]
-    public void UpdateRentStatus_Return(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [반납 완료]
-    public void RentResStatus_First(@Param("b_title") String b_title); // 예약 1순위 예약 상태 변경  
-    public void RentRes_First_Alert(@Param("b_title") String b_title); // 예약 1순위 대여가능 알림 전송
-    public int getRentalStock(@Param("b_title") String b_title); //대여 재고 조회
+    public void UpdateRentStatus_Return(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); // 대여 상태 업데이트 [반납 완료]
+    public void RentResStatus_First(@Param("b_title") String b_title, String s_id); // 예약 1순위 예약 상태 변경  
+    public void RentRes_First_Alert(@Param("b_title") String b_title, String s_id); // 예약 1순위 대여가능 알림 전송
+    public int getRentalStock(@Param("b_title") String b_title, String s_id); //대여 재고 조회
     public void RentalStockAdd(@Param("b_title") String b_title, String s_id); //대여 재고 +1
-    public int CountRentalRes(@Param("b_title") String b_title); // 예약자 수 조회
+    public int CountRentalRes(@Param("b_title") String b_title, String s_id); // 예약자 수 조회
+    public void RentRes_First_Pay(@Param("b_title") String b_title, String s_id); // 예약 1순위 결제기한 추가
 
 
     public List<RentalDto> RentReturnList(String s_id); // 반납현황

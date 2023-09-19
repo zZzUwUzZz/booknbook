@@ -38,6 +38,7 @@
 <body>
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/adminFile/Admin.jsp"/>
 
 
     <div class="container-mypage">
@@ -95,7 +96,7 @@
                                     <td onclick="location.href='/bookstore/${seller.m_id}'" class="td-linked">${seller.s_storename}</td>
                                     <td>${seller.s_crn}</td>
                                     <td title="${seller.m_addr}"><span>${seller.m_addr}</span></td>
-                                    <td>${seller.m_phone}</td>
+                                    <td>${seller.formatted_phone}</td>
                                     <td>${seller.m_email}</td>
                                     <td><fmt:formatDate value="${seller.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                 </tr>

@@ -38,6 +38,7 @@
 <body>
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/adminFile/customer.jsp"/>
 
 
     <div class="container-mypage">
@@ -75,12 +76,12 @@
                     <div class="prfContain">
                         <div class="stinfoBox">
                             <div class="imgbox">
-                                <a href="/storedetail?s_id=${favStore.m_id}">
+                                <a href="/bookstore/detail/{favStore.m_id}">
                                     <img src="${imageSrc}" alt="store image">
                                 </a>
                             </div>
                             <div class="stbtn">
-                                <a href="/storedetail?s_id=${favStore.m_id}">방문하기</a>
+                                <a href="/bookstore/detail/{favStore.m_id}">방문하기</a>
                             </div>
                         </div>
                         <div class="infoText">

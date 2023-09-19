@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-
             <!DOCTYPE html>
             <html lang="ko">
 
@@ -95,7 +93,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="itemPr">
-                                                    ${oPItem.b_price}원
+                                                    <fmt:formatNumber value="${oPItem.b_price}" type="number" pattern="#,##0" />원
                                                 </div>
                                                 <div class="opTitle_status">
                                                     <div class="opText">
@@ -109,7 +107,7 @@
                             </div>
                         </div>
 
-            </div>
+         
 
 
                         <div class="pcContain_01">
@@ -123,13 +121,12 @@
 
                                 <c:if test="${!empty oRList}">
                                     <c:forEach var="oRItem" items="${oRList}" varStatus="status">
-                                        <c:set var="currentISBN" value="${isbnList[status.index].p_b_isbn}" />
+                                        <c:set var="rentISBN" value="${rentalISBNList[status.index]}" />
                                         <div class="items">
                                             <article class="opItemBox">
                                                 <div class="opItem">
                                                     <div class="opimg">
-                                                        <img
-                                                            src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${currentISBN}.jpg">
+                                                        <img  src="https://contents.kyobobook.co.kr/sih/fit-in/150x0/pdt/${currentISBN}.jpg">
                                                     </div>
                                                     <div class="opItemInfoText">
                                                         <div class="opstn">${oRItem.s_storename}</div>
@@ -141,7 +138,7 @@
                                                 </div>
 
                                                 <div class="itemPr">
-                                                    ${oRItem.b_rent}원
+                                                    <fmt:formatNumber value="${oRItem.b_rent}" type="number" pattern="#,##0" />원
                                                 </div>
                                                 <div class="opTitle_status">
                                                     <div class="opText">
@@ -163,27 +160,26 @@
                             <div class="infobox">
 
                                 <div class="infotext">
-                                    <span>총 상품금액</span>
+                                    <span>총 상품금액 </span>
                                     <span>
                                         <fmt:formatNumber value="${oInfo.o_total_pricerent}" type="number"
-                                            pattern="#,##0" />원
+                                            pattern="#,##0" /> 원
                                     </span>
                                 </div>
 
                                 <div class="infotext">
-                                    <span>총 배송비</span>
+                                    <span>총 배송비 </span>
                                     <span>
                                         <fmt:formatNumber value="${oInfo.o_total_deliveryfee}" type="number"
-                                            pattern="#,##0" />원
+                                            pattern="#,##0" /> 원
                                     </span>
                                 </div>
 
                                 <div class="infotext">
-                                    <span>총 결제금액</span>
+                                    <span>총 결제금액 </span>
                                     <span>
                                         <fmt:formatNumber value="${oInfo.o_total_payment}" type="number"
-                                            pattern="#,##0" />
-                                        원
+                                            pattern="#,##0" /> 원
                                     </span>
                                 </div>
                             </div>
@@ -206,7 +202,7 @@
 
                                             <div>
                                                 <div class="text01">연락처</div>
-                                                <div class="text02">${oInfo.o_recip_phone}</div>
+                                                <div class="text02">${oInfo.formatted_phone}</div>
                                             </div> <br>
                                         </div>
                                     </c:when>
@@ -235,9 +231,9 @@
                     </div>
 
 
-                </div>
+              
 
-
+            </div>
 
                 <jsp:include page="../../tiles/footer.jsp"></jsp:include>
 

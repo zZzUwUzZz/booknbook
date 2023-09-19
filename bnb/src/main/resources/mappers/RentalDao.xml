@@ -316,7 +316,7 @@
         from Rental_Res
         inner join Book on Rental_Res.rr_b_isbn = Book.b_isbn
         inner join Status_RR on Rental_Res.rr_res_status_id = Status_RR.res_status_id
-        where rr_s_id = 'seller001' and not res_status = '대여가능'
+        where rr_s_id = #{s_id} and (not res_status = '대여가능' or not res_status = '대여완료')
     </select>
 
     <!-- 예약 수락 -->
@@ -358,7 +358,7 @@
             AND
             NOT rental_status = '반납완료'
             AND
-            S_ID = 'seller001'
+            S_ID = #{s_id}
     </select>
 
     <!-- 배송 상태명 -->
@@ -376,7 +376,7 @@
         )
         WHERE r_o_id = #{o_id}
         AND R_B_ISBN = (
-            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
         )
     </update>
 
@@ -396,7 +396,7 @@
             WHERE DELIVERY_STATUS IN ('배송완료', '수령완료')
         )
         AND R_B_ISBN = (
-            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
         )
     </update>
 
@@ -426,7 +426,7 @@
             )
         )
         AND R_B_ISBN = (
-            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
         )
     </update>
 
@@ -456,7 +456,7 @@
         )
         WHERE r_o_id = #{o_id}
         AND R_B_ISBN = (
-            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = 'seller001'
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
         )
     </update>
 
@@ -468,7 +468,7 @@
             FROM Status_RR s
             WHERE s.RES_STATUS = '대여가능'
         )
-        WHERE r.RR_S_ID = 'seller001'
+        WHERE r.RR_S_ID = #{s_id}
         AND r.RR_B_ISBN IN (
             SELECT b_isbn FROM book WHERE b_title = #{b_title}
         )
@@ -476,7 +476,7 @@
             SELECT MIN(RR_REQDATE)
             FROM Rental_Res rr
             JOIN book b ON rr.RR_B_ISBN = b.b_isbn
-            WHERE rr.RR_S_ID = 'seller001' AND b.b_title = #{b_title}
+            WHERE rr.RR_S_ID = #{s_id} AND b.b_title = #{b_title}
         )
     </update>
 
@@ -487,26 +487,43 @@
             '대여가능',
             sysdate,
             rr.RR_B_ISBN,
-            'seller001',
+            #{s_id},
             b.b_title,
             s.S_STORENAME
         FROM (
             SELECT *
             FROM Rental_Res rr
             JOIN book b ON rr.RR_B_ISBN = b.b_isbn
-            WHERE rr.RR_S_ID = 'seller001' AND b.b_title = #{b_title}
+            WHERE rr.RR_S_ID = #{s_id} AND b.b_title = #{b_title}
             ORDER BY RR_REQDATE
         ) rr
-        JOIN seller s ON s.S_ID = 'seller001'
+        JOIN seller s ON s.S_ID = #{s_id}
         WHERE ROWNUM = 1
     </insert>
+
+    <!-- 예약 1순위 결제기한 추가 -->
+    <update id="RentRes_First_Pay">
+        UPDATE Rental_Res rr
+        SET rr.RR_DUEDATE = SYSDATE + 1
+        WHERE rr.RR_S_ID = (
+            SELECT RR_S_ID
+            FROM (
+                SELECT rr2.RR_S_ID
+                FROM Rental_Res rr2
+                JOIN book b ON rr2.RR_B_ISBN = b.b_isbn
+                WHERE rr2.RR_S_ID = #{s_id} AND b.b_title = #{b_title}
+                ORDER BY rr2.RR_REQDATE
+            )
+            WHERE ROWNUM = 1
+        )
+    </update>
 
     <!-- 대여 재고 조회 -->
     <select id="getRentalStock" resultType="RentalDto">
         select b_s_id, b_title, b_rentalstock
         from book
         where b_title = #{b_title}
-        and b_s_id = 'seller001'
+        and b_s_id = #{s_id}
     </select>
 
     <!-- 대여 재고 증가 -->
@@ -514,14 +531,14 @@
         UPDATE BOOK
         SET B_RENTALSTOCK = B_RENTALSTOCK + 1
         WHERE B_TITLE = #{b_title}
-        and b_s_id = 'seller001'
+        and b_s_id = #{s_id}
     </update>
 
     <!-- 예약자 수 조회 -->
     <select id="CountRentalRes" resultType="RentalDto">
         select count(*)
         from Rental_Res
-        where rr_s_id = 'seller001'
+        where rr_s_id = #{s_id}
         AND RR_B_ISBN IN (
             SELECT b_isbn FROM book WHERE b_title = #{b_title}
         )
@@ -529,23 +546,14 @@
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">
-        select o_id, o_c_id, b_title, o_date, r_returndate,
-            CASE
-                WHEN r_returndate IS NOT NULL AND (r_returndate - o_date) <![CDATA[<=]]> r_rentalperiod THEN
-                    0
-                WHEN r_returndate IS NOT NULL THEN
-                    r_returndate - o_date - r_rentalperiod
-                ELSE 0
-            END AS overdue_days,
-            r_latefee_total
+        select o_id, o_c_id, b_title, o_date, r_returndate, r_duedate,
+               r_latefee_total, r_latefee_paid, r_latefee_paydate
         FROM
-            order_list
+            ORDER_LIST
         WHERE
-            order_sort = '대여'
-            AND
-            S_ID = 'seller001'
-            and
-            r_returndate is not null
+            order_sort = '대여' AND
+            s_id = #{s_id} AND
+            r_returndate IS NOT NULL
     </select>
 
     

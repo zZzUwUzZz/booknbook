@@ -301,9 +301,7 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/curr")
-    public String sellerrentcurr(Model model) {
-
-        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+    public String sellerrentcurr(String s_id, Model model) {
 
         // 대여 현황 리스트 불러오기
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
@@ -318,8 +316,9 @@ public class SellerPageController {
         String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
         
         // 반납 내역 불러오기
-        List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
-        model.addAttribute("RentReturnList", RentReturnList);
+        List<RentalDto> returnList = rSer.RentReturnList(s_id);
+        log.info("returnList:{}", returnList);
+        model.addAttribute("returnList", returnList);
 
         return "seller/sellerRentReturn";
     }

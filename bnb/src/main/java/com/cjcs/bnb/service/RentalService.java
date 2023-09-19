@@ -199,14 +199,33 @@ public class RentalService {
 
     // 대여 현황 리스트
     public List<RentalDto> RentCurrentList(String s_id) {
+        // 날짜 형식 포맷 변경
+        List<RentalDto> resultList = rDao.RentCurrentList(s_id);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (RentalDto dto : resultList) {
+            Date o_date = dto.getO_date();
+            Date returnexpect_days = dto.getReturnexpect_days();
+            if (o_date != null) {
+                dto.setO_dateStr(sdf.format(o_date));
+            }
+            if(returnexpect_days!=null){
+                dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
+            }
+        }
 
-        List<RentalDto> rList = rDao.RentCurrentList(s_id);
+        return resultList;
+    }
 
-        if (rList != null) {
+    // 반납 현황 리스트
+    public List<RentalDto> RentReturnList(String s_id) {
+        
+        List<RentalDto> returnList = rDao.RentReturnList(s_id);
+
+        if (returnList != null) {
 
             LocalDate currdate = LocalDate.now();
 
-            for (RentalDto rDto : rList) {
+            for (RentalDto rDto : returnList) {
 
                 if (rDto.getR_duedate() != null) {
 
@@ -214,39 +233,11 @@ public class RentalService {
                     if (currdate.isAfter(duedate)) {
                         rDto.setOverdue_days((int)ChronoUnit.DAYS.between(duedate, currdate)); //연체일수 계산해서 저장
                     }
-
                 }
             }
         }
 
-        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        // for (RentalDto dto : resultList) {
-        //     Date o_date = dto.getO_date();
-        //     Date returnexpect_days = dto.getReturnexpect_days();
-        //     if (o_date != null) {
-        //         dto.setO_dateStr(sdf.format(o_date));
-        //     }
-        //     if(returnexpect_days!=null){
-        //         dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
-        //     }
-        // }
-
-        return rList;
-    }
-
-    // 반납 현황 리스트
-    public List<RentalDto> RentReturnList(String s_id) {
-
-        // 날짜 형식 포맷 변경
-        List<RentalDto> resultList = rDao.RentReturnList(s_id);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        for (RentalDto dto : resultList) {
-            Date o_date = dto.getO_date();
-            if (o_date != null) {
-                dto.setO_dateStr(sdf.format(o_date));
-            }
-        }
-        return resultList;
+        return returnList;
     }
 
     public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate startDate,

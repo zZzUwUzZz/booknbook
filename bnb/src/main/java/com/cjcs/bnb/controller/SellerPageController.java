@@ -324,10 +324,39 @@ public class SellerPageController {
     }
 
     @GetMapping("/sell/cancel")
-    public String sellersellcancel() {
+    public String sellersellcancel(Model model) {
+        // List<Order> orders = oSer.getAllOrders(); // 모든 주문 목록을 가져옵니다.
+        // model.addAttribute("orders", orders); // 주문 목록을 JSP에 전달합니다.
         return "seller/sellerSellCancel";
     }
 
+    // @PostMapping("/sell/cancel")
+    // public String processSellCancel(@RequestParam("orderId") Integer orderId) {
+    //     // 주문 상태 확인
+    //     Order order = oSer.getOrderById(orderId);
+    //     if (order == null) {
+    //         // 해당하는 주문이 없으면 오류 메시지 처리
+    //         return "redirect:/error_page"; // 적절한 오류 페이지로 리다이렉트
+    //     }
+        
+    //     // 이미 배송이 시작되었는지 확인
+    //     if (oSer.hasAtLeastOneDelivered(order)) {
+    //         // 이미 배송된 항목이 있는 주문은 취소할 수 없습니다.
+    //         return "redirect:/error_delivery_started"; // 적절한 오류 페이지로 리다이렉트
+    //     }
+        
+    //     // 주문 취소 처리
+    //     oSer.cancelOrderByOId(orderId);
+        
+    //     // 주문 취소 성공 시 리다이렉트
+    //     return "redirect:/seller/success_cancel"; // 성공적으로 취소되었다는 페이지나 경로로 리다이렉트
+    // }
+    
+    
+    
+    
+    
+    
     @GetMapping("/return/manage")
     public String sellerreturnmanage() {
         return "seller/sellerReturnManage";

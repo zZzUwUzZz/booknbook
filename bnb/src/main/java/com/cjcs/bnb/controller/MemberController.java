@@ -228,6 +228,8 @@ public class MemberController {
             // 비밀번호 암호화
             member.setM_pw(passwordEncoder.encode(member.getM_pw()));
 
+            member.setM_role("SELLER");    
+
             mDao.joinMember(member); // 공통 회원 정보 저장
             mDao.joinSeller(member); // 판매자 정보 저장
             resultMap.put("success", true);

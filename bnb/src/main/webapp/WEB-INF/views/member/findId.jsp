@@ -13,9 +13,13 @@
         <h2>Find ID</h2>
         <ul>
             <li>아이디 찾기 페이지요.</li>
-            <li>법인사업자 회 법인명과 법인번호 또는 이름과 등록번호를 입력해 주세요.</li>
+            <li>본인이 가입하신 이름과 이메일을 입력해 주세요.</li>
         </ul>
     </div>
+    <div class="tabs">
+    <button class="tab-button active" onclick="showTab('findId')">아이디 찾기</button>
+    <button class="tab-button" onclick="window.location='/member/resetPw'">비밀번호 초기화</button>
+</div>
 
     <form id="findIdForm" name="findIdForm" action="/exec/front/Member/findId/" method="post" target="_self" enctype="multipart/form-data">
         <input id="returnUrl" name="returnUrl" value="/member/id/find_id_result.html" type="hidden">

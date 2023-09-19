@@ -82,4 +82,21 @@ public interface OrderDao {
 
     public List<Integer> CalculateReturn(String Start_Date, String End_Date);
 
-}
+
+    //재락
+      // 주문 추가
+//       int insertOrder(OrderDto orderDto);
+
+//       // 주문 조회
+//       OrderDto getOrderById(int o_id);
+  
+//       // 주문 전체 조회
+//       List<OrderDto> getAllOrders();
+  
+//       // 주문 수정
+//       int updateOrder(OrderDto orderDto);
+  
+//       // 주문 삭제
+//       int deleteOrder(int o_id);
+ }
+

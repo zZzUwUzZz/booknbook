@@ -59,6 +59,9 @@
         VALUES(#{m_id},#{s_storename}, #{s_crn}, DEFAULT, DEFAULT)
 </insert>
 
+
+
+
 <select id="findSellerIdByStoreNameAndEmail" resultType="string">
     SELECT S.S_ID
     FROM SELLER S

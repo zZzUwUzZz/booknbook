@@ -27,9 +27,9 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/fav.css">
-  
+    <link rel="stylesheet" href="/css/customer/main.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="/js/slide.js"></script>
 
     <title>즐겨찾는 서점</title>
 
@@ -45,53 +45,71 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores" id="currpage">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
         </div>
 
-        <div class="board-area">
+        <div class="prfArea">
 
+          <div class="prfbox01">
             <c:if test="${empty favStores}">
-                <div>즐겨찾는 서점이 아직 없습니다.</div>
+                <div>즐겨찾는 서점이 없습니다.</div>
             </c:if>
 
+            
             <c:if test="${!empty favStores}">
-                <div class="container-fav">
-                    <c:forEach var="favStore" items="${favStores}">
-
-                        <div class="favstore">
-                            <a href="/storedetail?s_id=${favStore.m_id}">
-                                <br>
-                                여기에 서점사진 들어가야됨!<br>
-                                -<br>
-                                ${favStore.m_id}<br>
-                                ${favStore.s_storename}
-                            </a>
-                        </div>
-
-
+                <c:forEach var="favStore" items="${favStores}">
+                    <c:set var="imageSrc" value="" />
+                    <c:forEach var="imageInfo" items="${imageInfos}">
+                        <c:if test="${favStore.m_id == imageInfo.sf_s_id}">
+                            <c:set var="imageSrc" value="/uploads/${imageInfo.sf_sysname}" />
+                        </c:if>
                     </c:forEach>
-                </div>
+            
+                    <div class="prfContain">
+                        <div class="stinfoBox">
+                            <div class="imgbox">
+                                <a href="/bookstore/detail/{favStore.m_id}">
+                                    <img src="${imageSrc}" alt="store image">
+                                </a>
+                            </div>
+                            <div class="stbtn">
+                                <a href="/bookstore/detail/{favStore.m_id}">방문하기</a>
+                            </div>
+                        </div>
+                        <div class="infoText">
+                            <div class="st_text01">${favStore.s_storename}</div>
+                            <div class="st_text02">소개</div>
+                            <div class="st_text03">주소</div>
+                        </div>
+                    </div>
+                </c:forEach>
             </c:if>
-
         </div>
 
-        <div class="button-area">
 
-            <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">다음</div>
-            <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">이전</div>
+            <div class="button-area">
+                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">
+                    <span class="material-symbols-sharp">
+                        chevron_left
+                    </span>
+                </div>
+                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">
+                    <span class="material-symbols-sharp">
+                        chevron_right
+                    </span>
+                </div>
+
+            </div>
 
         </div>
-
     </div>
 
 

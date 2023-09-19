@@ -1,44 +1,43 @@
 package com.cjcs.bnb.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.mybatis.logging.Logger;
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cjcs.bnb.dao.BookMapper;
+import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
-import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
-
 import com.cjcs.bnb.service.MemberService;
-
 import com.cjcs.bnb.service.OrderService;
-
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
 
-import oracle.jdbc.proxy.annotation.Post;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cjcs.bnb.service.StockService;
+
+
+@Slf4j
 @Controller
 @RequestMapping("/seller")
 public class SellerPageController {
@@ -60,6 +59,16 @@ public class SellerPageController {
 
     @Autowired
     private FileService fileService; // MyBatis mapper
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private BookMapper bookDao;
+  
+    @Autowired
+    private StockService stSer;
+
 
     // 서점 정보 페이지
     @GetMapping
@@ -193,29 +202,75 @@ public class SellerPageController {
         return "seller/sellerCSMember";
     }
 
+    // 등록된 도서 리스트
     @GetMapping("/book/list")
-    public String sellerbooklist(String s_id, @RequestParam(required = false) String filter,
-            @RequestParam(required = false) String keyword, Model model) {
+    public String sellerbooklist(String s_id,
+            @RequestParam(required = false) String filter,
+            @RequestParam(required = false) String keyword,
+            Model model) {
 
-        // 등록한 도서 리스트 조회
-        List<BookDto> getSellerBookList;
+        List<BookDto> bookList = stSer.SellerBookListDT(s_id, filter, keyword);
+        model.addAttribute("SellerBookList", bookList);
 
-        if (filter != null && keyword != null) {
-            // 검색을 위한 파라미터가 전달된 경우 실행
-            getSellerBookList = bSer.searchSellerBookList(s_id, filter, keyword);
-        } else {
-            // 도서 전체 리스트 조회
-            getSellerBookList = bSer.getSellerBookList(s_id);
+        // 모든 도서의 상세 정보를 저장할 리스트
+        List<BookDto> allBookDetails = new ArrayList<>();
+
+        // 목록에 있는 모든 도서의 상세 정보를 가져옵니다.
+        for (BookDto book : bookList) {
+            BookDto bookDetail = stSer.BookInfoDt(book.getB_isbn(), book.getB_s_id());
+            allBookDetails.add(bookDetail);
         }
 
-        model.addAttribute("SellerBookList", getSellerBookList);
+        // 모델에 모든 도서의 상세 정보를 저장합니다.
+        model.addAttribute("AllBookDetails", allBookDetails);
 
         return "seller/sellerBookList";
     }
 
+    // 도서 신규등록 폼
     @GetMapping("/book/add")
-    public String sellerbookadd() {
+    public String sellerbookadd(Model model) {
+
+        // 중분류카테고리 드랍다운폼에 출력
+        List<BookDto> categories_m = categoryDao.listMediumCategories();
+        model.addAttribute("categories_m", categories_m);
+
         return "seller/sellerBookAdd";
+    }
+
+    @ResponseBody
+    @PostMapping("/book/add/getsmallcategories")
+    public List<BookDto> getsmallbymedium(@RequestParam String category_m_id) {
+
+        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 비동기 출력
+        List<BookDto> categories_s = categoryDao.listSmallCategories(category_m_id);
+
+        return categories_s;
+    }
+
+    @ResponseBody
+    @PostMapping("/book/add/isbncheck")
+    public Boolean checkisbn(@RequestParam String b_isbn, HttpSession session) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+
+        // 이미 등록된 isbn인지 체크
+        BookDto book = bookDao.getBookByIsbn(s_id, b_isbn);
+        if (book != null) return true;
+        else return false;
+    }
+
+    // 도서 신규등록 처리
+    @PostMapping("/book/add")
+    public String sellerbookaddtodb(BookDto bookDto, HttpSession session) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        bookDto.setB_s_id(s_id);
+
+        log.info("bookDto:{}", bookDto);
+        bookDao.addNewBook(bookDto);
+
+        return "redirect:/seller/book/list";
     }
 
     @GetMapping("/book/detail")
@@ -252,15 +307,57 @@ public class SellerPageController {
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
 
+        // 배송 상태명
+        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
+        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
+
         return "seller/sellerRentCurr";
     }
 
-    @GetMapping("/rent/return")
-    public String sellerrentreturn(String s_id, Model model) {
+    @PostMapping("/rent/curr/save")
+    public ResponseEntity<List<RentalDto>> UpdateDeliStatus(@RequestBody List<RentalDto> requestData) {
+        // 배송 상태 업데이트
+        rSer.UpdateDeliStatus(requestData);
+        return ResponseEntity.ok(requestData);
+    }
 
+    @PostMapping("/rent/curr/return")
+    public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData, String s_id) {
+        int rentalStock = rSer.getRentalStock(requestData); // 대여 재고 조회
+        int CountRentalRes = rSer.CountRentalRes(requestData); // 예약자 수 카운트
+        
+        if (rentalStock > 0) {
+        // 대여재고 > 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else if (CountRentalRes == 0) {
+        // 대여재고 = 0 예약자 = 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else {
+        // 대여재고 = 0 예약자 > 0
+        // 반납완료, 예약 1순위 상태 변경, 알림 보내기, 결제시한 날짜 추가
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
+            return ResponseEntity.ok("반납 처리 및 예약 1순위 처리");
+        }
+    }
+
+
+
+    @GetMapping("/rent/return")
+    public String sellerrentreturn(Model model) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        
         // 반납 내역 불러오기
-        List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
-        model.addAttribute("RentReturnList", RentReturnList);
+        List<RentalDto> returnList = rSer.RentReturnList(s_id);
+        log.info("returnList:{}", returnList);
+        model.addAttribute("returnList", returnList);
 
         return "seller/sellerRentReturn";
     }

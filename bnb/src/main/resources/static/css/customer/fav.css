@@ -1,13 +1,11 @@
 .container-fav {
     box-sizing: border-box;
     display: flex;
-    justify-content:flex-start;
-    align-content: space-evenly;
-    flex-wrap: wrap;
-    background-color: none;
+    justify-content: center;
+    align-content: center;
     width: 100%;
-    padding: 13px 0 13px 27px;
-
+    flex-wrap: wrap;
+    margin-top: 26px;
 }
 .favstore {
     display: inline-block;
@@ -18,15 +16,95 @@
     height: 280px;
     margin: 14px 70px;
 }
+
 .favbook {
     display: inline-block;
     text-align: center;
-    border: 1px solid #4d6b50;
-    border-radius: 10px;
-    width: 250px;
-    height: 280px;
-    margin: 14px 22px 15px 0;
+    width: 325px;
+    height: 338px;
+    margin: 14px -2px 15px 0;
+    line-height: 33px;
 }
-img {
-    height: 280px;
+
+.favbook img {
+    height: 250px;
 }
+
+.mypg {
+    padding: 15px 0px;
+    font-size: 23px;
+}
+
+.prfArea {
+    width: 80%;
+}
+
+/* 프로필 카드 */
+.prfbox01 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 42px 0px;
+}
+
+.prfContain {
+    width: 500px;
+    background: #4c634e;
+    padding: 28px 32px;
+    display: flex;
+    margin: 24px;
+}
+
+.stinfoBox {
+    width: 150px;
+    text-align: center;
+}
+
+.infoText {
+    width: 100%;
+    padding: 4px;
+    margin-left: 50px;
+    line-height: 44px;
+    color: #dfdad5;
+}
+
+.stbtn {
+    padding: 10px;
+    background: #dfdad5;
+    color: #203b23;
+}
+
+.imgbox {
+    width: 150px;
+    height: 150px;
+    background: #90ab93;
+    border-radius: 50%;
+    margin-bottom: 14px;
+}
+
+.imgbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.st_text01 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 13px;
+    margin-top: 12px;
+}
+
+.st_text02 {
+    font-size: 19px;
+}
+
+.st_text03 {
+    font-size: 14px;
+    margin-top: 9px;
+}
+
+
+
+
+

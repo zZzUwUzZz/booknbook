@@ -29,7 +29,7 @@ public class BookController {
         int end = start + booksPerPage - 1;
         List<BookDto> books = bookService.bookAllList(start, end);
 
-        int totalItems = bookService.countTotalBooks(); // 이 메서드는 BookService에서 구현해야 합니다.
+        int totalItems = bookService.countTotalBooks();
         System.out.println("Total items: " + totalItems); // 로그 출력
 
         int totalPages = (int) Math.ceil((double) totalItems / booksPerPage);

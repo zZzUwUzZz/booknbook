@@ -27,11 +27,16 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
-  
+    <link rel="stylesheet" href="/css/customer/main.css">
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>Document</title>
-
+    <style>
+        .container-mypage {height: auto!important;}
+ 
+    </style>
 </head>
 
 <body>
@@ -44,14 +49,12 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist" id="currpage">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
@@ -59,69 +62,103 @@
 
         <div class="board-area">
 
-            <div>
-                <h2 class="pagename">EXCHANGE/RETURN LIST</h2>
+        
+            <div class="retext_01">
+                <span class="pagename">EXCHANGE/RETURN LIST</span>
             </div>
 
-            <div>
-                <div class="tablebox">
-                <table>
-                    <tr class="headrow">
-                        <th>구분</th>
-                        <th>신청일자</th>
-                        <th>주문번호</th>
-                        <th>서점명</th>
-                        <th>신청품목</th>
-                        <th>금액/수량</th>
-                        <th>처리상태</th>
-                        <th></th>
-                    </tr>
 
-                    <c:if test="${empty reList}">
-                        <tr>
-                            <td colspan="7">교환/반품내역이 없습니다.</td>
-                        </tr>
-                    </c:if>
-        
-                    <c:if test="${!empty reList}">
-                        <c:forEach var="reItem" items="${reList}">
-                            <tr>
-                                <td>${reItem.re_sort}</td>
-                                <td><fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                <td onclick="location.href='/mypage/purchaselist'" class="td-linked">${reItem.re_o_id}</td>
-                                <td>${reItem.s_storename}</td>
-                                <td>${reItem.b_title}</td>
-                                <td>${reItem.re_amount}</td>
-                                <td>${reItem.process_status}</td>
-                                <c:choose>
-                                    <c:when test="${reItem.re_process_status_id eq 1}">
-                                        <td><button onclick="cancel('${reItem.re_id}')" class="cancel_btn">요청취소</button></td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td width="80px"></td>
-                                    </c:otherwise>
-                                </c:choose>
-                            </tr>
-                            <c:if test="${!empty reItem.re_rejection_reason}">
-                                <tr>
-                                    <td class="rej_reason" colspan="7">${reItem.re_rejection_reason}</td>
-                                </tr>
-                            </c:if>
-                         </c:forEach>
-                    </c:if>
-                </table>
+            <div class="datebox">
+                <div>
+                <form action="/mypage/refundexchangelist">
+                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="startDate">부터</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    <label for="endDate">까지</label>
+                    <button type="submit">조회</button>
+                </form>
                 </div>
             </div>
+      
+            <div class="PcListBox">
+
+
+                <c:if test="${empty reList}">
+                    <h4>교환/반품 내역이 없습니다.</h4>
+                </c:if>
+            
+            
+                
+                <c:if test="${!empty reList}">
+                    <c:forEach var="reItem" items="${reList}">
+                        <div class="reListContain">
+                            <article class="reItemBox">
+                              
+                                <div class="reNum">
+                                    <div class="reText">
+                                        주문번호</div>
+                                    <div onclick="location.href='/mypage/purchaselist'" class="td-linked">
+                                        #${reItem.re_o_id}
+                                    </div>
+                                </div>
+            
+                                <div class="reTitle">
+                                    <div class="reText">신청일자</div>
+                                    <fmt:formatDate value="${reItem.re_reqdate}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+            
+                                <div class="reTitle">
+                                    ${reItem.re_sort}
+                                </div>
+            
+                                <div class="reItem">
+                                    <div class="reText">신청품목</div>
+                                    ${reItem.b_title}
+                                </div>
+             
+                                <div class="reStore">
+                                    <div class="reText">서점명</div>
+                                    ${reItem.s_storename}
+                                </div>
+            
+                                <div class="reTitle">
+                                    <div class="reText">금액/수량</div>
+                                    ${reItem.re_amount}
+                                </div>
+             
+                                <div class="reDeli">
+                                    <div class="reText">처리상태</div>
+                                    ${reItem.process_status}
+                                </div>
+            
+ 
+                                <c:choose>
+                                    <c:when test="${reItem.re_process_status_id eq 1}">
+                                        <div class="re_clbtn" onclick="cancel('${reItem.re_id}')" class="cancel_btn">
+                                            요청취소 
+                                        </div>
+                                    </c:when>
+                                </c:choose>
+                                
+                                <c:if test="${!empty reItem.re_rejection_reason}">
+                                      ${reItem.re_rejection_reason}
+                                </c:if>
+            
+                            </article>
+                        </div>
+            
+                    </c:forEach>
+                </c:if>
+            
+            </div>
+
+ 
+            <div class="pagenation">
+                <div class="pagebox">${pageHtml}</div>
+            </div>
 
         </div>
-
-        <div class="button-area">
-
-            <div class="buttons"></div>
-            <div class="buttons"></div>
-
-        </div>
-
+ 
     </div>
 
 

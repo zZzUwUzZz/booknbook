@@ -96,7 +96,6 @@ span {
 }
 h3 {
     font-family: 'Noto Sans KR', sans-serif;
-    color: #4c4240;
     padding: 0;
     margin-top: 15px;
     margin-bottom: 10px;
@@ -111,7 +110,6 @@ h3 a:hover, h4 a:hover {
 h4 {
     display: inline-block;
     font-family: 'Noto Sans KR', sans-serif;
-    color: #4c4240;
     margin: 5px 0;
 }
 form {

@@ -14,6 +14,7 @@ import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.mappers.FileMapper;
+import com.cjcs.bnb.mappers.SellerMapper;
 
 @Service
 public class SearchService {
@@ -26,6 +27,9 @@ public class SearchService {
 
     @Autowired
     private FileMapper fileMapper;
+
+    @Autowired
+    private SellerMapper sMp;
 
    
     public List<BookDto> findByKwPg(String keyword, int start, int end) {
@@ -57,7 +61,7 @@ public class SearchService {
     }
 
     public List<SellerDto> getAllBookstores() {
-        return memberDao.getAllBookstores();
+        return sMp.getAllBookstores();
     }
 
 }

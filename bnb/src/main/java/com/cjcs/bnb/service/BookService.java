@@ -10,6 +10,11 @@ import com.cjcs.bnb.dao.BookDao;
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dto.BookDto;
 
+import com.cjcs.bnb.dto.RentalDto;
+
+import com.cjcs.bnb.dto.NotifBoardDto;
+
+
 @Service
 public class BookService {
 
@@ -36,6 +41,10 @@ public class BookService {
         return bookMapper.findBookByIsbnAndSellerId(isbn, sellerId);
     }
 
+    public BookDto findBookStock(String isbn, String sellerId) {
+        return bookMapper.findBookStock(isbn, sellerId);
+    }
+
     // 중분류 카테고리 조회
     public List<BookDto> findBooksByMediumCategory(String category_m_id, int start, int end) {
         return bookMapper.findBooksByMediumCategory(category_m_id, start, end);
@@ -44,7 +53,6 @@ public class BookService {
     public int countBooksByMediumCategory(String category_m_id) {
         return bookMapper.countBooksByMediumCategory(category_m_id);
     }
-
 
     public List<BookDto> findBooksBySmallCategory(String category_s_id, int start, int end) {
         return bookMapper.findBooksBySmallCategory(category_s_id, start, end);
@@ -55,12 +63,9 @@ public class BookService {
     }
 
     // ISBN 조회
-        public List<BookDto> findBooksByIsbn(String isbn) {
-            return bookMapper.findBooksByIsbn(isbn);
-        }
-
-
-
+    public List<BookDto> findBooksByIsbn(String isbn) {
+        return bookMapper.findBooksByIsbn(isbn);
+    }
 
     // public static List<BookDto> getSellerBookList(String b_s_id){
     // return bDao.getSellerBookList(b_s_id);
@@ -76,10 +81,13 @@ public class BookService {
         return bookMapper.searchSellerBookList(s_id, filter, keyword);
     }
 
+
+
     // 책 상세페이지 데이터 조회
     public BookDto bookDetail(String isbn, String sellerId) {
         return bookMapper.bookDetail(isbn, sellerId);
-      }
+    }
+
 
 
 }

@@ -74,12 +74,12 @@
                 <div class="tablebox">
                     <table>
                         <tr class="headrow">
-                            <th>ID</th>
+                            <th width="110px">ID</th>
                             <th>서점명</th>
                             <th width="100px">사업자번호</th>
                             <th>주소</th>
-                            <th width="120px">전화번호</th>
-                            <th width="230px">이메일</th>
+                            <th width="130px">전화번호</th>
+                            <th width="200px">이메일</th>
                             <th width="110px">입점일자</th>
                         </tr>
 
@@ -92,11 +92,11 @@
                         <c:if test="${!empty sellerList}">
                             <c:forEach var="seller" items="${sellerList}">
                                 <tr>
-                                    <td><span>${seller.m_id}</span></td>
-                                    <td onclick="location.href='/bookstore/${seller.m_id}'" class="td-linked"><span>${seller.s_storename}</span></td>
+                                    <td>${seller.m_id}</td>
+                                    <td onclick="location.href='/bookstore/${seller.m_id}'" class="td-linked">${seller.s_storename}</td>
                                     <td>${seller.s_crn}</td>
-                                    <td><span>${seller.m_addr}</span></td>
-                                    <td>${seller.m_phone}</td>
+                                    <td title="${seller.m_addr}"><span>${seller.m_addr}</span></td>
+                                    <td>${seller.formatted_phone}</td>
                                     <td>${seller.m_email}</td>
                                     <td><fmt:formatDate value="${seller.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                 </tr>

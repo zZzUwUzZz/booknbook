@@ -47,14 +47,12 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
-                <hr>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
@@ -85,13 +83,13 @@
                             <td class="label">주소</td> <td>${mDto.m_addr}</td>
                         </tr>
                         <tr>
-                            <td class="label">휴대전화번호</td> <td>${mDto.m_phone}</td>
+                            <td class="label">휴대전화번호</td> <td>${mDto.formatted_phone}</td>
                         </tr>
                         <tr>
                             <td class="label">이메일</td> <td>${mDto.m_email}</td>
                         </tr>
                         <tr>
-                            <td class="label">가입일자</td> <td><fmt:formatDate value="${mDto.m_joindate}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
+                            <td class="label">가입일자</td> <td><fmt:formatDate value="${mDto.m_joindate}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
                         </tr>
                     </table>
         

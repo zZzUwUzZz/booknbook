@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/css/slide.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="/js/slide.js"></script>
+    
 
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -118,8 +118,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-Calc">
-                    <div class="box-Calc">
+                <div class="contain-3">
+                    <div class="box-3">
                         <h1>정산 내역 조회</h1>
                         <form action="/seller/calculate" method="post">
                             <input type="text" id="Start_Date" name="Start_Date" placeholder="시작 날짜">

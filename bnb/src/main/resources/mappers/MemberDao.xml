@@ -95,7 +95,8 @@
         WHERE M_ID = #{userId}
     </update>
 
- 
+
+  
     <!-- 회원탈퇴 -->
     
     <resultMap id="MemberResult" type="com.cjcs.bnb.dto.MemberDto">

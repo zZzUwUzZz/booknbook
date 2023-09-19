@@ -305,8 +305,47 @@ public class SellerPageController {
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
 
+        // 배송 상태명
+        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
+        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
+
         return "seller/sellerRentCurr";
     }
+
+    @PostMapping("/rent/curr/save")
+    public ResponseEntity<List<RentalDto>> UpdateDeliStatus(@RequestBody List<RentalDto> requestData) {
+        // 배송 상태 업데이트
+        rSer.UpdateDeliStatus(requestData);
+        return ResponseEntity.ok(requestData);
+    }
+
+    @PostMapping("/rent/curr/return")
+    public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData, String s_id) {
+        int rentalStock = rSer.getRentalStock(requestData); // 대여 재고 조회
+        int CountRentalRes = rSer.CountRentalRes(requestData); // 예약자 수 카운트
+        
+        if (rentalStock > 0) {
+        // 대여재고 > 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else if (CountRentalRes == 0) {
+        // 대여재고 = 0 예약자 = 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else {
+        // 대여재고 = 0 예약자 > 0
+        // 반납완료, 예약 1순위 상태 변경, 알림 보내기, 결제시한 날짜 추가
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
+            return ResponseEntity.ok("반납 처리 및 예약 1순위 처리");
+        }
+    }
+
+
 
     @GetMapping("/rent/return")
     public String sellerrentreturn(String s_id, Model model) {

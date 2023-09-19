@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -77,7 +78,7 @@
                                     <th>주문번호</th>
                                     <th>아이디</th>
                                     <th>제목</th>
-                                    <th>대여일자</th>
+                                    <th>주문일자</th>
                                     <th>반납예정일</th>
                                     <th>수령방법</th>
                                     <th colspan="4">현재상태</th>
@@ -90,8 +91,8 @@
                                         <td>${rentcurrent.o_id}</td>
                                         <td>${rentcurrent.o_c_id}</td>
                                         <td>${rentcurrent.b_title}</td>
-                                        <td>${rentcurrent.o_dateStr}</td>
-                                        <td>${rentcurrent.returnexpect_daysStr}</td>
+                                        <td><fmt:formatDate value="${rentcurrent.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
+                                        <td><fmt:formatDate value="${rentcurrent.r_duedate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                         <td>${rentcurrent.o_delivery_sort}</td>
                                         <td>${rentcurrent.delivery_status}</td>
                                         <td>.</td>

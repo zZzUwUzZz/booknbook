@@ -227,6 +227,7 @@ public class SellerPageController {
         return "seller/sellerBookList";
     }
 
+    // 도서 신규등록 폼
     @GetMapping("/book/add")
     public String sellerbookadd(Model model) {
 
@@ -241,7 +242,7 @@ public class SellerPageController {
     @PostMapping("/book/add/getsmallcategories")
     public List<BookDto> getsmallbymedium(@RequestParam String category_m_id) {
 
-        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 출력
+        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 비동기 출력
         List<BookDto> categories_s = categoryDao.listSmallCategories(category_m_id);
 
         return categories_s;
@@ -259,8 +260,9 @@ public class SellerPageController {
         else return false;
     }
 
+    // 도서 신규등록 처리
     @PostMapping("/book/add")
-    public String sellerbookaddtodb(BookDto bookDto) {
+    public String sellerbookaddtodb(BookDto bookDto, HttpSession session) {
 
         String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
         bookDto.setB_s_id(s_id);
@@ -299,7 +301,9 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/curr")
-    public String sellerrentcurr(String s_id, Model model) {
+    public String sellerrentcurr(Model model) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
 
         // 대여 현황 리스트 불러오기
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
@@ -309,8 +313,10 @@ public class SellerPageController {
     }
 
     @GetMapping("/rent/return")
-    public String sellerrentreturn(String s_id, Model model) {
+    public String sellerrentreturn(Model model) {
 
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        
         // 반납 내역 불러오기
         List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
         model.addAttribute("RentReturnList", RentReturnList);

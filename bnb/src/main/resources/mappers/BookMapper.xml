@@ -158,6 +158,14 @@ SELECT * FROM (
         </choose>
     </select>
 
+    <!-- 판매자 페이지 - 도서 등록 -->
+    <insert id="addBook" parameterType="BookDto">
+        INSERT INTO B
+        VALUES(#{b_s_id}, #{b_isbn}, #{b_title}, #{b_author}, #{b_bookdesc},
+               #{b_forsale}, #{b_price}, #{b_salestock}, #{b_forrental}, #{b_rent}, #{b_rentalstock},
+               DEFAULT, #{b_category_s_id})
+    </insert>
+
 
 <!-- 수희 -->
 

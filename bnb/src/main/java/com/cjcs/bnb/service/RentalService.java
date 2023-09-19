@@ -3,6 +3,7 @@ package com.cjcs.bnb.service;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -198,21 +199,39 @@ public class RentalService {
 
     // 대여 현황 리스트
     public List<RentalDto> RentCurrentList(String s_id) {
-        // 날짜 형식 포맷 변경
-        List<RentalDto> resultList = rDao.RentCurrentList(s_id);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        for (RentalDto dto : resultList) {
-            Date o_date = dto.getO_date();
-            Date returnexpect_days = dto.getReturnexpect_days();
-            if (o_date != null) {
-                dto.setO_dateStr(sdf.format(o_date));
-            }
-            if(returnexpect_days!=null){
-                dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
+
+        List<RentalDto> rList = rDao.RentCurrentList(s_id);
+
+        if (rList != null) {
+
+            LocalDate currdate = LocalDate.now();
+
+            for (RentalDto rDto : rList) {
+
+                if (rDto.getR_duedate() != null) {
+
+                    LocalDate duedate = ((Timestamp) rDto.getR_duedate()).toLocalDateTime().toLocalDate();
+                    if (currdate.isAfter(duedate)) {
+                        rDto.setOverdue_days((int)ChronoUnit.DAYS.between(duedate, currdate)); //연체일수 계산해서 저장
+                    }
+
+                }
             }
         }
 
-        return resultList;
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // for (RentalDto dto : resultList) {
+        //     Date o_date = dto.getO_date();
+        //     Date returnexpect_days = dto.getReturnexpect_days();
+        //     if (o_date != null) {
+        //         dto.setO_dateStr(sdf.format(o_date));
+        //     }
+        //     if(returnexpect_days!=null){
+        //         dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
+        //     }
+        // }
+
+        return rList;
     }
 
     // 반납 현황 리스트

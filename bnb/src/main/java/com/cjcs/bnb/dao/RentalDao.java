@@ -72,7 +72,8 @@ public interface RentalDao {
     public void UpdateRentStatus_Curr(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [대여중]
     public void UpdateRentStatus_Late(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [연체]
     public void UpdateRentStatus_Return(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [반납 완료]
-    public void RentResStatus_First(@Param("b_title") String b_title); // 예약 1순위 예약 상태 변경    
+    public void RentResStatus_First(@Param("b_title") String b_title); // 예약 1순위 예약 상태 변경  
+    public void RentRes_First_Alert(@Param("b_title") String b_title); // 예약 1순위 대여가능 알림 전송
     public int getRentalStock(@Param("b_title") String b_title); //대여 재고 조회
     public void RentalStockAdd(@Param("b_title") String b_title, String s_id); //대여 재고 +1
     public int CountRentalRes(@Param("b_title") String b_title); // 예약자 수 조회

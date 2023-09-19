@@ -341,6 +341,7 @@ public class SellerPageController {
         // 반납완료, 예약 1순위 상태 변경, 알림 보내기, 결제시한 날짜 추가
             rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
             rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
+            rSer.RentRes_First_Alert(requestData); // 예약 1순위 대여가능 알림 전송
             return ResponseEntity.ok("반납 처리 및 예약 1순위 처리");
         }
     }

@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.NotificationDao;
@@ -272,6 +273,11 @@ public class RentalService {
         return rDao.CountRentalRes(requestData.getB_title());
     }
 
+    // 예약 1순위 대여가능 알림 전송
+    public void RentRes_First_Alert(RentalDto requestData) {
+        rDao.RentRes_First_Alert(requestData.getB_title());
+    }
+    
     // 반납 현황 리스트
     public List<RentalDto> RentReturnList(String s_id) {
 

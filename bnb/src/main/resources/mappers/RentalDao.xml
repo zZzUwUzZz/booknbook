@@ -480,6 +480,27 @@
         )
     </update>
 
+    <!-- 예약 1순위 대여가능 알림 전송 -->
+    <insert id="RentRes_First_Alert">
+        INSERT INTO NotifBoard(NB_M_ID, NB_MSG, NB_DATE, B_ISBN, B_S_ID, B_TITLE, S_STORENAME)
+        SELECT rr.RR_C_ID,
+            '대여가능',
+            sysdate,
+            rr.RR_B_ISBN,
+            'seller001',
+            b.b_title,
+            s.S_STORENAME
+        FROM (
+            SELECT *
+            FROM Rental_Res rr
+            JOIN book b ON rr.RR_B_ISBN = b.b_isbn
+            WHERE rr.RR_S_ID = 'seller001' AND b.b_title = #{b_title}
+            ORDER BY RR_REQDATE
+        ) rr
+        JOIN seller s ON s.S_ID = 'seller001'
+        WHERE ROWNUM = 1
+    </insert>
+
     <!-- 대여 재고 조회 -->
     <select id="getRentalStock" resultType="RentalDto">
         select b_s_id, b_title, b_rentalstock

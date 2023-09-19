@@ -46,6 +46,7 @@ public interface MemberDao {
 
         public boolean join2(MemberDto mDto);
 
+
         @Select("SELECT * FROM CJCS.MEMBER WHERE M_ID = #{m_id}")
         MemberDto getMemberById(String m_id);
 

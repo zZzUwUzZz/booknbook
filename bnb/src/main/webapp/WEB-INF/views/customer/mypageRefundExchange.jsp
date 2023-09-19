@@ -41,6 +41,7 @@
 <body>
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/adminFile/customer.jsp"/>
 
 
     <div class="container-mypage">

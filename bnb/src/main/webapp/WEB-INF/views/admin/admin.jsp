@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<p>Session M_ROLE value: ${sessionScope.M_ROLE}</p>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/adminmain.css">
+     
+
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -40,7 +42,7 @@
 <body>
     
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
-
+    <jsp:include page="/WEB-INF/views/adminFile/Admin.jsp"/>
 
     <div class="container-mypage">
 

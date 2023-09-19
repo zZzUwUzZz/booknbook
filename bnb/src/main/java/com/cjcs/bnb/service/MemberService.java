@@ -76,6 +76,8 @@ public class MemberService {
         return count > 0;
     }
 
+    
+
     // 비번 초기화
 
     // public Boolean resetPassword(Map<String, String> inputData) {

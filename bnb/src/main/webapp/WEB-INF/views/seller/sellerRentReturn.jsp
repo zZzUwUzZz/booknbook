@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -77,22 +78,26 @@
                                     <th>주문번호</th>
                                     <th>아이디</th>
                                     <th>제목</th>
-                                    <th>대여일자</th>
-                                    <th>반납일자</th>
-                                    <th>연체일</th>
-                                    <th>연체료</th>
+                                    <th>반납기한</th>
+                                    <th>반납일</th>
+                                    <th>연체일수</th>
+                                    <th>총 연체료</th>
+                                    <th>납부여부</th>
+                                    <th>납부일</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${RentReturnList}" var="returnlist">
+                                <c:forEach items="${returnList}" var="returned">
                                     <tr>
-                                        <td>${returnlist.o_id}</td>
-                                        <td>${returnlist.o_c_id}</td>
-                                        <td>${returnlist.b_title}</td>
-                                        <td>${returnlist.o_dateStr}</td>
-                                        <td>${returnlist.r_returndate}</td>
-                                        <td>${returnlist.overdue_days}</td>
-                                        <td>${returnlist.r_latefee_total}</td>
+                                        <td>${returned.o_id}</td>
+                                        <td>${returned.o_c_id}</td>
+                                        <td>${returned.b_title}</td>
+                                        <td><fmt:formatDate value="${returned.r_duedate}" pattern="yyyy-MM-dd" /></td>
+                                        <td><fmt:formatDate value="${returned.r_returndate}" pattern="yyyy-MM-dd" /></td>
+                                        <td>${returned.overdue_days}</td>
+                                        <td><fmt:formatNumber value="${returned.r_latefee_total}" type="number" pattern="#,##0" /></td>
+                                        <td>${returned.r_latefee_paid}</td>
+                                        <td><fmt:formatDate value="${returned.r_latefee_paydate}" pattern="yyyy-MM-dd" /></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

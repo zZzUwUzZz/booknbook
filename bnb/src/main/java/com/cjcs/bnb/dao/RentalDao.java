@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.dto.RentalReservationDto;
 import com.cjcs.bnb.dto.SearchDto;

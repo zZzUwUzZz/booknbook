@@ -508,23 +508,14 @@
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">
-        select o_id, o_c_id, b_title, o_date, r_returndate,
-            CASE
-                WHEN r_returndate IS NOT NULL AND (r_returndate - o_date) <![CDATA[<=]]> r_rentalperiod THEN
-                    0
-                WHEN r_returndate IS NOT NULL THEN
-                    r_returndate - o_date - r_rentalperiod
-                ELSE 0
-            END AS overdue_days,
-            r_latefee_total
+        select o_id, o_c_id, b_title, o_date, r_returndate, r_duedate,
+               r_latefee_total, r_latefee_paid, r_latefee_paydate
         FROM
-            order_list
+            ORDER_LIST
         WHERE
-            order_sort = '대여'
-            AND
-            S_ID = 'seller001'
-            and
-            r_returndate is not null
+            order_sort = '대여' AND
+            s_id = #{s_id} AND
+            r_returndate IS NOT NULL
     </select>
 
     

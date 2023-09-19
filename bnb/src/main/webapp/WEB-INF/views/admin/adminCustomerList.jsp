@@ -94,7 +94,7 @@
                                     <td>${customer.m_id}</td>
                                     <td>${customer.c_name}</td>
                                     <td title="${customer.m_addr}"><span>${customer.m_addr}</span></td>
-                                    <td>${customer.m_phone}</td>
+                                    <td>${customer.formatted_phone}</td>
                                     <td>${customer.m_email}</td>
                                     <td><fmt:formatDate value="${customer.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>
                                     <td>총 ${customer.overdues}회</td>

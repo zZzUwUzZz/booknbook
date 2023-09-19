@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjcs.bnb.mappers.NotificationMapper">
+
+<select id="getNotifications" resultType="com.cjcs.bnb.dto.ExtendedNotifBoardDto">
+    SELECT * FROM NotifBoard WHERE nb_m_id = #{userId}
+</select>
+
+<update id="markAllAsRead">
+        UPDATE NotifBoard SET nb_read = 'Y' WHERE nb_m_id = #{userId}
+</update>
+
+</mapper>
+ 

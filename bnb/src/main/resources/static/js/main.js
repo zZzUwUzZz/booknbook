@@ -1,5 +1,3 @@
-// 첫 번째 슬라이드
-
 $(document).ready(function () {
     const slideContainer = $('.slide-container');
     const slides = $('.slide-container .slide');

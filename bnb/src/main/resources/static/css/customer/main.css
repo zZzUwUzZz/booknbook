@@ -69,8 +69,11 @@ tr {
 .container-4 {
     box-sizing: border-box;
     display: flex;
-    width: 520px;
+    width: 100%;
 }
+
+
+
 
 
 .orderInfoBox {
@@ -107,8 +110,7 @@ table {
 
 th {
     height: 26px;
-    background-color: #f0eee2;
-}
+ }
 
 td {
     height: 24px;
@@ -120,9 +122,9 @@ td {
 }
 
 .card-top {
-    margin-bottom: 15px;
+    margin-bottom: 48px;
 }
-
+ 
 .card-bottom {
     width: 100%;
     overflow: hidden;
@@ -145,6 +147,14 @@ td {
     border: 2px solid #ff9946;
     background: #ff9946;
     color: #fffbed;
+}
+
+
+.namett {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
 }
 
 h3 {
@@ -182,23 +192,63 @@ h4 {
 }
 
 .store_img {
-    border: 1px dotted #4c4240;
-    width: 300px;
+    width: 290px;
+    margin-right: 37px;
     height: 205px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #6b886e;
+    color: #dfdad5;
+    padding: 16px;
 }
-
 .book_img {
-    border: 1px dotted #4c4240;
     text-align: center;
-    width: 170px;
+    width: 290px;
     height: 205px;
-    margin: 0 5px 0 10px;
+    margin: 0 0px 0 0px;
+    background: #6b886e;
+    color: #dfdad5;
+    padding: 16px;
 }
 
-.book_img a img {
-    height: 205px;
+.bkBox {
+    height: 173px;
+    margin-bottom: 4px;
+
 }
 
+.bkBox img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.imgBox {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+    
+}
+
+.imgBox img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.odBox02 {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+
+.lastfavs{
+    border-bottom: 1px solid;
+    padding-bottom: 8px;
+    margin-bottom: 22px;
+}
 
 
 
@@ -230,6 +280,3 @@ h4 {
 .td-linked {
     cursor: pointer;
 }
-
-
-

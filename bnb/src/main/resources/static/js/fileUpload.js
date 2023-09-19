@@ -1,25 +1,4 @@
- // 파일 업로드 폼 제출 이벤트
- document.getElementById('uploadForm').addEventListener('submit', function (e) {
-     e.preventDefault();
-     var form = document.getElementById('uploadForm');
-     var formData = new FormData(form);
-
-     fetch('/seller/settings/account', {
-             method: 'POST',
-             body: formData
-         })
-         .then(response => response.json())
-         .then(data => {
-             console.log(data);
-             alert('File uploaded successfully'); // 업로드 완료 경고창
-             form.reset(); // 폼 리셋
-         })
-         .catch(error => {
-             console.log('Error:', error);
-             alert('File upload failed'); // 업로드 실패 경고창
-         });
- });
-
+ 
  // 초기 상태에서 업로드 버튼 비활성화
  const uploadBtn = document.getElementById('uploadBtn');
  uploadBtn.disabled = true;
@@ -51,7 +30,7 @@
      }
 
      // 파일 크기 검사 (1MB = 1024 * 1024 bytes)
-     if (file.size > 1024 * 1024) {
+     if (file.size > 4096 * 4096) {
          warning.textContent = 'File size exceeds 1MB!';
          fileInput.value = ''; // 파일 입력 리셋
          uploadBtn.disabled = true; // 업로드 버튼 비활성화
@@ -72,3 +51,32 @@
      // 경고 메시지 초기화
      warning.textContent = '';
  });
+
+ 
+// 파일 업로드 폼 제출 이벤트
+document.getElementById('uploadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = document.getElementById('uploadForm');
+    var formData = new FormData(form);
+
+    fetch('/seller/settings/account', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Server response was not ok.');
+            }
+        })
+        .then(data => {
+            console.log(data);
+            alert('프로필 사진이 성공적으로 등록 되었습니다!'); // 업로드 완료 경고창
+            form.reset(); // 폼 리셋
+        })
+        .catch(error => {
+            console.log('Error:', error);
+            alert('사진 업로드에 실패하였습니다.'); // 업로드 실패 경고창
+        });
+});

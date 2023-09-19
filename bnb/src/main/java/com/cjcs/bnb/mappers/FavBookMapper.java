@@ -14,4 +14,5 @@ public interface FavBookMapper {
 
     void removeFav(FavBookDTO favBookDTO); // 찜하기 제거
 
+    String getFavBookStoreName(@Param("c_id") String c_id, @Param("favb_b_isbn") String favb_b_isbn);
 }

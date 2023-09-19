@@ -36,7 +36,12 @@
     WHERE p_o_id = #{o_id}
 </select>
 
-
+<select id="getRentalISBNListByOId" resultType="String">
+    SELECT r_b_isbn
+    FROM Rental
+    WHERE r_o_id = #{o_id}
+</select>
+ 
 <!--유다,수희-->
     <select id="getCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->

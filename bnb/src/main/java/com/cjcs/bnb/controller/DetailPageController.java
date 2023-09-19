@@ -58,22 +58,25 @@ public class DetailPageController {
     @GetMapping("/books/detail/{isbn}/{sellerId}")
     public String bookDetail(@PathVariable String isbn, @PathVariable String sellerId,
             HttpSession session, Model model) {
-                
+
         // 여기서 isbn과 sellerId를 사용해 DB에서 해당 책의 상세 정보를 가져옵니다.
         String userId = (String) session.getAttribute("loggedInUser");
+        Integer favState;
+
+        if (userId == null) {
+            favState = 0; // 로그인하지 않은 사용자
+        } else {
+            favState = fbkSer.getFavState(new FavBookDTO(userId, sellerId, isbn));
+        }
+
         BookDto book = bSer.findBookByIsbnAndSellerId(isbn, sellerId);
         BookDto bkStock = bSer.findBookStock(isbn, sellerId);
         BookDto bdInfo = bSer.bookDetail(isbn, sellerId);
         List<BookDto> bkISBN = bSer.findBooksByIsbn(isbn);
 
-        //BookDto bookDetails = bSer.getAdditionalBookDetails(sellerId);
-    
-         Integer fav_state = fbkSer.getFavState(new FavBookDTO(userId, sellerId, isbn));
-    
         System.out.println("서점 아이디 : " + sellerId);
-        
-        //model.addAttribute("bookDetails", bookDetails);
-        model.addAttribute("fav_state", fav_state);
+
+        model.addAttribute("fav_state", favState);
         model.addAttribute("bkISBN", bkISBN);
         model.addAttribute("book", book);
         model.addAttribute("bdInfo", bdInfo);
@@ -81,6 +84,8 @@ public class DetailPageController {
         model.addAttribute("isbn", isbn);
         model.addAttribute("salestock", bkStock.getB_salestock());
         model.addAttribute("rentalstock", bkStock.getB_rentalstock());
+        model.addAttribute("forsale", book.getB_forsale());
+        model.addAttribute("forrental", book.getB_forrental());
 
         return "/books/detail";
     }

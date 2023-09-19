@@ -12,6 +12,9 @@ public class FavBookService {
     private FavBookMapper favBookMapper;
 
     public Integer getFavState(FavBookDTO favBookDTO) {
+        if (favBookDTO == null || favBookDTO.getFavb_c_id() == null) {
+            return 0; // 로그인하지 않은 사용자에 대한 처리
+        }
         Integer favState = favBookMapper.getFavState(favBookDTO);
         return favState != null ? favState : 0;
     }

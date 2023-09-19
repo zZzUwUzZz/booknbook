@@ -38,7 +38,7 @@ import com.cjcs.bnb.mappers.FileMapper;
 
 import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.service.BoardService;
-
+import com.cjcs.bnb.service.FavoriteService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.NotificationService;
 import com.cjcs.bnb.service.OrderService;
@@ -77,9 +77,12 @@ public class CustomerPageController {
     private FileMapper fileMapper;
     @Autowired
     private FavoriteMapper favMp;
+    @Autowired
+    private FavoriteService fStSer;
 
     @GetMapping // 일반회원 마이페이지홈
     public String mypage(Model model, HttpSession session) {
+
         String c_id = (String) session.getAttribute("loggedInUser");
         model.addAttribute("c_id", c_id);
 
@@ -95,7 +98,9 @@ public class CustomerPageController {
         List<HashMap<String, String>> curr_rList = rDao.getCurrentRentalListByCId(c_id);
         List<PurchaseDto> pList = pDao.getLatest5PurchaseListByCId(c_id);
         List<RentalDto> rList = rDao.getLatest5RentalListByCId(c_id);
+        String latestFavStoreImg = fStSer.getLatestFavStoreImg(c_id);
 
+        model.addAttribute("latestFavStoreImg", latestFavStoreImg);
         model.addAttribute("curr_reList", curr_reList);
         model.addAttribute("curr_rList", curr_rList);
         model.addAttribute("pList", pList);
@@ -136,7 +141,7 @@ public class CustomerPageController {
         return "redirect:/mypage/info";
     }
 
-    @GetMapping("/orderlist")    // 주문내역
+    @GetMapping("/orderlist") // 주문내역
     public String mypageOrderList(SearchDto sDto, Model model, HttpSession session) {
 
         String c_id = (String) session.getAttribute("loggedInUser");
@@ -145,7 +150,7 @@ public class CustomerPageController {
 
         List<HashMap<String, String>> oList = oDao.getOrderListByDateRange(sDto);
         String pageHtml = bSer.getPageboxHtml(sDto, "/mypage/orderlist");
-        
+
         if (oList != null) {
             session.setAttribute("pageNum", sDto.getPageNum());
             model.addAttribute("oList", oList);
@@ -162,13 +167,17 @@ public class CustomerPageController {
         HashMap<String, Object> oInfo = oDao.getOrderInfoByOId(o_id);
         List<HashMap<String, Object>> oPList = pDao.getPurchaseListByOId(o_id);
         List<HashMap<String, Object>> oRList = rDao.getRentalListByOId(o_id);
+        List<PurchaseDto> isbnList = oSer.getISBNListByOId(o_id);
+        List<String> rentalISBNList = oSer.getRentalISBNListByOId(o_id);
+
+        Boolean delivered = oSer.hasAtLeastOneDelivered(oPList, oRList);
+        log.info("delivered:{}", delivered);
 
         model.addAttribute("oInfo", oInfo);
         model.addAttribute("oPList", oPList);
         model.addAttribute("oRList", oRList);
-
-        Boolean delivered = oSer.hasAtLeastOneDelivered(oPList, oRList);
-        log.info("delivered:{}", delivered);
+        model.addAttribute("isbnList", isbnList);
+        model.addAttribute("rentalISBNList", rentalISBNList);
         model.addAttribute("delivered", delivered);
 
         return "customer/mypageOrderDetail";
@@ -185,7 +194,7 @@ public class CustomerPageController {
         return "redirect:/mypage/orderdetail/" + o_id;
     }
 
-    @GetMapping("/purchaselist")    // 구매내역
+    @GetMapping("/purchaselist") // 구매내역
     public String mypagePurchaseList(SearchDto sDto, Model model, HttpSession session) {
         String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
@@ -221,7 +230,7 @@ public class CustomerPageController {
         return "customer/mypagePurchaseList";
     }
 
-    @GetMapping("/rentallist")    // 대여내역
+    @GetMapping("/rentallist") // 대여내역
     public String mypageRentalList(SearchDto sDto, Model model, HttpSession session) {
         String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
@@ -238,7 +247,7 @@ public class CustomerPageController {
         return "customer/mypageRentalList";
     }
 
-    @GetMapping("/refundexchange")     // 교환반품신청폼
+    @GetMapping("/refundexchange") // 교환반품신청폼
     public String mypageRefundExchangeFrm(@RequestParam ArrayList<Integer> p_idList, Model model) {
 
         log.info("p_idList:{}", p_idList);
@@ -272,7 +281,7 @@ public class CustomerPageController {
         return "redirect:/mypage/refundexchangelist";
     }
 
-    @GetMapping("/refundexchangelist")    // 교환반품내역
+    @GetMapping("/refundexchangelist") // 교환반품내역
     public String mypageRefundExchangeList(SearchDto sDto, Model model, HttpSession session) {
         String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
@@ -299,7 +308,7 @@ public class CustomerPageController {
         return "redirect:/mypage/refundexchangelist";
     }
 
-    @GetMapping("/rentalreservationlist")    // 대여예약내역
+    @GetMapping("/rentalreservationlist") // 대여예약내역
     public String mypageRentalReservationList(SearchDto sDto, Model model, HttpSession session) {
 
         String c_id = (String) session.getAttribute("loggedInUser");
@@ -347,7 +356,7 @@ public class CustomerPageController {
         Map<String, Object> params = new HashMap<>();
         params.put("c_id", c_id);
         params.put("joinedIds", joinedIds);
-
+        String latestFavStoreImg = fStSer.getLatestFavStoreImg(c_id);
         List<SellerFileDto> imageInfos = favMp.getSellerFileListByJoinedIds(params);
 
         log.info("favStores:{}", favStores);
@@ -355,9 +364,11 @@ public class CustomerPageController {
 
         // model.addAttribute("sellersInfo", sellersInfo);
         model.addAttribute("favStores", favStores);
+        model.addAttribute("favIds", favIds);
         model.addAttribute("imageInfos", imageInfos);
         model.addAttribute("currentPage", page);
         model.addAttribute("numOfPages", numOfPages);
+        model.addAttribute("latestFavStoreImg", latestFavStoreImg);
 
         return "customer/mypageFavoriteStores";
     }

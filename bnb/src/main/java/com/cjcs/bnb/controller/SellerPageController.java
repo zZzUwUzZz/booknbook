@@ -268,10 +268,28 @@ public class SellerPageController {
 
     @PostMapping("/rent/curr/return")
     public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData, String s_id) {
-        rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
-        rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
-        rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
-        return ResponseEntity.ok("반납 처리");
+        int rentalStock = rSer.getRentalStock(requestData); // 대여 재고 조회
+        int CountRentalRes = rSer.CountRentalRes(requestData); // 예약자 수 카운트
+        
+        if (rentalStock > 0) {
+        // 대여재고 > 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else if (CountRentalRes == 0) {
+        // 대여재고 = 0 예약자 = 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else {
+        // 대여재고 = 0 예약자 > 0
+        // 반납완료, 예약 1순위 상태 변경, 알림 보내기, 결제시한 날짜 추가
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
+            return ResponseEntity.ok("반납 처리 및 예약 1순위 처리");
+        }
     }
 
 

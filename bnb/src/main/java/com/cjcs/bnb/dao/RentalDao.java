@@ -46,6 +46,7 @@ public interface RentalDao {
     public void RentResStatus_First(@Param("b_title") String b_title); // 예약 1순위 예약 상태 변경    
     public int getRentalStock(@Param("b_title") String b_title); //대여 재고 조회
     public void RentalStockAdd(@Param("b_title") String b_title, String s_id); //대여 재고 +1
+    public int CountRentalRes(@Param("b_title") String b_title); // 예약자 수 조회
 
 
     public List<RentalDto> RentReturnList(String s_id); // 반납현황

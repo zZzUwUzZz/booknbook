@@ -281,7 +281,7 @@
     </update>
 
     <!-- 대여 재고 조회 -->
-    <select id="getRentalStock" resultType="BookDto">
+    <select id="getRentalStock" resultType="RentalDto">
         select b_s_id, b_title, b_rentalstock
         from book
         where b_title = #{b_title}
@@ -295,6 +295,16 @@
         WHERE B_TITLE = #{b_title}
         and b_s_id = 'seller001'
     </update>
+
+    <!-- 예약자 수 조회 -->
+    <select id="CountRentalRes" resultType="RentalDto">
+        select count(*)
+        from Rental_Res
+        where rr_s_id = 'seller001'
+        AND RR_B_ISBN IN (
+            SELECT b_isbn FROM book WHERE b_title = #{b_title}
+        )
+    </select>
 
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">

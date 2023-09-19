@@ -144,6 +144,11 @@ public class RentalService {
         rDao.RentalStockAdd(requestData.getB_title(), s_id);
     }
 
+    // 예약자 수 조회
+    public int CountRentalRes(RentalDto requestData) {
+        return rDao.CountRentalRes(requestData.getB_title());
+    }
+
     // 반납 현황 리스트
     public List<RentalDto> RentReturnList(String s_id) {
 

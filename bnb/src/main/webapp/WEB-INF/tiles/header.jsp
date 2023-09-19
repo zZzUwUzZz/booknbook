@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
 <!-- STOMP.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 
     <script src="/js/noti.js"></script>
     <script src="/js/search.js"></script>
@@ -54,16 +56,36 @@
      <!-- modal -->
  
      <div id="small-menu">
-        <p class="smallmenuId">${sessionScope.loggedInUser}</p>
-        <div class="smMenuList">
-            <a href="/mypage">마이페이지</a><br>
-            <a href="/mypage/orderlist">주문 내역</a><br>
-            <a href="/mypage/rentallist">대여 내역</a><br>
+        
+         <div class="smMenuList">
+            <c:choose>
+                <c:when test="${sessionScope.M_ROLE == 'USER'}">
+                    <p class="smallmenuId">${sessionScope.loggedInUser}</p>
+                    <a href="/mypage">마이페이지</a><br>
+                    <a href="/mypage/orderlist">주문 내역</a><br>
+                    <a href="/mypage/rentallist">대여 내역</a><br>
+                </c:when>
+                <c:when test="${sessionScope.M_ROLE == 'SELLER'}">
+                    <p class="smallmenuId">${sessionScope.loggedInUser}</p>
+                    <a href="/seller/main">서점 관리 홈</a><br>
+                    <a href="/seller/sell/history">판매 내역</a><br>
+                    <a href="/seller/book/list">도서 관리</a><br>
+                    <a href="/seller/rent/curr">대여 관리</a><br>
+                </c:when>
+                <c:when test="${sessionScope.M_ROLE == 'ADMIN'}">
+                    <p class="smallmenuId" style="color:red;"><b>${sessionScope.loggedInUser}<b></p>
+                    <a href="/admin" style="color:red;"><b>관리자 페이지<b></a><br>
+                </c:when>
+            </c:choose>
             <a href="/member/logout">LOGOUT</a><br>
         </div>
-    </div>
+     </div>
 
-
+  <div style="position: absolute;">
+     <%= "Session loggedInUser: " + session.getAttribute("loggedInUser") %>
+    <%= "Session isLoggedIn: " + session.getAttribute("isLoggedIn") %>
+    Session M_ROLE value: ${sessionScope.M_ROLE}
+</div>
     <h1 class="WStest" 
     style="display: none;background-color: rgba(255, 232, 0, 0.5);position: absolute;text-align: center;margin: auto;width: 100%;height: 100px;top: 4%;z-index: 999;pointer-events: none;"></h1>
 
@@ -142,29 +164,207 @@
     
  
 
- 
+
  <script>
+    
 
 
-jQuery(function($) {
-$("body").css("display", "none");
-$("body").fadeIn(2000);
-$("a.transition").click(function(event){
-event.preventDefault();
-linkLocation = this.href;
-$("body").fadeOut(1000, redirectPage);
+// 알림창 목록 
+    $(document).ready(function () {
+ 
+ var userId = "${sessionScope.loggedInUser}";
+ var isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
+
+
+ var notifications = []; // 알림 목록
+
+ if (!isLoggedIn) {
+     // 로그인이 안 되어 있을 때의 처리
+     return;
+ }
+   // 1. 페이지 로딩 시 서버에서 알림 목록을 불러옵니다.
+
+   $.get("/notifications?userId=" + userId, function (data) {
+     console.log("Server response: ", data); // 이 부분을 추가
+     notifications = data;
+     setDefaultNotification();
+
+     let hasUnread = false;
+     for (const notification of notifications) {
+       if (notification.nb_read === 'N') {
+         hasUnread = true;
+         break;
+       }
+   }
+   if (hasUnread) {
+     newNotificationReceived();
+   } else {
+     removeNewDot();
+     $('.WStest').text('실시간 알림 성공').css('display', 'none');
+   }
+   });
+
+
+// 알림 아이콘 버튼 이벤트
+$(".noti_btn").click(function (event) {
+ $(".noti_md").toggle();
+ markAllAsRead();  // 모든 알림을 읽음 상태로 변경
+ event.stopPropagation();
 });
-function redirectPage() {
-window.location = linkLocation;
+
+
+// 모든 알림을 읽음 상태로 변경하는 함수
+function markAllAsRead() {
+
+ var userId = "${sessionScope.loggedInUser}";  
+
+ // 서버에 읽음 상태로 바꾸는 요청을 보냅니다.
+ $.post("/markAllAsRead", { userId: userId }, function(response) {
+     // 모든 알림을 읽음 상태로 변경한 후에 빨간 점을 제거합니다.
+     $(".noti_btn .new_dot").remove();
+ });
 }
+
+function removeNewDot() {
+ $(".noti_btn .new_dot").remove();
+}
+
+
+ $(".noti_md").click(function (event) {
+   event.stopPropagation();
+ });
+
+ $(document).click(function () {
+   $(".noti_md").hide();
+ });
+
+
+ // 초기 알림 상태 설정
+ setDefaultNotification();
+
+// WebSocket 초기화
+var socket = new SockJS('/ws');
+var stompClient = Stomp.over(socket);
+var userId = "${sessionScope.loggedInUser}";  
+
+stompClient.connect({}, function (frame) {
+  stompClient.subscribe('/topic/notifications/' + userId, function (notification) {
+   console.log("WebSocket notification: ", notification); // 이 부분을 추가
+
+    var noti = JSON.parse(notification.body);
+    notifications.push(noti);
+    setDefaultNotification();
+    showNotification(noti.userId, noti.b_title, noti.s_storename, noti.b_isbn, noti.b_s_id);
+    newNotificationReceived();  // 새로운 알림이 있을 때 빨간 점 추가
+
+  });
 });
 
+ 
+ // 빨간 점 추가
+ function newNotificationReceived() {
+   $(".noti_btn").each(function () {
+     if (!$(this).find('.new_dot').length) { // new_dot이 없을 경우에만 추가
+       var redDot = $('<span>').addClass('new_dot').text('●');
+       $(this).append(redDot);
+     }
+   });
+ }
+
+
+// setDefaultNotification 함수 수정
+function setDefaultNotification() {
+ var notiBox = $('.notilistbox').first();
+ notiBox.html('');
+ 
+ let hasUnread = false;
+
+ if (!isLoggedIn) {
+   notiBox.append('<div class="noti_ngout">로그인이 필요한 서비스입니다.</div>');
+ } else if (notifications.length === 0) {
+   notiBox.append('<div class="noti_ng">표시할 알림이 없습니다.</div>');
+ } else {
+   notifications.forEach(function (notification) {
+     
+     if (notification.nb_read === 'N') {
+       hasUnread = true;
+     }
+     console.log("DB에 있는 알림 목록", notification);
+
+     $('.WStest').text('실시간 알림 성공').css('display', 'block');
+    
+     var newDiv = $('<div></div>');
+     newDiv.addClass('noti_item');
+     newDiv.attr('data-read', 'false');
+     
+     var aTag = $('<a></a>');
+     aTag.attr('href', '/books/detail/' + notification.b_isbn + '/' + notification.b_s_id);
+ 
+     // nb_msg 값을 기반으로 다양한 메시지를 생성합니다.
+     var fullMessage = '';
+     if (notification.nb_msg === '입고') {
+       fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+     } else if (notification.nb_msg === '대여가능') {
+       fullMessage = `"` + notification.b_title + `" 상품 대여 가능 합니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+     } 
+     // 추가적인 조건을 이곳에 작성
+    
+    
+     aTag.html(fullMessage);
+   
+     var dateSpan = $('<span></span>');
+     dateSpan.addClass('noti_date');
+     dateSpan.html(notification.nb_date);
+   
+     newDiv.append(aTag);
+     newDiv.append(dateSpan);
+     newDiv.click(markAsRead);
+     
+     notiBox.prepend(newDiv);
+     newNotificationReceived();
+   });
+ }
+}
+
+ function markAsRead(event) {
+   const notiItem = $(event.currentTarget);
+   notiItem.attr('data-read', 'true').css('background', '#cdcdcd');
+   checkAllNotificationsRead();
+ }
+
+ if (hasUnread) {
+   newNotificationReceived();
+ } else {
+   removeNewDot();
+ }
+ 
+})
+
+
+ 
+    jQuery(function ($) {
+        $("body").css("display", "none");
+        $("body").fadeIn(1000);
+        $("a.transition").click(function (event) {
+            event.preventDefault();
+            linkLocation = this.href;
+            $("body").fadeOut(500, redirectPage);
+        });
+        function redirectPage() {
+            window.location = linkLocation;
+        }
+    });
+   
 window.onload = function() {
     var msg = "${msg}";
     if (msg === '이미 로그인 된 상태입니다.') {
         alert(msg);
     }
 };
+
+
+
+
     document.addEventListener("DOMContentLoaded", function() {
     var loginLogoutButton = document.getElementById("login-logout-button");
     var loggedInUser = "${sessionScope.loggedInUser}";

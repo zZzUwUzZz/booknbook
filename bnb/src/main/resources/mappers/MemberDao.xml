@@ -9,7 +9,7 @@
 
     <!-- 판매자 아이디 불러오기 -->
     <select id="getMemberInfo" resultType="com.cjcs.bnb.dto.MemberDto">
-        SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname
+        SELECT M.*, S.s_storename, S.s_storedesc, S.s_crn, S.s_deliveryfee, S.s_latefee, SF.sf_sysname, S.s_id
         FROM M
         LEFT JOIN S ON M.m_id = S.s_id
         LEFT JOIN SF ON S.s_id = SF.sf_s_id
@@ -35,7 +35,7 @@
     WHERE fb.favb_c_id = #{c_id} AND fb.favb_b_isbn = #{favb_b_isbn}
 </select>
  
-
+ 
 <!--이재락-->
 
    <!-- <insert id="joinMember" parameterType="MemberDto">

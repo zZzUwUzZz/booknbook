@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.cjcs.bnb.dto.BookDto" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,8 +29,10 @@
 
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/slide.css">
+        <link rel="stylesheet" href="/css/books.css">
         <link rel="stylesheet" href="/css/bookstore/bookstore.css">
         <link rel="stylesheet" href="/css/bookstore/bookstoreDetail.css">
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <script src="/js/main.js"></script>
@@ -57,17 +62,17 @@
    
     <main>
 
-        <section class="stContain01" style="background-image:url()">
+        <section class="stContain01" style="background-image:url(/uploads/${sellerFile.sf_sysname})">
 
             <div class="stinfoBox">
                 <div class="stinfoBox02">
                     <strong class="stText02">
-                        서점명
+                        ${seller.s_storename}
                      </strong>
                     <div class="stText03">
                         <div class="stText04">
                             <div class="stText05">
-                                서점 소개
+                                ${seller.s_storedesc}
                             </div>
                         </div>
                     </div>
@@ -85,7 +90,55 @@
         </section>
 
 
+        <div class="bookListContainer">
+
+    
+            <div class="bk_tt">
+              <p class="totalct">총 ${totalItems}개의 상품</p>
+            </div>  
+            <ul class="bk_list">
+              <c:forEach var="book" items="${books}">
+                <li class="bk_item">
+                  <div class="bk_area">
+                    <a href="<c:url value='/books/detail/${book.b_isbn}/${book.b_s_id}'/>">
+                      <div class="bkimgbox">
+                      
+                        <div class="statusText" data-salestock="${book.b_salestock}" data-rentalstock="${book.b_rentalstock}">
+                            <label class="statusText_2"></label>
+                            <label class="statusText_3"></label>
+                        </div>
+                   
+                        <img src="https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/${book.b_isbn}.jpg" alt="${book.b_title}">
+                      </div>
+                    </a>
+                    <div class="bk_item_text"><b>${book.b_title}</b><br>
+                   <b>  <fmt:formatNumber value="${book.b_price}" type="number" pattern="#,###" /></b><span>원</span></div>
+                  </div>
+                </li>
+              </c:forEach>
+            </ul>
+
+
+            <div class="pagination">
+              <c:choose>
+                  <c:when test="${not empty category_m_id}">
+                      <c:forEach var="i" begin="1" end="${totalPages}">
+                          <a href="<c:url value='/books/category/medium/${category_m_id}?page=${i}' />" 
+                             class="${i == currentPage ? 'active' : ''}">${i}</a>
+                      </c:forEach>
+                  </c:when>
+                  <c:otherwise>
+                      <c:forEach var="i" begin="1" end="${totalPages}">
+                          <a href="<c:url value='/books?page=${i}' />" 
+                             class="${i == currentPage ? 'active' : ''}">${i}</a>
+                      </c:forEach>
+                  </c:otherwise>
+              </c:choose>
+          </div>
         
+          </div> 
+
+
     </main>
 
    

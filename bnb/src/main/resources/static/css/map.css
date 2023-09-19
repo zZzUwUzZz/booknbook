@@ -200,7 +200,14 @@ span.material-symbols-outlined.close-button {
     font-variation-settings: 'FILL' 0, 'wght' 100,'GRAD' 0,'opsz' 48;
 }
 
-
+.storebtn01 {
+    display: flex;
+    margin-top: 21px;
+    width: 136px;
+    background: #203b23;
+    color: #dfdad5;
+    padding: 7px;
+}
 
 /* 페이지네이션 */
 

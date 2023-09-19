@@ -80,7 +80,6 @@ public class CustomerPageController {
 
     @GetMapping // 일반회원 마이페이지홈
     public String mypage(Model model, HttpSession session) {
-
         String c_id = (String) session.getAttribute("loggedInUser");
         model.addAttribute("c_id", c_id);
 
@@ -188,7 +187,6 @@ public class CustomerPageController {
 
     @GetMapping("/purchaselist")    // 구매내역
     public String mypagePurchaseList(SearchDto sDto, Model model, HttpSession session) {
-
         String c_id = (String) session.getAttribute("loggedInUser");
         sDto.setC_id(c_id);
 
@@ -225,9 +223,7 @@ public class CustomerPageController {
 
     @GetMapping("/rentallist")    // 대여내역
     public String mypageRentalList(SearchDto sDto, Model model, HttpSession session) {
-
         String c_id = (String) session.getAttribute("loggedInUser");
-
         sDto.setC_id(c_id);
 
         List<HashMap<String, String>> rList = rDao.getRentalListByDateRange(sDto);
@@ -307,7 +303,6 @@ public class CustomerPageController {
     public String mypageRentalReservationList(SearchDto sDto, Model model, HttpSession session) {
 
         String c_id = (String) session.getAttribute("loggedInUser");
-
         sDto.setC_id(c_id);
 
         List<RentalReservationDto> rrList = rDao.getReservationListByDateRange(sDto);

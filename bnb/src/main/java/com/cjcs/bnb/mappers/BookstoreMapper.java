@@ -10,6 +10,7 @@ import com.cjcs.bnb.dto.MemberDto;
 
 @Mapper
 public interface BookstoreMapper {
+    
     List<MemberDto> getAllImageList(); // List로 반환
 
     List<BookDto> booksBySeller(int start, int end, String sellerId);
@@ -25,5 +26,7 @@ public interface BookstoreMapper {
     int countTotalBooksBySeller(@Param("sellerId") String sellerId);
 
     SellerFileDto getSellerFileById(@Param("sellerId") String sellerId);
+
+    BookDto getAdditionalBookDetails(String sellerId);
 
 }

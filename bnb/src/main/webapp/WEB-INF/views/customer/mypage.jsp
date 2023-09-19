@@ -79,6 +79,12 @@
                         <c:if test="${!empty latestFav}">
 
                             <div class="store_img">
+                                <div class="imgBox">
+                                    <a href="/bookstore/detail/${latestFav.favs_s_id}">
+                                        <img src="/uploads/${latestFavStoreImg}">
+                                    </a>
+                                </div>
+                                <a style="color: #dfdad5;" href="/bookstore/detail/${latestFav.favs_s_id}"><div>${latestFav.favs_s_storename}</div></a> 
                                 <c:choose>
                                     <c:when test="${!empty latestFav.favs_s_id}">
                                         <div class="imgBox">
@@ -92,6 +98,7 @@
                                         <div>즐겨찾기한 서점이 없습니다.</div>
                                     </c:otherwise>
                                 </c:choose>
+
                             </div>
 
                             <div class="book_img">

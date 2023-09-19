@@ -107,10 +107,12 @@ public class MemberController {
         if (mb != null) {
             session.setAttribute("loggedInUser", mb.getM_id()); // 사용자 아이디를 세션에 저장
             session.setAttribute("M_ROLE", mb.getM_role()); // 사용자 유형을 M_ROLE 세션에 저장
-
+            session.setAttribute("isLoggedIn", true); // 로그인 상태를 세션에 저장 <- 이 부분을 추가
+        
             // 로그 출력
             System.out.println("User ID: " + session.getAttribute("loggedInUser"));
             System.out.println("User Type (M_ROLE): " + session.getAttribute("M_ROLE"));
+            System.out.println("Is Logged In: " + session.getAttribute("isLoggedIn")); // 로그인 상태 출력 <- 이 부분을 추가
 
             return "redirect:/";
         } else {
@@ -181,6 +183,8 @@ public class MemberController {
     @PostMapping("/join")
     public String joinProcess(MemberDto member, Model model) {
         HashMap<String, Object> resultMap = new HashMap<>();
+
+
 
         try {
             // 비밀번호 해싱

@@ -1,10 +1,9 @@
 .stContain01 {
     box-sizing: border-box;
     position: relative;
-    z-index: 1;
     min-width: 1000px;
-    min-height: 600px;
-    padding: 70px 90px 150px 70px;
+    min-height: 500px;
+    padding: 74px 90px 109px 87px;
     -webkit-background-position: 50% 50%;
     background-position: 50% 50%;
     -webkit-background-size: cover;
@@ -17,6 +16,9 @@
     -webkit-justify-content: space-between;
     justify-content: space-between;
     background: #8d8d8d;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 
@@ -33,7 +35,7 @@
 
 .stinfoBox {
     position: relative;
-    z-index: 10;
+    z-index: 1;
     margin-right: 80px;
     color: #ffffff;
 }

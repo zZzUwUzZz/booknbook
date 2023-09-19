@@ -18,15 +18,14 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		log.info("preHandle call");
-		
 		HttpSession session = request.getSession();
-		
+		 
 		if (session.getAttribute("mb") == null) {
 			log.info("인터셉트! - 로그인 안 함");
 			response.sendRedirect("/");    // home.jsp
 			return false;
 		} 
-		
+		 
 		return true;     // true반환일 때 controller로 진입 가능
 	}
 

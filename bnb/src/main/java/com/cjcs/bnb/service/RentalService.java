@@ -3,6 +3,7 @@ package com.cjcs.bnb.service;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -186,12 +187,12 @@ public class RentalService {
         return resultList;
     }
 
-    // 예약 상태 수락
+    // 예약 신청 수락
     public void ReserveAccept(RentalDto requestData) {
         rDao.ReserveAccept(requestData.getRr_id());
     }
 
-    // 예약 상태 거절
+    // 예약 신청 거절
     public void ReserveRefuse(RentalDto requestData) {
         rDao.ReserveRefuse(requestData.getRr_id(), requestData.getRr_rejection_reason());
     }
@@ -207,7 +208,7 @@ public class RentalService {
             if (o_date != null) {
                 dto.setO_dateStr(sdf.format(o_date));
             }
-            if(returnexpect_days!=null){
+            if (returnexpect_days != null) {
                 dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
             }
         }
@@ -215,19 +216,85 @@ public class RentalService {
         return resultList;
     }
 
+    // 배송 상태명
+    public List<RentalDto> DeliveryStatusList() {
+        return rDao.DeliveryStatusList();
+    }
+
+    // 배송상태, 대여상태 업데이트
+    @Transactional
+    public void UpdateDeliStatus(List<RentalDto> requestData) {
+        for (RentalDto request : requestData) {
+            rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status(), request.getB_title());
+            UpdateRentStatus_Wait(request);
+            UpdateRentStatus_Curr(request);
+            UpdateRentStatus_Late(request);
+            RentResStatus_First(request);
+        }
+    }
+
+    // 대여 상태 업데이트 [대여시작전]
+    public void UpdateRentStatus_Wait(RentalDto requestData) {
+        rDao.UpdateRentStatus_Wait(requestData.getO_id(), requestData.getB_title());
+    }
+
+    // 대여 상태 업데이트 [대여중]
+    public void UpdateRentStatus_Curr(RentalDto requestData) {
+        rDao.UpdateRentStatus_Curr(requestData.getO_id(), requestData.getB_title());
+    }
+
+    // 대여 상태 업데이트 [연체]
+    public void UpdateRentStatus_Late(RentalDto requestData) {
+        rDao.UpdateRentStatus_Late(requestData.getO_id(), requestData.getB_title());
+    }
+
+    // 대여 상태 업데이트 [반납 완료]
+    public void UpdateRentStatus_Return(RentalDto requestData) {
+        rDao.UpdateRentStatus_Return(requestData.getO_id(), requestData.getB_title());
+    }
+
+    // 예약 1순위 예약 상태 변경
+    public void RentResStatus_First(RentalDto requestData) {
+        rDao.RentResStatus_First(requestData.getB_title());
+    }
+
+    // 대여 재고 조회
+    public int getRentalStock(RentalDto requestData) {
+        return rDao.getRentalStock(requestData.getB_title());
+    }
+
+    // 대여 재고 +1
+    public void RentalStockAdd(RentalDto requestData, String s_id) {
+        rDao.RentalStockAdd(requestData.getB_title(), s_id);
+    }
+
+    // 예약자 수 조회
+    public int CountRentalRes(RentalDto requestData) {
+        return rDao.CountRentalRes(requestData.getB_title());
+    }
+
     // 반납 현황 리스트
     public List<RentalDto> RentReturnList(String s_id) {
+        
+        List<RentalDto> returnList = rDao.RentReturnList(s_id);
 
-        // 날짜 형식 포맷 변경
-        List<RentalDto> resultList = rDao.RentReturnList(s_id);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        for (RentalDto dto : resultList) {
-            Date o_date = dto.getO_date();
-            if (o_date != null) {
-                dto.setO_dateStr(sdf.format(o_date));
+        if (returnList != null) {
+
+            LocalDate currdate = LocalDate.now();
+
+            for (RentalDto rDto : returnList) {
+
+                if (rDto.getR_duedate() != null) {
+
+                    LocalDate duedate = ((Timestamp) rDto.getR_duedate()).toLocalDateTime().toLocalDate();
+                    if (currdate.isAfter(duedate)) {
+                        rDto.setOverdue_days((int)ChronoUnit.DAYS.between(duedate, currdate)); //연체일수 계산해서 저장
+                    }
+                }
             }
         }
-        return resultList;
+
+        return returnList;
     }
 
     public List<RentalReservationDto> getReservationListByDateRange(String c_id, LocalDate startDate,

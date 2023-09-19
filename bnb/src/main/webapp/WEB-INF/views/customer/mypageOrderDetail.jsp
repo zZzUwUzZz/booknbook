@@ -95,7 +95,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="itemPr">
-                                                    ${oPItem.b_price}원
+                                                    <fmt:formatNumber value="${oPItem.b_price}" type="number" pattern="#,##0" />원
                                                 </div>
                                                 <div class="opTitle_status">
                                                     <div class="opText">
@@ -140,7 +140,7 @@
                                                 </div>
 
                                                 <div class="itemPr">
-                                                    ${oRItem.b_rent}원
+                                                    <fmt:formatNumber value="${oRItem.b_rent}" type="number" pattern="#,##0" />원
                                                 </div>
                                                 <div class="opTitle_status">
                                                     <div class="opText">
@@ -204,7 +204,7 @@
 
                                             <div>
                                                 <div class="text01">연락처</div>
-                                                <div class="text02">${oInfo.o_recip_phone}</div>
+                                                <div class="text02">${oInfo.formatted_phone}</div>
                                             </div> <br>
                                         </div>
                                     </c:when>

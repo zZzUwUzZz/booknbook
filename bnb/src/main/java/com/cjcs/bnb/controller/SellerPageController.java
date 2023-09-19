@@ -227,6 +227,7 @@ public class SellerPageController {
         return "seller/sellerBookList";
     }
 
+    // 도서 신규등록 폼
     @GetMapping("/book/add")
     public String sellerbookadd(Model model) {
 
@@ -241,7 +242,7 @@ public class SellerPageController {
     @PostMapping("/book/add/getsmallcategories")
     public List<BookDto> getsmallbymedium(@RequestParam String category_m_id) {
 
-        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 출력
+        // 선택한 중분류카테고리에 따라 소분류카테고리를 드랍다운폼에 비동기 출력
         List<BookDto> categories_s = categoryDao.listSmallCategories(category_m_id);
 
         return categories_s;
@@ -259,8 +260,9 @@ public class SellerPageController {
         else return false;
     }
 
+    // 도서 신규등록 처리
     @PostMapping("/book/add")
-    public String sellerbookaddtodb(BookDto bookDto) {
+    public String sellerbookaddtodb(BookDto bookDto, HttpSession session) {
 
         String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
         bookDto.setB_s_id(s_id);
@@ -305,15 +307,57 @@ public class SellerPageController {
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
 
+        // 배송 상태명
+        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
+        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
+
         return "seller/sellerRentCurr";
     }
 
-    @GetMapping("/rent/return")
-    public String sellerrentreturn(String s_id, Model model) {
+    @PostMapping("/rent/curr/save")
+    public ResponseEntity<List<RentalDto>> UpdateDeliStatus(@RequestBody List<RentalDto> requestData) {
+        // 배송 상태 업데이트
+        rSer.UpdateDeliStatus(requestData);
+        return ResponseEntity.ok(requestData);
+    }
 
+    @PostMapping("/rent/curr/return")
+    public ResponseEntity<String> UpdateRentStatus_Return(@RequestBody RentalDto requestData, String s_id) {
+        int rentalStock = rSer.getRentalStock(requestData); // 대여 재고 조회
+        int CountRentalRes = rSer.CountRentalRes(requestData); // 예약자 수 카운트
+        
+        if (rentalStock > 0) {
+        // 대여재고 > 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else if (CountRentalRes == 0) {
+        // 대여재고 = 0 예약자 = 0
+        // 반납완료, 재고 + 1
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentalStockAdd(requestData, s_id); // 대여 재고 +1
+            return ResponseEntity.ok("반납 처리 및 대여 재고 증가");
+        } else {
+        // 대여재고 = 0 예약자 > 0
+        // 반납완료, 예약 1순위 상태 변경, 알림 보내기, 결제시한 날짜 추가
+            rSer.UpdateRentStatus_Return(requestData); // 반납 완료로 상태 변경
+            rSer.RentResStatus_First(requestData); // 예약 1순위 예약 상태 변경
+            return ResponseEntity.ok("반납 처리 및 예약 1순위 처리");
+        }
+    }
+
+
+
+    @GetMapping("/rent/return")
+    public String sellerrentreturn(Model model) {
+
+        String s_id = "seller001";   // 일단 하드코딩함!!!!!!!!!!!!!!! 나중에 수정!!!!!!!!!!!!!!!!!!!
+        
         // 반납 내역 불러오기
-        List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
-        model.addAttribute("RentReturnList", RentReturnList);
+        List<RentalDto> returnList = rSer.RentReturnList(s_id);
+        log.info("returnList:{}", returnList);
+        model.addAttribute("returnList", returnList);
 
         return "seller/sellerRentReturn";
     }

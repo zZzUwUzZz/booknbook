@@ -35,6 +35,7 @@ public interface RentalDao {
     public List<HashMap<String, String>> getCustomerBlackList(Integer frequency);
 
     public int updateRentalStatusByRId(Integer r_id, Integer code, Integer latefee, String paid_or_not);
+    public int updateOrderStatusByRId(HashMap<String, Object> order);
     public int updateLatefeeByRId(Integer r_id, Integer latefee);
     public int updateLatefeePayDateByRId(Integer r_id, String code);
     public Integer getStoreLatefeeByRId(Integer r_id);

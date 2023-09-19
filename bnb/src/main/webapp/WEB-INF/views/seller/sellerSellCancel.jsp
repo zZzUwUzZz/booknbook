@@ -75,8 +75,8 @@
 
                         <h1>주문취소 관리</h1>
 
-                        <form action="/seller/sell/cancel" method="POST" id="updateForm">
-                        <button type="submit" id="save">저장</button><br><br>
+                        <button type="button" id="save">저장</button><br><br>
+                        
                         <table class="seller-list">
                             <thead>
                                 <tr>
@@ -115,8 +115,18 @@
                                             <td class="status_td">${oItem.order_status}</td>
                                             <td class="apprv_td">
                                                 <c:choose>
-                                                    <c:when test="${oItem.order_status_id eq 3}">거절</c:when>
-                                                    <c:when test="${oItem.order_status_id eq 4}">승인</c:when>
+                                                    <c:when test="${oItem.order_status_id eq 3}">
+                                                        <select name="order_status_id" class="status">
+                                                            <option value="3" class="no" selected>취소거절</option>
+                                                            <option value="4" class="yes">취소승인</option>
+                                                        </select>
+                                                    </c:when>
+                                                    <c:when test="${oItem.order_status_id eq 4}">
+                                                        <select name="order_status_id" class="status">
+                                                            <option value="3" class="no">취소거절</option>
+                                                            <option value="4" class="yes" selected>취소승인</option>
+                                                        </select>
+                                                    </c:when>
                                                     <c:otherwise>
                                                         <select name="order_status_id" class="status">
                                                             <option value="2" disabled selected>-</option>
@@ -128,11 +138,11 @@
                                             </td>
                                             <td class="reason_td">
                                                 <c:choose>
-                                                    <c:when test="${empty oItem.cancel_rejection_reason}">
-                                                        <input type="text" name="rejection_reason" class="reason" disabled>
+                                                    <c:when test="${oItem.order_status_id eq 3}">
+                                                        <input type="text" name="rejection_reason" value="${oItem.cancel_rejection_reason}" class="reason">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        ${cancel_rejection_reason}
+                                                        <input type="text" name="rejection_reason" class="reason" disabled>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -142,7 +152,7 @@
 
                             </tbody>
                         </table>
-                        </form>
+
                     </div>
                 </div>
             </div>
@@ -155,9 +165,7 @@
 
     $(document).ready(function () {
 
-        $('#updateForm').submit(function () {
-
-            event.preventDefault();
+        $('#save').click(function () {
 
             let conf = confirm('저장할까요?')
 
@@ -167,28 +175,37 @@
 
                 rows.forEach(function (row) {
 
-                    let order_sort = row.querySelector('.order_sort').value;
-                    let item_id = row.querySelector('.item_id').value;
-                    let status_id = row.querySelector('.status').value;
-                    let reason = row.querySelector('.reason').value;
+                    let data = {};
+                    data.order_sort = row.querySelector('.order_sort').value;
+                    data.item_id = row.querySelector('.item_id').value;
+                    data.status_id = row.querySelector('.status').value;
+                    data.reason = row.querySelector('.reason').value;
 
+                    $.ajax({
 
-                    if (status_id == 3) {
+                        method: 'post',
+                        url: '/seller/sell/cancel',
+                        data: data,
+                        dataType: 'json'
 
-                        row.querySelector('.status_td').textContent = '취소불가';
-                        row.querySelector('.apprv_td').textContent = '거절';
-                        row.querySelector('.reason_td').textContent = reason;
+                    }).done(function () {
+                    
+                        let status_id = row.querySelector('.status').value;
+                        let reason = row.querySelector('.reason').value;
 
-                    } else if (status_id == 4) {
+                        if (status_id == 3) {
+                            row.querySelector('.status_td').textContent = '취소불가';
 
-                        row.querySelector('.status_td').textContent = '취소완료';
-                        row.querySelector('.apprv_td').textContent = '승인';
-                        row.querySelector('.reason').value = null;
-                        row.querySelector('.reason_td').textContent = '';
-                    }
+                        } else if (status_id == 4) {
+                            row.querySelector('.status_td').textContent = '취소완료';
+                        }
+
+                    }).fail(function (err) {
+                        location.href = '/seller/sell/cancel'
+                    })
+
                 })
 
-                this.submit();
             }
         })
 
@@ -199,7 +216,8 @@
             let reason_box = $(this).closest('.row').find('input.reason');
 
             if (status_id == 3) {
-                reason_box.prop({'disabled': false, 'required': true});
+                reason_box.prop('disabled', false);
+
             } else if (status_id == 4) {
                 reason_box.val('');
                 reason_box.prop('disabled', true);

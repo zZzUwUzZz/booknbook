@@ -215,6 +215,13 @@ SELECT * FROM (
         WHERE cart_id = #{cart_id} AND cart_s_id = b_s_id AND cart_b_isbn = b_isbn
     </select>
     
+
+<select id="getAdditionalBookDetails" resultType="BookDto">
+    SELECT b_forrental, b_forsale FROM Book WHERE b_s_id = #{sellerId}
+</select>
+
+
+
 </mapper>
 
  

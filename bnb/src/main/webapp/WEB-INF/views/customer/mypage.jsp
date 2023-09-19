@@ -79,11 +79,11 @@
 
                             <div class="store_img">
                                 <div class="imgBox">
-                                    <a href="/bookstore/detail/{latestFav.favs_s_id}">
+                                    <a href="/bookstore/detail/${latestFav.favs_s_id}">
                                         <img src="/uploads/${latestFavStoreImg}">
                                     </a>
                                 </div>
-                                <a style="color: #dfdad5;" href="/bookstore/detail/{latestFav.favs_s_id}"><div>${latestFav.favs_s_storename}</div></a> 
+                                <a style="color: #dfdad5;" href="/bookstore/detail/${latestFav.favs_s_id}"><div>${latestFav.favs_s_storename}</div></a> 
                             </div>
                         
                         

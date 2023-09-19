@@ -23,17 +23,7 @@
     WHERE fb.favb_c_id = #{c_id} AND fb.favb_b_isbn = #{favb_b_isbn}
 </select>
  
- 
-
-<!-- <select id="getSellersInfoByIds" resultType="com.cjcs.bnb.dto.MemberDto">
-    SELECT s_id, s_storename, m_addr, m_phone
-    FROM Seller
-    JOIN Member ON Seller.s_id = Member.m_id
-    WHERE s_id IN (
-        SELECT REGEXP_SUBSTR(:sellerIdsString, '[^,]+', 1, LEVEL) FROM DUAL
-        CONNECT BY REGEXP_SUBSTR(:sellerIdsString, '[^,]+', 1, LEVEL) IS NOT NULL
-    )
-</select> -->
+  
 
 <!--이재락-->
 

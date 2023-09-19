@@ -45,7 +45,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.cjcs.bnb.service.StockService;
 
-
 @Slf4j
 @Controller
 @RequestMapping("/seller")
@@ -97,7 +96,7 @@ public class SellerPageController {
 
         // String StoreName = mSer.getStoreName(s_id);
         // model.addAttribute("StroeName", StoreName);
-        
+
         // 오늘 판매 건수 카운트
         int getTodaySellCnt = oSer.getTodaySellCnt(s_id);
         model.addAttribute("TodaySellCnt", getTodaySellCnt);
@@ -264,9 +263,7 @@ public class SellerPageController {
     @PostMapping("/book/add/isbncheck")
     public Boolean checkisbn(@RequestParam String b_isbn, HttpSession session) {
 
-
         String s_id = (String) session.getAttribute("loggedInUser");
-
 
         // 이미 등록된 isbn인지 체크
         BookDto book = bookDao.getBookByIsbn(s_id, b_isbn);
@@ -277,8 +274,7 @@ public class SellerPageController {
     }
 
     @PostMapping("/book/add")
-    public String sellerbookaddtodb(BookDto bookDto) {
-
+    public String sellerbookaddtodb(BookDto bookDto, HttpSession session) {
         String s_id = (String) session.getAttribute("loggedInUser");
 
         bookDto.setB_s_id(s_id);
@@ -388,8 +384,7 @@ public class SellerPageController {
         return "seller/sellerSellHistory";
     }
 
-
-    @GetMapping("/sell/cancel")  // 주문취소요청 리스트
+    @GetMapping("/sell/cancel") // 주문취소요청 리스트
     public String sellersellcancellist(Model model, HttpSession session) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
@@ -399,46 +394,40 @@ public class SellerPageController {
 
         return "seller/sellerSellCancel";
     }
-    
-    @PostMapping("/sell/cancel")  // 주문취소요청 처리
+
+    @PostMapping("/sell/cancel") // 주문취소요청 처리
     public String sellersellcancel(@RequestParam List<Integer> o_idList, @RequestParam List<String> s_idList,
-                                   @RequestParam List<String> isbnList, @RequestParam List<String> sortList,
-                                   @RequestParam List<Integer> statusList, @RequestParam List<String> reasonList,
-                                   Model model, HttpSession session) {
+            @RequestParam List<String> isbnList, @RequestParam List<String> sortList,
+            @RequestParam List<Integer> statusList, @RequestParam List<String> reasonList,
+            Model model, HttpSession session) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
-        
 
         return "redirect:/seller/sell/cancel";
     }
 
     // @PostMapping("/sell/cancel")
     // public String processSellCancel(@RequestParam("orderId") Integer orderId) {
-    //     // 주문 상태 확인
-    //     Order order = oSer.getOrderById(orderId);
-    //     if (order == null) {
-    //         // 해당하는 주문이 없으면 오류 메시지 처리
-    //         return "redirect:/error_page"; // 적절한 오류 페이지로 리다이렉트
-    //     }
-        
-    //     // 이미 배송이 시작되었는지 확인
-    //     if (oSer.hasAtLeastOneDelivered(order)) {
-    //         // 이미 배송된 항목이 있는 주문은 취소할 수 없습니다.
-    //         return "redirect:/error_delivery_started"; // 적절한 오류 페이지로 리다이렉트
-    //     }
-        
-    //     // 주문 취소 처리
-    //     oSer.cancelOrderByOId(orderId);
-        
-    //     // 주문 취소 성공 시 리다이렉트
-    //     return "redirect:/seller/success_cancel"; // 성공적으로 취소되었다는 페이지나 경로로 리다이렉트
+    // // 주문 상태 확인
+    // Order order = oSer.getOrderById(orderId);
+    // if (order == null) {
+    // // 해당하는 주문이 없으면 오류 메시지 처리
+    // return "redirect:/error_page"; // 적절한 오류 페이지로 리다이렉트
     // }
-    
-    
-    
-    
-    
-    
+
+    // // 이미 배송이 시작되었는지 확인
+    // if (oSer.hasAtLeastOneDelivered(order)) {
+    // // 이미 배송된 항목이 있는 주문은 취소할 수 없습니다.
+    // return "redirect:/error_delivery_started"; // 적절한 오류 페이지로 리다이렉트
+    // }
+
+    // // 주문 취소 처리
+    // oSer.cancelOrderByOId(orderId);
+
+    // // 주문 취소 성공 시 리다이렉트
+    // return "redirect:/seller/success_cancel"; // 성공적으로 취소되었다는 페이지나 경로로 리다이렉트
+    // }
+
     @GetMapping("/return/manage")
     public String sellerreturnmanage() {
         return "seller/sellerReturnManage";

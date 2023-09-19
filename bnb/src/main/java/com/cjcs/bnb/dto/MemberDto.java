@@ -28,9 +28,9 @@ public class MemberDto {
     private String streetadr; //(지번주소) 
     private String detailadr ;  //(상세주소)
 
-	//회원 구분
-    private Integer userType;  
-   
+    // 회원 구분
+    private Integer userType;
+
     // 일반회원만 가지는 필드
     private String c_name; // 회원이름
 
@@ -43,6 +43,7 @@ public class MemberDto {
     private String s_crn; // 사업자등록번호 10자리(문자열)
     private int s_deliveryfee; // 이 서점의 배송료
     private int s_latefee; // 이 서점의 1일당 연체료
+    private String favs_s_id;
 
     // 예림
     private String o_c_id;
@@ -50,7 +51,7 @@ public class MemberDto {
     private int rental_amount;
     private int late_amount;
 
-    //수희
+    // 수희
     private int overdues;
 
     public String getPassword() {

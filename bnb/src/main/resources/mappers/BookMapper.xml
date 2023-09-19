@@ -42,7 +42,9 @@ WHERE rn BETWEEN #{start} AND #{end}
           B_ISBN = #{isbn} AND B_S_ID = #{sellerId}
 </select>
 
- 
+ <select id="findBookStock" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT * FROM Book WHERE b_isbn = #{isbn} AND b_s_id = #{sellerId}
+</select>
 
 <!-- 키워드에 해당하는 책의 총 개수를 조회 -->
 <select id="countKeyword" resultType="int">
@@ -135,9 +137,6 @@ SELECT * FROM (
 </select>
 
 
-
-
-
 <!-- 예림 -->
     <!-- 판매자 페이지 - 등록된 도서 리스트 조회 -->
     <select id="searchSellerBookList" resultType="BookDto" parameterType="map">
@@ -162,17 +161,49 @@ SELECT * FROM (
 
 <!-- 수희 -->
 
-    <!-- 결제완료된 구매항목 구매수량만큼 판매재고에서 차감-->
+    <!-- 판매자페이지 신규도서등록시 이미 등록된 isbn인지 체크 -->
+    <select id="getBookByIsbn" resultType="BookDto">
+        SELECT * FROM B WHERE b_s_id = #{s_id} AND b_isbn = #{isbn}
+    </select>
+
+    <!-- 판매자페이지 신규도서등록 -->
+    <insert id="addNewBook" parameterType="BookDto">
+        INSERT INTO B(b_s_id, b_isbn, b_title, b_author, b_bookdesc,
+                      <if test="b_forsale != null">b_forsale,</if>
+                      <if test="b_price != null">b_price,</if>
+                      <if test="b_salestock != null">b_salestock,</if>
+                      <if test="b_forrental != null">b_forrental,</if>
+                      <if test="b_rent != null">b_rent,</if>
+                      <if test="b_rentalstock != null">b_rentalstock,</if>
+                      b_regdate, b_category_s_id)
+        VALUES(#{b_s_id}, #{b_isbn}, #{b_title}, #{b_author}, #{b_bookdesc},
+               <if test="b_forsale != null">#{b_forsale},</if>
+               <if test="b_price != null">#{b_price},</if>
+               <if test="b_salestock != null">#{b_salestock},</if>
+               <if test="b_forrental != null">#{b_forrental},</if>
+               <if test="b_rent != null">#{b_rent},</if>
+               <if test="b_rentalstock != null">#{b_rentalstock},</if>
+               DEFAULT, #{b_category_s_id})
+    </insert>
+
+    <!-- 구매항목 구매수량만큼 판매재고에서 차감-->
     <update id="updateSaleStock">
-        UPDATE B SET b_salestock = b_salestock - #{cart_amount}
-        WHERE b_s_id = #{cart_s_id} AND b_isbn = #{cart_b_isbn}
+        UPDATE B SET b_salestock = b_salestock - #{qty}
+        WHERE b_s_id = #{s_id} AND b_isbn = #{b_isbn}
     </update>
 
-    <!-- 결제완료된 대여항목 수량 1만큼 대여재고에서 차감-->
+    <!-- 대여항목 1만큼 대여재고에서 차감, 반납항목 1만큼 복원-->
     <update id="updateRentalStock">
-        UPDATE B SET b_rentalstock = b_rentalstock - 1
-        WHERE b_s_id = #{cart_s_id} AND b_isbn = #{cart_b_isbn}
+        UPDATE B SET b_rentalstock = b_rentalstock - #{qty}
+        WHERE b_s_id = #{s_id} AND b_isbn = #{b_isbn}
     </update>
+
+    <!-- 카트내항목번호(cart_id)로 해당항목 판매재고,대여재고 조회 -->
+    <select id="getStockInfo" parameterType="Integer" resultType="Map">
+        SELECT b_salestock as "b_salestock", b_rentalstock as "b_rentalstock"
+        FROM B, CART
+        WHERE cart_id = #{cart_id} AND cart_s_id = b_s_id AND cart_b_isbn = b_isbn
+    </select>
     
 </mapper>
 

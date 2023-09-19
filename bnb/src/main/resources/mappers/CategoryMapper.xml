@@ -29,6 +29,11 @@
         WHERE category_m = #{category_m}
     </select>
 
+    <select id="getSmallCategoryIdByName">
+        SELECT category_s_id FROM CATEGORY_S
+        WHERE category_s = #{category_s}
+    </select>
+
     <insert id="addMediumCategory">
         INSERT INTO CATEGORY_M
         VALUES(#{category_m_id}, #{category_m})

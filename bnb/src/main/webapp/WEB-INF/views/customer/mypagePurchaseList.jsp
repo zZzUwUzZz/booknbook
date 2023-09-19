@@ -28,10 +28,19 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/list.css">
-  
+    <link rel="stylesheet" href="/css/customer/main.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
+    <style>
+
+        .container-mypage {height: auto!important;}
+ 
+
+    </style>
+
     <title>Document</title>
+
 
 </head>
 
@@ -40,97 +49,145 @@
     <jsp:include page="../../tiles/header.jsp"></jsp:include>
     <jsp:include page="/WEB-INF/views/adminFile/customer.jsp"/>
 
-
+  
     <div class="container-mypage">
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>                
                 <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist" id="currpage">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks">찜한도서</a></li>
             </ul>
         </div>
 
-        <div class="board-area">
-            
-            <form action="/mypage/refundexchange" method="GET">
 
-            <div>
-                <h2 class="pagename">PURCHASE LIST</h2>
+      
+        <div class="board-area">
+
+            <div class="pctext_01">
+                <span class="pagename">PURCHASE LIST</span>
             </div>
 
-            <div>
-                <div class="tablebox">
-                <table>
-                    <tr class="headrow">
-                        <th>주문번호</th>
-                        <th>주문일자</th>
-                        <th>도서명</th>
-                        <th>수량</th>
-                        <th>서점명</th>
-                        <th>배송상태</th>
-                        <th colspan="2">교환/반품이력</th>
-                        <th width="40px"></th>
-                    </tr>
-
-                    <c:if test="${empty pList}">
-                        <tr>
-                            <td colspan="9">구매내역이 없습니다.</td>
-                        </tr>
-                    </c:if>
-        
-                    <c:if test="${!empty pList}">
-                        <c:forEach var="pItem" items="${pList}">
-                            <tr>
-                                <td onclick="location.href='/mypage/orderdetail/${pItem.o_id}'" class="td-linked">${pItem.o_id}</td>
-                                <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd hh:mm"></fmt:formatDate></td>
-                                <td>${pItem.b_title}</td>
-                                <td>${pItem.p_amount}</td>
-                                <td>${pItem.s_storename}</td>
-                                <td>${pItem.delivery_status}</td>
-                                <td>${pItem.re_sort}</td>
-                                <td>${pItem.re_amount}</td>
-
-                                <c:choose>
-                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)
-                                                    && (empty pItem.re_amount)}">
-                                        <td><input type="checkbox" name="p_idList" value="${pItem.p_id}"></td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td><input type="checkbox" name="p_idList" value="${pItem.p_id}" disabled></td>
-                                    </c:otherwise>
-                                </c:choose>
-                            </tr>
-                         </c:forEach>
-                    </c:if>
-                </table>
+            <div class="datebox">
+                <div>
+                    <form action="/mypage/purchaselist">
+                        <input type="date" id="startDate" name="startDate" required>
+                        <label for="startDate">부터</label>
+                        <input type="date" id="endDate" name="endDate" required>
+                        <label for="endDate">까지</label>
+                        <button type="submit">조회</button>
+                    </form>
                 </div>
             </div>
 
-            <div class="btnbox">
-                <button type="submit" id="submit" disabled>교환/반품신청</button>
+
+            <form action="/mypage/refundexchange" method="GET">
+
+       
+            <div class="PcListBox">
+
+
+
+                <c:if test="${empty pList}">
+                    <div>주문내역이 없습니다.</div>
+                </c:if>
+
+                <c:if test="${!empty pList}">
+                    <c:forEach var="pItem" items="${pList}">
+                        <div class="pListContain">
+                            <article class="pItemBox">
+
+                                <div class="pTitle">
+                                    <div class="pText">
+                                        주문번호</div>
+                                    <div onclick="location.href='/mypage/orderdetail/${pItem.o_id}'" class="td-linked">
+                                        #${pItem.o_id}
+                                    </div>
+                                </div>
+
+                                <div class="pTitle">
+                                    <div class="pText">주문날짜</div>
+                                    <fmt:formatDate value="${pItem.o_date}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
+                                </div>
+
+                                <div class="pItem" title="${pItem.b_title}">
+                                    <!--  <div class="pText">주문품목</div> -->
+                                    ${pItem.b_title}
+                                </div>
+
+                                <div class="pCount">
+                                    <div class="pText">수량</div>
+                                    ${pItem.p_amount}권
+                                </div>
+
+                                <div class="pStore">
+                                    <div class="pText">서점명</div>
+                                    ${pItem.s_storename}
+                                </div>
+
+                                <div class="pDeli">
+                                    <div class="pText">배송상태</div>
+                                    ${pItem.delivery_status}
+                                </div>
+
+                                <div class="pRe">
+                                    <div class="pText">교환/반품 이력</div>
+                                    ${pItem.re_sort}
+                                    ${pItem.re_amount}
+                                </div>
+
+                                <c:choose>
+                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)&& (empty pItem.re_amount)}">
+
+                                        <div class="ckContain">
+                                            <input type="checkbox" class="ckbox" name="p_idList" value="${pItem.p_id}">
+                                            <label for="ckbox"></label>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="ckContain">
+                                            <input type="checkbox" class="ckbox" name="p_idList" value="${pItem.p_id}"
+                                                disabled>
+                                            <label for="ckbox"></label>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </article>
+                        </div>
+
+                    </c:forEach>
+                </c:if>
             </div>
 
-            </form>
+            <div class="btnbox01">
+                <div class="pagenation">
+                    <div class="pagebox">${pageHtml}</div>
+                </div>
+        
+                <c:if test="${!empty pList}">
+                    <div class="btnbox">
+                        <button type="submit" id="submit" class="exbtn" disabled>교환/반품신청</button>
+                    </div>
+                </c:if>
+            </div>
 
         </div>
 
-        <div class="button-area">
+ 
 
-            <div class="buttons"></div>
-            <div class="buttons"></div>
 
+        </form>
         </div>
 
-    </div>
-
+   
+            
 
     <jsp:include page="../../tiles/footer.jsp"></jsp:include>
 
@@ -142,14 +199,17 @@
         $('input[type="checkbox"]').change(function() {
 
             if ($('input[type="checkbox"]:checked').length > 0) {
-                $('#submit').prop('disabled', false);
+                $('.exbtn').prop('disabled', false);
             } else {
-                $('#submit').prop('disabled', true);
+                $('.exbtn').prop('disabled', true);
             }
 
         });
 
     })        
+
+
+ 
 
     </script>
 

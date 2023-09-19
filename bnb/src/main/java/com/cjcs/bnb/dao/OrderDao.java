@@ -1,11 +1,18 @@
 package com.cjcs.bnb.dao;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cjcs.bnb.dto.CartDto;
+
+import com.cjcs.bnb.dto.PurchaseDto;
+
+import com.cjcs.bnb.dto.SearchDto;
+
 
 @Mapper
 public interface OrderDao {
@@ -22,27 +29,33 @@ public interface OrderDao {
 
     CartDto insertCartItem(CartDto cartDto);
 
+
+    List<PurchaseDto> getISBNListByOId(int o_id);
+
     // 유다,수희
+
     public List<CartDto> getCartByCId(String c_id);
-
     public CartDto getCartByCartId(Integer cart_id);
-
     public List<CartDto> getPurchaseCartByCId(String c_id);
-
     public List<CartDto> getRentalCartByCId(String c_id);
 
     public int deleteCartItem(int cart_id);
 
     public int updateCartAmount(int cart_id, int cart_amount);
-
     public int updateCartRentalPeriod(int cart_id, int cart_rentalperiod);
-
 
     public int addOrderSelectKey(HashMap<String, Object> orderMap);
 
-    //수희
+
+    // 수희
+
     public List<HashMap<String, String>> getOrderListGroupByOId(String c_id);
+    public List<HashMap<String, String>> getOrderListByDateRange(SearchDto sDto);
+
     public HashMap<String, Object> getOrderInfoByOId(int o_id);
+
+    public Integer countOrdersByDateRange(SearchDto sDto);
+    public HashMap<String, Object> countAllOrders();
 
     // 예림
     public int getTodaySellCnt(String s_id);

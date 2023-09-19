@@ -27,7 +27,9 @@
     <link rel="stylesheet" href="/css/slide.css">
     <link rel="stylesheet" href="/css/customer/mypage.css">
     <link rel="stylesheet" href="/css/customer/fav.css">
-  
+    <link rel="stylesheet" href="/css/customer/main.css">
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <title>찜한 도서</title>
@@ -44,14 +46,13 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/mypage">마이페이지 홈</a></li>
+                <li class="mypg"><a href="/mypage">마이페이지 홈</a></li>
                 <hr>
                 <li><a href="/mypage/orderlist">나의 주문내역</a></li>
                 <li><a href="/mypage/purchaselist">구매내역</a></li>
                 <li><a href="/mypage/refundexchangelist">교환/반품내역</a></li>
                 <li><a href="/mypage/rentallist">대여내역</a></li>
                 <li><a href="/mypage/rentalreservationlist">대여예약내역</a></li>
-                <hr>
                 <li><a href="/mypage/favoritestores">즐겨찾기</a></li>
                 <li><a href="/mypage/favoritebooks" id="currpage">찜한도서</a></li>
             </ul>
@@ -77,14 +78,23 @@
                 </div>
             </c:if>
 
+            <div class="button-area">
+                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">
+                    <span class="material-symbols-sharp">
+                        chevron_left
+                        </span>
+                </div>
+                <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">
+                    <span class="material-symbols-sharp">
+                        chevron_right
+                        </span>
+                </div>
+
+            </div>
+            
         </div>
 
-        <div class="button-area">
 
-            <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', 1)">다음</div>
-            <div class="buttons" onclick="shiftPage('${currentPage}', '${numOfPages}', -1)">이전</div>
-
-        </div>
 
     </div>
 

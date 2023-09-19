@@ -78,9 +78,9 @@
                             <th width="100px">이름</th>
                             <th>주소</th>
                             <th width="130px">전화번호</th>
-                            <th width="250px">이메일</th>
+                            <th width="200px">이메일</th>
                             <th width="110px">가입일자</th>
-                            <th width="150px">연체이력</th>
+                            <th width="100px">연체이력</th>
                         </tr>
     
                         <c:if test="${empty customerList}">
@@ -92,9 +92,9 @@
                         <c:if test="${!empty customerList}">
                             <c:forEach var="customer" items="${customerList}">
                                 <tr>
-                                    <td><span>${customer.m_id}</span></td>
+                                    <td>${customer.m_id}</td>
                                     <td>${customer.c_name}</td>
-                                    <td><span>${customer.m_addr}</span></td>
+                                    <td title="${customer.m_addr}"><span>${customer.m_addr}</span></td>
                                     <td>${customer.m_phone}</td>
                                     <td>${customer.m_email}</td>
                                     <td><fmt:formatDate value="${customer.m_joindate}" pattern="yyyy-MM-dd"></fmt:formatDate></td>

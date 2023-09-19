@@ -20,6 +20,14 @@
     <update id="toggleFavorite">
         UPDATE favstore SET state = #{state} WHERE favs_c_id = #{userId} AND favs_s_id = #{storeId}
     </update>
- 
+
+    <!-- 즐겨찾기 서점 이미지 -->
+<select id="getSellerFileListByJoinedIds" parameterType="map" resultType="com.cjcs.bnb.dto.SellerFileDto">
+ SELECT sf_sysname, sf_s_id FROM Seller_File WHERE sf_s_id IN (
+      SELECT favs_s_id 
+      FROM FavStore 
+      WHERE favs_c_id = #{c_id}
+  )
+</select>
 
 </mapper>

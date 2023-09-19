@@ -1,3 +1,9 @@
+
+.mypg {
+    padding: 15px 0px;
+    font-size: 23px;
+}
+
 .counterbox {
     display: flex;
     position: relative;

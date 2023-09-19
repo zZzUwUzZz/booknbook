@@ -1,82 +1,333 @@
+
+/* 밝은 버전 바탕 */
+
+body {
+    background: #dfdad5;
+}
+
+.datebox {
+    width: 1020px;
+    display: flex;
+    flex-direction: row-reverse;
+    margin: auto;
+    padding-bottom: 10px;
+    margin-top: -25px;
+}
+ 
+
 table {
     width: 1020px;
     text-align: center;
     margin: auto;
 }
-.tablebox {
-    box-sizing: border-box;
-    border: 1px solid #4c4240;
-    border-radius: 10px;
-    max-height: 495px;
-    width: 1040px;
-    margin: auto;
-    padding: 10px;
+a {
+    color: #203b23;
 }
-tr {
-    height: 40px;
-}
-.td-linked:hover {
-    cursor: pointer;
-    color: #ff9946;
-    font-weight: 600;
-}
-.headrow {
-    background: #4c4240;
-    color:beige;
+.ft {
+    margin-top: 0px;
 }
 
-.searchbox {
-    text-align: right;
-    box-sizing: border-box;
-    text-align: right;
-    width: 1040px;
-    padding: 5px;
-    margin: auto;
-    margin-top: -27px;
-    margin-bottom: 5px;
+.hd {
+    color: #203b23;
+    border-bottom: 1px solid #203b23;
 }
-.pagebox {
-    box-sizing: border-box;
-    text-align: center;
-    width: 1040px;
-    padding: 5px;
-    margin: auto;
-    margin-top: 12px;
+
+hr {
+    background:#203b23;
+    height:1px;
+    border:0;
 }
-.btnbox {
+
+.mypg {
+    padding: 15px 0px;
+    font-size: 23px;
+}
+
+
+.container-mypage {
+    color: #203b23;
     display: flex;
-    flex-direction: row-reverse;
-    width: 1040px;
-    margin: auto;
-    padding: 15px;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
 }
 
-.rej_reason {
-    text-align: right;
-    font-size: 14px;
+
+
+.board-area {
+    width: 80%;
+ }
+
+.board-area .pagename {
+    margin: 18px 46px;
+    font-family: 'Montserrat', sans-serif;
+
 }
-.pno {
-    display: inline-block;
-    border-top: 1px solid #4c4240;
-    border-bottom: 1px solid #4c4240;
-    background-color: #4c4240;
-    width: 25px;
-    height: 22px;
-    margin: 1px;
+.board-area .tablename {
+    margin-left: 44px;
 }
 .container-mypage a {
-    color: #fffbed;
+    color: #203b23;
 }
-.pno:hover {
-    background-color: #fffbed;
-    color: #4c4240;
+.button-area {
+    display: flex;
+    place-content: space-between;
+    width: 91%;
+    justify-content: space-between;
+    margin: auto;
 }
-.curr-pno {
+.buttons {
+    padding: 30px;
+    cursor: pointer;
+}
+.buttons span {
+    font-size: 44px;
+font-variation-settings:'wght' 200;
+}
+
+/* 메뉴 */
+ 
+.menu_simple {
+    width: 20%;
+    font-size: 20px;
+    border-right: 1px solid #203b23;
+}
+
+
+.menu_simple ul {
+    margin: 0; 
+    padding: 0;
+    list-style-type: none;
+}
+
+.menu_simple ul li a {
+    text-decoration: none;
+    padding: 12px 30px;
+    display:block;
+    transition: all .2s;
+}
+
+.menu_simple ul li a:hover {
+color: #618064;
+}
+
+
+#currpage {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px
+}
+ 
+
+td span {
+    width: 120px;
     display: inline-block;
-    border-top: 1px solid #4c4240;
-    border-bottom: 1px solid #4c4240;
-    color: #4c4240;
-    width: 25px;
-    height: 22px;
-    margin: 1px;
+}
+
+
+/* 주문 목록 */
+.odtext_01, .pctext_01, .retext_01, .odt_text_01 {
+    border-bottom: 1px solid #203b23;
+    padding: 15px 0px;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+.odListContain, .pListContain,
+.reListContain, .pcContain_01, 
+.rentListContain {
+    font-size: 15px;
+    font-family: 'BookkGothic-bd';
+    font-weight: 300;
+}
+
+.odItemBox, .pItemBox, .reItemBox, .rItemBox,
+.rrItemBox {
+    padding: 34px 53px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #3d3f23;
+  }
+  
+.rrItem {
+    width: 400px;
+}
+
+  .odTitle, .pTitle, .reTitle {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .reTitle02 {
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+}
+.reTitle03 {
+    display: flex;
+    flex-direction: column;
+    margin-left: -42px;
+}
+
+  .odItem, .pItem, .reItem {
+    width: 100%;
+    max-width: 400px;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .odText, .pText, .reText{
+       margin-bottom: 8px;
+      text-transform: uppercase;
+  }
+
+  .odDetail {
+    padding: 9px 20px;
+    background: #203b23;
+    color: #dfdad5;
+    transition: all .3s;
+    cursor: pointer;
+}
+.odDetail:hover {
+    background: #507054;
+}
+
+
+.rItem {
+    width: 320px;
+    margin-left: 25px;
+}
+
+
+
+/* 대여 목록 */
+.rtTitle01 {
+    width: 130px;
+}
+
+.ckContain {
+    width: 50px;
+}
+
+/* 대여 예약 내역 */
+ .reStore_01 {
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+ }
+
+ .reDeli {
+    width: 100px;
+}
+
+.cancel_btn02 {
+    background: #203b23;
+    color: #dfdad5;
+    width: 90px;
+    margin: auto;
+    padding: 6px 0px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.cancel_btn02:hover {
+    background: #4c5e4e;
+}
+
+
+
+/* 목록 글씨 */
+
+.reNum {
+    width: 128px;
+}
+
+.reStore {
+    width: 120px;
+}
+
+/* 버튼 */
+
+.re_clbtn {
+    background: #203b23;
+    color: #dfdad5;
+    padding: 11px 15px;
+    cursor: pointer;
+    transition: all .2s;
+    width: 62px;
+}
+
+.re_clbtn02 {
+    width: 62px;
+     padding: 11px 15px;
+}
+
+
+.re_clbtn:hover {
+    background: #49634c;
+}
+
+
+.available {
+    background-color: #203b23;
+    color: #dfdad5;
+    text-align: center;
+    font-size: 15px;
+    line-height: 29px;
+    width: 80px;
+    height: 30px;
+}
+
+.available:hover {
+    cursor: pointer;
+    background-color: #ff9946;
+    box-shadow: none;
+}
+.available:active {
+    position: relative;
+    top: 1px;
+}
+.available-td {
+    color: rgb(255, 60, 0);
+    font-size: 13px;
+}
+td span {
+    box-sizing: border-box;
+    width: 240px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0;
+}
+
+
+.exbtn:disabled {
+    border: 0;
+  background-color: transparent;
+  padding: 9px 15px;
+  background: #849787;
+  color: #dfdad5;
+}
+
+.exbtn:not(:disabled) {
+    border: 0;
+    background-color: transparent;
+    padding: 9px 15px;
+    background: #203b23;
+    color: #dfdad5;
+    cursor: pointer;
+}
+
+.btnbox {
+    padding: 36px 41px;
+
+}
+
+.btnbox01 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

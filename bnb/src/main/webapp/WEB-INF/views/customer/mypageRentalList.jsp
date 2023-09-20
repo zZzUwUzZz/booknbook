@@ -111,15 +111,32 @@
                                         <div class="pText">서점명</div>
                                         ${rItem.s_storename}
                                     </div>
+                                    
+                                    <div class="pStore">
+                                        <div class="pText">배송상태</div>
+                                        ${rItem.delivery_status}
+                                    </div>
 
                                     <div class="pDeli">
                                         <div class="pText">대여상태</div>
                                         <c:choose>
                                             <c:when test="${rItem.rental_status eq '연체'}">
-                                                ${rItem.rental_status}
+                                                <span style="color: rgb(255, 60, 0);">${rItem.rental_status}</span>
                                             </c:when>
                                             <c:otherwise>
-                                                ${rItem.rental_status}
+                                                <span>${rItem.rental_status}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+
+                                    <div class="pDeli">
+                                        <div class="pText">반납기한일</div>
+                                        <c:choose>
+                                            <c:when test="${!empty rItem.r_duedate}">
+                                                <fmt:formatDate value="${rItem.rental_status}" pattern="yyyy년 MM월 dd일" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                -
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
@@ -127,16 +144,17 @@
                                     <div class="pRe">
                                         <div class="pText">총 연체료</div>
                                         <c:choose>
-                                            <c:when
-                                                test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
+                                            <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
                                                 <span title="연체료를 납부해주세요." style="color: rgb(255, 60, 0);">
                                                     <fmt:formatNumber value="${rItem.r_latefee_total}" type="number"
-                                                        pattern="#,##0" /></span>
+                                                        pattern="#,##0" />원</span>
                                             </c:when>
-
+                                            <c:when test="${!empty rItem.r_latefee_total}">
+                                                    <fmt:formatNumber value="${rItem.r_latefee_total}" type="number"
+                                                        pattern="#,##0" />원</span>
+                                            </c:when>
                                             <c:otherwise>
-                                                <fmt:formatNumber value="${rItem.r_latefee_total}" type="number"
-                                                    pattern="#,##0" />
+                                                -
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
@@ -144,7 +162,14 @@
 
                                     <div class="rtTitle01">
                                         <div class="pText">납부일자</div>
-                                        <fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy년 MM월 dd일" />
+                                        <c:choose>
+                                            <c:when test="${!empty rItem.r_latefee_paydate}">
+                                                <fmt:formatDate value="${rItem.r_latefee_paydate}" pattern="yyyy년 MM월 dd일" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                -
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
 
 

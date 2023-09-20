@@ -260,6 +260,7 @@ public class MemberService {
         if (favb != null) {
             latestFav.put("favb_s_id", favb.get("favb_s_id"));
             latestFav.put("favb_b_isbn", favb.get("favb_b_isbn"));
+            latestFav.put("favb_b_title", favb.get("b_title"));
         }
         log.info("latestFav:{}", latestFav);
 

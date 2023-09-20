@@ -103,7 +103,7 @@
                                                         alt="책표지사진">
                                                 </a>
                                             </div>
-                                            <div>책 제목</div>
+                                            <a style="color: #dfdad5;" href="/books/detail/${latestFav.favb_b_isbn}/${latestFav.favb_s_id}"><div>${latestFav.favb_b_title}</div></a> 
                                         </c:when>
                                         <c:otherwise>
                                             <div>찜한 도서가 없습니다.</div>

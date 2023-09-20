@@ -146,6 +146,8 @@
             });
         });
 
+        console.log(data);
+
         $.ajax({
             url: '/seller/rent/curr/save',
             method: 'POST',

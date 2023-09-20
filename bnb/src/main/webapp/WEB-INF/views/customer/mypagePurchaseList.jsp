@@ -138,13 +138,19 @@
 
                                 <div class="pRe">
                                     <div class="pText">교환/반품 이력</div>
-                                    ${pItem.re_sort}
-                                    ${pItem.re_amount}
+                                    <c:choose>
+                                        <c:when test="${empty pItem.re_sort && empty pItem.re_amount}">
+                                            -
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${pItem.re_sort} &nbsp;${pItem.re_amount}
+                                        </c:otherwise>
+                                    </c:choose>
+
                                 </div>
 
                                 <c:choose>
-                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 6 || pItem.p_delivery_status_id eq 7)&& (empty pItem.re_amount)}">
-
+                                    <c:when test="${(pItem.p_delivery_status_id eq 4 || pItem.p_delivery_status_id eq 7) && (empty pItem.re_amount)}">
                                         <div class="ckContain">
                                             <input type="checkbox" class="ckbox" name="p_idList" value="${pItem.p_id}">
                                             <label for="ckbox"></label>

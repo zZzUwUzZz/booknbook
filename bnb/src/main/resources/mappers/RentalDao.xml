@@ -354,22 +354,29 @@
         WHERE rr_id = #{rr_id}
     </update>
 
+    <resultMap id="rentalResultMap" type="RentalDto">
+        <result property="DELIVERYDATE" column="DELIVERYDATE" javaType="Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
     <!-- 대여 현황 -->
     <select id="RentCurrentList" resultType="RentalDto">
-        select o_id, o_c_id, b_title, o_date, o_date + r_rentalperiod as returnexpect_days, o_delivery_sort, delivery_status, rental_status,
+        SELECT
+            o_id, o_date, o_c_id, b_title, r_rentalperiod,
+            NVL(DELIVERYDATE, '') AS DELIVERYDATE, r_duedate, o_delivery_sort, delivery_status, rental_status,
             CASE
-                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
-                ELSE 0
+                WHEN r_returndate IS NOT NULL THEN r_returndate - DELIVERYDATE - r_rentalperiod
+                ELSE NULL
             END AS overdue_days
         FROM
             order_list
         WHERE
             order_sort = '대여'
-            AND
-            NOT rental_status = '반납완료'
-            AND
-            S_ID = #{s_id}
+            <![CDATA[AND (rental_status <> '반납완료' OR rental_status IS NULL)]]>
+            AND S_ID = #{s_id}
     </select>
+
+ 
+
 
     <!-- 배송 상태명 -->
     <select id="DeliveryStatusList" resultType="RentalDto">
@@ -387,6 +394,56 @@
         WHERE r_o_id = #{o_id}
         AND R_B_ISBN = (
             SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+    </update>
+
+    <!-- 배송완료일 지정 -->
+    <update id="UpdateDeliveryDate">
+        UPDATE Rental
+        SET R_DELIVERYDATE = TO_DATE(TO_CHAR(sysdate, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+        WHERE r_o_id = #{o_id}
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+        AND (
+            R_DELIVERY_STATUS_ID = (
+                SELECT DELIVERY_STATUS_ID
+                FROM Status_D
+                WHERE DELIVERY_STATUS = '배송완료'
+                AND ROWNUM = 1
+            )
+            OR
+            R_DELIVERY_STATUS_ID = (
+                SELECT DELIVERY_STATUS_ID
+                FROM Status_D
+                WHERE DELIVERY_STATUS = '수령완료'
+                AND ROWNUM = 1
+            )
+        )
+    </update>
+
+    <!-- 반납 기한일 지정 -->
+    <update id="UpdateDuedate">
+        UPDATE Rental
+        SET r_duedate = r_deliverydate + r_rentalperiod
+        WHERE r_o_id = #{o_id}
+        AND R_B_ISBN = (
+            SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
+        )
+        AND (
+            R_DELIVERY_STATUS_ID = (
+                SELECT DELIVERY_STATUS_ID
+                FROM Status_D
+                WHERE DELIVERY_STATUS = '배송완료'
+                AND ROWNUM = 1
+            )
+            OR
+            R_DELIVERY_STATUS_ID = (
+                SELECT DELIVERY_STATUS_ID
+                FROM Status_D
+                WHERE DELIVERY_STATUS = '수령완료'
+                AND ROWNUM = 1
+            )
         )
     </update>
 
@@ -451,7 +508,7 @@
         WHERE r_o_id = #{o_id}
         AND (
                 (
-                SELECT MAX(o_date + r_rentalperiod) FROM order_list WHERE o_id = #{o_id} AND b_title = #{b_title}
+                SELECT MAX(DELIVERYDATE + r_rentalperiod) FROM order_list WHERE o_id = #{o_id} AND b_title = #{b_title}
                 ) <![CDATA[<]]> sysdate
         )
     </update>    

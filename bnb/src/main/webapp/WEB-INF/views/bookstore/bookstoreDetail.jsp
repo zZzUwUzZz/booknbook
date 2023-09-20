@@ -94,7 +94,7 @@
 
     
             <div class="bk_tt">
-              <p class="totalct">총 ${totalItems}개의 상품</p>
+              <p class="totalct">총 ${totalItems}개의 도서</p>
             </div>  
             <ul class="bk_list">
               <c:forEach var="book" items="${books}">
@@ -143,6 +143,48 @@
 
    
     <script src="/js/bookstore/bookstore.js"></script>
+
+<script>
+
+
+$(document).ready(function() {
+  $(".statusText").each(function() {
+    const saleStock = parseInt($(this).data('salestock'));
+    const rentalStock = parseInt($(this).data('rentalstock'));
+
+    const statusText2 = $(this).find('.statusText_2');
+    const statusText3 = $(this).find('.statusText_3');
+
+    // 초기 상태: 모든 텍스트와 스타일을 숨김
+    statusText2.hide();
+    statusText3.hide();
+    statusText3.css('background-color', '');
+
+    // 판매 수량 0개 + 대여 수량 1개 이상
+    if (saleStock <= 0 && rentalStock >= 1) {
+      statusText2.text('품절').show();
+      statusText3.hide();
+    }
+
+    // 판매 수량 1개 이상 + 대여 수량 0개
+    else if (saleStock >= 1 && rentalStock <= 0) {
+      statusText2.hide();
+      statusText3.text('대여중').show();
+      statusText3.css('top', '-138px');
+    }
+
+    // 판매 수량 0개 + 대여 수량 0개
+    else if (saleStock <= 0 && rentalStock <= 0) {
+      statusText2.text('품절').show();
+      statusText3.text('대여중').css('background-color', 'rgb(231, 86, 2)').show();
+      statusText3.css('top', '-113px');
+    }
+  });
+});
+
+
+</script>
+
 
 </body>
 

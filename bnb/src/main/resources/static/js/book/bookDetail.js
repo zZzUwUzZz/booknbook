@@ -1,10 +1,16 @@
 
 // 같은 책 다른 서점 슬라이더 관련
 $(document).ready(function () {
+
   let currentIndex = 0;
   const totalItems = $(".item").length;
   const visibleItems = 4; // 한 번에 보이는 아이템 수
   const moveDistance = 307; // .item의 너비(219px) + 양쪽 마진(44px * 2)
+
+  // 아이템 개수가 0개일 경우 bkIntoContain02를 숨김
+  if (totalItems === 0) {
+    $(".bkIntoContain02").hide();
+  }
 
   // 아이템 개수가 3개 이하일 경우 버튼을 숨김
   if (totalItems <= 3) {
@@ -36,7 +42,6 @@ $(document).ready(function () {
 
   updateButtons();
 });
-
 
 
 // 총 수량에 따른 금액 계산
@@ -99,7 +104,3 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
-
-
-
-

@@ -1,4 +1,13 @@
 
+/* 메뉴 */
+#cartbtn {
+    margin: 0 17px;
+}
+
+#cartbtn, #wishbtn {
+    cursor: pointer;
+}
+
 /* notifications */
 
 

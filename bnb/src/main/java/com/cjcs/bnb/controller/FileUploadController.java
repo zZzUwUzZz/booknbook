@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cjcs.bnb.service.FileService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class FileUploadController {
 
@@ -23,19 +25,19 @@ public class FileUploadController {
 
     @PostMapping("/seller/settings/account")
     @ResponseBody
-    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file,
-            @RequestParam("sellerId") String sellerId,
-            Model model) {
-
-        System.out.println("Received upload request with sellerId: " + sellerId);
-
+    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file, HttpSession session, Model model) {
+        String sellerId = (String) session.getAttribute("loggedInUser");
+        if (sellerId == null) {
+            return new ResponseEntity<>("Please log in", HttpStatus.UNAUTHORIZED);
+        }
         try {
             // 파일 저장 및 데이터베이스 업데이트 로직
             boolean isUploaded = fileService.uploadFile(file, sellerId);
+            System.out.println("Received upload request with sellerId: " + sellerId);
 
             if (isUploaded) {
                 System.out.println("File uploaded successfully for sellerId: " + sellerId);
-                return new ResponseEntity<>("success", HttpStatus.OK);
+                return new ResponseEntity<>("\"success\"", HttpStatus.OK);
             } else {
                 System.out.println("File upload failed for sellerId: " + sellerId);
                 return new ResponseEntity<>("failed", HttpStatus.BAD_REQUEST);
@@ -49,7 +51,6 @@ public class FileUploadController {
 
     @RequestMapping("/seller/settings/account")
     public String showServerFileNames(Model model, @RequestParam(required = false) String sellerId) {
-
         return "/seller/sellerInfoDetail";
     }
 

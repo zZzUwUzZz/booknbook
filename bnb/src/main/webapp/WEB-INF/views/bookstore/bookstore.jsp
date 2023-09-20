@@ -63,7 +63,7 @@
                         <div class="bsInfo">
                             <div class="bsInfoName">${entry.s_storename}</div>
                             <div class="bsInfoDetail">${entry.s_storedesc}</div>
-                            <a href="">서점 방문하기 > </a>
+                            <a href="/bookstore/detail/${entry.s_id}">서점 방문하기 > </a>
                         </div>
                         <img src="<c:url value='/uploads/${entry.sf_sysname}' />">
                     </div>
@@ -81,11 +81,7 @@
 
     </div>
 
-
-
-
-
-
+ 
  </main>
 
     <%@include file="/WEB-INF/tiles/footer.jsp" %>

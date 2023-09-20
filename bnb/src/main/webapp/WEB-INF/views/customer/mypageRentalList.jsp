@@ -123,7 +123,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
-
+ 
                                     <div class="pRe">
                                         <div class="pText">총 연체료</div>
                                         <c:choose>

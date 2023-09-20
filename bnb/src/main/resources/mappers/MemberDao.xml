@@ -25,8 +25,7 @@
         CONNECT BY REGEXP_SUBSTR(:sellerIdsString, '[^,]+', 1, LEVEL) IS NOT NULL
     )
 </select> -->
-
-    
+ 
 
 <select id="getFavBookStoreName" resultType="String">
     SELECT s.s_storename
@@ -36,6 +35,8 @@
 </select>
  
  
+
+
 <!--이재락-->
 
    <!-- <insert id="joinMember" parameterType="MemberDto">
@@ -63,10 +64,9 @@
 
  
 <insert id="joinSeller" parameterType="MemberDto">
-        INSERT INTO CJCS.SELLER (S_ID,s_storename,S_CRN, S_DELIVERYFEE, S_LATEFEE)
-        VALUES(#{m_id},#{s_storename}, #{s_crn}, DEFAULT, DEFAULT)
+    INSERT INTO CJCS.SELLER (S_ID, s_storename, S_CRN, S_DELIVERYFEE, S_LATEFEE, S_LATITUDE, S_LONGITUDE)
+    VALUES(#{m_id}, #{s_storename}, #{s_crn}, DEFAULT, DEFAULT, #{s_latitude}, #{s_longitude})
 </insert>
-
 
 
 

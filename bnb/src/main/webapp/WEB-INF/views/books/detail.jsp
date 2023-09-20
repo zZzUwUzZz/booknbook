@@ -308,6 +308,7 @@ $(".likeNoti").click(function () {
 
         // 판매 품절 상태 업데이트
         function updateSoldOutState() {
+           
     $('#addToCartBtn').addClass('sold-out').text('품절되었습니다.').css("background", "#909090");
             $('.status').text('품절').css("display", "block");
             $('#RestockBtn').css("display", "flex");
@@ -328,6 +329,8 @@ $(".likeNoti").click(function () {
     
         // 대여 예약 AJAX 요청
         function requestRental() {
+            if (!checkLogin()) return;
+
             const rentalData = {
                 rr_c_id: userId,
                 rr_s_id: '${bdInfo.b_s_id}',

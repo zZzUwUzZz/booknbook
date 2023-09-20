@@ -104,8 +104,6 @@ color: #618064;
     text-decoration-thickness: 1px
 }
 
-.menu_simple ul li a:hover, .menu_simple ul li .current {
-}
 td span {
     box-sizing: border-box;
     width: 200px;
@@ -114,4 +112,13 @@ td span {
     overflow: hidden;
     text-overflow: ellipsis;
     padding-left: 10px;
+}
+
+
+.orderBox01 {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    margin: auto;
+    width: 700px;
 }

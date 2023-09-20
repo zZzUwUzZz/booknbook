@@ -71,6 +71,7 @@ public class StockService {
     // }
 
     // 웹소켓 이용
+    @Transactional
     public void processStockNotif(String isbn, String sellerId) {
         List<StockNotifDto> usersToNotify = stockMapper.findUsersToNotify(isbn, sellerId);
         // 해당 책과 서점 정보 불러오기

@@ -22,8 +22,5 @@ public class WebConfig implements WebMvcConfigurer {      // 저 인터페이스
 			.addPathPatterns("/**")                  // **로 표기하면 /아래 이중 삼중경로까지 모두 포함..
 			.excludePathPatterns("/", "/booknbook", "/js/**", "/css/**", "/images/**")        // 로그인 체크 배제할 경로들..
 			.excludePathPatterns("/member/**", "/books/**", "/bookstore/**", "/search/**", "/map/**");
-		
 	}
-
-	
 }

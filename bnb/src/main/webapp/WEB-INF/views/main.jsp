@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+<!DOCTYPE html>
     <html lang="ko">
 
     <head>
@@ -97,10 +101,8 @@
                             navigate_next
                         </span>
                     </div>
-                   
-                    <div class="slider">
 
-                    
+                    <div class="slider">   
                         <div class="slide-container">
                  
                             <div class="slide">
@@ -167,6 +169,9 @@
 
 
                     </div>
+                </div>
+                    
+               
                 </div>
 
                 <div class="bnb_list">
@@ -319,7 +324,17 @@
             <%@include file="/WEB-INF/tiles/footer.jsp" %>
 
             <script src="/js/main.js"></script>
-
+<script>
+ $(document).ready(function() {
+    var maxDivs = 8;
+    $(".slide").each(function(index) {
+        if (index >= maxDivs) {
+            $(this).hide();
+        }
+    });
+});
+</script>
+  
     </body>
 
     </html>

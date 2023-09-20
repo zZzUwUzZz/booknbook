@@ -115,6 +115,52 @@
                               o_date as "o_date",
                               first_title as "first_title",
                               COUNT(*)-1 as "book_sorts_minus_one",
+                              o_delivery_sort as "o_delivery_sort",
+                              o_total_payment as "o_total_payment"
+                       FROM (SELECT o_id,
+                                   o_date,
+                                   FIRST_VALUE(b_title) OVER(PARTITION BY o_id) AS first_title,
+                                   o_delivery_sort, o_total_payment
+                             FROM order_list
+                             WHERE o_c_id = #{c_id} AND o_date BETWEEN #{startDate} AND #{endDate}+1)
+                       GROUP BY o_id, o_date, first_title, o_delivery_sort, o_total_payment
+                       ORDER BY o_date DESC) OL
+		    	)
+		    </when>
+		    <otherwise>
+		    	(SELECT rownum rn, OL.*
+				 FROM (SELECT o_id as "o_id",
+                              o_date as "o_date",
+                              first_title as "first_title",
+                              COUNT(*)-1 as "book_sorts_minus_one",
+                              o_delivery_sort as "o_delivery_sort",
+                              o_total_payment as "o_total_payment"
+                       FROM (SELECT o_id,
+                                   o_date,
+                                   FIRST_VALUE(b_title) OVER(PARTITION BY o_id) AS first_title,
+                                   o_delivery_sort, o_total_payment
+                             FROM order_list
+                             WHERE o_c_id = #{c_id})
+                       GROUP BY o_id, o_date, first_title, o_delivery_sort, o_total_payment
+                       ORDER BY o_date DESC) OL
+				)
+		    </otherwise>
+		</choose>
+		<![CDATA[
+		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
+		]]>
+    </select>
+
+    <!-- 삭제하지마 삭제하지마 삭제하지마
+    <select id="getOrderListByDateRange" resultType="Map">
+		SELECT * FROM
+		<choose>
+		    <when test="startDate != null and endDate != null">                
+		    	(SELECT rownum rn, OL.*      
+		    	 FROM (SELECT o_id as "o_id",
+                              o_date as "o_date",
+                              first_title as "first_title",
+                              COUNT(*)-1 as "book_sorts_minus_one",
                               order_status as "order_status",
                               o_delivery_sort as "o_delivery_sort"
                        FROM (SELECT o_id,
@@ -151,7 +197,7 @@
 		<![CDATA[
 		WHERE rn>=#{pageNum}*#{listCnt}-9 and rn<=#{pageNum}*#{listCnt}
 		]]>
-    </select>
+    </select> -->
 
     <select id="getOrderInfoByOId" parameterType="Integer" resultType="Map">
         SELECT o_id as "o_id",

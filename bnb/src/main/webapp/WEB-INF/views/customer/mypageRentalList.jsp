@@ -133,7 +133,7 @@
                                         <div class="pText">반납기한일</div>
                                         <c:choose>
                                             <c:when test="${!empty rItem.r_duedate}">
-                                                <fmt:formatDate value="${rItem.rental_status}" pattern="yyyy년 MM월 dd일" />
+                                                <fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy년 MM월 dd일" />
                                             </c:when>
                                             <c:otherwise>
                                                 -

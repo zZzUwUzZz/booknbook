@@ -210,13 +210,11 @@ public class SellerPageController {
     // 등록된 도서 리스트
     @GetMapping("/book/list")
     public String sellerbooklist(HttpSession session,
-            @RequestParam(required = false) String filter,
-            @RequestParam(required = false) String keyword,
             Model model) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
 
-        List<BookDto> bookList = stSer.SellerBookListDT(s_id, filter, keyword);
+        List<BookDto> bookList = stSer.SellerBookListDT(s_id);
         model.addAttribute("SellerBookList", bookList);
 
         // 모든 도서의 상세 정보를 저장할 리스트
@@ -230,7 +228,7 @@ public class SellerPageController {
 
         // 모델에 모든 도서의 상세 정보를 저장합니다.
         model.addAttribute("AllBookDetails", allBookDetails);
-
+ 
         return "seller/sellerBookList";
     }
 

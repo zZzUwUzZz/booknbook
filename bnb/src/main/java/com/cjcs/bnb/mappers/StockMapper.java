@@ -3,6 +3,7 @@ package com.cjcs.bnb.mappers;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.NotifBoardDto;
@@ -19,9 +20,12 @@ public interface StockMapper {
 
     void removeNotif(StockNotifDto notif);
 
-    List<BookDto> SellerBookListDT(String s_id, String filter, String keyword);
+    List<BookDto> SellerBookListDT(String s_id);
 
-    BookDto BookInfoDt(String isbn, String sellerId);
+    List<BookDto> SellerBookListDT(String s_id, @Param("filter") String filter,
+            @Param("keyword") String keyword);
+
+    BookDto BookInfoDt(String isbn, String s_id);
 
     StockNotifDto findStockNotif(StockNotifDto stockNotif);
 

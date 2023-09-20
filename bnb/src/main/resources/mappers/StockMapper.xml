@@ -33,8 +33,21 @@
 </delete>
 
 <!-- 도서 목록 쿼리 -->
-<select id="SellerBookListDT" resultType="com.cjcs.bnb.dto.BookDto">
-    SELECT * FROM Book WHERE b_s_id = #{s_id}
+<select id="SellerBookListDT" resultType="com.cjcs.bnb.dto.BookDto" parameterType="map">
+    SELECT * FROM Book
+    INNER JOIN CATEGORY_S ON BOOK.B_CATEGORY_S_ID = CATEGORY_S.CATEGORY_S_ID
+    WHERE b_s_id = #{s_id}
+   <choose>
+            <when test="filter == 'category'">
+                AND UPPER(CATEGORY_S.CATEGORY_S) = UPPER(#{keyword})
+            </when>
+            <when test="filter == 'title'">
+                AND UPPER(B_TITLE) LIKE '%' || UPPER(#{keyword}) || '%'
+            </when>
+            <when test="filter == 'author'">
+                AND UPPER(B_AUTHOR) LIKE '%' || UPPER(#{keyword}) || '%'
+            </when>
+        </choose>
 </select>
 
 <!-- 도서 상세 정보 쿼리 -->

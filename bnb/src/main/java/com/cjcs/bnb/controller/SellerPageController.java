@@ -67,7 +67,6 @@ public class SellerPageController {
     @Autowired
     private PurchaseDao pDao;
 
-
     // 서점 정보 페이지
     @GetMapping
     public String sellerpage() {
@@ -209,14 +208,21 @@ public class SellerPageController {
 
     // 등록된 도서 리스트
     @GetMapping("/book/list")
-    public String sellerbooklist(HttpSession session,
-            @RequestParam(required = false) String filter,
+    public String sellerbooklist(HttpSession session, @RequestParam(required = false) String filter,
             @RequestParam(required = false) String keyword,
             Model model) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
 
-        List<BookDto> bookList = stSer.SellerBookListDT(s_id, filter, keyword);
+        List<BookDto> bookList;
+
+        // 필터, 키워드 입력 값이 있을 때만 검색 메소드 실행
+        if (filter != null && keyword != null) {
+            bookList = stSer.SearchSellerBookListDT(s_id, filter, keyword);
+        } else { // 없으면 전체 리스트 출력
+            bookList = stSer.SellerBookListDT(s_id);
+        }
+
         model.addAttribute("SellerBookList", bookList);
 
         // 모든 도서의 상세 정보를 저장할 리스트

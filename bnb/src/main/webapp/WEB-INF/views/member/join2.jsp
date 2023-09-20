@@ -9,9 +9,52 @@
   <title>사업자 회원가입</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/books.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/mapSearch.js"></script>
+
+<style>
+  .ft {
+  margin-top: 0px;
+  padding: 15px 43px;
+  height: 40px; 
+  color: #203b23;
+  display: flex;
+  align-items: center;
+  position: relative;
+  bottom: 0;
+  justify-content: space-between;
+  border-top: 1px solid #203b23;
+}
+</style>
+
+
+
 </head>
 <body>
-    <div class="header"></div>
+
+  <%@include file="/WEB-INF/tiles/header.jsp" %></div>  
+
   <div class="registration-form">
     <h2>사업자 회원가입</h2>
   
@@ -41,6 +84,11 @@
       <button type="submit">회원가입</button>
     </form>
     <p>이미 계정이 있으신가요? <a href="/css/member/login">로그인</a></p>
+
+
+
+    <%@include file="/WEB-INF/tiles/footer.jsp" %>
+
 
     <script>
   function validateRegistrationForm(event) {

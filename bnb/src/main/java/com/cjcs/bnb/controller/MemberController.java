@@ -25,6 +25,7 @@ import com.cjcs.bnb.service.MemberService;
 // import com.mailgun.client.MailgunClient;
 // import com.mailgun.model.message.Message;
 // import com.mailgun.model.message.MessageResponse;
+import com.cjcs.bnb.service.SellerService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ public class MemberController {
     private MemberDao mDao;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    
 
     // 여기서부터 페이지-메서드 매핑
 
@@ -109,6 +111,8 @@ public class MemberController {
             session.setAttribute("M_ROLE", mb.getM_role()); // 사용자 유형을 M_ROLE 세션에 저장
             session.setAttribute("isLoggedIn", true); // 로그인 상태를 세션에 저장 <- 이 부분을 추가
         
+
+            session.setMaxInactiveInterval(30 * 60);
             // 로그 출력
             System.out.println("User ID: " + session.getAttribute("loggedInUser"));
             System.out.println("User Type (M_ROLE): " + session.getAttribute("M_ROLE"));
@@ -310,6 +314,33 @@ public class MemberController {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+     @Autowired
+    private SellerService sellerService;
+
+    @PostMapping("/resetSellerPassword")
+    public ResponseEntity<?> resetSellerPassword(@RequestBody Map<String, String> inputData) {
+        try {
+            // 개인 사업자 비밀번호 초기화
+            Boolean isPasswordReset = sellerService.resetSellerPassword(inputData);
+
+            if (isPasswordReset) {
+                return ResponseEntity.ok("Seller password reset successful.");
+            } else {
+                // 비밀번호 초기화 실패시 응답
+                return new ResponseEntity<>("Failed to reset seller password. Check if store name, email, and ID are correct.",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            // 에러 메시지 로그 기록
+            log.error("Error while resetting seller password: ", e);
+            return new ResponseEntity<>(e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
     @GetMapping("/unregister")
     public String unregister() {

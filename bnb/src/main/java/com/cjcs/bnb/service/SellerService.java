@@ -1,5 +1,7 @@
 package com.cjcs.bnb.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +22,10 @@ public class SellerService {
         return sMp.getSellerFile(sellerId);
     }
 
+    
+    
+    public Boolean resetSellerPassword(Map<String, String> inputData) {
+        int updatedRows = sMp.resetSellerPassword(inputData);
+        return updatedRows > 0;
+    }
 }

@@ -72,6 +72,10 @@ public interface MemberDao {
 
         // 비번 초기화
         boolean resetPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
+        public interface SellerMapper {
+                int resetSellerPassword(Map<String, String> inputData);
+            }
+
 
         // 회원 탈퇴
         String getEncodedPassword(String m_id);

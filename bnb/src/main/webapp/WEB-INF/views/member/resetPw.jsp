@@ -27,16 +27,17 @@
     <form id="resetPasswordForm" name="resetPasswordForm" action="#" method="post" target="_self" enctype="application/x-www-form-urlencoded">
         <div class="findId">
             <fieldset>   
+
                 <legend>본인 확인</legend>
-                <!-- <p>
+                <p>
                     <strong>회원유형</strong>
                     <select id="searchType" name="searchType" fw-label="회원유형">
                         <option value="indi" selected="selected">개인회원</option>
                         <option value="indibuis">개인 사업자회원</option>
                     </select>
-                </p> -->
+                </p>
                 <p class="input-group">
-                    <strong class="input_label">이름</strong>
+                    <strong class="input_label" id="name_label">이름</strong>
                     <input id="input_field_name" name="name" class="lostInput" placeholder="이름을 입력하세요" type="text">
                 </p>
                 <p class="input-group">
@@ -71,10 +72,18 @@
                 userId: $("#input_field_id").val(),
                 email: $("#input_field_email").val()
             };
-
+            
+            // 회원 유형에 따라 엔드포인트 설정
+            var endpoint;
+            if ($("#searchType").val() === "indibuis") {
+                endpoint = "/member/resetSellerPassword"; // 개인 사업자회원
+            } else {
+                endpoint = "/member/resetPw"; // 개인회원
+            }
+    
             $.ajax({
                 type: "POST",
-                url: "/member/resetPw",
+                url: endpoint,
                 contentType: "application/json",
                 data: JSON.stringify(inputData),
                 success: function(response) {
@@ -92,26 +101,26 @@
                 }
             });
         }
-
+    
         function resetPassword() {
             var newPassword = $("#input_new_password").val();
             var confirmPassword = $("#input_confirm_password").val();
-
+    
             if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(newPassword)) {
                 alert("비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합으로 6자 이상 입력해주세요.");
                 return;
             }
-
+    
             if (newPassword !== confirmPassword) {
                 alert("비밀번호가 일치하지 않습니다.");
                 return;
             }
-
+    
             var sendData = {
                 userId: $("#input_field_id").val(),
                 newPassword: newPassword
             };
-
+    
             $.ajax({
                 type: "POST",
                 url: "/member/changePw",
@@ -130,7 +139,20 @@
                 }
             });
         }
-        
+    
+        $(document).ready(function() {
+            $("#searchType").change(function() {
+                var selectedType = $(this).val();
+    
+                if (selectedType === "indibuis") {
+                    $("#name_label").text("서점명");
+                    $("#input_field_name").attr("placeholder", "서점명을 입력하세요");
+                } else {
+                    $("#name_label").text("이름");
+                    $("#input_field_name").attr("placeholder", "이름을 입력하세요");
+                }
+            });
+        });
     </script>
 
     <div class="footer"></div>

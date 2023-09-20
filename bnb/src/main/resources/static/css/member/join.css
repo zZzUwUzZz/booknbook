@@ -7,42 +7,43 @@ body {
   background-color: #f5f7fa;
   font-family: 'Noto Sans', sans-serif;
 }
+
 .header {
-  background-color: #506c7f;
+  background-color: #4d6b50;
   color: #fff;
   padding: 10px;
   height: 125px;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .signup-container {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px 40px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 450px;
   width: 100%;
-  margin: auto;  /* 추가한 부분 */
+  margin: auto;
 }
+
 form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-input {
+input,
+.form-control {
   margin: 10px 0;
   padding: 12px 15px;
   width: 100%;
-  border-radius: 5px;
-  border: 1px solid #cfd4db;
+  border: none;
+  border-bottom: 1px solid #cfd4db;
   transition: border 0.2s;
+  background: transparent;  /* 추가 */
 }
 
-input:focus {
-  border-color: #506c7f;
+input:focus,
+.form-control:focus {
+  border-color: #007BFF;
   outline: none;
 }
 
@@ -50,7 +51,8 @@ input[type="date"] {
   padding: 8px 12px;
 }
 
-.button {
+.button,
+.btn {
   background-color: #506c7f;
   color: #fff;
   border: none;
@@ -58,9 +60,18 @@ input[type="date"] {
   padding: 12px 25px;
   cursor: pointer;
   transition: background-color 0.2s;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
 }
 
-.button:hover {
+.button:active,
+.btn:active {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(2px);
+}
+
+.button:hover,
+.btn:hover {
   background-color: #3f5870;
 }
 
@@ -81,49 +92,9 @@ a {
 a:hover {
   color: #3f5870;
 }
-/* 주소 */
-.btn {
-  background-color: #007BFF;  
-  color: white;               
-  padding: 10px 20px;         
-  border: none;              
-  border-radius: 5px;        
-  cursor: pointer;           
-  transition: background-color 0.3s;  
-}
-
-.btn:hover {
-  background-color: #0056b3;  
-}
-.form-control {
-  width: 100%; 
-  padding: 12px 15px;  /* 패딩 조절 */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s;
-  margin: 5px 0;  /* 마진 조절 */
-}
-
-.form-control:focus {
-  border-color: #007BFF; 
-}
 
 .form-group {
-  margin-bottom: 0px;  
-}
-
-input, .form-control {
-  margin: 10px 0;
-  padding: 12px 15px;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #cfd4db;
-  transition: border 0.2s;
-}
-
-input:focus, .form-control:focus {
-  border-color: #506c7f;
-  outline: none;
+  margin-bottom: 0px;
 }
 
 .address-group {
@@ -132,14 +103,43 @@ input:focus, .form-control:focus {
 }
 
 .postcode-btn {
-  margin-left: 10px;  /* 버튼 간의 간격 조절 */
-  padding: 12px 15px;  /* 버튼의 크기 조절 */
+  margin-left: 10px;
+  padding: 12px 15px;
 }
 
 .form-control {
   flex: 1;
-  margin-right:55px;
+  margin-right: 55px;
 }
 
+input, .form-control {
+  margin: 10px 0;
+  padding: 12px 15px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #cfd4db;
+  transition: border-color 0.3s, background-color 0.3s;
+  background: #f9f9f9;  /* 약간의 배경색 추가 */
+  font-size: 16px;      /* 폰트 크기 조정 */
+}
 
+input:hover, .form-control:hover {
+  background: #f6f6f6;  /* Hover 시 약간 더 어두운 배경색 */
+}
 
+input:focus, .form-control:focus {
+  border-color: #007BFF;
+  background: #f6f6f6;  /* Focus 시 배경색 유지 */
+  outline: none; 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  /* 그림자 효과 추가 */
+}
+
+.button, .btn {
+  /* ... 기존의 스타일 ... */
+  font-weight: 600;   /* 가중치 조정 */
+}
+
+a {
+  /* ... 기존의 스타일 ... */
+  font-weight: 600;   /* 가중치 조정 */
+}

@@ -24,12 +24,15 @@ public class BookStoreController {
     @Autowired
     private SellerService sSer;
 
+    
+
     @GetMapping("/bookstore")
     public String bookstore(Model model) {
         List<MemberDto> allImageList = bSer.getAllImageList();
         model.addAttribute("allImageList", allImageList);
         return "/bookstore/bookstore";
     }
+
 
     // 서점 상세 페이지
     @GetMapping("/bookstore/detail/{sellerId}")

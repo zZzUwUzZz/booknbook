@@ -27,6 +27,7 @@ import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.service.BoardService;
+import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.RentalService;
 import com.cjcs.bnb.service.SellerService;
@@ -60,11 +61,14 @@ public class BnbController {
     private ReportBoardDao rbDao;
     @Autowired
     private CategoryDao categoryDao;
+    @Autowired
+    private BookService bookSer;
 
 
     // 메인
     @GetMapping("/")
     public String main(Model model) {
+ 
         return "main";
     }
 

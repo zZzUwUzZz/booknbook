@@ -42,6 +42,15 @@ SELECT sf_sysname FROM (
 )
 WHERE rnum = 1
 </select>
+ 
 
+<select id="getFavStores" resultType="com.cjcs.bnb.dto.FavoriteDTO">
+    SELECT s.s_id AS favs_s_id, s.s_storename, sf.sf_sysname, COUNT(f.favs_s_id) AS state
+    FROM Seller s
+    LEFT JOIN Seller_File sf ON s.s_id = sf.sf_s_id
+    LEFT JOIN FavStore f ON s.s_id = f.favs_s_id
+    GROUP BY s.s_id, s.s_storename, sf.sf_sysname
+    ORDER BY state DESC
+</select>
 
 </mapper>

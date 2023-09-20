@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cjcs.bnb.dto.BookDto;
+import com.cjcs.bnb.dto.FavoriteDTO;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookstoreService;
+import com.cjcs.bnb.service.FavoriteService;
 import com.cjcs.bnb.service.SellerService;
 
 @Controller
@@ -24,10 +26,19 @@ public class BookStoreController {
     @Autowired
     private SellerService sSer;
 
+    @Autowired
+    private FavoriteService favSer;
+
     @GetMapping("/bookstore")
     public String bookstore(Model model) {
         List<MemberDto> allImageList = bSer.getAllImageList();
+        List<FavoriteDTO> favStores = favSer.getFavStores();
+
+        System.out.println("서점 리스트들" + allImageList);
         model.addAttribute("allImageList", allImageList);
+
+        model.addAttribute("favStores", favStores);
+
         return "/bookstore/bookstore";
     }
 

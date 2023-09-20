@@ -63,6 +63,14 @@ public class BookService {
         return bookMapper.findBooksByIsbn(isbn);
     }
 
+    public List<BookDto> getDistinctBooks() {
+        return bookMapper.getDistinctBooks();
+    }
+
+    public List<BookDto> getRandomBooks() {
+        return bookMapper.getRandomBooks();
+    }
+
     // public static List<BookDto> getSellerBookList(String b_s_id){
     // return bDao.getSellerBookList(b_s_id);
     // }

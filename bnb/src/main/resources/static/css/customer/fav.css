@@ -1,15 +1,14 @@
 .container-fav {
     box-sizing: border-box;
     display: flex;
-    justify-content:flex-start;
-    align-content: space-evenly;
-    flex-wrap: wrap;
-    background-color: none;
-    width: 100%;
-    padding: 13px 0 13px 27px;
+    width: 73%;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin: auto;
+    height: 85%;
+    align-items: center;
 }
+
 .favstore {
     display: inline-block;
     text-align: center;
@@ -19,17 +18,21 @@
     height: 280px;
     margin: 14px 70px;
 }
+
 .favbook {
-    display: inline-block;
+    display: flex;
     text-align: center;
-    border: 1px solid #4d6b50;
-    border-radius: 10px;
     width: 250px;
-    height: 280px;
-    margin: 14px 22px 15px 0;
+    height: 250px;
+    margin: 8px;
+    background: #FFF;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
 }
-img {
-    height: 280px;
+
+.favbook img {
+    height: 200px;
 }
 
 .mypg {

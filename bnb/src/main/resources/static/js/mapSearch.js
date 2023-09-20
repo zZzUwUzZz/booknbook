@@ -110,8 +110,7 @@ function searchMarkers(keyword) {
   }
 }
 
-
-
+ 
 // 페이지 로드가 완료된 후
 // 전역 범위에 마커와 인포윈도우를 저장하는 배열을 선언
 var markers = [];

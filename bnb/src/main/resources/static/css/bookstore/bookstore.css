@@ -1,10 +1,26 @@
-
+#storeLink {
+  width: 119px;
+  padding: 7px;
+  position: relative;
+  z-index:99;
+}
 
 .bsContain {
-     height: 420px;
+     height: 620px;
      position: relative;
 }
 
+.bsText01 {
+  position: relative;
+  z-index: 2;
+  color: #293630;
+  background: #df641f;
+  padding: 6px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  width: 92px;
+  text-align: center;
+}
 #bsSlider {
     box-sizing: border-box;
     position: relative;

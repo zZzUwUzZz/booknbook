@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjcs.bnb.mappers.RandomSellerMapper">
+     <select id="getRandomSeller" resultType="SellerDTO">
+         SELECT * FROM (
+            SELECT s.* FROM Seller s 
+            JOIN Seller_File sf ON s.s_id = sf.sf_s_id
+            WHERE sf.sf_sysname IS NOT NULL
+            ORDER BY DBMS_RANDOM.RANDOM
+        ) WHERE ROWNUM = 1
+    </select>
+    
+    <select id="getSellerFileBySellerId" parameterType="String" resultType="SellerFileDTO">
+        SELECT * FROM Seller_File WHERE sf_s_id = #{s_id} AND sf_sysname IS NOT NULL </select>
+
+</mapper>

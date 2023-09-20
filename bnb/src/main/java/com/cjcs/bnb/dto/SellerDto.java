@@ -16,4 +16,5 @@ public class SellerDto {
     private Double s_longitude;
     public String Start_Date;
     public String End_Date;
+    private String sf_sysname; 
 }

@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function() {
       window.location.href = "/cart"; // 카트 페이지로 이동
     });
     wishbtn.addEventListener("click", function() {
-      window.location.href = "/wish"; // 위시리스트 페이지로 이동
+      window.location.href = "/mypage/favoritebooks"; // 위시리스트 페이지로 이동
     });
   } else {
     // 로그아웃 상태일 경우

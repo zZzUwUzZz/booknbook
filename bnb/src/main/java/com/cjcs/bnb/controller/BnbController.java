@@ -25,8 +25,11 @@ import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
+import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.service.BoardService;
+import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.RentalService;
+import com.cjcs.bnb.service.SellerService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,10 @@ public class BnbController {
     private BoardService bSer;
     @Autowired
     private RentalService rSer;
+     @Autowired
+    private SellerService sSer;
+    @Autowired
+    private MemberService mSer;
 
     @Autowired
     private MemberDao mDao;
@@ -57,17 +64,11 @@ public class BnbController {
 
     // 메인
     @GetMapping("/")
-    public String main() {
+    public String main(Model model) {
         return "main";
     }
 
-
-
-
-    
-
-
-
+ 
 
     // 지도
     @RequestMapping(value = "/map", method = RequestMethod.GET)

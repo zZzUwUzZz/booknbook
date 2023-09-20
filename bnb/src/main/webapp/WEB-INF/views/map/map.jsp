@@ -156,6 +156,11 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
         </div>
 
 
+        <script type="text/javascript">
+            const userId = "${sessionScope.loggedInUser}";
+            const isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
+          </script>
+          
     
 <script>
  
@@ -178,10 +183,7 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
  
 </script>
 
-<script type="text/javascript">
-    const userId = "${sessionScope.loggedInUser}";
-    const isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
-  </script>
+
 <script src="/js/mapSearch.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/fav.js"></script>

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SellerDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,7 @@ public class MemberService {
     public boolean updateinfo(MemberDto mDto) {
         return false;
     }
+ 
 
     // public MemberDto login(HashMap<String, String> member) {
     // try {
@@ -267,6 +269,14 @@ public class MemberService {
         return latestFav;
     }
 
+
+    // 서점 회원 회원가입
+
+    public boolean joinSeller(MemberDto memberDto) {
+        return mDao.joinSeller(memberDto);
+    }
+    
+
     // 예림
 
     // public String getStoreName(String s_id) {
@@ -292,5 +302,7 @@ public class MemberService {
     public List<MemberDto> getCsMemberList(String s_id) {
         return mDao.getCsMemberList(s_id);
     }
+
+ 
 
 }

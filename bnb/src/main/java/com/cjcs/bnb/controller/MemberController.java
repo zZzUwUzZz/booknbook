@@ -20,12 +20,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.service.MemberService;
 // import com.mailgun.api.v3.MailgunMessagesApi;
 // import com.mailgun.client.MailgunClient;
 // import com.mailgun.model.message.Message;
 // import com.mailgun.model.message.MessageResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -224,11 +226,16 @@ public class MemberController {
     }
 
     @PostMapping("/join2")
-    public String join2Process(MemberDto member, Model model) {
+public String join2Process(MemberDto member, Model model, HttpServletRequest request) { 
 
         HashMap<String, Object> resultMap = new HashMap<>();
 
         try {
+            
+             // 위도와 경도 설정
+        member.setS_latitude(Double.parseDouble(request.getParameter("s_latitude")));
+        member.setS_longitude(Double.parseDouble(request.getParameter("s_longitude")));
+
             // 비밀번호 암호화
             member.setM_pw(passwordEncoder.encode(member.getM_pw()));
 
@@ -246,6 +253,8 @@ public class MemberController {
         model.addAllAttributes(resultMap);
         return resultMap.get("success") == Boolean.TRUE ? "redirect:/member/login" : "member/join2";
     }
+
+    
     // @ResponseBody
     // @GetMapping("/emailAuth")
     // public MessageResponse sendSimpleMessage() {

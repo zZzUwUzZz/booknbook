@@ -71,21 +71,21 @@
 
                         <div class="category_add_box">
                             <h4>· 중분류 추가하기&nbsp;</h4>
-                            <form action="/admin/categoryadd">
-                                <input type="text" name="category_m_id" placeholder="중분류코드" style="width: 67px">
-                                <input type="text" name="category_m" placeholder="중분류명" style="width: 100px">
+                            <form action="/admin/categoryadd" class="addForm">
+                                <input type="text" name="category_m_id" placeholder="중분류코드" style="width: 67px" required>
+                                <input type="text" name="category_m" placeholder="중분류명" style="width: 100px" required>
                                 <button type="submit">추가</button>
                             </form>
                             <br>
                             <h4>· 소분류 추가하기&nbsp;</h4>
-                            <form action="/admin/categoryadd">
+                            <form action="/admin/categoryadd" class="addForm">
                                 <select name="category_m" style="width: 75px">
                                     <c:forEach var="nameM" items="${categoryNames}">
                                         <option value="${nameM.key}">${nameM.key}</option>
                                     </c:forEach> 
                                 </select>
-                                <input type="text" name="category_s_id" placeholder="소분류코드" style="width: 67px">
-                                <input type="text" name="category_s" placeholder="소분류명" style="width: 100px">
+                                <input type="text" name="category_s_id" placeholder="소분류코드" style="width: 67px" required>
+                                <input type="text" name="category_s" placeholder="소분류명" style="width: 100px" required>
                                 <button type="submit">추가</button>
                             </form>
                         </div>
@@ -183,6 +183,23 @@
 
     
     <script>
+
+        $(document).ready(function () {
+
+            let m = '${msg}'
+            if (m != '') { alert(m) }
+
+            $('.addForm').submit(function () {
+
+                event.preventDefault();
+
+                let conf = confirm('카테고리를 추가할까요?')
+                
+                if (conf == true) {
+                    this.submit();
+                }
+            })
+        })
 
         function delete_category_m(category_m) {
 

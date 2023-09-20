@@ -83,7 +83,7 @@
                             <td class="label">주소</td> <td>${mDto.m_addr}</td>
                         </tr>
                         <tr>
-                            <td class="label">휴대전화번호</td> <td>${mDto.m_phone}</td>
+                            <td class="label">휴대전화번호</td> <td>${mDto.formatted_phone}</td>
                         </tr>
                         <tr>
                             <td class="label">이메일</td> <td>${mDto.m_email}</td>

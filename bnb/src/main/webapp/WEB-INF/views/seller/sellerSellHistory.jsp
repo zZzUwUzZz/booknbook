@@ -26,6 +26,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <style>
+        .status {
+            width: 100px;
+        }
+    </style>
+    
 </head>
 
 <body>
@@ -88,7 +94,7 @@
                                     <th>주문상태</th>
                                     <th>수령방법</th>
                                     <th>배송상태</th>
-                                    <th>배송완료일</th>
+                                    <th width="100px">배송완료일</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -188,7 +194,7 @@
                                         </tr>
                                         <c:if test="${pItem.o_delivery_sort eq '택배'}">
                                             <tr>
-                                                <td colspan="9" style="text-align: right;">배송지 : ${pItem.o_recip_addr}<br>${pItem.o_recip_name} | ${pItem.o_recip_phone}</td>
+                                                <td colspan="9" style="text-align: right; background: rgb(240, 240, 240)">배송지 : ${pItem.o_recip_addr}<br>${pItem.o_recip_name} | ${pItem.o_recip_phone}</td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
@@ -242,16 +248,21 @@
                                 const currDate = new Date();
                                 const year = currDate.getFullYear();
                                 const month = currDate.getMonth() + 1;
+                                var formattedMonth = month < 10 ? '0' + month : month.toString();
                                 const day = currDate.getDate();
-                                row.querySelector('.deliverydate_td').textContent = year+'-'+month+'-'+day;
+                                var formattedDay = day < 10 ? '0' + day : day.toString();
+                                row.querySelector('.deliverydate_td').textContent = year+'-'+formattedMonth+'-'+formattedDay;
                             }   
     
                         }).fail(function (err) {
+
+                            alert('오류 발생!')
                             location.href = '/seller/sell/history'
                         })
     
                     })
-    
+
+                    alert('배송상태가 변경되었습니다.')
                 }
             })
     

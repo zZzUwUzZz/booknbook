@@ -201,11 +201,14 @@
                         }
 
                     }).fail(function (err) {
+
+                        alert('오류 발생!')
                         location.href = '/seller/sell/cancel'
                     })
 
                 })
 
+                alert('주문상태가 변경되었습니다.')
             }
         })
 

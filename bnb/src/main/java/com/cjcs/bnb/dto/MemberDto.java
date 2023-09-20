@@ -53,9 +53,6 @@ public class MemberDto {
 
     // 수희
     private int overdues;
-
-    public String getPassword() {
-        return null;
-    }
+    private String formatted_phone;
     
 }

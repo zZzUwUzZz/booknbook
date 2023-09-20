@@ -122,8 +122,8 @@
                                 </div>
             
                                 <div class="reTitle">
-                                    <div class="reText">금액/수량</div>
-                                    ${reItem.re_amount}
+                                    <div class="reText">수량</div>
+                                    <span style="text-align: center;">${reItem.re_amount}</span>
                                 </div>
              
                                 <div class="reDeli">

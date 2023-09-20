@@ -364,9 +364,8 @@
         WHERE
             order_sort = '대여'
             AND
-
             S_ID = 'seller001'
-
+            AND
             NOT rental_status = '반납완료'
             AND
             S_ID = #{s_id}

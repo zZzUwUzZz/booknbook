@@ -179,6 +179,7 @@
     <select id="getOrderListToCancelBySId" parameterType="String" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
         SELECT o_id as "o_id",
+               item_id as "item_id",
                o_date as "o_date",
                order_sort as "order_sort",
                o_c_id as "o_c_id",

@@ -14,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cjcs.bnb.dao.MemberDao;
 import com.cjcs.bnb.dto.MemberDto;
+
+import com.cjcs.bnb.mappers.SellerMapper;
+
 import com.cjcs.bnb.dto.SellerDto;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,7 +76,7 @@ public class MemberService {
     public String findSellerIdByStoreNameAndEmail(String storeName, String email) {
         return mDao.findSellerIdByStoreNameAndEmail(storeName, email);
     }
-
+ 
     public Boolean verifyUser(Map<String, String> inputData) {
         Integer count = mDao.verifyUser(inputData);
         return count > 0;
@@ -108,6 +112,13 @@ public class MemberService {
             log.error("Error in resetting password in service layer: ", e);
             return false;
         }
+    }
+    @Autowired
+    private SellerMapper sellerMapper;
+
+    public boolean resetSellerPassword(Map<String, String> inputData) {
+        int updatedRows = sellerMapper.resetSellerPassword(inputData);
+        return updatedRows > 0;
     }
 
     @Autowired

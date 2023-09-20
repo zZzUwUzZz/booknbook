@@ -337,7 +337,7 @@ public class SellerPageController {
 
         String s_id = (String) session.getAttribute("loggedInUser");
 
-        // 배송 상태 업데이트
+        // 업데이트
         rSer.UpdateDeliStatus(requestData, s_id);
         return ResponseEntity.ok(requestData);
     }

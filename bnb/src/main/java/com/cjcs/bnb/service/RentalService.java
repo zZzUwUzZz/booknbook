@@ -205,12 +205,16 @@ public class RentalService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for (RentalDto dto : resultList) {
             Date o_date = dto.getO_date();
-            Date returnexpect_days = dto.getReturnexpect_days();
+            Date r_duedate = dto.getR_duedate();
+            Date Deliverydate = dto.getDeliverydate();
             if (o_date != null) {
                 dto.setO_dateStr(sdf.format(o_date));
             }
-            if(returnexpect_days!=null){
-                dto.setReturnexpect_daysStr(sdf.format(returnexpect_days));
+            if (r_duedate!=null){
+                dto.setR_duedateStr(sdf.format(r_duedate));
+            }
+            if (Deliverydate != null) {
+                dto.setDeliverydateStr(sdf.format(Deliverydate));
             }
         }
 
@@ -226,13 +230,32 @@ public class RentalService {
     // 배송상태, 대여상태 업데이트
     @Transactional
     public void UpdateDeliStatus(List<RentalDto> requestData, String s_id) {
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
         for (RentalDto request : requestData) {
             rDao.UpdateDeliStatus(request.getO_id(), request.getDelivery_status(), request.getB_title(), s_id);
+            UpdateDeliveryDate(request, s_id);
+            UpdateDuedate(request, s_id);
             UpdateRentStatus_Wait(request, s_id);
             UpdateRentStatus_Curr(request, s_id);
             UpdateRentStatus_Late(request);
             RentResStatus_First(request, s_id);
+            
+            // Date Deliverydate = request.getDeliverydate();
+            // if (Deliverydate != null) {
+            //     request.setDeliverydateStr(sdf.format(Deliverydate));
+            // }
         }
+    }
+
+    // 배송 완료일 지정
+    public void UpdateDeliveryDate(RentalDto requestData, String s_id) {
+        rDao.UpdateDeliveryDate(requestData.getO_id(), requestData.getB_title(), s_id);
+    }
+
+    // 반납 기한일 지정
+    public void UpdateDuedate(RentalDto requestData, String s_id) {
+        rDao.UpdateDuedate(requestData.getO_id(), requestData.getB_title(), s_id);
     }
 
     // 대여 상태 업데이트 [대여시작전]

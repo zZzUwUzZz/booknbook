@@ -65,11 +65,13 @@ public interface RentalDao {
     public List<RentalDto> RentResList(String s_id); // 예약 신청 리스트 불러오기
     public void ReserveAccept(@Param("rr_id") int rr_id); // 예약 수락
     public void ReserveRefuse(@Param("rr_id") int rr_id, @Param("rr_rejection_reason") String rr_rejection_reason); // 예약 거절
-    public List<RentalDto> RentCurrentList(String s_id); // 대여현황
-
-  
+    public List<RentalDto> RentCurrentList(String s_id); // 대여현황  
     public List<RentalDto> DeliveryStatusList(); // 배송 상태명
+
     public void UpdateDeliStatus(@Param("o_id") int o_id, @Param("delivery_status") String delivery_status, @Param("b_title") String b_title, String s_id); // 배송 상태 업데이트
+    public void UpdateDeliveryDate(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); // 배송완료일 지정
+    public void UpdateDuedate(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); //반납기한일 지정
+
     public void UpdateRentStatus_Wait(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); // 대여 상태 업데이트 [대여시작전]
     public void UpdateRentStatus_Curr(@Param("o_id") int o_id, @Param("b_title") String b_title, String s_id); // 대여 상태 업데이트 [대여중]
     public void UpdateRentStatus_Late(@Param("o_id") int o_id, @Param("b_title") String b_title); // 대여 상태 업데이트 [연체]

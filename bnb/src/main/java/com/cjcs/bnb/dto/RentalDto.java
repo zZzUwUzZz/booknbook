@@ -30,6 +30,7 @@ public class RentalDto {
     private Timestamp r_deliverydate;       // 배송완료일
     private int r_rentalperiod;             // 대여기간(7or14)
     private Timestamp r_duedate;            // 반납기한일
+    private String r_duedateStr;            // 반납기한일
 
     private int r_rental_status_id;         // 대여상태코드(숫자1자리)
     private Timestamp r_returndate;         // 반납일자
@@ -56,8 +57,8 @@ public class RentalDto {
     
     private String o_dateStr;         // 주문일시 (날짜 데이터 형식 변환)
     private String rr_rejection_reason; //예약불가사유
-    private Timestamp returnexpect_days; // 반납 예정일
-    private String returnexpect_daysStr; // 반납 예정일 (날짜 데이터 형식 변환)
+    private Timestamp deliverydate;
+    private String deliverydateStr;
     
 
 }

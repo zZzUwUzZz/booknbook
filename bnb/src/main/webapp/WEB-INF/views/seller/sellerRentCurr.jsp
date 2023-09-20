@@ -76,9 +76,11 @@
                         <thead>
                             <tr>
                                 <th>주문번호</th>
+                                <th>주문일자</th>
                                 <th>아이디</th>
                                 <th>제목</th>
-                                <th>대여일자</th>
+                                <th>대여기간</th>
+                                <th>대여시작일</th>
                                 <th>반납예정일</th>
                                 <th>수령방법</th>
                                 <th colspan="2">주문상태</th>
@@ -90,10 +92,12 @@
                             <c:forEach items="${RentCurrentList}" var="rentcurrent" varStatus="status">
                                 <tr id="row_${status.index}">
                                     <td>${rentcurrent.o_id}</td>
+                                    <td>${rentcurrent.o_dateStr}</td>
                                     <td>${rentcurrent.o_c_id}</td>
                                     <td>${rentcurrent.b_title}</td>
-                                    <td>${rentcurrent.o_dateStr}</td>
-                                    <td>${rentcurrent.returnexpect_daysStr}</td>
+                                    <td id="rental_period_${status.index}">${rentcurrent.r_rentalperiod}</td>
+                                    <td id="del_date_text_${status.index}">${rentcurrent.deliverydateStr}</td>
+                                    <td id="due_date_text_${status.index}">${rentcurrent.r_duedateStr}</td>
                                     <td>${rentcurrent.o_delivery_sort}</td>
                                     <td id="del_status_text_${status.index}">${rentcurrent.delivery_status}</td>
                                     <td>
@@ -135,7 +139,7 @@
 
         rows.forEach(function (row, index) {
             var o_id = row.querySelector('td:first-child').textContent;
-            var b_title = row.querySelector('td:nth-child(3)').textContent;
+            var b_title = row.querySelector('td:nth-child(4)').textContent;
             var select = row.querySelector('.del_status');
             var delivery_status = select.options[select.selectedIndex].value;
 
@@ -158,14 +162,45 @@
                 response.forEach(function (item, index) {
                     var del_status_before = $('#del_status_text_' + index).text();
                     var del_status_text = $('#del_status_text_' + index);
+                    var del_date_text = $('#del_date_text_' + index);
+                    var due_date_text = $('#due_date_text_' + index);
+                    // var rental_period = $('#rental_period_' + index).val(); // Added '#'
+                    // rental_period = parseInt(rental_period);
+
+                    // if (isNaN(rental_period)) { // Check for NaN
+                    //     console.error("rental_period is not a number");
+                    //     return;
+                    // }
+
                     if (del_status_before != item.delivery_status) {
                         del_status_text.text(item.delivery_status);
                         if (item.delivery_status == '배송완료' || item.delivery_status == '수령완료') {
                             $('#rent_status_text_' + index).text('대여중');
                             $('#UpdateRentStatus_Return_' + index).show();
+                            // if (del_date_text.text() == '' || due_date_text.text() == '') {
+                            //     var today = new Date();
+                            //     var year = today.getFullYear();
+                            //     var month = String(today.getMonth() + 1).padStart(2, '0');
+                            //     var day = String(today.getDate()).padStart(2, '0');
+                            //     var formattedDate = year + '-' + month +'-' + day;
+
+                            //     del_date_text.text(formattedDate);
+
+                            //     today.setDate(today.getDate() + rental_period);
+
+                            //     year = today.getFullYear();
+                            //     month = String(today.getMonth() + 1).padStart(2, '0');
+                            //     day = String(today.getDate()).padStart(2, '0');
+                            //     formattedDate = year + '-' + month +'-' + day;
+                                
+                            //     due_date_text.text(formattedDate);
+                            // }
+    
                         } else {
                             $('#rent_status_text_' + index).text('대여시작전');
                             $('#UpdateRentStatus_Return_' + index).hide();
+                            del_date_text.text('');
+                            due_date_text.text('');
                         }
                     }
                 });

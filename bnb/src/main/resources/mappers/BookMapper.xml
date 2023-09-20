@@ -144,17 +144,7 @@ SELECT * FROM (
     FROM BOOK
     INNER JOIN CATEGORY_S ON BOOK.B_CATEGORY_S_ID = CATEGORY_S.CATEGORY_S_ID
     WHERE B_S_ID = #{s_id}
-        <choose>
-            <when test="filter == 'category'">
-                AND UPPER(CATEGORY_S.CATEGORY_S) = UPPER(#{keyword})
-            </when>
-            <when test="filter == 'title'">
-                AND UPPER(B_TITLE) LIKE '%' || UPPER(#{keyword}) || '%'
-            </when>
-            <when test="filter == 'author'">
-                AND UPPER(B_AUTHOR) LIKE '%' || UPPER(#{keyword}) || '%'
-            </when>
-        </choose>
+     
     </select>
 
 

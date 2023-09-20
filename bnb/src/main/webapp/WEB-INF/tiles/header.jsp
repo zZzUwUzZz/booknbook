@@ -138,12 +138,11 @@
 
             <div class="menu_02">
                 <div class="bk_sc">SEARCH</div>
-                <a href="<%=request.getContextPath()%>/cart">CART</a>
-                <a>WISH</a>
+                <div id="cartbtn">CART</div>
+                <div id="wishbtn">WISH</div>
 
                 <div id="login-logout-button">
                     ${empty sessionScope.loggedInUser ? 'LOGIN' : 'ACCOUNT'}
-                 
                 </div>
  
 
@@ -341,18 +340,18 @@ function setDefaultNotification() {
 
 
  
- jQuery(function($) {
- $("body").css("display", "none");
- $("body").fadeIn(1000);
- $("a.transition").click(function(event){
- event.preventDefault();
- linkLocation = this.href;
- $("body").fadeOut(500, redirectPage);
- });
- function redirectPage() {
- window.location = linkLocation;
- }
- });
+    jQuery(function ($) {
+        $("body").css("display", "none");
+        $("body").fadeIn(1000);
+        $("a.transition").click(function (event) {
+            event.preventDefault();
+            linkLocation = this.href;
+            $("body").fadeOut(500, redirectPage);
+        });
+        function redirectPage() {
+            window.location = linkLocation;
+        }
+    });
 
 window.onload = function() {
     var msg = "${msg}";
@@ -364,45 +363,77 @@ window.onload = function() {
 
 
 
-    document.addEventListener("DOMContentLoaded", function() {
-    var loginLogoutButton = document.getElementById("login-logout-button");
-    var loggedInUser = "${sessionScope.loggedInUser}";
-  
-    // 로그인 상태를 문자열 "null"과 비교하여 확인
-    if (loggedInUser !== null && loggedInUser !== "null" && loggedInUser !== "") {
-      // 로그인 상태일 경우 마이페이지로 이동
-      loginLogoutButton.addEventListener("click", function() {
-        window.location.href = "/mypage"; // 로그아웃 컨트롤러로 이동
-      });
-    } else {
-      // 로그아웃 상태일 경우, 로그인 페이지로 이동
-      loginLogoutButton.addEventListener("click", function() {
-        window.location.href = "/member/login"; // 로그인 페이지로 이동
-      });
-    }
-  });
+document.addEventListener("DOMContentLoaded", function() {
+  var loginLogoutButton = document.getElementById("login-logout-button");
+  var cartbtn = document.getElementById("cartbtn");
+  var wishbtn = document.getElementById("wishbtn");
+  var loggedInUser = "${sessionScope.loggedInUser}";
+
+  // 로그인 상태를 문자열 "null"과 비교하여 확인
+  if (loggedInUser !== null && loggedInUser !== "null" && loggedInUser !== "") {
+    // 로그인 상태일 경우
+    loginLogoutButton.addEventListener("click", function() {
+      window.location.href = "/mypage"; // 마이페이지로 이동
+    });
+    cartbtn.addEventListener("click", function() {
+      window.location.href = "/cart"; // 카트 페이지로 이동
+    });
+    wishbtn.addEventListener("click", function() {
+      window.location.href = "/mypage/favoritebooks"; // 위시리스트 페이지로 이동
+    });
+  } else {
+    // 로그아웃 상태일 경우
+    loginLogoutButton.addEventListener("click", function() {
+      window.location.href = "/member/login"; // 로그인 페이지로 이동
+    });
+    cartbtn.addEventListener("click", function() {
+      alert("로그인이 필요한 페이지입니다."); // 알림창 띄우기
+    });
+    wishbtn.addEventListener("click", function() {
+      alert("로그인이 필요한 페이지입니다."); // 알림창 띄우기
+    });
+  }
+});
+
 
 
 // 로그인 시 ACCOUNT 마우스 오버 시 작은 메뉴 
 $(document).ready(function() {
-    var loggedInUser = "${sessionScope.loggedInUser}";
-    var button = $("#login-logout-button");
-    // For login status based on session
-    if (loggedInUser !== null && loggedInUser !== "null" && loggedInUser !== "") {
-        button.attr("id", "login-logout-button-login"); // Add "login" to the ID
-        button.text("ACCOUNT"); // Change the button text to ACCOUNT
+  var loggedInUser = "${sessionScope.loggedInUser}";
+  var userRole = "${sessionScope.M_ROLE}";  // Add this line to get the role
+  var button = $("#login-logout-button");
 
-        // If already logged in, redirect to mypage on click
-        button.click(function() {
-            window.location.href = "/mypage";
-        });
-    } else {
-        // If not logged in, redirect to login page on click
-        button.click(function() {
-            window.location.href = "/member/login";
-        });
-    }
+  // For login status based on session
+  if (loggedInUser !== null && loggedInUser !== "null" && loggedInUser !== "") {
+    button.attr("id", "login-logout-button-login"); // Add "login" to the ID
+    button.text("ACCOUNT"); // Change the button text to ACCOUNT
+
+    // If already logged in, redirect to appropriate page based on role
+    button.click(function() {
+      switch(userRole) {
+        case "USER":
+          window.location.href = "/mypage";
+          break;
+        case "SELLER":
+          window.location.href = "/seller/main";
+          break;
+        case "ADMIN":
+          window.location.href = "/admin";
+          break;
+        default:
+          // Handle any other cases if needed
+          break;
+      }
+    });
+  } else {
+    // If not logged in, redirect to login page on click
+    button.click(function() {
+      window.location.href = "/member/login";
+    });
+  }
 });
+
+
 
 // small menu 
 $(document).ready(function() {

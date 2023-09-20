@@ -116,6 +116,30 @@
 		]]>
     </select>
 
+    <!-- 판매자페이지 판매내역관리용 -->
+    <select id="getPurchaseListBySId" parameterType="String" resultType="PurchaseDto">
+        SELECT o_id,
+               item_id as p_id,
+               o_date,
+               o_delivery_sort,
+               o_recip_addr,
+               o_recip_name,
+               REGEXP_REPLACE(o_recip_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') o_recip_phone,
+               o_c_id,
+               s_storename,
+               b_title,
+               b_isbn as p_b_isbn,
+               amount as p_amount,
+               order_status_id as p_order_status_id,
+               order_status,
+               delivery_status_id as p_delivery_status_id,
+               delivery_status,
+               deliverydate as p_deliverydate
+        FROM ORDER_LIST
+        WHERE s_id = #{s_id} AND order_sort = '구매'
+        ORDER BY o_id DESC, b_title
+    </select>
+
     <select id="getPurchaseItemByPId" parameterType="Integer" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
         SELECT p_id as "p_id",
@@ -167,24 +191,24 @@
     </update>
 
     <!-- 판매자페이지 주문취소관리용 -->
-    <select id="getPurchaseListToCancelBySId" resultType="Map">
-        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
-        SELECT o_id as "o_id",
-               o_date as "o_date",
-               order_sort as "order_sort",
-               p_c_id as "p_c_id",
-               s_storename as "s_storename",
-               b_title as "b_title",
-               b_isbn as "b_isbn",
-               amount as "amount",
-               order_status_id as "order_status_id",
-               order_status as "order_status",
-               delivery_status_id as "delivery_status_id"
-               delivery_status as "delivery_status"
-        FROM ORDER_LIST
-        WHERE s_id = #{s_id} AND order_status id IN (2, 3, 4)
-        ORDER BY o_id DESC, order_sort DESC, b_title
-    </select>
+    <update id="updateOrderStatusByPId" parameterType="Map">
+        UPDATE P
+        SET p_order_status_id = #{status_id}
+            <if test="reason != null">
+                , p_ordercancel_rejection_reason = #{reason}
+            </if>
+        WHERE p_id = #{item_id}
+    </update>
+
+    <!-- 판매자페이지 판매내역관리용 -->
+    <update id="updateDeliveryStatusByPId" parameterType="Map">
+        UPDATE P
+        SET p_delivery_status_id = #{status_id}
+            <if test="status_id == 4 || status_id == 7">
+                , p_deliverydate = SYSDATE
+            </if>
+        WHERE p_id = #{p_id}
+    </update>
 
     <select id="getPurchaseInfoForRE" parameterType="Integer" resultType="RefExchDto">
         SELECT p_o_id as "re_o_id",

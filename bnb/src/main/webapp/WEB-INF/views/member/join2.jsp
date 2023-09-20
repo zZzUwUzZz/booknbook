@@ -9,6 +9,7 @@
   <title>사업자 회원가입</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet"
@@ -49,7 +50,6 @@
 </style>
 
 
-
 </head>
 <body>
 
@@ -74,10 +74,13 @@
         <div class="form-group address-group">                   
           <input class="form-control" placeholder="우편번호" name="m_addr" id="m_addr" type="text" readonly="readonly">
           <button type="button" class="btn btn-default postcode-btn" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>                               
-      </div>
+        </div>
       <div class="form-group">
           <input class="form-control" placeholder="도로명 주소" name="m_addr2" id="m_addr2" type="text" readonly="readonly">
-      </div>
+          <input type="hidden" id="s_latitude" name="s_latitude">
+          <input type="hidden" id="s_longitude" name="s_longitude">
+               
+        </div>
       <div class="form-group">
           <input class="form-control" placeholder="상세주소" name="m_addr3" id="m_addr3" type="text">
       </div>
@@ -86,11 +89,13 @@
     <p>이미 계정이 있으신가요? <a href="/css/member/login">로그인</a></p>
 
 
-
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=335face078df5773e3aa0bea19dc5c7b"></script>
 
 
     <script>
+
   function validateRegistrationForm(event) {
     let username = document.getElementById("m_id").value;
     let password = document.getElementById("m_pw").value;
@@ -181,6 +186,37 @@ document.querySelector('form').submit();
 
 
 
+// 주소를 통한 위도, 경도 불러오기
+function findCoordinates(address) {
+  var apiKey = "335face078df5773e3aa0bea19dc5c7b";  // 발급받은 카카오 API 키
+  var url = "https://dapi.kakao.com/v2/local/search/address.json";
+  
+  $.ajax({
+    url: url,
+    method: "GET",
+    headers: { Authorization: "KakaoAK " + apiKey },
+    data: { query: address },
+    success: function(response) {
+        if (response.documents && response.documents.length > 0) {
+            var latitude = response.documents[0].y;
+            var longitude = response.documents[0].x;
+            
+            // Hidden input 필드에 위도와 경도 값을 설정
+            $("#s_latitude").val(latitude);
+            $("#s_longitude").val(longitude);
+
+        console.log("위도 : " + latitude + ", 경도: " + longitude);
+        // 여기서 위도와 경도 정보를 사용하면 됩니다.
+      } else {
+        console.log("주소에 해당하는 위치 정보를 찾을 수 없습니다.");
+      }
+    },
+    error: function(error) {
+      console.error("API 호출 중 에러 발생: ", error);
+    }
+  });
+}
+
 
 function execPostCode() {
          new daum.Postcode({
@@ -214,12 +250,15 @@ function execPostCode() {
                 $("[name=m_addr2]").val(data.zonecode);
                 $("[name=m_addr]").val(fullRoadAddr);
                 
+                findCoordinates(fullRoadAddr);
+
                 /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
                 document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;
                 document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress; */
             }
          }).open();
      }
+
 
 </script>
 </body>

@@ -27,7 +27,12 @@ hr {
     font-size: 23px;
 }
 
-
+.idtext b {
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
+}
 .container-mypage {
     color: #203b23;
     display: flex;
@@ -95,12 +100,10 @@ color: #618064;
 
 #currpage {
     text-decoration: underline;
-    text-underline-offset: 6px;
+    text-underline-offset: 8px;
     text-decoration-thickness: 1px
 }
 
-.menu_simple ul li a:hover, .menu_simple ul li .current {
-}
 td span {
     box-sizing: border-box;
     width: 200px;
@@ -109,4 +112,13 @@ td span {
     overflow: hidden;
     text-overflow: ellipsis;
     padding-left: 10px;
+}
+
+
+.orderBox01 {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    margin: auto;
+    width: 700px;
 }

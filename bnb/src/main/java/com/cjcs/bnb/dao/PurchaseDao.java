@@ -20,6 +20,7 @@ public interface PurchaseDao {
     public List<HashMap<String, Object>> getPurchaseListByOId(Integer o_id);
     public List<HashMap<String, String>> getPurchaseListByCId(String c_id);
     public List<HashMap<String, Object>> getPurchaseListByDateRange(SearchDto sDto);
+    public List<PurchaseDto> getPurchaseListBySId(String s_id);
     public HashMap<String, String> getPurchaseItemByPId(Integer p_id);
     public List<PurchaseDto> getLatest5PurchaseListByCId(String c_id);
 
@@ -29,6 +30,9 @@ public interface PurchaseDao {
     public int addPurchaseList(Integer o_id,  String cart_s_id, String cart_b_isbn, String c_id, Integer cart_amount);
 
     public boolean cancelPurchaseByOId(Integer o_id);
+
+    public int updateOrderStatusByPId(HashMap<String, Object> order);
+    public int updateDeliveryStatusByPId(HashMap<String, Integer> order);
 
     //교환반품관련
     public RefExchDto getPurchaseInfoForRE(Integer p_id);  // o_id, c_id, s_id, b_isbn만 가져와서 RefExchDto에 넣어 반환

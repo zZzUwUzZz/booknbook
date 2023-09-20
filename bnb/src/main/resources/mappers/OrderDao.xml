@@ -36,7 +36,12 @@
     WHERE p_o_id = #{o_id}
 </select>
 
-
+<select id="getRentalISBNListByOId" resultType="String">
+    SELECT r_b_isbn
+    FROM Rental
+    WHERE r_o_id = #{o_id}
+</select>
+ 
 <!--유다,수희-->
     <select id="getCartByCId" parameterType="String" resultType="CartDto">
         <!--DB에 CART_ITEMS라는 뷰 미리 만들어놨음-->
@@ -157,7 +162,8 @@
                o_recip_phone as "o_recip_phone",
                o_total_pricerent as "o_total_pricerent",
                o_total_deliveryfee as "o_total_deliveryfee",
-               o_total_payment as "o_total_payment"
+               o_total_payment as "o_total_payment",
+               REGEXP_REPLACE(o_recip_phone, '(.{3})(.+)(.{4})', '\1-\2-\3') as "formatted_phone"
         FROM O
         WHERE o_id = #{o_id}
     </select>
@@ -179,6 +185,7 @@
     <select id="getOrderListToCancelBySId" parameterType="String" resultType="Map">
         <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
         SELECT o_id as "o_id",
+               item_id as "item_id",
                o_date as "o_date",
                order_sort as "order_sort",
                o_c_id as "o_c_id",

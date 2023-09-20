@@ -19,9 +19,9 @@ public interface StockMapper {
 
     void removeNotif(StockNotifDto notif);
 
-    List<BookDto> SellerBookListDT(String s_id, String filter, String keyword);
+    List<BookDto> SellerBookListDT(String s_id);
 
-    BookDto BookInfoDt(String isbn, String sellerId);
+    BookDto BookInfoDt(String isbn, String s_id);
 
     StockNotifDto findStockNotif(StockNotifDto stockNotif);
 

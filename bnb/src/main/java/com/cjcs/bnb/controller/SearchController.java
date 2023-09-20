@@ -67,14 +67,15 @@ public class SearchController {
         return "/search/search";
     }
 
-
-
     // 지도에서 서점 검색
-@RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
+    @RequestMapping(value = "/map", method = RequestMethod.GET, params = "keyword")
     public String search(
             @RequestParam String keyword,
             @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+            HttpSession session,
             Model model) {
+
+        String userId = (String) session.getAttribute("loggedInUser");
 
         int pageSize = 5;
         int startIdx = (pageNum - 1) * pageSize;
@@ -100,8 +101,10 @@ public class SearchController {
                 memberInfos.add(member); // 회원 정보를 리스트에 추가
             }
         }
- 
 
+        System.out.println("맵 userId: " + userId);
+        System.out.println("맵 페이지 로그인 한 아이디 : " + userId);
+      
         // 위도와 경도 정보도 추가 (이 가정에서는 SellerDto가 s_latitude와 s_longitude를 가진다)
         List<Double> latitudes = results.stream().map(SellerDto::getS_latitude).collect(Collectors.toList());
         List<Double> longitudes = results.stream().map(SellerDto::getS_longitude).collect(Collectors.toList());
@@ -116,36 +119,41 @@ public class SearchController {
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("imageInfos", imageInfos);
         model.addAttribute("memberInfos", memberInfos);
+        model.addAttribute("userId", userId);
 
         return "/map/map";
     }
 
-
     @RequestMapping(value = "/get_store_details", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getStoreDetails(@RequestParam(name = "id") String storeId,
             HttpSession session) {
-                
-          String userId = (String) session.getAttribute("loggedInUser");
-
-                MemberDto seller = searchService.getMemberInfo(storeId);
+        String userId = (String) session.getAttribute("loggedInUser");
+        MemberDto seller = searchService.getMemberInfo(storeId);
        
         if (seller == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-       
-        System.out.println("Seller Info: " + seller);
 
-        Map<String, Object> response = new HashMap<>();
+         Map<String, Object> response = new HashMap<>();
+
+
+        if (userId != null && !userId.isEmpty()) {
+        response.put("user_id", userId);
+    }
+
+        System.out.println("세션에서 가져온 userId: " + userId);
+        System.out.println("가져온 스토어: " + storeId);
+
         response.put("store_img", seller.getSf_sysname());
         response.put("store_name", seller.getS_storename());
         response.put("store_addr", seller.getM_addr());
         response.put("store_phone", seller.getM_phone());
         response.put("store_description", seller.getS_storedesc());
-        response.put("store_s_id", seller.getS_id()); 
+        response.put("store_s_id", seller.getS_id());
+        response.put("user_id", userId);
         
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
     @PostMapping("/toggleFavorite")
     public ResponseEntity<?> toggleFavorite(@RequestParam String userId, @RequestParam String storeId,
@@ -153,11 +161,6 @@ public class SearchController {
 
         favoriteService.toggleFavorite(userId, storeId, state);
         return new ResponseEntity<>(Map.of("isSuccess", true), HttpStatus.OK);
-
     }
-
-
-
-
 
 }

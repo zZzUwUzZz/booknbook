@@ -27,7 +27,6 @@ public class SearchService {
     @Autowired
     private FileMapper fileMapper;
 
-   
     public List<BookDto> findByKwPg(String keyword, int start, int end) {
         return bookMapper.findByKwPg(keyword, start, end);
     }
@@ -37,14 +36,10 @@ public class SearchService {
     }
 
     // 서점 회원 정보
- 
-    
+
     public MemberDto getMemberInfo(String s_id) {
         return memberDao.getMemberInfo(s_id);
-    }   
-
-    
-
+    }
 
     // 서점 검색
     public List<SellerDto> searchBookstores(String keyword, int startIdx, int limit) {

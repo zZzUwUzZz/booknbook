@@ -41,7 +41,7 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/map.css">
-
+ 
 </head>
 
 <body>
@@ -67,7 +67,8 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
                         <span>${keyword}</span> <span>검색결과</span> <span>총 ${totalItems}건</span>
                     </div>
                     <c:forEach var="store" items="${results}">
-                        <div class="bs_item" data-store-id="${store.s_id}" data-lat="${store.s_latitude}" data-lng="${store.s_longitude}">
+                       
+                    <div class="bs_item" data-store-id="${store.s_id}" data-lat="${store.s_latitude}" data-lng="${store.s_longitude}">            
                             <!-- 이미지 출력 -->
                             <div class="bs_itempf" data-lat="${store.s_latitude}" data-lng="${store.s_longitude}">
                                 <c:forEach var="imageInfo" items="${imageInfos}">
@@ -114,19 +115,11 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
                 </div>
 
             </div> <!-- mapSearchBox 끝 -->
-
-
-
-
-
-
-
+ 
             <!--서점 상세 정보 모달 -->
             <div id="storeDetailModal" class="modal" style="display: block;background: #FFF;">
 
-                <!-- 로그인 안 되기 때문에 id 임의로 넣었음 -->
-                <div class="favoriteButton" id="favoriteButton_<%=storeId%>" data-store-id="<%=storeId%>"
-                    data-user-id="${userId}">
+                 <div class="favoriteButton" id="favoriteButton_<%=storeId%>" data-store-id="${storeId}" data-user-id="${userId}">
                 </div>
 
                 <div class="cls_btn">
@@ -163,10 +156,14 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
         </div>
 
 
-        <script src="/js/mapSearch.js"></script>
-        <script src="/js/fav.js"></script>
-        <script src="/js/main.js"></script>
+        <script type="text/javascript">
+            const userId = "${sessionScope.loggedInUser}";
+            const isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
+          </script>
+          
+    
 <script>
+ 
     // 전역 변수 선언 (이거 실행되는거라 지우시면 안됨요..)
     var map;
     var infoWindow;
@@ -187,7 +184,9 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
 </script>
 
 
-
+<script src="/js/mapSearch.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/fav.js"></script>
 
 
   </body>

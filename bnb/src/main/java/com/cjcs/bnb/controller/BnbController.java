@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dao.MemberDao;
@@ -24,8 +25,11 @@ import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
+import com.cjcs.bnb.dto.SellerDto;
 import com.cjcs.bnb.service.BoardService;
+import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.RentalService;
+import com.cjcs.bnb.service.SellerService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +42,10 @@ public class BnbController {
     private BoardService bSer;
     @Autowired
     private RentalService rSer;
+     @Autowired
+    private SellerService sSer;
+    @Autowired
+    private MemberService mSer;
 
     @Autowired
     private MemberDao mDao;
@@ -56,17 +64,11 @@ public class BnbController {
 
     // 메인
     @GetMapping("/")
-    public String main() {
+    public String main(Model model) {
         return "main";
     }
 
-
-
-
-    
-
-
-
+ 
 
     // 지도
     @RequestMapping(value = "/map", method = RequestMethod.GET)
@@ -130,18 +132,25 @@ public class BnbController {
     }
 
     @GetMapping("/admin/categoryadd")    // 카테고리(중/소) 추가
-    public String addCategory(@RequestParam HashMap<String, String> category) {
+    public String addCategory(@RequestParam HashMap<String, String> category, RedirectAttributes rttr) {
 
         String category_m_id = category.get("category_m_id");
 
-        if (category_m_id == null) {
+        try {
+
+            if (category_m_id == null) {
 
             category_m_id = categoryDao.getMediumCategoryIdByName(category.get("category_m"));
             categoryDao.addSmallCategory(category_m_id, category.get("category_s_id"), category.get("category_s"));
 
-        } else {
+            } else {
+                
+                categoryDao.addMediumCategory(category_m_id, category.get("category_m"));
+            }
 
-            categoryDao.addMediumCategory(category_m_id, category.get("category_m"));
+        } catch (Exception e) {
+
+            rttr.addFlashAttribute("msg", "이미 존재하는 카테고리ID입니다.");
         }
 
         return "redirect:/admin";

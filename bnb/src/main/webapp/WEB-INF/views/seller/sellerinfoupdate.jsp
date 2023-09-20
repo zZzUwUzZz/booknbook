@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="/css/seller.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/slide.css">
+    <link rel="stylesheet" href="/css/seller/sellerInfo.css">
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
@@ -69,9 +71,33 @@
                     </div>
                 </div>
                 <div class="contain-2">
-                    <div class="box-2">
+                    <div class="InfoBox01">
                         <h1>서점 정보 관리</h1>
                         <table class="info-list">
+
+                            <tr> 
+                            <div class="imguploadContain">
+
+                                <div class="info">
+                                    <div class="seller_pfimg">
+                                        <img src="${sf_sysname}" id="imagePreview" alt="Image Preview">
+                                    </div>
+                                    <p>확장자: png, jpg, jpeg / 용량: 1MB 이하</p>
+                                    <span id="warning" style="color: red;"></span>
+                                </div>
+                
+                                <form id="uploadForm" action="/seller/settings/account" method="post" enctype="multipart/form-data">
+                
+                                    <input type="file" id="fileInput" name="file">
+                                     <button type="submit" id="uploadBtn">Upload</button>
+                                </form>
+                     
+                            </div>
+                           
+                                <td>서점 사진 업로드</td>
+                                <td><input type="text"></td>
+                            </tr>
+                           
                             <tr>
                                 <td>서점명</td>
                                 <td><input type="text"></td>
@@ -108,10 +134,7 @@
                                 <td>서점 소개</td>
                                 <td><input type="text"></td>
                             </tr>
-                            <tr>
-                                <td>서점 사진 업로드</td>
-                                <td><input type="text"></td>
-                            </tr>
+                           
                             <tr>
                                 <td>배송비 설정</td>
                                 <td><input type="text"></td>
@@ -134,6 +157,9 @@
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+
+    <script src="/js/fileUpload.js"></script>      
+     
 </body>
 
 </html>

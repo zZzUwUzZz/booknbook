@@ -26,6 +26,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     
+    <style>
+        .num_p, .num_r {
+            width: 80px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -109,7 +115,7 @@
                                 </td>
                                 <td>판매가</td>
                                 <td><input type="text" class="num_p" name="b_price" disabled></td>
-                                <td>판매 재고</td>
+                                <td>판매재고</td>
                                 <td><input type="text" class="num_p" name="b_salestock" disabled></td>
                             </tr>
                             <tr>
@@ -125,7 +131,7 @@
                                 </td>
                                 <td>대여료</td>
                                 <td><input type="text" class="num_r" name="b_rent" disabled></td>
-                                <td>대여 재고</td>
+                                <td>대여재고</td>
                                 <td><input type="text" class="num_r" name="b_rentalstock" disabled></td>
                             </tr>
                             <tr>

@@ -144,17 +144,7 @@ SELECT * FROM (
     FROM BOOK
     INNER JOIN CATEGORY_S ON BOOK.B_CATEGORY_S_ID = CATEGORY_S.CATEGORY_S_ID
     WHERE B_S_ID = #{s_id}
-        <choose>
-            <when test="filter == 'category'">
-                AND UPPER(CATEGORY_S.CATEGORY_S) = UPPER(#{keyword})
-            </when>
-            <when test="filter == 'title'">
-                AND UPPER(B_TITLE) LIKE '%' || UPPER(#{keyword}) || '%'
-            </when>
-            <when test="filter == 'author'">
-                AND UPPER(B_AUTHOR) LIKE '%' || UPPER(#{keyword}) || '%'
-            </when>
-        </choose>
+     
     </select>
 
 
@@ -168,18 +158,20 @@ SELECT * FROM (
     <!-- 판매자페이지 신규도서등록 -->
     <insert id="addNewBook" parameterType="BookDto">
         INSERT INTO B(b_s_id, b_isbn, b_title, b_author, b_bookdesc,
-                      <if test="b_forsale != null">b_forsale,</if>
+                      b_forsale,
                       <if test="b_price != null">b_price,</if>
                       <if test="b_salestock != null">b_salestock,</if>
-                      <if test="b_forrental != null">b_forrental,</if>
+                      b_forrental,
                       <if test="b_rent != null">b_rent,</if>
                       <if test="b_rentalstock != null">b_rentalstock,</if>
                       b_regdate, b_category_s_id)
         VALUES(#{b_s_id}, #{b_isbn}, #{b_title}, #{b_author}, #{b_bookdesc},
-               <if test="b_forsale != null">#{b_forsale},</if>
+               <if test="b_forsale != null">'Y',</if>
+               <if test="b_forsale == null">'N',</if>
                <if test="b_price != null">#{b_price},</if>
                <if test="b_salestock != null">#{b_salestock},</if>
-               <if test="b_forrental != null">#{b_forrental},</if>
+               <if test="b_forrental != null">'Y',</if>
+               <if test="b_forrental == null">'N',</if>
                <if test="b_rent != null">#{b_rent},</if>
                <if test="b_rentalstock != null">#{b_rentalstock},</if>
                DEFAULT, #{b_category_s_id})

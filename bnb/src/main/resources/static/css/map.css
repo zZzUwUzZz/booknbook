@@ -203,10 +203,11 @@ span.material-symbols-outlined.close-button {
 .storebtn01 {
     display: flex;
     margin-top: 21px;
-    width: 136px;
+    width: 138px;
     background: #203b23;
     color: #dfdad5;
     padding: 7px;
+    justify-content: center;
 }
 
 /* 페이지네이션 */

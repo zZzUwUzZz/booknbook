@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="bkPrice">
-                        <span>총 상품 금액</span>
+                        <div>총 상품 금액</div>
                         <div class="bkCalPrice">
                             <span class="totalVal" id="totalPrice">
                                 <fmt:formatNumber value="${bdInfo.b_price}" type="number" pattern="#,###" /></span>
@@ -120,21 +120,20 @@
                           
                         <div class="btnBox">
                             <!-- <h1>재고 ${salestock} 대여 가능 ${rentalstock}</h1> -->
-                      
+                        
                             <div id="addToCartBtn" class="bkCartBtn">장바구니</div>
                             <div id="RestockBtn">
-                                <span class="material-symbols-outlined">notifications</span> 
+                                <span class="material-symbols-outlined">notifications</span>
                                 재입고 알림 신청
-                        </div>
-
-                         <div id="addToRentalCartBtn" class="bkRentBtn">대여하기</div>
-                         <input type="hidden" id="salestock" value="${bkStock.salestock}">
-                         <input type="hidden" id="rentalstock" value="${bkStock.rentalstock}">
+                            </div>
+                        
+                            <div id="addToRentalCartBtn" class="bkRentBtn">대여하기</div>
+                            <input type="hidden" id="salestock" value="${bkStock.salestock}">
+                            <input type="hidden" id="rentalstock" value="${bkStock.rentalstock}">
                         
                         </div>
-                       
-                    </div>
-        
+                        
+                        </div>
 
                 </div>
 
@@ -198,281 +197,268 @@
     <input type="hidden" id="singlePrice" value="${bdInfo.b_price}">
 
 
-
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+   
     <script src="/js/book/bookDetail.js"></script>
-
-    <script>
-
-
+<script>
 $(document).ready(function() {
- 
-    // 찜하기 버튼 
-    var bookData = {
-        "userId": '${userId}',
-        "s_id": "${bdInfo.b_s_id}",
-        "isbn": "${bdInfo.b_isbn}",
-        "state": "${fav_state}"
-    };
-  
-    var favBookDTO = {
-        "favb_c_id": bookData.userId,
-        "favb_s_id": bookData.s_id,
-        "favb_b_isbn": bookData.isbn,
-        "favb_state": bookData.state
-    };
+
+    const forsale = "${forsale}";
+    const forrental = "${forrental}";
+   
+    const userId = "${sessionScope.loggedInUser}";
+    const isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
     
 
-    $.ajax({
-        url: "/getFavState",
-    method: "GET",
-    data: {
-        "favb_c_id": bookData.userId,
-        "favb_s_id": bookData.s_id,
-        "favb_b_isbn": bookData.isbn,
-        "favb_state": bookData.state
-    },
-    success: function(response) {
-        console.log("불러온 정보:", response);
-        console.log("GetFavState Response:", response);
-        if(response === 1) {
-                console.log("Success:", response);
-                $("#favButton").addClass("faved");
-                $("#favButton").css("color", "#ff6f36").css("font-variation-settings", "'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48");
-            } else {
-                $("#favButton").removeClass("faved");
-                $("#favButton").css("color", "#203b23").css("font-variation-settings", "'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48");
+
+      // 공통으로 사용되는 데이터
+      const bookData = {
+        userId,
+        s_id: "${bdInfo.b_s_id}",
+        isbn: "${bdInfo.b_isbn}",
+        state: "${fav_state}"
+      };
+    
+      const favBookDTO = {
+        favb_c_id: userId,
+        favb_s_id: bookData.s_id,
+        favb_b_isbn: bookData.isbn,
+        favb_state: bookData.state
+      };
+    
+      // 로그인 체크 함수
+      function checkLogin() {
+        if (!isLoggedIn) {
+          alert("로그인이 필요한 서비스 입니다.");
+          return false;
+        }
+        return true;
+      }
+    
+      
+      function ajaxRequest(url, data, successCallback, errorCallback) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: successCallback,
+                error: errorCallback
+            });
+        }
+    
+        function updateProductStatus(saleStock, rentalStock) {
+            if (saleStock <= 0) {
+                updateSoldOutState();
+            }
+            if (rentalStock <= 0) {
+                updateRentalSoldOutState();
             }
         }
-    });
 
 
-    $(".likeNoti").click(function () {
-     
+    
+      // 찜하기 상태를 불러옵니다.
+      $.ajax({
+    url: "/getFavState",
+    method: "GET",
+    data: favBookDTO,
+    success: function (response) {
+        console.log("찜하기 상태 가져오기 :", response);
+        const favButton = $("#favButton span");
+        const isFaved = response === 1;
+        if (isFaved) {
+            favButton.css("font-variation-settings", "'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48");
+            favButton.css("color", "#ff6f36");
+        } else {
+            favButton.css("font-variation-settings", "'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48");
+            favButton.css("color", "#203b23");
+        }
+    }
+});
+
+$(".likeNoti").click(function () {
+    if (!checkLogin()) return;
+
     $.ajax({
-        
         url: "/checkFavBook",
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(favBookDTO),
-        success: function(response) {
-            console.log("CheckFavBook Response:", response);
-            if(response == 1) {
-                    $("#favButton").addClass("faved");
-                    $("#favButton").css("color", "#ff6f36").css("font-variation-settings", "'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48").css("transition", "all .3s");
-
-                } else {
-                    console.log("Response is 0");
-                    $("#favButton").removeClass("faved");
-                    $("#favButton").css("color", "#203b23").css("font-variation-settings", "'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48").css("transition", "all .3s");
-                }
-            },
-                error: function (error) {
-                    console.log("Error:", error);  // 에러 핸들링 추가
+        success: function (response) {
+            const favButton = $("#favButton span");
+            const isFaved = response === 1;
+            if (isFaved) {
+                favButton.css("font-variation-settings", "'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48");
+                favButton.css("color", "#ff6f36");
+            } else {
+                favButton.css("font-variation-settings", "'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48");
+                favButton.css("color", "#203b23");
+            }
+            favButton.css("transition", "all .3s");
+        },
+        error: function (error) {
+            console.log("Error:", error);
         }
     });
-    });
-
 });
+    
+  
 
-        $(document).ready(function () {
-            const saleStock = parseInt("${salestock}");
-            const rentalStock = parseInt("${rentalstock}");
-            if (saleStock <= 0) {
-                $('#addToCartBtn').text('품절되었습니다.').css("background", "#909090");
-                $('.status').text('품절').css("display", "block");
-                $('#RestockBtn').css("display", "flex");
-                $('.bkInfo_02, .bkPrice').css("display", "none");
-                $('#addToCartBtn').prop('id', 'soldOutBtn');
-                $('#soldOutBtn').off("click"); // 기존에 있던 click 이벤트 제거
-                $('.notiBtn, #soldOutBtn, .bkCartBtn').prop('disabled', false);
-                $('.bkCartBtn').css('pointer-events', 'none');
 
-            }
+        // 판매 품절 상태 업데이트
+        function updateSoldOutState() {
+           
+    $('#addToCartBtn').addClass('sold-out').text('품절되었습니다.').css("background", "#909090");
+            $('.status').text('품절').css("display", "block");
+            $('#RestockBtn').css("display", "flex");
+            $('.bkInfo_02, .bkPrice').css("display", "none");
+            $('#addToCartBtn').prop('id', 'soldOutBtn');
+            $('#soldOutBtn').off("click");
+            $('.notiBtn, #soldOutBtn, .bkCartBtn').prop('disabled', false);
+            $('.bkCartBtn').css('pointer-events', 'none');
+        }
+    
+        // 대여 품절 상태 업데이트
+        function updateRentalSoldOutState() {
+            $('#addToRentalCartBtn').addClass('sold-out').text('대여 예약하기').css("background", "#203b23");
+            $('.bkRentBtn').prop('class', 'RentsoldOutBtn');
+            $('#addToRentalCartBtn').prop('id', 'RentsoldOutBtn');
+            $('.notiBtn').prop('disabled', false);
+        }
+    
+        // 대여 예약 AJAX 요청
+        function requestRental() {
+            if (!checkLogin()) return;
 
-            if (rentalStock <= 0) {
-                $('.bkRentBtn').text('대여 예약하기').css("background", "#203b23");
-                $('.bkRentBtn').prop('class', 'RentsoldOutBtn');
-                $('#addToRentalCartBtn').prop('id', 'RentsoldOutBtn');
-                $('.notiBtn').prop('disabled', false);
-            }
-        });
-
-        // 대여 예약
-        $(document).ready(function () {
-            $('#RentsoldOutBtn').click(function () {
-                const rentalData = {
-                    rr_c_id: 'customer001',
-                    rr_s_id: '${bdInfo.b_s_id}',
-                    rr_b_isbn: '${bdInfo.b_isbn}',
-                    rr_res_status_id: 1
-                };
-
-                console.log("Sending data to server: ", rentalData); // 데이터를 보내기 전에 로그를 찍습니다.
-
-                $.ajax({
-                    url: '/rental/request',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(rentalData),
-                    success: function (response) {
-
-                        if (response === 'already') {
-                            alert('이미 예약신청이 되었습니다.');
-                        } else if (response === 'success') {
-                            alert('대여 예약 신청이 완료되었습니다.');
-                        }
-                    },
-                    error: function (err) {
-                        alert('대여 예약 신청에 실패했습니다.');
-                    }
-                });
+            const rentalData = {
+                rr_c_id: userId,
+                rr_s_id: '${bdInfo.b_s_id}',
+                rr_b_isbn: '${bdInfo.b_isbn}',
+                rr_res_status_id: 1
+            };
+    
+            $.ajax({
+                url: '/rental/request',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(rentalData),
+                success: function (response) {
+                    alert(response === 'already' ? '이미 예약신청이 되었습니다.' : '대여 예약 신청이 완료되었습니다.');
+                },
+                error: function () {
+                    alert('대여 예약 신청에 실패했습니다.');
+                }
             });
-        });
-
-
-        $(document).ready(function () {
-            // 먼저 .item-wrapper 요소를 배열로 가져옵니다.
+        }
+    
+        // 상품 재고 상태를 업데이트
+        updateProductStatus(parseInt("${salestock}"), parseInt("${rentalstock}"));
+    
+        // 대여 예약 버튼 클릭 이벤트
+        $('#RentsoldOutBtn').click(requestRental);
+       
+         // 가격 기준으로 .item-wrapper 요소 정렬
+         function sortItemsByPrice() {
             var items = $('.items001 .item-wrapper').get();
-
-            // 가격을 기준으로 정렬합니다.
             items.sort(function (a, b) {
-                var priceA = parseInt($(a).find('.price').text().replace(/,/g, '').replace('원', ''),
-                    10);
-                var priceB = parseInt($(b).find('.price').text().replace(/,/g, '').replace('원', ''),
-                    10);
+                var priceA = parseInt($(a).find('.price').text().replace(/,/g, '').replace('원', ''), 10);
+                var priceB = parseInt($(b).find('.price').text().replace(/,/g, '').replace('원', ''), 10);
                 return priceA - priceB;
             });
-
-            // 정렬된 요소를 다시 .items001에 추가합니다.
             $('.items001').empty().append(items);
-        });
-
-
-
-        $(document).ready(function () {
-            $('#addToRentalCartBtn').click(function (e) {
-                e.preventDefault(); // form의 기본 제출 동작을 막습니다.
-                const cart_amount = parseInt($('#quantityInput').val());
-                $('#cart_amount').val(1);
+        }
+    
+        // 장바구니에 추가 (일반/대여)
+        function addToCart(url, cartData) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(cartData),
+                success: function (response) {
+                    var messages = {
+                        'over': '장바구니의 최대 수량을 초과했습니다.',
+                        'updated': '이미 장바구니에 담긴 책입니다. 수량을 추가했습니다.',
+                        'default': '장바구니에 추가되었습니다.'
+                    };
+                    alert(messages[response] || messages['default']);
+                },
+                error: function () {
+                    alert("장바구니에 추가하는 데 실패했습니다.");
+                }
             });
+        }
+    
+        // 가격 기준으로 아이템 정렬
+        sortItemsByPrice();
+    
+        // 대여 카트에 추가 버튼 이벤트
+        $('#addToRentalCartBtn').click(function (e) {
+            e.preventDefault();
+            $('#cart_amount').val(1);
         });
-
-
-
-        $(document).ready(function () {
-            $('#addToCartBtn').click(function () {
-                const cart_c_id = 'customer001';
-                const cart_s_id = "${bdInfo.b_s_id}";
-                const cart_b_isbn = "${bdInfo.b_isbn}";
-                const cart_sort = '구매';
-                const cart_amount = parseInt($('#quantityInput').val());
-                const cart_rentalperiod = 0;
-
-                // 서버에 보낼 데이터를 객체로 만듭니다.
-                const cartData = {
-                    cart_c_id,
-                    cart_s_id,
-                    cart_b_isbn,
-                    cart_sort,
-                    cart_amount,
-                    cart_rentalperiod
-                };
-
-                $.ajax({
-                    url: "/addtocart",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(cartData),
-                    success: function (response) {
-                        if (response === "over") {
-                            alert("장바구니의 최대 수량을 초과했습니다.");
-                        } else if (response === "updated") {
-                            alert("이미 장바구니에 담긴 책입니다. 이미 담은 상품의 수량을 추가했습니다.");
-                        } else {
-                            alert("장바구니에 추가되었습니다.");
-                        }
-                    },
-                    error: function (err) {
-                        alert("장바구니에 추가하는 데 실패했습니다.");
-                    }
-                });
-
-            });
+    
+        // 일반 카트에 추가 버튼 이벤트
+        $('#addToCartBtn').click(function () {
+            if (!checkLogin()) return;
+            const cartData = {
+                cart_c_id: userId,
+                cart_s_id: "${bdInfo.b_s_id}",
+                cart_b_isbn: "${bdInfo.b_isbn}",
+                cart_sort: '구매',
+                cart_amount: parseInt($('#quantityInput').val()),
+                cart_rentalperiod: 0
+            };
+            addToCart("/addtocart", cartData);
         });
-
-
-
-        $(document).ready(function () {
-            $('#addToRentalCartBtn').click(function () {
-                const cart_c_id = 'customer001';
-                const cart_s_id = "${bdInfo.b_s_id}";
-                const cart_b_isbn = "${bdInfo.b_isbn}";
-                const cart_sort = '대여';
-                const cart_amount = 1;
-                const cart_rentalperiod = 7;
-
-                // 서버에 보낼 데이터를 객체로 만듭니다.
-                const cartDataRent = {
-                    cart_c_id,
-                    cart_s_id,
-                    cart_b_isbn,
-                    cart_sort,
-                    cart_amount,
-                    cart_rentalperiod
-                };
-
-                $.ajax({
-                    url: "/addtocartrent",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(cartDataRent),
-                    success: function (response) {
-                        if (response === "added") {
-                            alert("장바구니에 추가되었습니다.");
-                        } else {
-                            alert("이미 대여 장바구니에 담긴 책입니다.");
-                        }
-                    },
-                    error: function (err) {
-                        alert("대여 장바구니에 추가하는 데 실패했습니다.");
-                    }
-                });
-
-            });
+    
+    
+    
+        $('#addToRentalCartBtn').click(function () {
+            if (!checkLogin()) return;
+            const cartDataRent = {
+                cart_c_id: userId,
+                cart_s_id: "${bdInfo.b_s_id}",
+                cart_b_isbn: "${bdInfo.b_isbn}",
+                cart_sort: '대여',
+                cart_amount: 1,
+                cart_rentalperiod: 7
+            };
+    
+            ajaxRequest(
+                "/addtocartrent",
+                cartDataRent,
+                function (response) {
+                    alert(response === "added" ? "장바구니에 추가되었습니다." : "이미 대여 장바구니에 담긴 책입니다.");
+                },
+                function () {
+                    alert("대여 장바구니에 추가하는 데 실패했습니다.");
+                }
+            );
         });
-
-
-
-
-        
-            $("#RestockBtn").click(function () {
-                const sellerId = "${sellerId}";  // Controller에서 설정한 변수
-                const isbn = "${bdInfo.b_isbn}";  // Controller에서 설정한 변수
-                const cId = "customer001";  // 실제로는 로그인 사용자의 ID를 가져와야 함
-
-                $.ajax({
-                    url: '/api/stockNotif',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ b_s_id: sellerId, b_isbn: isbn, c_id: cId }),
-
-                    success: function (response) {
-                        console.log("Success response: ", response);
-                        alert(response);
-                    },
-                    error: function (error) {
-                        console.log("에러: ", error);
-                        alert(error.responseText);
-                    }
-                });
-            });
-        
-
-
-
-
-    </script>
+    
+        $("#RestockBtn").click(function () {
+              if (!checkLogin()) return;
+            const stockData = {
+                b_s_id: "${sellerId}",
+                b_isbn: "${bdInfo.b_isbn}",
+                c_id: userId
+            };
+    
+            ajaxRequest(
+                '/api/stockNotif',
+                stockData,
+                function (response) {
+                    alert(response);
+                },
+                function (error) {
+                    alert(error.responseText);
+                }
+            );
+        });
+    });
+</script>
 </body>
 
 </html>

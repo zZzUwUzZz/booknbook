@@ -44,6 +44,9 @@ public class MemberDto {
     private int s_deliveryfee; // 이 서점의 배송료
     private int s_latefee; // 이 서점의 1일당 연체료
     private String favs_s_id;
+    private Double s_latitude;
+    private Double s_longitude;
+    
 
     // 예림
     private String o_c_id;
@@ -53,9 +56,6 @@ public class MemberDto {
 
     // 수희
     private int overdues;
-
-    public String getPassword() {
-        return null;
-    }
+    private String formatted_phone;
     
 }

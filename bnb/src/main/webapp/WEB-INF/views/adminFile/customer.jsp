@@ -13,7 +13,6 @@
     <c:choose>
         <c:when test="${sessionScope.M_ROLE == 'USER'}">
             <!-- USER 권한을 가진 사용자일 경우의 내용 -->
-            <h1>Welcome to your MyPage, ${sessionScope.loggedInUser}!</h1>
             <!-- MyPage에 대한 추가적인 내용 및 기능 -->
         </c:when>
         <c:otherwise>

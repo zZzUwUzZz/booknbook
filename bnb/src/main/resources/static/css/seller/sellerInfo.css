@@ -1,0 +1,21 @@
+.imguploadContain {
+    width: 325px;
+    margin-bottom: 16px;
+
+}
+
+
+#imagePreview {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.InfoBox01 {
+    border: 1px solid #4c4240;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    background-color: #fffbed;
+    margin-right: 0px;
+    display: block;
+}

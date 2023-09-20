@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-between;
     position: relative;
-    height: calc((100vh) - 70px);
+    height: 86vh;
     font-family: 'BookkGothic-Bd';
 }
 
@@ -119,20 +119,16 @@ p.bkInfoText02::-webkit-scrollbar {
 
 #favButton {
     cursor: pointer;
-    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48;
-}
+ }
  
 #favButton span {
     font-size: 45px;
     cursor: pointer;
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 200, 'opsz' 48;
+    transition: all .2s;  
 }
 
-#favButton:hover span {
-    font-variation-settings: 'FILL' 1, 'wght' 200, 'GRAD' 200, 'opsz' 48;
-    color: #ff8f62;
-    transition: all .3s;
-}
-
+ 
 /* 책 커버 사진  */
 
 .bkImgBox img {

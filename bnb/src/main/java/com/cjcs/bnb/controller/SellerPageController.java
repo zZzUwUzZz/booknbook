@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cjcs.bnb.dao.BookMapper;
 import com.cjcs.bnb.dao.CategoryDao;
 import com.cjcs.bnb.dao.OrderDao;
+import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
+import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
@@ -31,19 +33,10 @@ import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
-
 import com.cjcs.bnb.service.StockService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import com.cjcs.bnb.service.SellerService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-
-import com.cjcs.bnb.service.StockService;
 
 @Slf4j
 @Controller
@@ -69,9 +62,11 @@ public class SellerPageController {
     private CategoryDao categoryDao;
     @Autowired
     private BookMapper bookDao;
-
     @Autowired
     private OrderDao oDao;
+    @Autowired
+    private PurchaseDao pDao;
+
 
     // 서점 정보 페이지
     @GetMapping
@@ -215,13 +210,11 @@ public class SellerPageController {
     // 등록된 도서 리스트
     @GetMapping("/book/list")
     public String sellerbooklist(HttpSession session,
-            @RequestParam(required = false) String filter,
-            @RequestParam(required = false) String keyword,
             Model model) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
 
-        List<BookDto> bookList = stSer.SellerBookListDT(s_id, filter, keyword);
+        List<BookDto> bookList = stSer.SellerBookListDT(s_id);
         model.addAttribute("SellerBookList", bookList);
 
         // 모든 도서의 상세 정보를 저장할 리스트
@@ -235,7 +228,7 @@ public class SellerPageController {
 
         // 모델에 모든 도서의 상세 정보를 저장합니다.
         model.addAttribute("AllBookDetails", allBookDetails);
-
+ 
         return "seller/sellerBookList";
     }
 
@@ -323,6 +316,10 @@ public class SellerPageController {
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
 
+        // 배송 상태명
+        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
+        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
+
         return "seller/sellerRentCurr";
     }
 
@@ -367,21 +364,35 @@ public class SellerPageController {
         }
     }
 
-    @GetMapping("/rent/return")
+    @GetMapping("/rent/return") // 반납 현황
     public String sellerrentreturn(Model model, HttpSession session) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
 
-        // 반납 내역 불러오기
-        List<RentalDto> RentReturnList = rSer.RentReturnList(s_id);
-        model.addAttribute("RentReturnList", RentReturnList);
+        List<RentalDto> returnList = rSer.RentReturnList(s_id);
+        model.addAttribute("returnList", returnList);
 
         return "seller/sellerRentReturn";
     }
 
-    @GetMapping("/sell/history")
-    public String sellersellhistory() {
+    @GetMapping("/sell/history") // 판매 내역
+    public String sellersellhistory(Model model, HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        List<PurchaseDto> pList = pDao.getPurchaseListBySId(s_id);
+        model.addAttribute("pList", pList);
+
         return "seller/sellerSellHistory";
+    }
+
+    @PostMapping("/sell/history") // 배송상태 변경
+    public ResponseEntity<Void> sellerupdatedelivery(@RequestParam HashMap<String, Integer> order) {
+
+        pDao.updateDeliveryStatusByPId(order);
+        log.info("ordersss:{}", order);
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/sell/cancel") // 주문취소요청 리스트
@@ -396,14 +407,11 @@ public class SellerPageController {
     }
 
     @PostMapping("/sell/cancel") // 주문취소요청 처리
-    public String sellersellcancel(@RequestParam List<Integer> o_idList, @RequestParam List<String> s_idList,
-            @RequestParam List<String> isbnList, @RequestParam List<String> sortList,
-            @RequestParam List<Integer> statusList, @RequestParam List<String> reasonList,
-            Model model, HttpSession session) {
+    public ResponseEntity<Void> sellersellcancel(@RequestParam HashMap<String, Object> order) {
 
-        String s_id = (String) session.getAttribute("loggedInUser");
+        oSer.updateOrderStatus(order);
 
-        return "redirect:/seller/sell/cancel";
+        return ResponseEntity.noContent().build();
     }
 
     // @PostMapping("/sell/cancel")

@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -23,6 +25,12 @@
     <link rel="stylesheet" href="/css/slide.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+    <style>
+        .status {
+            width: 100px;
+        }
+    </style>
     
 </head>
 
@@ -68,8 +76,132 @@
                         </div>
                     </div>
                 </div>
-                <div class="contain-1">
-                    <div class="box-1">
+                <div class="contain-3">
+                    <div class="box-3">
+
+                        <h1>판매 내역</h1>
+
+                        <button type="button" id="save">저장</button><br><br>
+                        
+                        <table class="seller-list">
+                            <thead>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <th>주문일자</th>
+                                    <th>아이디</th>
+                                    <th>제목</th>
+                                    <th>수량</th>
+                                    <th>주문상태</th>
+                                    <th>수령방법</th>
+                                    <th>배송상태</th>
+                                    <th width="100px">배송완료일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <c:if test="${empty pList}">
+                                    <tr>
+                                        <td colspan="10">판매 내역이 없습니다.</td>
+                                    </tr>
+                                </c:if>
+
+                                <c:if test="${!empty pList}">
+                                    <c:forEach items="${pList}" var="pItem">
+                                        <tr class="row">
+                                            <input type="hidden" name="p_id" class="p_id" value="${pItem.p_id}">
+                                            <td>${pItem.o_id}</td>
+                                            <td><fmt:formatDate value="${pItem.o_date}" pattern="yyyy-MM-dd HH:mm" /></td>
+                                            <td>${pItem.o_c_id}</td>
+                                            <td>${pItem.b_title}</td>
+                                            <td>${pItem.p_amount}</td>
+                                            <td>${pItem.order_status}</td>
+                                            <td>${pItem.o_delivery_sort}</td>
+                                            <td class="status_td">
+                                                <c:choose>
+                                                    <c:when test="${pItem.p_order_status_id eq '4'}">-</c:when>
+                                                    <c:otherwise>
+                                                        <c:choose>
+                                                            <c:when test="${pItem.o_delivery_sort eq '택배'}">
+                                                                <c:choose>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '1'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="1" disabled selected>결제완료</option>
+                                                                            <option value="5">배송준비중</option>
+                                                                            <option value="6">배송중</option>
+                                                                            <option value="7">배송완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '5'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="5" disabled selected>배송준비중</option>
+                                                                            <option value="6">배송중</option>
+                                                                            <option value="7">배송완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '6'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="6" disabled selected>배송중</option>
+                                                                            <option value="7">배송완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '7'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="7" disabled selected>배송완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </c:when>
+                                                            <c:when test="${pItem.o_delivery_sort eq '방문수령'}">
+                                                                <c:choose>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '1'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="1" disabled selected>결제완료</option>
+                                                                            <option value="2">상품준비중</option>
+                                                                            <option value="3">상품준비완료</option>
+                                                                            <option value="4">수령완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '2'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="2" disabled selected>상품준비중</option>
+                                                                            <option value="3">상품준비완료</option>
+                                                                            <option value="4">수령완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '3'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="3" disabled selected>상품준비중</option>
+                                                                            <option value="4">수령완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${pItem.p_delivery_status_id eq '4'}">
+                                                                        <select name="status_id" class="status">
+                                                                            <option value="4" disabled selected>수령완료</option>
+                                                                        </select>
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td class="deliverydate_td">
+                                                <c:if test="${!empty pItem.p_deliverydate}">
+                                                    <fmt:formatDate value="${pItem.p_deliverydate}" pattern="yyyy-MM-dd" />
+                                                </c:if>
+                                                <c:if test="${pItem.p_order_status_id eq '4'}">-</c:if>
+                                            </td>
+                                        </tr>
+                                        <c:if test="${pItem.o_delivery_sort eq '택배'}">
+                                            <tr>
+                                                <td colspan="9" style="text-align: right; background: rgb(240, 240, 240)">배송지 : ${pItem.o_recip_addr}<br>${pItem.o_recip_name} | ${pItem.o_recip_phone}</td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:if>
+
+                            </tbody>
+                        </table>
 
                     </div>
                 </div>
@@ -77,6 +209,67 @@
         </div>
     </section>
     <%@include file="/WEB-INF/tiles/footer.jsp" %>
+
+
+    <script>
+
+        $(document).ready(function () {
+    
+            $('#save').click(function () {
+    
+                let conf = confirm('저장할까요?')
+    
+                if (conf == true) {
+    
+                    let rows = document.querySelectorAll('.seller-list tbody tr.row');
+                    console.log(rows)
+    
+                    rows.forEach(function (row) {
+
+                        if (!row.querySelector('.status')) { return;}
+    
+                        let data = {};
+                        data.p_id = row.querySelector('.p_id').value;
+                        data.status_id = row.querySelector('.status').value;
+    
+                        $.ajax({
+    
+                            method: 'post',
+                            url: '/seller/sell/history',
+                            data: data,
+                            dataType: 'json'
+    
+                        }).done(function () {
+                        
+                            let status_id = row.querySelector('.status').value;
+    
+                            if (status_id == 4 || status_id == 7) {
+                                
+                                const currDate = new Date();
+                                const year = currDate.getFullYear();
+                                const month = currDate.getMonth() + 1;
+                                var formattedMonth = month < 10 ? '0' + month : month.toString();
+                                const day = currDate.getDate();
+                                var formattedDay = day < 10 ? '0' + day : day.toString();
+                                row.querySelector('.deliverydate_td').textContent = year+'-'+formattedMonth+'-'+formattedDay;
+                            }   
+    
+                        }).fail(function (err) {
+
+                            alert('오류 발생!')
+                            location.href = '/seller/sell/history'
+                        })
+    
+                    })
+
+                    alert('배송상태가 변경되었습니다.')
+                }
+            })
+    
+        })
+    
+    </script>
+
 </body>
 
 </html>

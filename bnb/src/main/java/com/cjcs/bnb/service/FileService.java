@@ -45,6 +45,7 @@ public class FileService {
             // // 기존 파일 정보를 지운다.
             // fileMapper.deleteFileInfo(sellerId);
             // }
+
             List<String> existingFiles = fileMapper.FileNamesBySellerId(sellerId);
             if (existingFiles != null && !existingFiles.isEmpty()) {
                 // 파일 시스템에서 기존 파일 삭제

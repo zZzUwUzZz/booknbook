@@ -323,6 +323,10 @@ public class SellerPageController {
         List<RentalDto> RentCurrentList = rSer.RentCurrentList(s_id);
         model.addAttribute("RentCurrentList", RentCurrentList);
 
+        // 배송 상태명
+        List<RentalDto> DeliveryStatusList = rSer.DeliveryStatusList();
+        model.addAttribute("DeliveryStatusList", DeliveryStatusList);
+
         return "seller/sellerRentCurr";
     }
 

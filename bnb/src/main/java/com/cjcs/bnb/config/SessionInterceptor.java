@@ -20,9 +20,9 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
 		log.info("preHandle call");
 		HttpSession session = request.getSession();
 		 
-		if (session.getAttribute("mb") == null) {
+		if (session.getAttribute("loggedInUser") == null) {
 			log.info("인터셉트! - 로그인 안 함");
-			response.sendRedirect("/");    // home.jsp
+			response.sendRedirect("/member/login");
 			return false;
 		} 
 		 

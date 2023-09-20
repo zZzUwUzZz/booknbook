@@ -372,6 +372,25 @@ public class OrderService {
         return false;
     }
 
+    public void updateOrderStatus(HashMap<String, Object> order) {
+
+        try {
+
+            log.info("order_in_service:{}", order);
+
+            if (order.get("order_sort").equals("구매")) {
+                pDao.updateOrderStatusByPId(order);
+
+            } else if (order.get("order_sort").equals("대여")) {
+                rDao.updateOrderStatusByRId(order);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+
+    }
+
     // 예림
     // 오늘 판매 건수 카운트
     public int getTodaySellCnt(String s_id) {

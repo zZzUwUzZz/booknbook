@@ -75,8 +75,8 @@
 
                         <h1>주문취소 관리</h1>
 
-                        <form action="/seller/sell/cancel" method="POST" id="updateForm">
-                        <button type="submit" id="save">저장</button><br><br>
+                        <button type="button" id="save">저장</button><br><br>
+                        
                         <table class="seller-list">
                             <thead>
                                 <tr>
@@ -103,9 +103,8 @@
                                 <c:if test="${!empty oList}">
                                     <c:forEach items="${oList}" var="oItem">
                                         <tr class="row">
-                                            <input type="hidden" name="b_isbn" value="${oItem.b_isbn}">
-                                            <input type="hidden" name="o_id" value="${oItem.o_id}">
-                                            <input type="hidden" name="order_sort" value="${oItem.order_sort}">
+                                            <input type="hidden" name="item_id" class="item_id" value="${oItem.item_id}">
+                                            <input type="hidden" name="order_sort" class="order_sort" value="${oItem.order_sort}">
                                             <td>${oItem.o_id}</td>
                                             <td><fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm" /></td>
                                             <td>${oItem.o_c_id}</td>
@@ -113,21 +112,37 @@
                                             <td>${oItem.b_title}</td>
                                             <td>${oItem.amount}</td>
                                             <td>${oItem.delivery_status}</td>
-                                            <td>${oItem.order_status}</td>
-                                            <td>
-                                                <select name="order_status_id" class="status_select">
-                                                    <option value="2" disabled selected>취소요청</option>
-                                                    <option value="3">취소불가</option>
-                                                    <option value="4">취소완료</option>
-                                                </select>
-                                            </td>
-                                            <td>
+                                            <td class="status_td">${oItem.order_status}</td>
+                                            <td class="apprv_td">
                                                 <c:choose>
-                                                    <c:when test="${empty oItem.cancel_rejection_reason}">
-                                                        <input type="text" name="cancel_rejection_reason" class="reason" disabled>
+                                                    <c:when test="${oItem.order_status_id eq 3}">
+                                                        <select name="order_status_id" class="status">
+                                                            <option value="3" class="no" selected>취소거절</option>
+                                                            <option value="4" class="yes">취소승인</option>
+                                                        </select>
+                                                    </c:when>
+                                                    <c:when test="${oItem.order_status_id eq 4}">
+                                                        <select name="order_status_id" class="status">
+                                                            <option value="3" class="no">취소거절</option>
+                                                            <option value="4" class="yes" selected>취소승인</option>
+                                                        </select>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        ${cancel_rejection_reason}
+                                                        <select name="order_status_id" class="status">
+                                                            <option value="2" disabled selected>-</option>
+                                                            <option value="3" class="no">취소거절</option>
+                                                            <option value="4" class="yes">취소승인</option>
+                                                        </select>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td class="reason_td">
+                                                <c:choose>
+                                                    <c:when test="${oItem.order_status_id eq 3}">
+                                                        <input type="text" name="rejection_reason" value="${oItem.cancel_rejection_reason}" class="reason">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="text" name="rejection_reason" class="reason" disabled>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -137,7 +152,7 @@
 
                             </tbody>
                         </table>
-                        </form>
+
                     </div>
                 </div>
             </div>
@@ -150,24 +165,61 @@
 
     $(document).ready(function () {
 
-        $('#updateForm').submit(function () {
-
-            event.preventDefault();
+        $('#save').click(function () {
 
             let conf = confirm('저장할까요?')
+
             if (conf == true) {
-                this.submit();
+
+                let rows = document.querySelectorAll('.seller-list tbody tr.row');
+
+                rows.forEach(function (row) {
+
+                    let data = {};
+                    data.order_sort = row.querySelector('.order_sort').value;
+                    data.item_id = row.querySelector('.item_id').value;
+                    data.status_id = row.querySelector('.status').value;
+                    data.reason = row.querySelector('.reason').value;
+
+                    $.ajax({
+
+                        method: 'post',
+                        url: '/seller/sell/cancel',
+                        data: data,
+                        dataType: 'json'
+
+                    }).done(function () {
+                    
+                        let status_id = row.querySelector('.status').value;
+                        let reason = row.querySelector('.reason').value;
+
+                        if (status_id == 3) {
+                            row.querySelector('.status_td').textContent = '취소불가';
+
+                        } else if (status_id == 4) {
+                            row.querySelector('.status_td').textContent = '취소완료';
+                        }
+
+                    }).fail(function (err) {
+                        location.href = '/seller/sell/cancel'
+                    })
+
+                })
+
             }
         })
 
-        $('.status_select').change(function () {
+        // select폼에서 '취소거절' 선택한 경우에만 거절사유 text폼 활성화
+        $('.status').change(function () {
 
             let status_id = $(this).val();
             let reason_box = $(this).closest('.row').find('input.reason');
 
             if (status_id == 3) {
                 reason_box.prop('disabled', false);
+
             } else if (status_id == 4) {
+                reason_box.val('');
                 reason_box.prop('disabled', true);
             }
         })

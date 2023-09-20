@@ -176,6 +176,16 @@
         WHERE r_id = #{r_id}
     </update>
 
+    <!-- 판매자페이지 주문취소관리용 -->
+    <update id="updateOrderStatusByRId">
+        UPDATE R
+        SET r_order_status_id = #{status_id}
+            <if test="reason != null">
+                , r_ordercancel_rejection_reason = #{reason}
+            </if>
+        WHERE r_id = #{item_id}
+    </update>
+
     <update id="updateLatefeeByRId">
         UPDATE R SET r_latefee_total = r_latefee_total + #{latefee}
         WHERE r_id = #{r_id}
@@ -545,27 +555,17 @@
         )
     </select>
 
-
     <!-- 반납 현황 -->
     <select id="RentReturnList" resultType="RentalDto">
-        select o_id, o_c_id, b_title, o_date, r_returndate,
-            CASE
-                WHEN r_returndate IS NOT NULL THEN r_returndate - o_date - r_rentalperiod
-                ELSE NULL
-            END AS overdue_days,
-            r_latefee_total
+        select o_id, o_c_id, b_title, o_date, r_returndate, r_duedate,
+               r_latefee_total, r_latefee_paid, r_latefee_paydate
         FROM
-            order_list
+            ORDER_LIST
         WHERE
-            order_sort = '대여'
-            AND
-            S_ID = 'seller001'
-            and
-            r_returndate is not null
+            order_sort = '대여' AND
+            s_id = #{s_id} AND
+            r_returndate IS NOT NULL
     </select>
 
-    
-    
-
-
+   
 </mapper>

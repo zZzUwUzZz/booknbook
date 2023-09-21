@@ -6,9 +6,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/member/choice.css">
+ 
   <title>Static Folded Book with Choices</title>
 </head>
 <body>
+  
   <div class="header"></div>
   
   <div class="books-container">
@@ -35,4 +37,5 @@
   </div>
   
 </body>
+<%@include file="/WEB-INF/tiles/footer.jsp" %>
 </html>

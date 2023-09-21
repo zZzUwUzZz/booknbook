@@ -125,11 +125,16 @@
                                     </c:choose>
                                 </div>
 
-                                <div class="odTitle">
+                                <!-- <div class="odTitle">
                                     <div class="odText">주문상태</div>
                                     ${oItem.order_status}
-                                </div>
+                                </div> -->
 
+                                <div class="odTitle">
+                                    <div class="odText">결제금액</div>
+                                    ${oItem.o_total_payment}원
+                                    <!-- <fmt:formatNumber value="${oItem.o_total_payment}" type="number" pattern="#,##0">원</fmt:formatNumber> -->
+                                </div>
 
                                 <div class="odTitle">
                                     <div class="odText">수령방법</div>

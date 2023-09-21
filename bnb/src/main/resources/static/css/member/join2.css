@@ -10,23 +10,18 @@ body {
 }
 
 .header {
-  background-color: #506c7f;
+  background-color: #4d6b50;
   color: #fff;
   padding: 10px;
   height: 125px;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .registration-form {
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 30px 40px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 450px;
   width: 100%;
-  margin-top: 2rem;
   margin: auto;
 }
 
@@ -34,6 +29,11 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 450px;
+  width: 100%;
+  margin: auto;
+  text-align: center;  /* .registration-form의 스타일에서 가져옴 */
+  padding: 30px 40px;  /* .registration-form의 스타일에서 가져옴 */
 }
 
 input {
@@ -113,3 +113,4 @@ a:hover {
 .btn:hover {
   background-color: #3f5870;
 }
+

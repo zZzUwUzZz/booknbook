@@ -1,6 +1,7 @@
 package com.cjcs.bnb.mappers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,5 +29,6 @@ public interface SellerMapper {
 
     SellerFileDto getSellerFile(String sellerId);
 
-   
+    int resetSellerPassword(Map<String, String> inputData);
+
 }

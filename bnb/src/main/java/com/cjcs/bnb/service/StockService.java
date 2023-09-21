@@ -36,6 +36,10 @@ public class StockService {
         return stockMapper.updateStock(stockUpdateDto) > 0;
     }
 
+    public List<BookDto> SearchSellerBookListDT(String s_id, String filter, String keyword) {
+        return stockMapper.SellerBookListDT(s_id, filter, keyword);
+    }
+
     public List<BookDto> SellerBookListDT(String s_id) {
         return stockMapper.SellerBookListDT(s_id);
     }

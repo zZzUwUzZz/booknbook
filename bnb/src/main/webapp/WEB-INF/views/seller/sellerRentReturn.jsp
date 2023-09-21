@@ -75,7 +75,7 @@
                         <table class="seller-list">
                             <thead>
                                 <tr>
-                                    <th>주문번호</th>
+                                    <th>주문번호</th>   
                                     <th>아이디</th>
                                     <th>제목</th>
                                     <th>대여일자</th>
@@ -85,8 +85,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                
                                 <c:if test="${empty returnList}">
                                     <tr>
                                         <td colspan="9">반납된 도서가 없습니다.</td>

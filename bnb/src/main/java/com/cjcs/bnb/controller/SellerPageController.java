@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,8 +71,13 @@ public class SellerPageController {
     @Autowired
     private PurchaseDao pDao;
 
-    @Autowired
-    private SellerService sSer;
+    @ModelAttribute("StroeName")
+    public String StroeName(HttpSession session) {
+
+        String s_id = (String) session.getAttribute("loggedInUser");
+
+        return mSer.getStoreName(s_id);
+    }
 
     // 서점 정보 페이지
     @GetMapping
@@ -93,9 +99,6 @@ public class SellerPageController {
     public String sellermain(HttpSession session, Model model) {
 
         String s_id = (String) session.getAttribute("loggedInUser");
-
-        // String StoreName = mSer.getStoreName(s_id);
-        // model.addAttribute("StroeName", StoreName);
 
         // 오늘 판매 건수 카운트
         int getTodaySellCnt = oSer.getTodaySellCnt(s_id);

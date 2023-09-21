@@ -364,7 +364,11 @@
             o_id, o_date, o_c_id, b_title, r_rentalperiod,
             NVL(DELIVERYDATE, '') AS DELIVERYDATE, r_duedate, o_delivery_sort, delivery_status, rental_status,
             CASE
-                WHEN r_returndate IS NOT NULL THEN r_returndate - DELIVERYDATE - r_rentalperiod
+                WHEN r_returndate IS NOT NULL THEN
+                    CASE
+                        WHEN r_duedate <![CDATA[>]]> SYSDATE THEN 0
+                        ELSE TO_NUMBER(SYSDATE - r_duedate)
+                    END
                 ELSE NULL
             END AS overdue_days
         FROM
@@ -525,6 +529,7 @@
         AND R_B_ISBN = (
             SELECT b_isbn from book where b_title = #{b_title} and b_s_id = #{s_id}
         )
+        and r_s_id = #{s_id}
     </update>
 
     <!-- 예약 1순위 예약 상태 변경 -->
@@ -620,7 +625,7 @@
         WHERE
             order_sort = '대여' AND
             s_id = #{s_id} AND
-            r_returndate IS NOT NULL
+            RENTAL_STATUS = '반납완료'
     </select>
 
    

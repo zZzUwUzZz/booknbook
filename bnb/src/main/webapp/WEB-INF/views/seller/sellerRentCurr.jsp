@@ -29,12 +29,12 @@
 
 <body>
     <%@include file="/WEB-INF/tiles/header.jsp" %>
-    <jsp:include page="/WEB-INF/views/adminFile/seller.jsp"/>
+    <jsp:include page="/WEB-INF/views/adminFile/seller.jsp" />
     <section>
         <div class="wrap">
             <div class="side-menu">
                 <div class="bsname">
-                    <h1><a href="/seller/main">서점 이름</a></h1>
+                    <h1><a href="/seller/main">${StroeName}</a></h1>
                 </div>
                 <div class="menu-title">
                     MENU
@@ -194,10 +194,10 @@
                             //     month = String(today.getMonth() + 1).padStart(2, '0');
                             //     day = String(today.getDate()).padStart(2, '0');
                             //     formattedDate = year + '-' + month +'-' + day;
-                                
+
                             //     due_date_text.text(formattedDate);
                             // }
-    
+
                         } else {
                             $('#rent_status_text_' + index).text('대여시작전');
                             $('#UpdateRentStatus_Return_' + index).hide();
@@ -223,29 +223,34 @@
 
     function UpdateRentStatus_Return(index) {
         var row = document.getElementById('row_' + index);
+        var data = [];
 
         if (row) {
             var o_id = row.querySelector('td:first-child').textContent;
             var b_title = row.querySelector('td:nth-child(3)').textContent;
 
-            $.ajax({
-                url: '/seller/rent/curr/return',
-                method: 'POST',
-                data: JSON.stringify({
-                    o_id: o_id,
-                    b_title: b_title
-                }),
-                contentType: 'application/json',
-                success: function (response) {
-                    console.log('처리 성공 : ', response);
-                    alert('반납 완료 처리되었습니다!');
-                },
-                error: function (error) {
-                    console.log('오류 발생 : ', error);
-                    alert('반납 처리 중 오류가 발생하였습니다');
-                }
-            });
-        }
+            data.push({
+                o_id: o_id,
+                b_title: b_title,
+            })
+        };
+
+        console.log(data);
+
+        $.ajax({
+            url: '/seller/rent/curr/return',
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log('처리 성공 : ', response);
+                alert('반납 완료 처리되었습니다!');
+            },
+            error: function (error) {
+                console.log('오류 발생 : ', error);
+                alert('반납 처리 중 오류가 발생하였습니다');
+            }
+        });
     }
 </script>
 

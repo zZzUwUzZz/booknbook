@@ -35,7 +35,7 @@
             <div class="content">
                 <div class="side-menu">
                     <div class="bsname">
-                        <h1><a href="/seller/main">서점 이름</a></h1>
+                        <h1><a href="/seller/main">${StroeName}</a></h1>
                     </div>
                     <div class="menu-title">
                         MENU
@@ -75,7 +75,7 @@
                         <table class="seller-list">
                             <thead>
                                 <tr>
-                                    <th>주문번호</th>
+                                    <th>주문번호</th>   
                                     <th>아이디</th>
                                     <th>제목</th>
                                     <th>반납기한</th>
@@ -87,8 +87,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                
                                 <c:if test="${empty returnList}">
                                     <tr>
                                         <td colspan="9">반납된 도서가 없습니다.</td>

@@ -18,4 +18,6 @@ public interface ReportBoardDao {
     
     public void deleteReportByRId(int report_id);
 
+    public int insertReport(ReportBoardDto rbDto);
+
 }

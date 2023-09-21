@@ -12,6 +12,7 @@ import com.cjcs.bnb.dao.OrderDao;
 import com.cjcs.bnb.dao.PurchaseDao;
 import com.cjcs.bnb.dao.RentalDao;
 import com.cjcs.bnb.dao.ReportBoardDao;
+import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,5 +85,9 @@ public class BoardService {
 		return paging.makeHtmlPaging();
 
 	}
+
+    public void insertReport(ReportBoardDto reportBoardDto){
+        rbDao.insertReport(reportBoardDto);
+    }
 
 }

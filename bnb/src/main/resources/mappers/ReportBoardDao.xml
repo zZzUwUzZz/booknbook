@@ -49,6 +49,9 @@
 		WHERE report_id = #{report_id}
 	</delete>
 
-
+	<insert id="insertReport" parameterType="com.cjcs.bnb.dto.ReportBoardDto">
+	    INSERT INTO REPORTBOARD (report_id, report_title, report_content, report_date)
+	    VALUES (RB_SEQ.NEXTVAL, #{report_title}, #{report_content}, DEFAULT)
+	</insert>
 
 </mapper>

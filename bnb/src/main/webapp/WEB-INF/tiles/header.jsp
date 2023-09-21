@@ -84,12 +84,6 @@
         </div>
      </div>
 
-  <div style="position: absolute;">
-     <%= "Session loggedInUser: " + session.getAttribute("loggedInUser") %>
-    <%= "Session isLoggedIn: " + session.getAttribute("isLoggedIn") %>
-    Session M_ROLE value: ${sessionScope.M_ROLE}
-</div>
-
     <div class="noti_md">
         <div class="noti_tt">
             <p>알림</p>

@@ -246,9 +246,20 @@ form#searchForm {
     justify-content: center;
     height: 100vh;
     margin: auto;
- }
+    flex-flow: column;
+}
 
  
+.rpBtn {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    padding: 5px 9px;
+    margin: 14px;
+    cursor: pointer;
+    transform: translateY(51px);
+}
+
 
  .scbox_bg {
     width: 100%;

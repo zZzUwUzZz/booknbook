@@ -55,7 +55,7 @@
 
 
   
-  <div class="header">  <%@include file="/WEB-INF/tiles/header.jsp" %></div>  
+  <div class="header"></div>  
   
 
 

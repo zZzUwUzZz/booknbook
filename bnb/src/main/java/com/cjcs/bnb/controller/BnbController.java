@@ -10,7 +10,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,6 +70,10 @@ public class BnbController {
     private CategoryDao categoryDao;
     @Autowired
     private MainService mainService;
+@Autowired
+    private BoardService boardService;
+
+
 
     // 메인
     @GetMapping("/")
@@ -288,5 +294,18 @@ public class BnbController {
 
         return "redirect:/admin/reportlist";
     }
+
+    @GetMapping("/report")
+    public String report() {
+        return "report/report";
+    }
+    
+    @PostMapping("/report")
+    public String report(@ModelAttribute ReportBoardDto reportBoardDto, RedirectAttributes redirectAttributes) {
+        boardService.insertReport(reportBoardDto);
+        // redirectAttributes.addFlashAttribute("message", "성공적으로 글이 올라갔습니다.");
+        return "redirect:/"; 
+    }
+
 
 }

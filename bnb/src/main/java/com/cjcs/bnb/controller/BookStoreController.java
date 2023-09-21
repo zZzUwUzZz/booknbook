@@ -36,9 +36,7 @@ public class BookStoreController {
 
         System.out.println("서점 리스트들" + allImageList);
         model.addAttribute("allImageList", allImageList);
-
         model.addAttribute("favStores", favStores);
-
         return "/bookstore/bookstore";
     }
 

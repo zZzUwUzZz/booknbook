@@ -1,8 +1,3 @@
-$('.rpBtn').click(function() {
-  window.location.href = '/report';
-});
-
-
 $(document).ready(function () {
   
     const slideContainer = $('.slide-container');

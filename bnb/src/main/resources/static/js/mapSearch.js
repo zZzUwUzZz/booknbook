@@ -1,4 +1,4 @@
-// 페이지가 로드되면 실행될 함수
+  // 페이지가 로드되면 실행될 함수
 document.addEventListener('DOMContentLoaded', () => {
 
   // 검색 폼과 입력 필드 찾기

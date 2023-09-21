@@ -72,7 +72,8 @@
             </form>
         </div>
        
-        <div class="rpBtn">독립서점 제보하기</div>
+        <!-- <div class="rpBtn">독립서점 제보하기</div> -->
+        <a href="/report" class="rpBtn">독립서점 제보하기</a>
 
         <div class="scbox_bg" style="background-image: url(/uploads/${randomFile.sf_sysname})">
         </div>

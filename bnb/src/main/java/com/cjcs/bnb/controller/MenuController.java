@@ -15,7 +15,6 @@ import com.cjcs.bnb.dto.ReportBoardDto;
 import com.cjcs.bnb.service.BoardService;
 
 @RestController
-@Controller
 public class MenuController {
 
     @Autowired
@@ -31,17 +30,4 @@ public class MenuController {
     public String books() {
         return "/books/books";
     }
-
-    @GetMapping("/report")
-    public String report() {
-        return "/report/report";
-    }
-    
-    @PostMapping("/report")
-    public String report(@ModelAttribute ReportBoardDto reportBoardDto, RedirectAttributes redirectAttributes) {
-        boardService.insertReport(reportBoardDto);
-        // redirectAttributes.addFlashAttribute("message", "성공적으로 글이 올라갔습니다.");
-        return "redirect:/"; 
-    }
-    
 }

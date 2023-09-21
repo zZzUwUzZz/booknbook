@@ -108,7 +108,7 @@
                                 </div>
             
                                 <div class="reTitle">
-                                    ${reItem.re_sort}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;${reItem.re_sort}&nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
             
                                 <div class="reItem">

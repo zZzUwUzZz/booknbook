@@ -111,7 +111,7 @@
 
                                 <div class="odTitle">
                                     <div class="odText">주문날짜</div>
-                                    <fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
+                                    <fmt:formatDate value="${oItem.o_date}" pattern="yyyy-MM-dd HH:mm"/>
                                 </div>
 
                                 <div class="odItem">
@@ -125,11 +125,15 @@
                                     </c:choose>
                                 </div>
 
-                                <div class="odTitle">
+                                <!-- <div class="odTitle">
                                     <div class="odText">주문상태</div>
                                     ${oItem.order_status}
-                                </div>
+                                </div> -->
 
+                                <div class="odTitle">
+                                    <div class="odText">주문금액</div>
+                                    <fmt:formatNumber value="${oItem.o_total_payment}" type="number" pattern="#,##0"/>원
+                                </div>
 
                                 <div class="odTitle">
                                     <div class="odText">수령방법</div>

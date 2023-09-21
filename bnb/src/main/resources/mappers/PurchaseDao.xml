@@ -9,8 +9,25 @@
 
 
 <!--수희-->
+    <!-- <select id="getPurchaseListByOId" parameterType="Integer" resultType="PurchaseDto">
+        SELECT s_storename,
+               b_title,
+               b_price,
+               p_amount,
+               order_status_id as p_order_status_id,
+               order_status,
+               delivery_status_id as p_delivery_status_id,
+               delivery_status,
+               p_deliverydate
+        FROM O, P, B, S, STATUS_O, STATUS_D
+        WHERE o_id = p_o_id AND p_s_id = s_id AND
+            p_s_id = b_s_id AND p_b_isbn = b_isbn AND
+            p_order_status_id = order_status_id AND
+            p_delivery_status_id = delivery_status_id AND
+            o_id = #{o_id}
+        ORDER BY s_storename DESC
+    </select> -->
     <select id="getPurchaseListByOId" parameterType="Integer" resultType="Map">
-        <!-- Map객체에 넣을 때는 아래처럼 as "키이름" 지정해줘야 함 -->
         SELECT s_storename as "s_storename",
                b_title as "b_title",
                b_price as "b_price",

@@ -133,35 +133,6 @@
                                                     </c:choose>
                                                 </div>
 
-                                    <div class="pDeli">
-                                        <div class="pText">반납기한일</div>
-                                        <c:choose>
-                                            <c:when test="${!empty rItem.r_duedate}">
-                                                <fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy년 MM월 dd일" />
-                                            </c:when>
-                                            <c:otherwise>
-                                                -
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
- 
-                                    <div class="pRe">
-                                        <div class="pText">총 연체료</div>
-                                        <c:choose>
-                                            <c:when test="${rItem.rental_status eq '반납완료' && rItem.r_latefee_paid eq 'N'}">
-                                                <span title="연체료를 납부해주세요." style="color: rgb(255, 60, 0);">
-                                                    <fmt:formatNumber value="${rItem.r_latefee_total}" type="number"
-                                                        pattern="#,##0" />원</span>
-                                            </c:when>
-                                            <c:when test="${!empty rItem.r_latefee_total}">
-                                                    <fmt:formatNumber value="${rItem.r_latefee_total}" type="number"
-                                                        pattern="#,##0" />원</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                -
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
                                                 <div class="pDeli">
                                                     <div class="pText">반납기한일</div>
                                                     <c:choose>

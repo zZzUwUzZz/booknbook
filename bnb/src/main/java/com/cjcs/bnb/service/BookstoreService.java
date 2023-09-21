@@ -46,4 +46,5 @@ public class BookstoreService {
     public SellerFileDto getSellerFileById(String sellerId) {
         return bookstoreMapper.getSellerFileById(sellerId);
     }
+
 }

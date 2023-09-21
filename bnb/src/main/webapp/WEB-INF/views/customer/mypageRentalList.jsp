@@ -100,7 +100,7 @@
 
                                     <div class="pTitle">
                                         <div class="pText">주문날짜</div>
-                                        <fmt:formatDate value="${rItem.o_date}" pattern="yyyy년 MM월 dd일" ></fmt:formatDate>
+                                        <fmt:formatDate value="${rItem.o_date}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
                                     </div>
 
                                     <div class="rItem">
@@ -133,7 +133,7 @@
                                         <div class="pText">반납기한일</div>
                                         <c:choose>
                                             <c:when test="${!empty rItem.r_duedate}">
-                                                <fmt:formatDate value="${rItem.rental_status}" pattern="yyyy년 MM월 dd일" />
+                                                <fmt:formatDate value="${rItem.r_duedate}" pattern="yyyy년 MM월 dd일"></fmt:formatDate>
                                             </c:when>
                                             <c:otherwise>
                                                 -
@@ -196,19 +196,16 @@
                 </div> <!-- rentListContain div 태그 종료 -->
 
                 <div class="btnbox01">
-                                    <div>
-                                        <div class="pagebox">${pageHtml}</div>
-                                    </div>
-
-                                    <c:if test="${!empty rList}">
-                                        <div class="btnbox">
-                                            <button type="submit" id="submit" class="exbtn" disabled>연체료납부</button>
-                                        </div>
-                                    </c:if>
-                                </div>
+                    <div>
+                        <div class="pagebox">${pageHtml}</div>
+                    </div>
+                    <c:if test="${!empty rList}">
+                        <div class="btnbox">
+                            <button type="submit" id="submit" class="exbtn" disabled>연체료납부</button>
+                        </div>
+                    </c:if>
+                </div>
             </form> <!-- form 태그 종료 -->
-
-
 
         </div>
     

@@ -43,7 +43,11 @@ public interface BookMapper {
 
         // ISBN 조회
         List<BookDto> findBooksByIsbn(@Param("isbn") String isbn);
- 
+
+        List<BookDto> getDistinctBooks();
+
+        List<BookDto> getRandomBooks();
+
         // 예림
 
         // 판매자 페이지 - 등록한 도서 리스트 조회
@@ -55,10 +59,13 @@ public interface BookMapper {
 
         // 수희
         public BookDto getBookByIsbn(String s_id, String isbn);
-        public int addNewBook(BookDto bookDto);
-        public int updateSaleStock(String s_id, String b_isbn, int qty);
-        public int updateRentalStock(String s_id, String b_isbn, int qty);
-        public HashMap<String, Object> getStockInfo(Integer cart_id);
 
+        public int addNewBook(BookDto bookDto);
+
+        public int updateSaleStock(String s_id, String b_isbn, int qty);
+
+        public int updateRentalStock(String s_id, String b_isbn, int qty);
+
+        public HashMap<String, Object> getStockInfo(Integer cart_id);
 
 }

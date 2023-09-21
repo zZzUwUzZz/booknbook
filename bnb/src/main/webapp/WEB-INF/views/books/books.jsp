@@ -46,10 +46,10 @@
             <div class="bookListContainer">
 
               <div class="catetext">
-                <h4>${category_m_id}${category_s_id}</h4>
+                <h4>${category_m_id} ${category_s_id}</h4>
               </div>
-
-              <div class="cateContain">    
+              
+             <div class="cateContain">    
                 <c:forEach var="mediumCategory" items="${mediumCategories}" varStatus="loop">
                     <div class="medium-category 
                         <c:if test="${mediumCategory.category_m_id == category_m_id || mediumCategory.category_m_id == category_s_id}">selected</c:if>" 

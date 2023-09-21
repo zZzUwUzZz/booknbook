@@ -50,7 +50,10 @@
     to {opacity: 1;}
 }
 
-
+.notilistbox {
+  display: flex;
+    flex-flow: wrap-reverse;
+}
     </style>
 </head>
      <!-- modal -->
@@ -86,8 +89,6 @@
     <%= "Session isLoggedIn: " + session.getAttribute("isLoggedIn") %>
     Session M_ROLE value: ${sessionScope.M_ROLE}
 </div>
-    <h1 class="WStest" 
-    style="display: none;background-color: rgba(255, 232, 0, 0.5);position: absolute;text-align: center;margin: auto;width: 100%;height: 100px;top: 4%;z-index: 999;pointer-events: none;"></h1>
 
     <div class="noti_md">
         <div class="noti_tt">
@@ -173,34 +174,42 @@
  var userId = "${sessionScope.loggedInUser}";
  var isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
 
-
  var notifications = []; // 알림 목록
 
- if (!isLoggedIn) {
-     // 로그인이 안 되어 있을 때의 처리
-     return;
- }
-   // 1. 페이지 로딩 시 서버에서 알림 목록을 불러옵니다.
+if (!isLoggedIn) {
+  // 로그인이 안 되어 있을 때의 처리
+  return;
+}
 
-   $.get("/notifications?userId=" + userId, function (data) {
-     console.log("Server response: ", data); // 이 부분을 추가
-     notifications = data;
-     setDefaultNotification();
+// 1. 페이지 로딩 시 서버에서 알림 목록을 불러옵니다.
+$.get("/notifications?userId=" + userId, function(data) {
+  console.log("Server response: ", data); // 이 부분을 추가
+  notifications = data;
 
-     let hasUnread = false;
-     for (const notification of notifications) {
-       if (notification.nb_read === 'N') {
-         hasUnread = true;
-         break;
-       }
-   }
-   if (hasUnread) {
-     newNotificationReceived();
-   } else {
-     removeNewDot();
-     $('.WStest').text('실시간 알림 성공').css('display', 'none');
-   }
-   });
+  // nb_date 기준으로 내림차순 정렬
+  notifications.sort((a, b) => {
+  if (a.nb_date > b.nb_date) return -1;
+  if (a.nb_date < b.nb_date) return 1;
+  return 0;
+});
+
+  setDefaultNotification();
+
+  let hasUnread = false;
+  for (const notification of notifications) {
+    if (notification.nb_read === 'N') {
+      hasUnread = true;
+      break;
+    }
+  }
+
+  if (hasUnread) {
+    newNotificationReceived();
+  } else {
+    removeNewDot();
+  }
+});
+
 
 
 // 알림 아이콘 버튼 이벤트
@@ -289,8 +298,6 @@ function setDefaultNotification() {
      }
      console.log("DB에 있는 알림 목록", notification);
 
-     $('.WStest').text('실시간 알림 성공').css('display', 'block');
-    
      var newDiv = $('<div></div>');
      newDiv.addClass('noti_item');
      newDiv.attr('data-read', 'false');
@@ -301,9 +308,9 @@ function setDefaultNotification() {
      // nb_msg 값을 기반으로 다양한 메시지를 생성합니다.
      var fullMessage = '';
      if (notification.nb_msg === '입고') {
-       fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+       fullMessage = `"` + notification.b_title + `" 상품이 재입고되었습니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename;
      } else if (notification.nb_msg === '대여가능') {
-       fullMessage = `"` + notification.b_title + `" 상품 대여 가능 합니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename + " 서점";
+       fullMessage = `"` + notification.b_title + `" 상품 대여 가능 합니다! 지금 바로 확인해보세요.` + " ― " + notification.s_storename;
      } 
      // 추가적인 조건을 이곳에 작성
     

@@ -38,20 +38,7 @@
         <script src="/js/main.js"></script>
         <script src="/js/search.js"></script>
 
-
-<style>
-    .hd {
-        border-bottom: 1px solid #dfdad5;
-    }
-
-    .ft {
-        border-top: 1px solid #dfdad5;
-
-    }
-.ft p {
-    color:#dfdad5;
-}
-</style>
+ 
 
     </head>
 

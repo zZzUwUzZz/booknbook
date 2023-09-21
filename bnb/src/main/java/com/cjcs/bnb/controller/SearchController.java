@@ -77,7 +77,7 @@ public class SearchController {
 
         String userId = (String) session.getAttribute("loggedInUser");
 
-        int pageSize = 5;
+        int pageSize = 40;
         int startIdx = (pageNum - 1) * pageSize;
 
         List<SellerDto> results = searchService.searchBookstores(keyword, startIdx, pageSize);
@@ -104,7 +104,7 @@ public class SearchController {
 
         System.out.println("맵 userId: " + userId);
         System.out.println("맵 페이지 로그인 한 아이디 : " + userId);
-      
+
         // 위도와 경도 정보도 추가 (이 가정에서는 SellerDto가 s_latitude와 s_longitude를 가진다)
         List<Double> latitudes = results.stream().map(SellerDto::getS_latitude).collect(Collectors.toList());
         List<Double> longitudes = results.stream().map(SellerDto::getS_longitude).collect(Collectors.toList());
@@ -129,17 +129,17 @@ public class SearchController {
             HttpSession session) {
         String userId = (String) session.getAttribute("loggedInUser");
         MemberDto seller = searchService.getMemberInfo(storeId);
-       
+        System.out.println("Fetching store details for ID: " + storeId);
+
         if (seller == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-         Map<String, Object> response = new HashMap<>();
-
+        Map<String, Object> response = new HashMap<>();
 
         if (userId != null && !userId.isEmpty()) {
-        response.put("user_id", userId);
-    }
+            response.put("user_id", userId);
+        }
 
         System.out.println("세션에서 가져온 userId: " + userId);
         System.out.println("가져온 스토어: " + storeId);
@@ -151,7 +151,7 @@ public class SearchController {
         response.put("store_description", seller.getS_storedesc());
         response.put("store_s_id", seller.getS_id());
         response.put("user_id", userId);
-        
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

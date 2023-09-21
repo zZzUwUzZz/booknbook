@@ -4,7 +4,8 @@
     $('.bs_item').click(function () {
 
         const storeId = $(this).data('store-id');
-     
+       console.log("Item clicked. Showing modal...");
+
         if (userId !== null && typeof userId !== 'undefined') {
             // 즐겨찾기 상태 불러오기
         $.ajax({
@@ -30,7 +31,7 @@
             url: `/get_store_details?id=${storeId}`,
             type: 'GET',
             success: function (data) {
-                
+                  
                 console.log("모달 스토어:" , storeId);
                 console.log("모달 회원:" , userId);
 
@@ -72,6 +73,7 @@
             // 즐겨찾기 상태 업데이트
             updateFavoriteButton(userId, storeId);
         }
+        
         const favoriteButton = $(".favoriteButton"); // 모달 내의 즐겨찾기 버튼
         favoriteButton.attr('id', `favoriteButton_${storeId}`);
         favoriteButton.data('store-id', storeId);

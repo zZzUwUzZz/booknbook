@@ -6,6 +6,24 @@
 <mapper namespace="com.cjcs.bnb.dao.BookMapper">
 
     <!-- 킹효진 -->
+
+
+<!-- 메인 -->
+<select id="getDistinctBooks" resultType="com.cjcs.bnb.dto.BookDto">
+SELECT DISTINCT b.b_s_id, b.b_isbn, b.b_title, b.b_price, s.s_storename, b.b_regdate
+FROM Book b
+JOIN Seller s ON b.b_s_id = s.s_id
+ORDER BY b.b_regdate DESC
+</select>
+
+<select id="getRandomBooks" resultType="com.cjcs.bnb.dto.BookDto">
+    SELECT DISTINCT b.b_s_id, b.b_isbn, b.b_title, b.b_price, s.s_storename, b.b_regdate
+    FROM Book b
+    JOIN Seller s ON b.b_s_id = s.s_id
+    ORDER BY DBMS_RANDOM.VALUE
+</select>
+
+
     <select id="findAll" resultType="com.cjcs.bnb.dto.BookDto">
         SELECT * FROM BOOK
     </select>

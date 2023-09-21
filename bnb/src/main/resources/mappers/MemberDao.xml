@@ -153,9 +153,9 @@
 
 
 <!--예림-->
-    <!-- <select id="getStoreName" resultType="MemberDto">
+    <select id="getStoreName" resultType="java.lang.String">
         SELECT S_STORENAME FROM SELLER WHERE S_ID = #{s_id}
-    </select> -->
+    </select>
     
     <!--id로 판매자회원정보 가져오기-->
     <select id="getSellerInfoById" parameterType="String" resultType="MemberDto">

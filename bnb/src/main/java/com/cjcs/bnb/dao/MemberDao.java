@@ -103,7 +103,7 @@ public interface MemberDao {
 
         public List<MemberDto> getCsMemberList(String s_id);
 
-        // public String getStoreName(String s_id);
+        public String getStoreName(String s_id);
 
         // 수희
         public List<MemberDto> getAllCustomerInfo();

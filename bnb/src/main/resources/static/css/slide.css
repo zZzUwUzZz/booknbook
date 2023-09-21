@@ -1,4 +1,12 @@
  
+ .slider01 {
+    position: relative;
+    max-width: 1228px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
 .slider {
     position: relative;
     max-width: 1220px;
@@ -6,6 +14,8 @@
     margin: 0 auto;
     overflow: hidden;
  }
+
+
 
 .itemlist {
     position: relative;
@@ -39,7 +49,8 @@
 
 .b_slide p, .b_item p {
     text-align: left;
-    margin: 5px;
+    color: #fff;
+   margin: 0px;
 }
 
 .slide p {
@@ -68,7 +79,7 @@
 .slide img {
     max-width: 290px;
     aspect-ratio: 1/1;
-    height: auto;
+    height: 290px;
     object-fit: cover; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
     border-radius: 50%;
 }
@@ -104,4 +115,68 @@
 #next-btn,
 #next-btn_02 {
     right: 10px;
+}
+
+.b_box {
+    position: relative;
+    width: 290px;
+    height: 290px;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.b_box img {
+    max-height: 290px;
+    max-width: 240px;
+    object-fit: contain;
+}
+
+.bkinfotext01 {
+  
+    height: 112px;
+    margin: 10px 0;
+    line-height: 29px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+}
+.bkinfotext02 {
+    height: 112px;
+    margin: 13px 10px;
+    line-height: 14px;
+}
+
+
+.itemlist-container03 {
+    display: flex;
+    flex-wrap: wrap; /* 이 부분을 추가하여 아이템이 다음 줄로 넘어갈 수 있게 함 */
+    justify-content: space-between;
+}
+
+.b_item01 {
+    flex: 1; /* 아이템의 크기를 동일하게 유지 */
+    max-width: calc(25% - 20px); /* 4개의 아이템을 한 줄에 배치. 간격을 고려하여 20px을 빼줌 */
+    margin-bottom: 20px; /* 아이템과 아이템 사이의 세로 간격 */
+}
+
+.b_box02 {
+    position: relative;
+    width: 290px;
+    height: 290px;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.b_box02 img {
+    max-height: 230px;
+    max-width: 240px;
+    object-fit: contain;
 }

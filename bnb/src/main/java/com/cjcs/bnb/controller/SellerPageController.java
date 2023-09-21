@@ -28,12 +28,15 @@ import com.cjcs.bnb.dto.BookDto;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.PurchaseDto;
 import com.cjcs.bnb.dto.RentalDto;
+import com.cjcs.bnb.dto.SellerDto;
+import com.cjcs.bnb.dto.SellerFileDto;
 import com.cjcs.bnb.service.BookService;
 import com.cjcs.bnb.service.FileService;
 import com.cjcs.bnb.service.MemberService;
 import com.cjcs.bnb.service.OrderService;
 import com.cjcs.bnb.service.PurchaseService;
 import com.cjcs.bnb.service.RentalService;
+import com.cjcs.bnb.service.SellerService;
 import com.cjcs.bnb.service.StockService;
 
 import jakarta.servlet.http.HttpSession;
@@ -185,7 +188,8 @@ public class SellerPageController {
     }
 
     @GetMapping("/infoupdate")
-    public String sellerinfoupdate() {
+    public String sellerinfoupdate(Model model, HttpSession session) {
+
         return "seller/sellerinfoupdate";
     }
 

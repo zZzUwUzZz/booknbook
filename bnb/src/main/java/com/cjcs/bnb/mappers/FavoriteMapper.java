@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.cjcs.bnb.dto.FavoriteDTO;
 import com.cjcs.bnb.dto.MemberDto;
 import com.cjcs.bnb.dto.SellerFileDto;
 
@@ -24,5 +25,7 @@ public interface FavoriteMapper {
     List<SellerFileDto> getSellerFileListByJoinedIds(Map<String, Object> params);
 
     String getLatestFavStoreImg(String c_id);
+
+    List<FavoriteDTO> getFavStores();
 
 }

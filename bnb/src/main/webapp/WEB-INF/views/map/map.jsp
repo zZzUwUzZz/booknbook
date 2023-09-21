@@ -22,6 +22,7 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABg7GBJJBgt8BMt0MG6VCZdwbwLU0KTJI&callback=initMap&libraries=&v=weekly" defer></script>
 
+
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
@@ -42,6 +43,10 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/map.css">
  
+<script type="text/javascript">
+    const userId = "${sessionScope.loggedInUser}";
+    const isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
+  </script>
 </head>
 
 <body>
@@ -156,11 +161,6 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
         </div>
 
 
-        <script type="text/javascript">
-            const userId = "${sessionScope.loggedInUser}";
-            const isLoggedIn = "${sessionScope.isLoggedIn}" === "true";
-          </script>
-          
     
 <script>
  
@@ -183,10 +183,8 @@ int isFavorite = (isFavoriteObj != null) ? isFavoriteObj.intValue() : 0; // 0은
  
 </script>
 
-
 <script src="/js/mapSearch.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/fav.js"></script>
+ <script src="/js/fav.js"></script>
 
 
   </body>

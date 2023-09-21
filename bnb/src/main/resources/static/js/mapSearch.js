@@ -1,4 +1,3 @@
-var infoWindow;
 // 페이지가 로드되면 실행될 함수
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -61,8 +60,29 @@ function initMap() {
   }
 }
  
- 
 
+
+// addMarker 함수에서 마커와 인포윈도우를 생성하고, 배열에 추가
+function addMarker(location, title, description, address) {
+  var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: title
+  });
+
+  var infoWindow = new google.maps.InfoWindow({
+      content: '<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>'
+  });
+
+  marker.addListener('click', function() {
+    infoWindow.setContent('<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>');
+    infoWindow.open(map, marker);
+    map.setCenter(marker.getPosition());
+    map.setZoom(13);
+  });
+  markers.push(marker);
+  infoWindows.push(infoWindow);
+}
 
 
 // 마커 추가 하기
@@ -88,22 +108,21 @@ function addMarker(location, title, description, address) {
   markers.push(marker);
 }
 
-
 function searchMarkers(keyword) {
   var found = false;
   for (var i = 0; i < markers.length; i++) {
-      // title 또는 address에 keyword가 포함되어 있는지 확인
-      if (markers[i].title.toLowerCase().includes(keyword) || markers[i].address.toLowerCase().includes(keyword)) {
-          markers[i].setMap(map);
-          map.setCenter(markers[i].getPosition());
-          map.setZoom(14);
-          infoWindow.setContent(markers[i].title);
-          infoWindow.open(map, markers[i]);
-          found = true;
-          break; // 첫 번째로 찾은 마커로 이동
-      } else {
-          markers[i].setMap(null);
+    if (markers[i].title.toLowerCase().includes(keyword) || markers[i].address.toLowerCase().includes(keyword)) {
+      markers[i].setMap(map);
+      if (!found) {
+        map.setCenter(markers[i].getPosition());
+        map.setZoom(14);
+        infoWindow.setContent(markers[i].title);
+        infoWindow.open(map, markers[i]);
+        found = true;
       }
+    } else {
+      markers[i].setMap(null);
+    }
   }
   if (!found) {
       //alert('No matching places found.');
@@ -111,32 +130,6 @@ function searchMarkers(keyword) {
 }
 
  
-// 페이지 로드가 완료된 후
-// 전역 범위에 마커와 인포윈도우를 저장하는 배열을 선언
-var markers = [];
-var infoWindows = [];
-
-// addMarker 함수에서 마커와 인포윈도우를 생성하고, 배열에 추가
-function addMarker(location, title, description, address) {
-  var marker = new google.maps.Marker({
-      position: location,
-      map: map,
-      title: title
-  });
-
-  var infoWindow = new google.maps.InfoWindow({
-      content: '<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>'
-  });
-
-  marker.addListener('click', function() {
-    infoWindow.setContent('<h3>' + title + '</h3><p>' + description + '</p><p>Address: ' + address + '</p>');
-    infoWindow.open(map, marker);
-    map.setCenter(marker.getPosition());
-    map.setZoom(13);
-  });
-  markers.push(marker);
-  infoWindows.push(infoWindow);
-}
 
 // bs_itempf 클릭 이벤트에서 마커에 대응하는 InfoWindow 열기
 document.addEventListener('DOMContentLoaded', function() {	

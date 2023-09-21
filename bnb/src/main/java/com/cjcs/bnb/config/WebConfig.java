@@ -25,6 +25,6 @@ public class WebConfig implements WebMvcConfigurer { // 저 인터페이스를 �
 				.excludePathPatterns("/member/**", "/books/**", "/bookstore/**",
 						"/search/**",
 						"/map/**",
-						"/get_store_details/**");
+						"/get_store_details/**", "/maps.googleapis.com/maps/api/**", "/map");
 	}
 }

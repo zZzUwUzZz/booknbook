@@ -71,9 +71,12 @@
                 </div>
             </form>
         </div>
-        <div class="scbox_bg" style="background-image: url(/uploads/${randomFile.sf_sysname})">
+       
+        <div class="rpBtn">독립서점 제보하기</div>
 
+        <div class="scbox_bg" style="background-image: url(/uploads/${randomFile.sf_sysname})">
         </div>
+
     </div>
 
     <div class="bstext01">

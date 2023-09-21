@@ -1,8 +1,11 @@
 package com.cjcs.bnb.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cjcs.bnb.dto.FavoriteDTO;
 import com.cjcs.bnb.mappers.FavoriteMapper;
 
 @Service
@@ -32,4 +35,9 @@ public class FavoriteService {
     public String getLatestFavStoreImg(String c_id) {
         return favoriteMapper.getLatestFavStoreImg(c_id);
     }
+
+    public List<FavoriteDTO> getFavStores() {
+        return favoriteMapper.getFavStores();
+    }
+
 }

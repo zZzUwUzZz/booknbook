@@ -47,7 +47,7 @@
 
         <div class="menu_simple">
             <ul>
-                <li><a href="/admin" id="currpage">관리자페이지 홈</a></li>
+                <li><a href="/admin" id="currpage">관리자 홈</a></li>
                 <hr>
                 <li><a href="/admin/reportlist">독립서점 제보</a></li>
                 <li><a href="/admin/sellerlist">서점회원 리스트</a></li>
@@ -63,7 +63,7 @@
 
             <div class="container-1">
 
-                <div class="container-2">
+                <div class="container-2" style="margin-right: 15px">
     
                     <div class="container-3 card-main cards">
 

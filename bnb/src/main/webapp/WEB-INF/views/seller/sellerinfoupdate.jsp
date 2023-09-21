@@ -36,7 +36,8 @@
             <div class="content">
                 <div class="side-menu">
                     <div class="bsname">
-                        <h1><a href="/seller/main">서점 이름</a></h1>
+                        <h1><a href="/seller/main">
+                            서점 이름</a></h1>
                     </div>
                     <div class="menu-title">
                         MENU
@@ -70,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+ 
                 <div class="contain-2">
                     <div class="InfoBox01">
                         <h1>서점 정보 관리</h1>
@@ -79,7 +81,7 @@
                             <div class="imguploadContain">
 
                                 <div class="info">
-                                    <div class="seller_pfimg">
+                                    <div class="seller_pfimg" style="background-image:url()">
                                         <img src="${sf_sysname}" id="imagePreview" alt="Image Preview">
                                     </div>
                                     <p>확장자: png, jpg, jpeg / 용량: 1MB 이하</p>
@@ -93,9 +95,7 @@
                                 </form>
                      
                             </div>
-                           
-                                <td>서점 사진 업로드</td>
-                                <td><input type="text"></td>
+                          
                             </tr>
                            
                             <tr>

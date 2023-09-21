@@ -98,8 +98,9 @@ public class DetailPageController {
     }
 
     @PostMapping("/addtocart")
-    public ResponseEntity<String> addToCart(@RequestBody CartDto cartDto) {
-        String c_id = "customer001"; // 로그인 정보에서 가져올 것
+    public ResponseEntity<String> addToCart(@RequestBody CartDto cartDto, HttpSession session) {
+        String c_id = (String) session.getAttribute("loggedInUser");
+         
         cartDto.setCart_c_id(c_id);
         cartDto.setCart_sort("구매"); // 구매 목록이라고 명시
 
@@ -121,8 +122,8 @@ public class DetailPageController {
     }
 
     @PostMapping("/addtocartrent")
-    public ResponseEntity<String> addToCartRent(@RequestBody CartDto cartDto) {
-        String c_id = "customer001"; // 로그인 정보에서 가져올 것
+    public ResponseEntity<String> addToCartRent(@RequestBody CartDto cartDto, HttpSession session) {
+        String c_id = (String) session.getAttribute("loggedInUser");
         cartDto.setCart_c_id(c_id);
         cartDto.setCart_sort("대여"); // 대여 목록이라고 명시
 

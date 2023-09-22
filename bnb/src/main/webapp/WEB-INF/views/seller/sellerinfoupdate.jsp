@@ -36,12 +36,7 @@
             <div class="content">
                 <div class="side-menu">
                     <div class="bsname">
-<<<<<<< HEAD
                         <h1><a href="/seller/main">${StroeName}</a></h1>
-=======
-                        <h1><a href="/seller/main">
-                            서점 이름</a></h1>
->>>>>>> de99a9ec0dcc57512ac6eae2370a27d944ad4d0c
                     </div>
                     <div class="menu-title">
                         MENU
